@@ -1,4 +1,4 @@
-Using JSparklines is very easy and only requires a couple of lines of code. Below you will find simple code examples of how to use JSparklines in your project. For a complete example see the JSparklines Demo found with the source code.
+Using *JSparklines* is very easy and only requires a couple of lines of code. Below you will find simple code examples of how to use *JSparklines* in your project. For a complete example see the *JSparklines* demo found with the source code.
 
 ----
 
@@ -22,6 +22,23 @@ _(documentation in development)_
 
 == Maven Dependency ==
 
-_(documentation in development)_
+*JSparklines* is available for use in Maven projects:
+
+{{{
+<dependency>
+    <groupId>no.uib.jsparklines</groupId>
+    <artifactId>jsparklines</artifactId>
+    <version>X.Y.Z</version>
+</dependency>
+}}}
+{{{
+<repository>
+    <id>genesis-maven2-repository</id>
+    <name>Genesis maven2 repository</name>
+    <url>http://genesis.UGent.be/maven2</url>
+</repository>
+}}}
+
+Update the version number to latest released version.
 
 ----
