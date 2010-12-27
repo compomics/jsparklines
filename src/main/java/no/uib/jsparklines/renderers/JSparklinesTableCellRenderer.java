@@ -113,7 +113,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      *
      * @param maxValue the maximum value
      */
-    public void setMaxAbsoluteValue(double maxValue) {
+    public void setMaxValue(double maxValue) {
         this.maxValue = maxValue;
     }
 
