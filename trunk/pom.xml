@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <version>${version.number}</version> <!-- version number is set below -->
     <name>JSparklines</name>
-    <description></description>
+    <description>sparklines for java tables</description>
     <url>http://jsparklines.googlecode.com</url>
 
 
@@ -102,7 +102,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin> 
+            </plugin>
 
             <!-- Resources plugin -->
             <plugin>
@@ -163,13 +163,12 @@
 
     <!-- Dependencies -->
     <dependencies>
-       
+
         <dependency>
             <groupId>jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>1.0.13</version>
         </dependency>
-        
-    </dependencies>
 
+    </dependencies>
 </project>

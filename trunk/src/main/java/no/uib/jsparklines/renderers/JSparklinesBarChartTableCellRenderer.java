@@ -66,7 +66,6 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
      * @param maxValue              the maximum value to be plotted, used to make sure that all plots
      *                              in the same column has the same maxium value and are thus comparable
      *                              (this is the same as setting the minimum value to 0)
-     * @param negativeValuesColor   the color to use for the negative values if two sided data is shown
      * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
      *                              and the color used for one sided data
      */
