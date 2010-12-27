@@ -3,16 +3,16 @@
 
 Using *JSparklines* is very easy and only requires a couple of lines of code. Below you will find simple code examples of how to use *JSparklines* in your project.
 
- * [#Single_Value_Sparklines Single Value Sparklines]
- * [#Multiple_Values_Sparklines Multiple Values Sparklines]
- * [#Multiple_Data_Series_Sparklines Multiple Data Series Sparklines]
+ * [#Single_Values Single Values]
+ * [#Multiple_Values Multiple Values]
+ * [#Multiple_Data_Series Multiple Data Series]
  * [#Maven_Dependency Maven Dependency]
 
 For the complete source code see the *JSparklines* demo found with the source code.
 
 ----
 
-== Single Value Sparklines ==
+== Single Values ==
 
 When displaying single numeric values (integers or doubles) in a column the simplest option is to use the JSparklinesBarChartTableCellRenderer. This renderer can be used on any table column containing Integer or Double objects as follows:
 
@@ -49,7 +49,7 @@ This effectively sets the lower range to zero.
 
 ----
 
-== Multiple Values Sparklines ==
+== Multiple Values ==
 
 When displaying multiple values in a single plot one has to use the JSparklinesTableCellRenderer. In this case the values to be plotted first has to be added to a JSparklineDataset, and this is the object added to the table cell.
 
@@ -96,7 +96,7 @@ multipleValuesJTable.getColumn("Change").setCellRenderer(
 
 ----
 
-== Multiple Data Series Sparklines ==
+== Multiple Data Series ==
 
 Displaying more than one data series is also very simple with JSparklines. Simply add multiple JSparklineDataSeries to the JSparklineDataset:
 
