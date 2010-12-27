@@ -1,3 +1,4 @@
+#labels Featured,Phase-Implementation,Phase-Design
 Using *JSparklines* is very easy and only requires a couple of lines of code. Below you will find simple code examples of how to use *JSparklines* in your project. For a complete example see the *JSparklines* demo found with the source code.
 
 ----
