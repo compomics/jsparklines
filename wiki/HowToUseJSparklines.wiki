@@ -1,11 +1,38 @@
 #labels Featured,Phase-Implementation,Phase-Design
+= Using JSparklines =
+
 Using *JSparklines* is very easy and only requires a couple of lines of code. Below you will find simple code examples of how to use *JSparklines* in your project. For a complete example see the *JSparklines* demo found with the source code.
 
 ----
 
 == Single Value Sparklines ==
 
-_(documentation in development)_
+When displaying single numeric values (integers or doubles) in a column the simplest option is to use the JSparklinesBarChartTableCellRenderer. This renderer can be used on any table column containing Integer or Double objects as follows:
+
+{{{
+    singleValuesJTable.getColumn("Fold Change").setCellRenderer(
+        new JSparklinesBarChartTableCellRenderer(
+            PlotOrientation.HORIZONTAL,             // orientation of the plot
+            -5.0,                                   // lower range for the plot
+            5.0,                                    // upper range for the plot
+            negativeColor,                          // color to use for the negative values
+            positiveColor));                        // color to use for the positive values
+}}}
+
+
+If the column only contains positive numbers it becomes even simpler:
+
+{{{
+    singleValuesJTable.getColumn("Coverage").setCellRenderer(
+        new JSparklinesBarChartTableCellRenderer(
+            PlotOrientation.HORIZONTAL,             // orientation of the plot
+            100.0,                                  // upper range for the plot
+            positiveColor));                        // color to use for the positive values
+}}}
+
+This effectively sets the lower range to zero.
+
+[#Using_JSparklines Go to top of page]
 
 ----
 
@@ -13,11 +40,15 @@ _(documentation in development)_
 
 _(documentation in development)_
 
+[#Using_JSparklines Go to top of page]
+
 ----
 
 == Multiple Data Series Sparklines ==
 
 _(documentation in development)_
+
+[#Using_JSparklines Go to top of page]
 
 ----
 
@@ -41,5 +72,7 @@ _(documentation in development)_
 }}}
 
 Update the version number to latest released version.
+
+[#Using_JSparklines Go to top of page]
 
 ----
