@@ -27,7 +27,7 @@ _(documentation in development)_
 
 {{{
 <dependency>
-    <groupId>no.uib.jsparklines</groupId>
+    <groupId>no.uib</groupId>
     <artifactId>jsparklines</artifactId>
     <version>X.Y.Z</version>
 </dependency>
