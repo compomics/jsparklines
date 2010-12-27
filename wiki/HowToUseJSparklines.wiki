@@ -1,7 +1,14 @@
 #labels Featured,Phase-Implementation,Phase-Design
 = Using JSparklines =
 
-Using *JSparklines* is very easy and only requires a couple of lines of code. Below you will find simple code examples of how to use *JSparklines* in your project. For a complete example see the *JSparklines* demo found with the source code.
+Using *JSparklines* is very easy and only requires a couple of lines of code. Below you will find simple code examples of how to use *JSparklines* in your project.
+
+ * [#Single_Value_Sparklines Single Value Sparklines]
+ * [#Multiple_Values_Sparklines Multiple Values Sparklines]
+ * [#Multiple_Data_Series_Sparklines Multiple Data Series Sparklines]
+ * [#Maven_Dependency Maven Dependency]
+
+For the complete source code see the *JSparklines* demo found with the source code.
 
 ----
 
@@ -10,27 +17,29 @@ Using *JSparklines* is very easy and only requires a couple of lines of code. Be
 When displaying single numeric values (integers or doubles) in a column the simplest option is to use the JSparklinesBarChartTableCellRenderer. This renderer can be used on any table column containing Integer or Double objects as follows:
 
 {{{
-    singleValuesJTable.getColumn("Fold Change").setCellRenderer(
-        new JSparklinesBarChartTableCellRenderer(
-            PlotOrientation.HORIZONTAL,             // orientation of the plot
-            -5.0,                                   // lower range for the plot
-            5.0,                                    // upper range for the plot
-            negativeColor,                          // color to use for the negative values
-            positiveColor));                        // color to use for the positive values
+singleValuesJTable.getColumn("Fold Change").setCellRenderer(
+    new JSparklinesBarChartTableCellRenderer(
+        PlotOrientation.HORIZONTAL,             // orientation of the plot
+        -5.0,                                   // lower range for the plot
+        5.0,                                    // upper range for the plot
+        negativeColor,                          // color to use for the negative values
+        positiveColor));                        // color to use for the positive values
 }}}
 
 
 If the column only contains positive numbers it becomes even simpler:
 
 {{{
-    singleValuesJTable.getColumn("Coverage").setCellRenderer(
-        new JSparklinesBarChartTableCellRenderer(
-            PlotOrientation.HORIZONTAL,             // orientation of the plot
-            100.0,                                  // upper range for the plot
-            positiveColor));                        // color to use for the positive values
+singleValuesJTable.getColumn("Coverage").setCellRenderer(
+    new JSparklinesBarChartTableCellRenderer(
+        PlotOrientation.HORIZONTAL,             // orientation of the plot
+        100.0,                                  // upper range for the plot
+        positiveColor));                        // color to use for the positive values
 }}}
 
 This effectively sets the lower range to zero.
+
+Note that when using JSparklines in this way the underlaying values can be edited as normal by double clicking the cell to edit.
 
 [#Using_JSparklines Go to top of page]
 
@@ -38,7 +47,43 @@ This effectively sets the lower range to zero.
 
 == Multiple Values Sparklines ==
 
-_(documentation in development)_
+When displaying multiple values in a single plot one has to use the JSparklinesTableCellRenderer. In this case the values to be plotted first has to be added to a JSparklineDataset, and this is the object added to the table cell.
+
+{{{
+// add the data points to display to an arraylist
+ArrayList<Double> dataA = new ArrayList<Double>();
+
+dataA.add(new Double(2.4);
+dataA.add(new Double(4.1);
+...
+dataA.add(new Double(1.3);
+
+// create a JSparklineDataSeries 
+JSparklinesDataSeries sparklineDataseriesA = new JSparklinesDataSeries(dataA, Color.DARK_GRAY);
+
+// add the data series to JSparklineDataset
+ArrayList<JSparklinesDataSeries> sparkLineDataSeriesAll = new ArrayList<JSparklinesDataSeries>();
+sparkLineDataSeriesAll.add(sparklineDataseriesA);
+
+JSparklinesDataset dataset = new JSparklinesDataset(sparkLineDataSeriesAll);
+
+// add the data to table
+((DefaultTableModel) multipleValuesJTable.getModel()).addRow(new Object[]{"Protein " + (j + 1), dataset});
+
+// set the JSparklines renderers
+multipleValuesJTable.getColumn("Change").setCellRenderer(
+    new JSparklinesTableCellRenderer(
+        JSparklinesTableCellRenderer.PlotType.lineChart,   // plot type
+        PlotOrientation.VERTICAL,                          // plot orientation
+        0.0,                                               // lower plot range
+        maxValue));                                        // upper plot range
+
+// set further plotting details if required
+// in this case the with of the line in the line chart
+((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setLineWidth(5);
+}}}
+
+*Note:* that JSparklines with multiple values are NOT editable, so remember to set the columns as 'not editable' in the JTable.
 
 [#Using_JSparklines Go to top of page]
 
