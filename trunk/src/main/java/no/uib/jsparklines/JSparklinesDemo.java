@@ -66,7 +66,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         // set the JSparklines renderers
         // NB: JSparklines with multiple values are NOT editable, so remember to set the columns as 'not editable' in the JTable
         multipleValuesJTable.getColumn("Change").setCellRenderer(new JSparklinesTableCellRenderer(JSparklinesTableCellRenderer.PlotType.lineChart, PlotOrientation.VERTICAL, 0.0, maxValue));
-        ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setLineWidth(5);
 
 
         // add data to the multiple data series example
@@ -75,7 +74,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         // set the JSparklines renderers
         // NB: JSparklines with multiple values are NOT editable, so remember to set the columns as 'not editable' in the JTable
         multipleDataSeriesJTable.getColumn("Change").setCellRenderer(new JSparklinesTableCellRenderer(JSparklinesTableCellRenderer.PlotType.barChart, PlotOrientation.VERTICAL, 0.0, maxValue));
-        ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setLineWidth(5);
     }
 
     /**
@@ -117,6 +115,8 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
     /**
      * Add data to the multiple values example.
+     *
+     * @param maxValue the maximum (random) value
      */
     private void addDataMultipleValues(double maxValue) {
 
@@ -153,6 +153,8 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
     /**
      * Add data to the multiple data series example.
+     *
+     * @param maxValue the maximum (random) value
      */
     private void addDataMultipleDataSeries(double maxValue) {
 
