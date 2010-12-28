@@ -81,10 +81,6 @@ multipleValuesJTable.getColumn("Change").setCellRenderer(
         PlotOrientation.VERTICAL,                          // plot orientation
         0.0,                                               // lower plot range
         maxValue));                                        // upper plot range
-
-// set further plotting details if required
-// in this case the with of the line in the line chart
-((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setLineWidth(5);
 }}}
 
 *Notes:*
@@ -144,10 +140,6 @@ multipleDataSeriesJTable.getColumn("Change").setCellRenderer(
         PlotOrientation.VERTICAL,                          // plot orientation
         0.0,                                               // lower plot range
         maxValue));                                        // upper plot range
-
-// set further plotting details if required
-// in this case the with of the line in the line chart
-((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setLineWidth(5);
 }}}
 
 *Notes:*
