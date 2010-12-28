@@ -35,7 +35,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      * An enumerator of the plot types.
      */
     public enum PlotType {
-
         barChart, lineChart
     }
     /**
@@ -69,7 +68,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * The with of the lines in the line plots.
      */
-    private int lineWidth = 20;
+    private int lineWidth = 5;
 
     /**
      * Creates a new JSparkLinesTableCellRenderer. Used this constructor when only positive
@@ -84,8 +83,24 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double maxValue) {
         this(plotType, plotOrientation, 0.0, maxValue);
     }
-
+    
     /**
+     * Creates a new JSparkLinesTableCellRenderer. Used this constructor when only positive
+     * values are to be plotted.
+     *
+     * @param plotType          the plot type
+     * @param plotOrientation   the orientation of the plot
+     * @param maxValue          the maximum value to be plotted, used to make sure that all plots
+     *                          in the same column has the same maxium value and are thus comparable
+     *                          (this is the same as setting the minimum value to 0)
+     * @param lineWidth         sets the width of the lines used in the line charts, has no effect
+     *                          on bar charts
+     */
+    public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double maxValue, int lineWidth) {
+        this(plotType, plotOrientation, 0.0, maxValue, lineWidth);
+    }
+
+     /**
      * Creates a new JSparkLinesTableCellRenderer. Used this constructor when positive
      * and negative values are to be plotted.
      *
@@ -97,11 +112,29 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      *                          in the same column has the same maxium value and are thus comparable
      */
     public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double minValue, Double maxValue) {
+        this(plotType, plotOrientation, minValue, maxValue, 5);
+    }
+
+    /**
+     * Creates a new JSparkLinesTableCellRenderer. Used this constructor when positive
+     * and negative values are to be plotted.
+     *
+     * @param plotType          the plot type
+     * @param plotOrientation   the orientation of the plot
+     * @param minValue          the minium value to be plotted, used to make sure that all plots
+     *                          in the same column has the same minmum value and are thus comparable
+     * @param maxValue          the maximum value to be plotted, used to make sure that all plots
+     *                          in the same column has the same maxium value and are thus comparable
+     * @param lineWidth         sets the width of the lines used in the line charts, has no effect
+     *                          on bar charts
+     */
+    public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double minValue, Double maxValue, int lineWidth) {
 
         this.plotType = plotType;
         this.plotOrientation = plotOrientation;
         this.minValue = minValue;
         this.maxValue = maxValue;
+        this.lineWidth = lineWidth;
         
         delegate = new DefaultTableCellRenderer();
         setName("Table.cellRenderer");
