@@ -8,7 +8,9 @@ Using *JSparklines* is very easy and only requires a couple of lines of code. Be
  * [#Multiple_Data_Series Multiple Data Series]
  * [#Maven_Dependency Maven Dependency]
 
-For the complete source code see the *JSparklines* demo found with the source code.
+For the complete source code see the *JSparklines* demo found with the source code. 
+
+To run the demo, double click the jar file or use: `java -jar jsparklines-X.Y.Z.jar`.
 
 ----
 
