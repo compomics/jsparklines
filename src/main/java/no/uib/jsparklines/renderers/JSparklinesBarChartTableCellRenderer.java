@@ -26,6 +26,18 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class JSparklinesBarChartTableCellRenderer extends JLabel implements TableCellRenderer {
 
     /**
+     * The minimum value to display as a chart. Values smaller than this lower
+     * limit are shown as this minimum value when shown as a chart. This to make
+     * sure that the chart is visible at all.
+     */
+    private double minimumChartValue = 0.01;
+    /**
+     * Used to decide how many decimals to include in the tooltip. If the number
+     * is smaller than the lower limit, 8 decimnals are shown, otherwise only
+     * 2 decimals are used.
+     */
+    private double tooltipLowerValue = 0.01;
+    /**
      * A reference to a standard table cell renderer.
      */
     private TableCellRenderer delegate;
@@ -149,6 +161,10 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
         JComponent c = (JComponent) delegate.getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
+        if (value == null) {
+            return c;
+        }
+
         // if show numbers, format as number and return
         if (showNumbers) {
 
@@ -156,7 +172,7 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, roundDouble(((Double) value).doubleValue(), 2),
                         isSelected, hasFocus, row, column);
 
-                if (Math.abs(new Double("" + value)) < 0.01) {
+                if (Math.abs(new Double("" + value)) < tooltipLowerValue) {
                     c.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 8));
                 }
 
@@ -173,7 +189,7 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
         // set the tooltip text
         if (value instanceof Double) {
 
-            if (Math.abs(new Double("" + value)) < 0.01) {
+            if (Math.abs(new Double("" + value)) < tooltipLowerValue) {
                 this.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 8));
             } else {
                 this.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 2));
@@ -192,8 +208,8 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         if (value instanceof Double) {
-            if (((Double) value).doubleValue() < 0.01 && ((Double) value).doubleValue() > 0) {
-                dataset.addValue(0.01, "1", "1");
+            if (((Double) value).doubleValue() < minimumChartValue && ((Double) value).doubleValue() > 0) {
+                dataset.addValue(minimumChartValue, "1", "1");
             } else {
                 dataset.addValue(((Double) value), "1", "1");
             }
@@ -270,5 +286,41 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
      */
     private static double roundDouble(double d, int places) {
         return Math.round(d * Math.pow(10, (double) places)) / Math.pow(10, (double) places);
+    }
+
+    /**
+     * Returns the minimum chart value to plot.
+     *
+     * @return the minimumChartValue
+     */
+    public double getMinimumChartValue() {
+        return minimumChartValue;
+    }
+
+    /**
+     * Set the minimum chart value to plot.
+     *
+     * @param minimumChartValue the minimumChartValue to set
+     */
+    public void setMinimumChartValue(double minimumChartValue) {
+        this.minimumChartValue = minimumChartValue;
+    }
+
+    /**
+     * Returns the lower value before using 8 decimals for the tooltip.
+     *
+     * @return the tooltipLowerValue
+     */
+    public double getTooltipLowerValue() {
+        return tooltipLowerValue;
+    }
+
+    /**
+     * Set the lower limit for the values before using 8 decimals for the tooltip.
+     *
+     * @param tooltipLowerValue the tooltipLowerValue to set
+     */
+    public void setTooltipLowerValue(double tooltipLowerValue) {
+        this.tooltipLowerValue = tooltipLowerValue;
     }
 }
