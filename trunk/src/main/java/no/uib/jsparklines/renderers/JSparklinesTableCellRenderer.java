@@ -254,7 +254,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             plot.setDomainGridlinesVisible(false);
 
             // set up the chart renderer
-            JSparklinesRenderer renderer = new JSparklinesRenderer(colors);
+            BarChartColorRenderer renderer = new BarChartColorRenderer(colors);
             renderer.setShadowVisible(false);
             plot.setRenderer(renderer);
 

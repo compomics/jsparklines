@@ -242,15 +242,15 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
 
         if (value instanceof Double) {
             if (((Double) value).doubleValue() >= 0) {
-                renderer = new JSparklinesRenderer(positiveValuesColor);
+                renderer = new BarChartColorRenderer(positiveValuesColor);
             } else {
-                renderer = new JSparklinesRenderer(negativeValuesColor);
+                renderer = new BarChartColorRenderer(negativeValuesColor);
             }
         } else {
             if (((Integer) value).intValue() >= 0) {
-                renderer = new JSparklinesRenderer(positiveValuesColor);
+                renderer = new BarChartColorRenderer(positiveValuesColor);
             } else {
-                renderer = new JSparklinesRenderer(negativeValuesColor);
+                renderer = new BarChartColorRenderer(negativeValuesColor);
             }
         }
 

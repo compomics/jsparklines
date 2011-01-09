@@ -14,7 +14,7 @@ import org.jfree.chart.renderer.category.BarRenderer3D;
  *
  * @author Harald Barsnes
  */
-public class JSparklinesRenderer extends BarRenderer3D {
+public class BarChartColorRenderer extends BarRenderer3D {
 
     /**
      * The colors to use.
@@ -30,7 +30,7 @@ public class JSparklinesRenderer extends BarRenderer3D {
      *
      * @param colors the colors to use.
      */
-    public JSparklinesRenderer(ArrayList<Color> colors) {
+    public BarChartColorRenderer(ArrayList<Color> colors) {
         super(0, 0);
         this.colors = colors;
     }
@@ -41,7 +41,7 @@ public class JSparklinesRenderer extends BarRenderer3D {
      *
      * @param color the color to use.
      */
-    public JSparklinesRenderer(Color color) {
+    public BarChartColorRenderer(Color color) {
         super(0, 0);
         mainColor = color;
     }
