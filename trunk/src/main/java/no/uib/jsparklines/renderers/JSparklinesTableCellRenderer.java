@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.GradientPaint;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -16,10 +17,16 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StackedBarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -32,10 +39,18 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class JSparklinesTableCellRenderer extends JLabel implements TableCellRenderer {
 
     /**
-     * An enumerator of the plot types.
+     * An enumerator of the supported plot types.
      */
     public enum PlotType {
-        barChart, lineChart
+
+        barChart, lineChart, pieChart, stackedBarChart, areaChart
+    }
+
+    /**
+     * Turns of the gradient painting for the bar charts.
+     */
+    static {
+        BarRenderer.setDefaultBarPainter(new StandardBarPainter());
     }
     /**
      * The current plot type.
@@ -56,7 +71,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * The maximum value. Used to set the upper range for the charts.
      */
-    private double maxValue = 1;
+    private double maxValue = 0;
     /**
      * The minimum value. Used to set the lower range for the charts.
      */
@@ -69,6 +84,22 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      * The with of the lines in the line plots.
      */
     private int lineWidth = 5;
+    /**
+     * Controls whether the stacked bar charts display each item value as a
+     * percentage (so that the stacked bars add to 100%).
+     */
+    private boolean renderStackedBarChartsAsPercentages = false;
+
+    /**
+     * Creates a new JSparkLinesTableCellRenderer. Used this constructor when
+     * creating pie charts where no upper range is used.
+     *
+     * @param plotType          the plot type
+     * @param plotOrientation   the orientation of the plot
+     */
+    public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation) {
+        this(plotType, plotOrientation, 0.0, 0.0);
+    }
 
     /**
      * Creates a new JSparkLinesTableCellRenderer. Used this constructor when only positive
@@ -178,6 +209,24 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
+     * Returns true if the stacked bar charts are plotted as percentages.
+     *
+     * @return true if the stacked bar charts are plotted as percentages
+     */
+    public boolean isRendersStackedChartsAsPercentages() {
+        return renderStackedBarChartsAsPercentages;
+    }
+
+    /**
+     * Set if the stacked bar charts are to be plotted as percentages.
+     *
+     * @param rendersStackedChartsAsPercentages if the stacked bar charts are to be plotted as percentages
+     */
+    public void setRendersStackedChartsAsPercentages(boolean rendersStackedChartsAsPercentages) {
+        this.renderStackedBarChartsAsPercentages = rendersStackedChartsAsPercentages;
+    }
+
+    /**
      * Sets up the cell renderer for the given cell.
      *
      * @param table
@@ -218,6 +267,10 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         // create the chart
         if (plotType == PlotType.barChart) {
 
+            /////////////
+            // BAR CHART
+            /////////////
+
             DefaultCategoryDataset barChartDataset = new DefaultCategoryDataset();
 
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {
@@ -242,7 +295,9 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             CategoryPlot plot = chart.getCategoryPlot();
 
             // set the axis range
-            plot.getRangeAxis().setRange(minValue, maxValue);
+            if (maxValue > 0) {
+                plot.getRangeAxis().setRange(minValue, maxValue);
+            }
 
             // add the dataset
             plot.setDataset(barChartDataset);
@@ -258,10 +313,21 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             renderer.setShadowVisible(false);
             plot.setRenderer(renderer);
 
-        } else if (plotType == PlotType.lineChart) {
+        } else if (plotType == PlotType.lineChart || plotType == PlotType.areaChart) {
+
+            //////////////////////
+            // LINE or AREA CHART
+            //////////////////////
+
+            AbstractXYItemRenderer renderer;
 
             // set up the chart renderer
-            XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
+            if (plotType == PlotType.lineChart) {
+                renderer = new XYLineAndShapeRenderer(true, false);
+            } else {
+                renderer = new AreaRenderer();
+                ((AreaRenderer) renderer).setOutline(true);
+            }
 
             XYSeriesCollection lineChartDataset = new XYSeriesCollection();
 
@@ -282,8 +348,16 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 }
 
                 lineChartDataset.addSeries(tempSeries);
-                renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
-                renderer.setSeriesStroke(i, new BasicStroke(lineWidth, BasicStroke.JOIN_ROUND, BasicStroke.CAP_ROUND));
+
+                if (plotType == PlotType.lineChart) {
+                    renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
+                    renderer.setSeriesStroke(i, new BasicStroke(lineWidth, BasicStroke.JOIN_ROUND, BasicStroke.CAP_ROUND));
+                } else {
+                    renderer.setSeriesFillPaint(i, new GradientPaint(
+                            0f, 0f, sparklineDataSeries.getSeriesColor().brighter().brighter(),
+                            0f, 0f, sparklineDataSeries.getSeriesColor().darker().darker()));
+                    renderer.setSeriesOutlinePaint(i, sparklineDataSeries.getSeriesColor());
+                }
             }
 
             chart = ChartFactory.createXYLineChart(null, null, null, lineChartDataset, plotOrientation, false, false, false);
@@ -292,7 +366,9 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             XYPlot plot = chart.getXYPlot();
 
             // set the axis range
-            plot.getRangeAxis().setRange(minValue, maxValue);
+            if (maxValue > 0) {
+                plot.getRangeAxis().setRange(minValue, maxValue);
+            }
 
             // add the dataset
             plot.setDataset(lineChartDataset);
@@ -304,6 +380,104 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             plot.setDomainGridlinesVisible(false);
 
             // set the renderer
+            plot.setRenderer(renderer);
+
+        } else if (plotType == PlotType.pieChart) {
+
+            //////////////
+            // PIE CHART
+            //////////////
+
+            DefaultPieDataset pieDataset = new DefaultPieDataset();
+
+            for (int i = 0; i < sparklineDataset.getData().size(); i++) {
+
+                JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
+
+                tooltip += "<font color=rgb("
+                        + sparklineDataSeries.getSeriesColor().getRed() + ","
+                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                        + sparklineDataSeries.getSeriesLabel() + "<br>";
+
+                double sumOfValues = 0.0;
+
+                for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
+                    sumOfValues += sparklineDataSeries.getData().get(j);
+                }
+
+                pieDataset.setValue(sparklineDataSeries.getSeriesLabel(), sumOfValues);
+            }
+
+            // create the chart
+            chart = ChartFactory.createPieChart(null, pieDataset, false, false, false);
+
+            // hide the labels and remove the shadow
+            PiePlot piePlot = ((PiePlot) chart.getPlot());
+            piePlot.setCircular(true);
+            piePlot.setLabelGenerator(null);
+            piePlot.setShadowXOffset(0);
+            piePlot.setShadowYOffset(0);
+
+            // set the series colors
+            for (int i = 0; i < sparklineDataset.getData().size(); i++) {
+                piePlot.setSectionPaint(sparklineDataset.getData().get(i).getSeriesLabel(), sparklineDataset.getData().get(i).getSeriesColor());
+            }
+
+        } else if (plotType == PlotType.stackedBarChart) {
+
+            /////////////////////
+            // STACKED BAR CHART
+            /////////////////////
+
+            DefaultCategoryDataset barChartDataset = new DefaultCategoryDataset();
+
+            StackedBarRenderer renderer = new StackedBarRenderer();
+            renderer.setShadowVisible(false);
+            //renderer.setDefaultBarPainter(new StandardBarPainter());
+
+            for (int i = 0; i < sparklineDataset.getData().size(); i++) {
+
+                JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
+
+                tooltip += "<font color=rgb("
+                        + sparklineDataSeries.getSeriesColor().getRed() + ","
+                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                        + sparklineDataSeries.getSeriesLabel() + "<br>";
+
+                for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
+                    barChartDataset.addValue(sparklineDataSeries.getData().get(j), "" + i, "" + j);
+                    renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
+                }
+            }
+
+            chart = ChartFactory.createStackedBarChart(null, null, null, barChartDataset, plotOrientation, false, false, false);
+
+            // fine tune the chart properites
+            CategoryPlot plot = chart.getCategoryPlot();
+
+            if (renderStackedBarChartsAsPercentages) {
+                renderer.setRenderAsPercentages(true); // @TODO: make this a user choice??
+            } else {
+                // set the axis range
+                if (maxValue > 0) {
+                    plot.getRangeAxis().setRange(minValue * sparklineDataset.getData().size(), maxValue * sparklineDataset.getData().size());
+                }
+            }
+
+
+
+            // add the dataset
+            plot.setDataset(barChartDataset);
+
+            // hide unwanted chart details
+            plot.getRangeAxis().setVisible(false);
+            plot.getDomainAxis().setVisible(false);
+            plot.setRangeGridlinesVisible(false);
+            plot.setDomainGridlinesVisible(false);
+
+            // set up the chart renderer
             plot.setRenderer(renderer);
         }
 
