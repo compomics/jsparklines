@@ -174,12 +174,14 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="multipleValuesJScrollPane" alignment="1" pref="355" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="lineChartMultipleValuesJRadioButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="areaChartMultipleValuesJRadioButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="barChartMultipleValuesJRadioButton" linkSize="1" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="multipleValuesJScrollPane" alignment="1" pref="355" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -193,6 +195,7 @@
                       <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="barChartMultipleValuesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="areaChartMultipleValuesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lineChartMultipleValuesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -251,6 +254,18 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="barChartMultipleValuesJRadioButtonActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JRadioButton" name="areaChartMultipleValuesJRadioButton">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="buttonGroupMultipleValues"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Area"/>
+                <Property name="opaque" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="areaChartMultipleValuesJRadioButtonActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="multipleDataSeriesJPanel">
@@ -271,8 +286,14 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="lineChartMultipleDataSeriesJRadioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="areaChartMultipleDataSeriesJRadioButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="barChartMultipleDataSeriesJRadioButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="stackedBarChartMultipleDataSeriesJRadioButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="pieChartMultipleDataSeriesJRadioButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="multipleDataSeriesJScrollPane" alignment="1" pref="355" max="32767" attributes="0"/>
                       </Group>
@@ -288,6 +309,9 @@
                       <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="barChartMultipleDataSeriesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="stackedBarChartMultipleDataSeriesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="pieChartMultipleDataSeriesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="areaChartMultipleDataSeriesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lineChartMultipleDataSeriesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -339,12 +363,48 @@
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="buttonGroupMultipleDataSeries"/>
                 </Property>
-                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Bar"/>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="barChartMultipleDataSeriesJRadioButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="pieChartMultipleDataSeriesJRadioButton">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="buttonGroupMultipleDataSeries"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Pie"/>
+                <Property name="opaque" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pieChartMultipleDataSeriesJRadioButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="stackedBarChartMultipleDataSeriesJRadioButton">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="buttonGroupMultipleDataSeries"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Stack"/>
+                <Property name="opaque" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stackedBarChartMultipleDataSeriesJRadioButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="areaChartMultipleDataSeriesJRadioButton">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="buttonGroupMultipleDataSeries"/>
+                </Property>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Area"/>
+                <Property name="opaque" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="areaChartMultipleDataSeriesJRadioButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
