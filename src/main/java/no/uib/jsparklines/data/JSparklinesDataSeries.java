@@ -19,6 +19,10 @@ public class JSparklinesDataSeries {
      * The colors to use for this data series.
      */
     private Color seriesColor;
+    /**
+     * The label to use for the series.
+     */
+    private String seriesLabel;
 
     /**
      * Creates a new JSparklinesDataSeries.
@@ -26,9 +30,10 @@ public class JSparklinesDataSeries {
      * @param data the data to plot
      * @param seriesColor the color to use for the series
      */
-    public JSparklinesDataSeries(ArrayList<Double> data, Color seriesColor) {
+    public JSparklinesDataSeries(ArrayList<Double> data, Color seriesColor, String seriesLabel) {
         this.data = data;
         this.seriesColor = seriesColor;
+        this.seriesLabel = seriesLabel;
     }
 
     /**
@@ -65,5 +70,23 @@ public class JSparklinesDataSeries {
      */
     public void setSeriesColor(Color seriesColor) {
         this.seriesColor = seriesColor;
+    }
+
+    /**
+     * Returns the label for the series.
+     *
+     * @return the seriesLabel
+     */
+    public String getSeriesLabel() {
+        return seriesLabel;
+    }
+
+    /**
+     * Set the label for the series.
+     *
+     * @param seriesLabel the seriesLabel to set
+     */
+    public void setSeriesLabel(String seriesLabel) {
+        this.seriesLabel = seriesLabel;
     }
 }

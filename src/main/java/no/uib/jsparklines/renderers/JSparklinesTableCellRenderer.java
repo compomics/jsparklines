@@ -83,7 +83,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double maxValue) {
         this(plotType, plotOrientation, 0.0, maxValue);
     }
-    
+
     /**
      * Creates a new JSparkLinesTableCellRenderer. Used this constructor when only positive
      * values are to be plotted.
@@ -100,7 +100,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         this(plotType, plotOrientation, 0.0, maxValue, lineWidth);
     }
 
-     /**
+    /**
      * Creates a new JSparkLinesTableCellRenderer. Used this constructor when positive
      * and negative values are to be plotted.
      *
@@ -135,7 +135,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.lineWidth = lineWidth;
-        
+
         delegate = new DefaultTableCellRenderer();
         setName("Table.cellRenderer");
         setLayout(new BorderLayout());
@@ -190,7 +190,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
-        
+
         JComponent c = (JComponent) delegate.getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
@@ -213,6 +213,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         ArrayList<Color> colors = new ArrayList<Color>();
         int dataCounter = 0;
 
+        String tooltip = "<html>";
+
         // create the chart
         if (plotType == PlotType.barChart) {
 
@@ -221,6 +223,12 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {
 
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
+
+                tooltip += "<font color=rgb("
+                        + sparklineDataSeries.getSeriesColor().getRed() + ","
+                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                        + sparklineDataSeries.getSeriesLabel() + "<br>";
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
                     barChartDataset.addValue(sparklineDataSeries.getData().get(j), "1", new Integer(dataCounter++));
@@ -261,7 +269,13 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
 
-                XYSeries tempSeries = new XYSeries(i);
+                tooltip += "<font color=rgb("
+                        + sparklineDataSeries.getSeriesColor().getRed() + ","
+                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                        + sparklineDataSeries.getSeriesLabel() + "<br>";
+
+                XYSeries tempSeries = new XYSeries(sparklineDataSeries.getSeriesLabel());
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
                     tempSeries.add(j, sparklineDataSeries.getData().get(j));
@@ -293,6 +307,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             plot.setRenderer(renderer);
         }
 
+        // set the tooltip
+        setToolTipText(tooltip + "</html>");
 
         // hide the outline
         chart.getPlot().setOutlineVisible(false);
@@ -308,5 +324,14 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         this.add(chartPanel);
 
         return this;
+    }
+
+    /**
+     * Returns a reference to the chart panel.
+     *
+     * @return the chart panel.
+     */
+    public ChartPanel getChartPanel() {
+        return chartPanel;
     }
 }
