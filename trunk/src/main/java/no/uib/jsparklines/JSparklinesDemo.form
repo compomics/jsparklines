@@ -47,11 +47,11 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="singleValuesJPanel" linkSize="8" min="-2" max="-2" attributes="0"/>
+                  <Component id="singleValuesJPanel" linkSize="9" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="multipleValuesJPanel" linkSize="8" min="-2" max="-2" attributes="0"/>
+                  <Component id="multipleValuesJPanel" linkSize="9" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="multipleDataSeriesJPanel" min="-2" max="-2" attributes="0"/>
+                  <Component id="multipleDataSeriesJPanel" linkSize="9" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -59,11 +59,11 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="multipleDataSeriesJPanel" alignment="0" max="32767" attributes="1"/>
-                      <Component id="multipleValuesJPanel" alignment="0" max="32767" attributes="1"/>
                       <Component id="singleValuesJPanel" alignment="0" max="32767" attributes="1"/>
+                      <Component id="multipleValuesJPanel" alignment="0" max="32767" attributes="1"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -88,7 +88,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="showJSparklinesJCheckBox" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="singleValuesJScrollPane" alignment="1" pref="362" max="32767" attributes="0"/>
+                          <Component id="singleValuesJScrollPane" alignment="1" pref="353" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -100,7 +100,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="singleValuesJScrollPane" pref="261" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="showJSparklinesJCheckBox" min="-2" max="-2" attributes="0"/>
+                      <Component id="showJSparklinesJCheckBox" min="-2" pref="26" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -168,11 +169,11 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="multipleValuesJScrollPane" alignment="1" pref="362" max="32767" attributes="0"/>
+                          <Component id="multipleValuesJScrollPane" alignment="1" pref="353" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="verticalPlotMultipleValuesJCheckBox" linkSize="6" min="-2" max="-2" attributes="0"/>
+                              <Component id="referenceMultipleValuesJCheckBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="multipleValuesJComboBox" linkSize="6" min="-2" pref="87" max="-2" attributes="1"/>
+                              <Component id="multipleValuesJComboBox" min="-2" pref="87" max="-2" attributes="1"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -183,12 +184,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="multipleValuesJScrollPane" pref="259" max="32767" attributes="0"/>
+                      <Component id="multipleValuesJScrollPane" pref="261" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="multipleValuesJComboBox" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
-                          <Component id="verticalPlotMultipleValuesJCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="referenceMultipleValuesJCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -220,18 +222,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JCheckBox" name="verticalPlotMultipleValuesJCheckBox">
-              <Properties>
-                <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Vertical"/>
-                <Property name="toolTipText" type="java.lang.String" value="Set the orientation of the charts"/>
-                <Property name="iconTextGap" type="int" value="8"/>
-                <Property name="opaque" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verticalPlotMultipleValuesJCheckBoxActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JComboBox" name="multipleValuesJComboBox">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -253,6 +243,17 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="multipleValuesJComboBoxActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JCheckBox" name="referenceMultipleValuesJCheckBox">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reference"/>
+                <Property name="toolTipText" type="java.lang.String" value="Show reference area"/>
+                <Property name="iconTextGap" type="int" value="8"/>
+                <Property name="opaque" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="referenceMultipleValuesJCheckBoxActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="multipleDataSeriesJPanel">
@@ -268,16 +269,14 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace pref="276" max="32767" attributes="0"/>
+                      <Component id="multipleDataSeriesJComboBox" min="-2" pref="87" max="-2" attributes="1"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="verticalPlotMultipleDataSeriesJCheckBox" linkSize="7" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="multipleDataSeriesJComboBox" linkSize="7" pref="87" max="32767" attributes="1"/>
-                          </Group>
-                          <Component id="multipleDataSeriesJScrollPane" alignment="0" min="-2" pref="353" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="multipleDataSeriesJScrollPane" min="-2" pref="353" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -286,12 +285,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="multipleDataSeriesJScrollPane" pref="259" max="32767" attributes="0"/>
+                      <Component id="multipleDataSeriesJScrollPane" pref="261" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="multipleDataSeriesJComboBox" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
-                          <Component id="verticalPlotMultipleDataSeriesJCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="multipleDataSeriesJComboBox" min="-2" pref="18" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -347,18 +344,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="multipleDataSeriesJComboBoxActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="verticalPlotMultipleDataSeriesJCheckBox">
-              <Properties>
-                <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Vertical"/>
-                <Property name="toolTipText" type="java.lang.String" value="Set the orientation of the charts"/>
-                <Property name="iconTextGap" type="int" value="8"/>
-                <Property name="opaque" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verticalPlotMultipleDataSeriesJCheckBoxActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

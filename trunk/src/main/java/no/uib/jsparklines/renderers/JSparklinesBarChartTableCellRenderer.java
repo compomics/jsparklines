@@ -1,5 +1,6 @@
 package no.uib.jsparklines.renderers;
 
+import no.uib.jsparklines.renderers.util.BarChartColorRenderer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;

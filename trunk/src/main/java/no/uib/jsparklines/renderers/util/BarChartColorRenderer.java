@@ -1,4 +1,4 @@
-package no.uib.jsparklines.renderers;
+package no.uib.jsparklines.renderers.util;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

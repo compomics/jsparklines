@@ -1,11 +1,15 @@
 package no.uib.jsparklines.renderers;
 
+import no.uib.jsparklines.renderers.util.AreaRenderer;
+import no.uib.jsparklines.renderers.util.BarChartColorRenderer;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GradientPaint;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -13,6 +17,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import no.uib.jsparklines.data.JSparklinesDataSeries;
 import no.uib.jsparklines.data.JSparklinesDataset;
+import no.uib.jsparklines.renderers.util.ReferenceArea;
+import no.uib.jsparklines.renderers.util.ReferenceLine;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -22,6 +28,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.IntervalMarker;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
@@ -38,7 +45,7 @@ import org.jfree.ui.Layer;
 
 /**
  * A renderer for displaying JSparklines plots consisting of multiple values
- * inside a table cell.
+ * per data series inside a table cell.
  *
  * @author Harald Barsnes
  */
@@ -89,11 +96,11 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * The with of the lines in the line plots.
      */
-    private int lineWidth = 5;
+    private float lineWidth = 5;
     /**
      * The color used to highlight the maximum values in the chart.
      */
-    private Color maxValueColor = new Color(251, 51, 51);;
+    private Color maxValueColor = new Color(251, 51, 51);
     /**
      * The color used to highlight the minimum values in the chart.
      */
@@ -101,7 +108,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * The color used for the 'up values' in the Up/Down charts.
      */
-    private Color upColor = new Color(251, 51, 51);;
+    private Color upColor = new Color(251, 51, 51);
     /**
      * The color used for the 'down values' in the Up/Down charts.
      */
@@ -118,6 +125,16 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      * See highlightMaxAndMin above.
      */
     private double widthOfMaxAndMinHighlight = 0.4;
+    /**
+     * A hashmap of the current reference lines. Key is the name of
+     * the reference line.
+     */
+    private HashMap<String, ReferenceLine> referenceLines;
+    /**
+     * A hashmap of the current reference areas. Key is the name of 
+     * the reference area.
+     */
+    private HashMap<String, ReferenceArea> referenceAreas;
 
     /**
      * Creates a new JSparkLinesTableCellRenderer. Used this constructor when
@@ -156,7 +173,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      * @param lineWidth         sets the width of the lines used in the line charts, has no effect
      *                          on bar charts
      */
-    public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double maxValue, int lineWidth) {
+    public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double maxValue, float lineWidth) {
         this(plotType, plotOrientation, 0.0, maxValue, lineWidth);
     }
 
@@ -188,143 +205,20 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      * @param lineWidth         sets the width of the lines used in the line charts, has no effect
      *                          on bar charts
      */
-    public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double minValue, Double maxValue, int lineWidth) {
+    public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double minValue, Double maxValue, float lineWidth) {
 
         this.plotType = plotType;
         this.plotOrientation = plotOrientation;
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.lineWidth = lineWidth;
+
+        referenceLines = new HashMap<String, ReferenceLine>();
+        referenceAreas = new HashMap<String, ReferenceArea>();
 
         delegate = new DefaultTableCellRenderer();
         setName("Table.cellRenderer");
         setLayout(new BorderLayout());
-    }
-
-    /**
-     * Set the maximum value.
-     *
-     * @param maxValue the maximum value
-     */
-    public void setMaxValue(double maxValue) {
-        this.maxValue = maxValue;
-    }
-
-    /**
-     * Set the minimum value.
-     *
-     * @param minValue the minumum  value
-     */
-    public void setMinValue(double minValue) {
-        this.minValue = minValue;
-    }
-
-    /**
-     * Set the line with to use for line charts.
-     *
-     * @param lineWidth the line width to set
-     */
-    public void setLineWidth(int lineWidth) {
-        this.lineWidth = lineWidth;
-    }
-
-    /**
-     * Sets the plot type.
-     *
-     * @param plotType the plotType to set
-     */
-    public void setPlotType(PlotType plotType) {
-        this.plotType = plotType;
-    }
-
-    /**
-     * Get the color used to highlight the maximum values in the charts.
-     *
-     * @return the color used to highlight the maximum values in the charts
-     */
-    public Color getMaxValueColor() {
-        return maxValueColor;
-    }
-
-    /**
-     * Set the color used to highlight the maximum values in the charts.
-     *
-     * @param maxValueColor the color to set
-     */
-    public void setMaxValueColor(Color maxValueColor) {
-        this.maxValueColor = maxValueColor;
-    }
-
-    /**
-     * Get the color used to highlight the minimum values in the charts.
-     *
-     * @return the color used to highlight the minimum values in the charts
-     */
-    public Color getMinValueColor() {
-        return minValueColor;
-    }
-
-    /**
-     * Set the color used to highlight the minimum values in the charts.
-     *
-     * @param minValueColor the color to set
-     */
-    public void setMinValueColor(Color minValueColor) {
-        this.minValueColor = minValueColor;
-    }
-
-    /**
-     * Get the color used for the 'up values' in the Up/Down charts.
-     *
-     * @return tthe color used for the 'up values' in the Up/Down charts
-     */
-    public Color getUpColor() {
-        return upColor;
-    }
-
-    /**
-     * Set the color used for the 'up values' in the Up/Down charts.
-     *
-     * @param upColor the color for the 'up values' in the Up/Down charts
-     */
-    public void setUpColor(Color upColor) {
-        this.upColor = upColor;
-    }
-
-   /**
-     * Get the color used for the 'down values' in the Up/Down charts.
-     *
-     * @return tthe color used for the 'down values' in the Up/Down charts
-     */
-    public Color getDownColor() {
-        return downColor;
-    }
-
-    /**
-     * Set the color used for the 'down values' in the Up/Down charts.
-     *
-     * @param upColor the color for the 'down values' in the Up/Down charts
-     */
-    public void setDownColor(Color downColor) {
-        this.downColor = downColor;
-    }
-
-    /**
-     * Get the current plot orientation.
-     *
-     * @return the current plot orientation
-     */
-    public PlotOrientation getPlotOrientation() {
-        return plotOrientation;
-    }
-
-    /**
-     * Set the plot orientation.
-     *
-     * @param plotOrientation the new plot orientation
-     */
-    public void setPlotOrientation(PlotOrientation plotOrientation) {
-        this.plotOrientation = plotOrientation;
     }
 
     /**
@@ -394,6 +288,24 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             // fine tune the chart properites
             CategoryPlot plot = chart.getCategoryPlot();
+
+            // add reference lines, if any
+            Iterator<String> allReferencesLines = referenceLines.keySet().iterator();
+
+            while (allReferencesLines.hasNext()) {
+                ReferenceLine currentReferenceLine = referenceLines.get(allReferencesLines.next());
+                plot.addRangeMarker(new ValueMarker(currentReferenceLine.getValue(), currentReferenceLine.getLineColor(), new BasicStroke(currentReferenceLine.getLineWidth())));
+            }
+
+            // add reference areas, if any
+            Iterator<String> allReferenceAreas = referenceAreas.keySet().iterator();
+
+            while (allReferenceAreas.hasNext()) {
+                ReferenceArea currentReferenceArea = referenceAreas.get(allReferenceAreas.next());
+                IntervalMarker marker = new IntervalMarker(currentReferenceArea.getStart(), currentReferenceArea.getEnd(), currentReferenceArea.getAreaColor());
+                marker.setAlpha(currentReferenceArea.getAlpha());
+                plot.addRangeMarker(marker);
+            }
 
             // set the axis range
             if (maxValue > 0) {
@@ -495,6 +407,24 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                         new BasicStroke(1.0f), Color.lightGray, new BasicStroke(0.1f), 0.5f), Layer.BACKGROUND);
             }
 
+            // add reference lines, if any
+            Iterator<String> allReferencesLines = referenceLines.keySet().iterator();
+
+            while (allReferencesLines.hasNext()) {
+                ReferenceLine currentReferenceLine = referenceLines.get(allReferencesLines.next());
+                plot.addRangeMarker(new ValueMarker(currentReferenceLine.getValue(), currentReferenceLine.getLineColor(), new BasicStroke(currentReferenceLine.getLineWidth())));
+            }
+
+            // add reference areas, if any
+            Iterator<String> allReferenceAreas = referenceAreas.keySet().iterator();
+
+            while (allReferenceAreas.hasNext()) {
+                ReferenceArea currentReferenceArea = referenceAreas.get(allReferenceAreas.next());
+                IntervalMarker marker = new IntervalMarker(currentReferenceArea.getStart(), currentReferenceArea.getEnd(), currentReferenceArea.getAreaColor());
+                marker.setAlpha(currentReferenceArea.getAlpha());
+                plot.addRangeMarker(marker);
+            }
+
             // set the axis range
             if (maxValue > 0) {
                 plot.getRangeAxis().setRange(minValue, maxValue);
@@ -585,6 +515,24 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             // fine tune the chart properites
             CategoryPlot plot = chart.getCategoryPlot();
+
+            // add reference lines, if any
+            Iterator<String> allReferencesLines = referenceLines.keySet().iterator();
+
+            while (allReferencesLines.hasNext()) {
+                ReferenceLine currentReferenceLine = referenceLines.get(allReferencesLines.next());
+                plot.addRangeMarker(new ValueMarker(currentReferenceLine.getValue(), currentReferenceLine.getLineColor(), new BasicStroke(currentReferenceLine.getLineWidth())));
+            }
+
+            // add reference areas, if any
+            Iterator<String> allReferenceAreas = referenceAreas.keySet().iterator();
+
+            while (allReferenceAreas.hasNext()) {
+                ReferenceArea currentReferenceArea = referenceAreas.get(allReferenceAreas.next());
+                IntervalMarker marker = new IntervalMarker(currentReferenceArea.getStart(), currentReferenceArea.getEnd(), currentReferenceArea.getAreaColor());
+                marker.setAlpha(currentReferenceArea.getAlpha());
+                plot.addRangeMarker(marker);
+            }
 
             if (plotType == PlotType.stackedPercentBarChart) {
                 renderer.setRenderAsPercentages(true);
@@ -726,6 +674,214 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         this.add(chartPanel);
 
         return this;
+    }
+
+    /**
+     * Add a reference line at a given data value.
+     *
+     * @param label the label for the reference
+     * @param value the reference line value
+     * @param lineWidth the line width
+     * @param lineColor the line color
+     */
+    public void addReferenceLine(String label, double value, float lineWidth, Color lineColor) {
+        referenceLines.put(label, new ReferenceLine(label, value, lineWidth, lineColor));
+    }
+
+    /**
+     * Removes the reference line with the given label. Does nothing if no
+     * reference with the given label is found.
+     *
+     * @param label the reference to remove
+     */
+    public void removeReferenceLine(String label) {
+        referenceLines.remove(label);
+    }
+
+    /**
+     * Removes all the reference lines with the given label.
+     *
+     * @param label the reference to remove
+     */
+    public void removeAllReferenceLines() {
+        referenceLines = new HashMap<String, ReferenceLine>();
+    }
+
+    /**
+     * Returns all the references lines as a hashmap, with the labels
+     * as the keys.
+     *
+     * @return hashmap of all reference lines
+     */
+    public HashMap<String, ReferenceLine> getAllReferenceLines() {
+        return referenceLines;
+    }
+
+    /**
+     * Add a reference area.
+     *
+     * @param label the label for the reference area
+     * @param start the start of the reference area
+     * @param end the end of the reference area
+     * @param areaColor the color of the area
+     */
+    public void addReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
+        referenceAreas.put(label, new ReferenceArea(label, start, end, areaColor, alpha));
+    }
+
+    /**
+     * Removes the reference area with the given label. Does nothing if no
+     * reference with the given label is found.
+     *
+     * @param label the reference to remove
+     */
+    public void removeReferenceArea(String label) {
+        referenceAreas.remove(label);
+    }
+
+    /**
+     * Removes all the reference areas with the given label.
+     *
+     * @param label the reference to remove
+     */
+    public void removeAllReferenceAreas() {
+        referenceAreas = new HashMap<String, ReferenceArea>();
+    }
+
+    /**
+     * Returns all the references areas as a hashmap, with the labels
+     * as the keys.
+     *
+     * @return hashmap of all reference areas
+     */
+    public HashMap<String, ReferenceArea> getAllReferenceAreas() {
+        return referenceAreas;
+    }
+
+    /**
+     * Set the maximum value.
+     *
+     * @param maxValue the maximum value
+     */
+    public void setMaxValue(double maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    /**
+     * Set the minimum value.
+     *
+     * @param minValue the minumum  value
+     */
+    public void setMinValue(double minValue) {
+        this.minValue = minValue;
+    }
+
+    /**
+     * Set the line with to use for line charts.
+     *
+     * @param lineWidth the line width to set
+     */
+    public void setLineWidth(float lineWidth) {
+        this.lineWidth = lineWidth;
+    }
+
+    /**
+     * Sets the plot type.
+     *
+     * @param plotType the plotType to set
+     */
+    public void setPlotType(PlotType plotType) {
+        this.plotType = plotType;
+    }
+
+    /**
+     * Get the color used to highlight the maximum values in the charts.
+     *
+     * @return the color used to highlight the maximum values in the charts
+     */
+    public Color getMaxValueColor() {
+        return maxValueColor;
+    }
+
+    /**
+     * Set the color used to highlight the maximum values in the charts.
+     *
+     * @param maxValueColor the color to set
+     */
+    public void setMaxValueColor(Color maxValueColor) {
+        this.maxValueColor = maxValueColor;
+    }
+
+    /**
+     * Get the color used to highlight the minimum values in the charts.
+     *
+     * @return the color used to highlight the minimum values in the charts
+     */
+    public Color getMinValueColor() {
+        return minValueColor;
+    }
+
+    /**
+     * Set the color used to highlight the minimum values in the charts.
+     *
+     * @param minValueColor the color to set
+     */
+    public void setMinValueColor(Color minValueColor) {
+        this.minValueColor = minValueColor;
+    }
+
+    /**
+     * Get the color used for the 'up values' in the Up/Down charts.
+     *
+     * @return tthe color used for the 'up values' in the Up/Down charts
+     */
+    public Color getUpColor() {
+        return upColor;
+    }
+
+    /**
+     * Set the color used for the 'up values' in the Up/Down charts.
+     *
+     * @param upColor the color for the 'up values' in the Up/Down charts
+     */
+    public void setUpColor(Color upColor) {
+        this.upColor = upColor;
+    }
+
+    /**
+     * Get the color used for the 'down values' in the Up/Down charts.
+     *
+     * @return tthe color used for the 'down values' in the Up/Down charts
+     */
+    public Color getDownColor() {
+        return downColor;
+    }
+
+    /**
+     * Set the color used for the 'down values' in the Up/Down charts.
+     *
+     * @param upColor the color for the 'down values' in the Up/Down charts
+     */
+    public void setDownColor(Color downColor) {
+        this.downColor = downColor;
+    }
+
+    /**
+     * Get the current plot orientation.
+     *
+     * @return the current plot orientation
+     */
+    public PlotOrientation getPlotOrientation() {
+        return plotOrientation;
+    }
+
+    /**
+     * Set the plot orientation.
+     *
+     * @param plotOrientation the new plot orientation
+     */
+    public void setPlotOrientation(PlotOrientation plotOrientation) {
+        this.plotOrientation = plotOrientation;
     }
 
     /**
