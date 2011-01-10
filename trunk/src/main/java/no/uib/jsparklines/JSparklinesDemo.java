@@ -11,9 +11,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import no.uib.jsparklines.data.JSparklinesDataSeries;
@@ -84,7 +88,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     /**
      * Setup some additional GUI properties.
      */
-    private void setAdditionalGuiProperties () {
+    private void setAdditionalGuiProperties() {
 
         // disable the moving of columns
         singleValuesJTable.getTableHeader().setReorderingAllowed(false);
@@ -107,6 +111,10 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJScrollPane.getViewport().setOpaque(false);
         multipleValuesJScrollPane.getViewport().setOpaque(false);
         multipleDataSeriesJScrollPane.getViewport().setOpaque(false);
+
+        // set the renderer for the comboboxes
+        multipleValuesJComboBox.setRenderer(new ComboBoxListCellRenderer());
+        multipleDataSeriesJComboBox.setRenderer(new ComboBoxListCellRenderer());
 
         // locate the dialog in the middle of the screen
         setLocationRelativeTo(null);
@@ -211,9 +219,9 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             ArrayList<Double> dataC = new ArrayList<Double>();
 
             for (int i = 0; i < NUMBER_OF_VALUES; i++) {
-                dataA.add(new Double(random.nextInt(MAX_VALUE-1)));
+                dataA.add(new Double(random.nextInt(MAX_VALUE - 1)));
                 dataB.add(new Double(random.nextInt(MAX_VALUE)));
-                dataC.add(new Double(random.nextInt(MAX_VALUE+1)));
+                dataC.add(new Double(random.nextInt(MAX_VALUE + 1)));
             }
 
             JSparklinesDataSeries sparklineDataseriesA = new JSparklinesDataSeries(dataA, colorA, "Dataset A");
@@ -242,8 +250,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroupMultipleValues = new javax.swing.ButtonGroup();
-        buttonGroupMultipleDataSeries = new javax.swing.ButtonGroup();
         gradientPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics grphcs) {
@@ -274,17 +280,13 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         multipleValuesJPanel = new javax.swing.JPanel();
         multipleValuesJScrollPane = new javax.swing.JScrollPane();
         multipleValuesJTable = new javax.swing.JTable();
-        lineChartMultipleValuesJRadioButton = new javax.swing.JRadioButton();
-        barChartMultipleValuesJRadioButton = new javax.swing.JRadioButton();
-        areaChartMultipleValuesJRadioButton = new javax.swing.JRadioButton();
+        verticalPlotMultipleValuesJCheckBox = new javax.swing.JCheckBox();
+        multipleValuesJComboBox = new javax.swing.JComboBox();
         multipleDataSeriesJPanel = new javax.swing.JPanel();
         multipleDataSeriesJScrollPane = new javax.swing.JScrollPane();
         multipleDataSeriesJTable = new javax.swing.JTable();
-        lineChartMultipleDataSeriesJRadioButton = new javax.swing.JRadioButton();
-        barChartMultipleDataSeriesJRadioButton = new javax.swing.JRadioButton();
-        pieChartMultipleDataSeriesJRadioButton = new javax.swing.JRadioButton();
-        stackedBarChartMultipleDataSeriesJRadioButton = new javax.swing.JRadioButton();
-        areaChartMultipleDataSeriesJRadioButton = new javax.swing.JRadioButton();
+        multipleDataSeriesJComboBox = new javax.swing.JComboBox();
+        verticalPlotMultipleDataSeriesJCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JSparklines Demo");
@@ -297,6 +299,8 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
         showJSparklinesJCheckBox.setSelected(true);
         showJSparklinesJCheckBox.setText("Show Sparklines");
+        showJSparklinesJCheckBox.setToolTipText("Turn the sparklines on or off");
+        showJSparklinesJCheckBox.setIconTextGap(8);
         showJSparklinesJCheckBox.setOpaque(false);
         showJSparklinesJCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -335,14 +339,14 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(showJSparklinesJCheckBox)
-                    .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE))
+                    .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE))
                 .addContainerGap())
         );
         singleValuesJPanelLayout.setVerticalGroup(
             singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, singleValuesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+                .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(showJSparklinesJCheckBox))
         );
@@ -379,31 +383,24 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         multipleValuesJTable.setSelectionBackground(new java.awt.Color(204, 204, 204));
         multipleValuesJScrollPane.setViewportView(multipleValuesJTable);
 
-        buttonGroupMultipleValues.add(lineChartMultipleValuesJRadioButton);
-        lineChartMultipleValuesJRadioButton.setSelected(true);
-        lineChartMultipleValuesJRadioButton.setText("Line");
-        lineChartMultipleValuesJRadioButton.setOpaque(false);
-        lineChartMultipleValuesJRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        verticalPlotMultipleValuesJCheckBox.setSelected(true);
+        verticalPlotMultipleValuesJCheckBox.setText("Vertical");
+        verticalPlotMultipleValuesJCheckBox.setToolTipText("Set the orientation of the charts");
+        verticalPlotMultipleValuesJCheckBox.setIconTextGap(8);
+        verticalPlotMultipleValuesJCheckBox.setOpaque(false);
+        verticalPlotMultipleValuesJCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lineChartMultipleValuesJRadioButtonActionPerformed(evt);
+                verticalPlotMultipleValuesJCheckBoxActionPerformed(evt);
             }
         });
 
-        buttonGroupMultipleValues.add(barChartMultipleValuesJRadioButton);
-        barChartMultipleValuesJRadioButton.setText("Bar");
-        barChartMultipleValuesJRadioButton.setOpaque(false);
-        barChartMultipleValuesJRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        multipleValuesJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Line", "Area", "Bar", "Box", "Up/Down" }));
+        multipleValuesJComboBox.setToolTipText("Set the chart type");
+        multipleValuesJComboBox.setMaximumSize(new java.awt.Dimension(48, 20));
+        multipleValuesJComboBox.setOpaque(false);
+        multipleValuesJComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                barChartMultipleValuesJRadioButtonActionPerformed(evt);
-            }
-        });
-
-        buttonGroupMultipleValues.add(areaChartMultipleValuesJRadioButton);
-        areaChartMultipleValuesJRadioButton.setText("Area");
-        areaChartMultipleValuesJRadioButton.setOpaque(false);
-        areaChartMultipleValuesJRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                areaChartMultipleValuesJRadioButtonActionPerformed(evt);
+                multipleValuesJComboBoxActionPerformed(evt);
             }
         });
 
@@ -414,28 +411,25 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleValuesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(multipleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                    .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                     .addGroup(multipleValuesJPanelLayout.createSequentialGroup()
-                        .addComponent(lineChartMultipleValuesJRadioButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(areaChartMultipleValuesJRadioButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(barChartMultipleValuesJRadioButton)))
+                        .addComponent(verticalPlotMultipleValuesJCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(multipleValuesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
-        multipleValuesJPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {barChartMultipleValuesJRadioButton, lineChartMultipleValuesJRadioButton});
+        multipleValuesJPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {multipleValuesJComboBox, verticalPlotMultipleValuesJCheckBox});
 
         multipleValuesJPanelLayout.setVerticalGroup(
             multipleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleValuesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
-                .addGap(7, 7, 7)
+                .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(multipleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(barChartMultipleValuesJRadioButton)
-                    .addComponent(areaChartMultipleValuesJRadioButton)
-                    .addComponent(lineChartMultipleValuesJRadioButton)))
+                    .addComponent(multipleValuesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(verticalPlotMultipleValuesJCheckBox)))
         );
 
         multipleDataSeriesJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Multiple Data Series"));
@@ -471,49 +465,24 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         multipleDataSeriesJTable.setSelectionBackground(new java.awt.Color(204, 204, 204));
         multipleDataSeriesJScrollPane.setViewportView(multipleDataSeriesJTable);
 
-        buttonGroupMultipleDataSeries.add(lineChartMultipleDataSeriesJRadioButton);
-        lineChartMultipleDataSeriesJRadioButton.setText("Line");
-        lineChartMultipleDataSeriesJRadioButton.setOpaque(false);
-        lineChartMultipleDataSeriesJRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        multipleDataSeriesJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Line", "Area", "Bar", "Stack", "Stack %", "Box", "Pie", "Up/Down" }));
+        multipleDataSeriesJComboBox.setToolTipText("Set the chart type");
+        multipleDataSeriesJComboBox.setMaximumSize(new java.awt.Dimension(48, 20));
+        multipleDataSeriesJComboBox.setOpaque(false);
+        multipleDataSeriesJComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lineChartMultipleDataSeriesJRadioButtonActionPerformed(evt);
+                multipleDataSeriesJComboBoxActionPerformed(evt);
             }
         });
 
-        buttonGroupMultipleDataSeries.add(barChartMultipleDataSeriesJRadioButton);
-        barChartMultipleDataSeriesJRadioButton.setText("Bar");
-        barChartMultipleDataSeriesJRadioButton.setOpaque(false);
-        barChartMultipleDataSeriesJRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        verticalPlotMultipleDataSeriesJCheckBox.setSelected(true);
+        verticalPlotMultipleDataSeriesJCheckBox.setText("Vertical");
+        verticalPlotMultipleDataSeriesJCheckBox.setToolTipText("Set the orientation of the charts");
+        verticalPlotMultipleDataSeriesJCheckBox.setIconTextGap(8);
+        verticalPlotMultipleDataSeriesJCheckBox.setOpaque(false);
+        verticalPlotMultipleDataSeriesJCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                barChartMultipleDataSeriesJRadioButtonActionPerformed(evt);
-            }
-        });
-
-        buttonGroupMultipleDataSeries.add(pieChartMultipleDataSeriesJRadioButton);
-        pieChartMultipleDataSeriesJRadioButton.setText("Pie");
-        pieChartMultipleDataSeriesJRadioButton.setOpaque(false);
-        pieChartMultipleDataSeriesJRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pieChartMultipleDataSeriesJRadioButtonActionPerformed(evt);
-            }
-        });
-
-        buttonGroupMultipleDataSeries.add(stackedBarChartMultipleDataSeriesJRadioButton);
-        stackedBarChartMultipleDataSeriesJRadioButton.setText("Stack");
-        stackedBarChartMultipleDataSeriesJRadioButton.setOpaque(false);
-        stackedBarChartMultipleDataSeriesJRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stackedBarChartMultipleDataSeriesJRadioButtonActionPerformed(evt);
-            }
-        });
-
-        buttonGroupMultipleDataSeries.add(areaChartMultipleDataSeriesJRadioButton);
-        areaChartMultipleDataSeriesJRadioButton.setSelected(true);
-        areaChartMultipleDataSeriesJRadioButton.setText("Area");
-        areaChartMultipleDataSeriesJRadioButton.setOpaque(false);
-        areaChartMultipleDataSeriesJRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                areaChartMultipleDataSeriesJRadioButtonActionPerformed(evt);
+                verticalPlotMultipleDataSeriesJCheckBoxActionPerformed(evt);
             }
         });
 
@@ -521,34 +490,28 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         multipleDataSeriesJPanel.setLayout(multipleDataSeriesJPanelLayout);
         multipleDataSeriesJPanelLayout.setHorizontalGroup(
             multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleDataSeriesJPanelLayout.createSequentialGroup()
+            .addGroup(multipleDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(multipleDataSeriesJPanelLayout.createSequentialGroup()
-                        .addComponent(lineChartMultipleDataSeriesJRadioButton)
+                        .addComponent(verticalPlotMultipleDataSeriesJCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(areaChartMultipleDataSeriesJRadioButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(barChartMultipleDataSeriesJRadioButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stackedBarChartMultipleDataSeriesJRadioButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pieChartMultipleDataSeriesJRadioButton))
-                    .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE))
+                        .addComponent(multipleDataSeriesJComboBox, 0, 87, Short.MAX_VALUE))
+                    .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        multipleDataSeriesJPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {multipleDataSeriesJComboBox, verticalPlotMultipleDataSeriesJCheckBox});
+
         multipleDataSeriesJPanelLayout.setVerticalGroup(
             multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(multipleDataSeriesJPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
-                .addGap(7, 7, 7)
+                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(barChartMultipleDataSeriesJRadioButton)
-                    .addComponent(stackedBarChartMultipleDataSeriesJRadioButton)
-                    .addComponent(pieChartMultipleDataSeriesJRadioButton)
-                    .addComponent(areaChartMultipleDataSeriesJRadioButton)
-                    .addComponent(lineChartMultipleDataSeriesJRadioButton)))
+                    .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(verticalPlotMultipleDataSeriesJCheckBox)))
         );
 
         javax.swing.GroupLayout gradientPanelLayout = new javax.swing.GroupLayout(gradientPanel);
@@ -562,28 +525,27 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        gradientPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {multipleDataSeriesJPanel, multipleValuesJPanel, singleValuesJPanel});
+        gradientPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {multipleValuesJPanel, singleValuesJPanel});
 
         gradientPanelLayout.setVerticalGroup(
             gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(singleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(singleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gradientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(gradientPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -600,7 +562,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
      * @param evt
      */
     private void showJSparklinesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showJSparklinesJCheckBoxActionPerformed
-
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
@@ -614,38 +575,55 @@ public class JSparklinesDemo extends javax.swing.JFrame {
      *
      * @param evt
      */
-    private void lineChartMultipleValuesJRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineChartMultipleValuesJRadioButtonActionPerformed
+    private void multipleValuesJComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multipleValuesJComboBoxActionPerformed
 
-        if (lineChartMultipleValuesJRadioButton.isSelected()) {
+        String selectedPlotType = (String) multipleValuesJComboBox.getSelectedItem();
+
+        // update the chart type
+        if (selectedPlotType.equalsIgnoreCase("Line")) {
             ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.lineChart);
-        } else if (barChartMultipleValuesJRadioButton.isSelected()) {
+        } else if (selectedPlotType.equalsIgnoreCase("Bar")) {
             ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.barChart);
-        } else if (areaChartMultipleValuesJRadioButton.isSelected()) {
+        } else if (selectedPlotType.equalsIgnoreCase("Area")) {
             ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.areaChart);
+        } else if (selectedPlotType.equalsIgnoreCase("Box")) {
+            ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.boxPlot);
+        } else if (selectedPlotType.equalsIgnoreCase("Up/Down")) {
+            ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.upDownChart);
         }
 
+        // update the chart orientation
+        if (verticalPlotMultipleValuesJCheckBox.isSelected()) {
+            ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setPlotOrientation(PlotOrientation.VERTICAL);
+        } else {
+            ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setPlotOrientation(PlotOrientation.HORIZONTAL);
+        }
+
+        // repaint the table to update the plot
         multipleValuesJTable.revalidate();
         multipleValuesJTable.repaint();
-    }//GEN-LAST:event_lineChartMultipleValuesJRadioButtonActionPerformed
+    }//GEN-LAST:event_multipleValuesJComboBoxActionPerformed
+
+    /**
+     * Updates the plot orientation.
+     * 
+     * @param evt
+     */
+    private void verticalPlotMultipleValuesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verticalPlotMultipleValuesJCheckBoxActionPerformed
+        multipleValuesJComboBoxActionPerformed(null);
+    }//GEN-LAST:event_verticalPlotMultipleValuesJCheckBoxActionPerformed
 
     /**
      * Updates the plot type.
      *
      * @param evt
      */
-    private void barChartMultipleValuesJRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barChartMultipleValuesJRadioButtonActionPerformed
-        lineChartMultipleValuesJRadioButtonActionPerformed(null);
-    }//GEN-LAST:event_barChartMultipleValuesJRadioButtonActionPerformed
+    private void multipleDataSeriesJComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multipleDataSeriesJComboBoxActionPerformed
 
-    /**
-     * Updates the plot type.
-     *
-     * @param evt
-     */
-    private void lineChartMultipleDataSeriesJRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineChartMultipleDataSeriesJRadioButtonActionPerformed
+        String selectedPlotType = (String) multipleDataSeriesJComboBox.getSelectedItem();
 
         // change the width of the columns to make sure that a pie chart becomes circular
-        if (pieChartMultipleDataSeriesJRadioButton.isSelected()) {
+        if (selectedPlotType.equalsIgnoreCase("Pie")) {
             multipleDataSeriesJTable.getColumn("Protein").setMaxWidth(Integer.MAX_VALUE);
             multipleDataSeriesJTable.getColumn("Change").setMaxWidth(multipleDataSeriesJTable.getRowHeight() + 30);
         } else {
@@ -653,67 +631,45 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             multipleDataSeriesJTable.getColumn("Change").setMaxWidth(Integer.MAX_VALUE);
         }
 
-        if (lineChartMultipleDataSeriesJRadioButton.isSelected()) {
+        // update the chart type
+        if (selectedPlotType.equalsIgnoreCase("Line")) {
             ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.lineChart);
-        } else if (barChartMultipleDataSeriesJRadioButton.isSelected()) {
+        } else if (selectedPlotType.equalsIgnoreCase("Bar")) {
             ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.barChart);
-        } else if (pieChartMultipleDataSeriesJRadioButton.isSelected()) {
+        } else if (selectedPlotType.equalsIgnoreCase("Pie")) {
             ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.pieChart);
-        } else if (stackedBarChartMultipleDataSeriesJRadioButton.isSelected()) {
+        } else if (selectedPlotType.equalsIgnoreCase("Stack")) {
             ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.stackedBarChart);
-        } else if (areaChartMultipleDataSeriesJRadioButton.isSelected()) {
+        } else if (selectedPlotType.equalsIgnoreCase("Stack %")) {
+            ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.stackedPercentBarChart);
+        } else if (selectedPlotType.equalsIgnoreCase("Area")) {
             ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.areaChart);
+        } else if (selectedPlotType.equalsIgnoreCase("Box")) {
+            ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.boxPlot);
+        } else if (selectedPlotType.equalsIgnoreCase("Up/Down")) {
+            ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotType(JSparklinesTableCellRenderer.PlotType.upDownChart);
+        }
+
+        // update the chart orientation
+        if (verticalPlotMultipleDataSeriesJCheckBox.isSelected()) {
+            ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotOrientation(PlotOrientation.VERTICAL);
+        } else {
+            ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotOrientation(PlotOrientation.HORIZONTAL);
         }
 
         // repaint the table to update the plot
         multipleDataSeriesJTable.revalidate();
         multipleDataSeriesJTable.repaint();
-    }//GEN-LAST:event_lineChartMultipleDataSeriesJRadioButtonActionPerformed
+    }//GEN-LAST:event_multipleDataSeriesJComboBoxActionPerformed
 
     /**
-     * Updates the plot type.
-     *
+     * Updates the plot orientation.
+     * 
      * @param evt
      */
-    private void barChartMultipleDataSeriesJRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barChartMultipleDataSeriesJRadioButtonActionPerformed
-        lineChartMultipleDataSeriesJRadioButtonActionPerformed(null);
-    }//GEN-LAST:event_barChartMultipleDataSeriesJRadioButtonActionPerformed
-
-    /**
-     * Updates the plot type.
-     *
-     * @param evt
-     */
-    private void pieChartMultipleDataSeriesJRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pieChartMultipleDataSeriesJRadioButtonActionPerformed
-        lineChartMultipleDataSeriesJRadioButtonActionPerformed(null);
-    }//GEN-LAST:event_pieChartMultipleDataSeriesJRadioButtonActionPerformed
-
-    /**
-     * Updates the plot type.
-     *
-     * @param evt
-     */
-    private void stackedBarChartMultipleDataSeriesJRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stackedBarChartMultipleDataSeriesJRadioButtonActionPerformed
-        lineChartMultipleDataSeriesJRadioButtonActionPerformed(null);
-    }//GEN-LAST:event_stackedBarChartMultipleDataSeriesJRadioButtonActionPerformed
-
-    /**
-     * Updates the plot type.
-     *
-     * @param evt
-     */
-    private void areaChartMultipleValuesJRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaChartMultipleValuesJRadioButtonActionPerformed
-        lineChartMultipleValuesJRadioButtonActionPerformed(null);
-    }//GEN-LAST:event_areaChartMultipleValuesJRadioButtonActionPerformed
-
-    /**
-     * Updates the plot type.
-     *
-     * @param evt
-     */
-    private void areaChartMultipleDataSeriesJRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaChartMultipleDataSeriesJRadioButtonActionPerformed
-        lineChartMultipleDataSeriesJRadioButtonActionPerformed(null);
-    }//GEN-LAST:event_areaChartMultipleDataSeriesJRadioButtonActionPerformed
+    private void verticalPlotMultipleDataSeriesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verticalPlotMultipleDataSeriesJCheckBoxActionPerformed
+        multipleDataSeriesJComboBoxActionPerformed(null);
+    }//GEN-LAST:event_verticalPlotMultipleDataSeriesJCheckBoxActionPerformed
 
     /**
      * Starts the JSparklines demo.
@@ -729,27 +685,21 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton areaChartMultipleDataSeriesJRadioButton;
-    private javax.swing.JRadioButton areaChartMultipleValuesJRadioButton;
-    private javax.swing.JRadioButton barChartMultipleDataSeriesJRadioButton;
-    private javax.swing.JRadioButton barChartMultipleValuesJRadioButton;
-    private javax.swing.ButtonGroup buttonGroupMultipleDataSeries;
-    private javax.swing.ButtonGroup buttonGroupMultipleValues;
     private javax.swing.JPanel gradientPanel;
-    private javax.swing.JRadioButton lineChartMultipleDataSeriesJRadioButton;
-    private javax.swing.JRadioButton lineChartMultipleValuesJRadioButton;
+    private javax.swing.JComboBox multipleDataSeriesJComboBox;
     private javax.swing.JPanel multipleDataSeriesJPanel;
     private javax.swing.JScrollPane multipleDataSeriesJScrollPane;
     private javax.swing.JTable multipleDataSeriesJTable;
+    private javax.swing.JComboBox multipleValuesJComboBox;
     private javax.swing.JPanel multipleValuesJPanel;
     private javax.swing.JScrollPane multipleValuesJScrollPane;
     private javax.swing.JTable multipleValuesJTable;
-    private javax.swing.JRadioButton pieChartMultipleDataSeriesJRadioButton;
     private javax.swing.JCheckBox showJSparklinesJCheckBox;
     private javax.swing.JPanel singleValuesJPanel;
     private javax.swing.JScrollPane singleValuesJScrollPane;
     private javax.swing.JTable singleValuesJTable;
-    private javax.swing.JRadioButton stackedBarChartMultipleDataSeriesJRadioButton;
+    private javax.swing.JCheckBox verticalPlotMultipleDataSeriesJCheckBox;
+    private javax.swing.JCheckBox verticalPlotMultipleValuesJCheckBox;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -782,6 +732,31 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             JComponent c = (JComponent) super.getTableCellRendererComponent(table, value,
                     isSelected, hasFocus, row, column);
             ((JComponent) c).setOpaque(isSelected);
+            return c;
+        }
+    }
+
+    /**
+     * A simple combo box render making sure that the combo boxes looks good
+     * with the current gradient background.
+     */
+    public class ComboBoxListCellRenderer extends DefaultListCellRenderer {
+
+        public Component getListCellRendererComponent(
+                JList list, Object value, int index,
+                boolean isSelected, boolean cellHasFocus) {
+
+            JLabel c = (JLabel) super.getListCellRendererComponent(
+                    list, value, index, isSelected, cellHasFocus);
+            
+            ((JComponent) c).setOpaque(isSelected);
+
+            if (isSelected || cellHasFocus) {
+                c.setBackground(Color.LIGHT_GRAY);
+            }
+
+            c.setHorizontalAlignment(SwingConstants.CENTER);
+
             return c;
         }
     }

@@ -1,12 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="buttonGroupMultipleValues">
-    </Component>
-    <Component class="javax.swing.ButtonGroup" name="buttonGroupMultipleDataSeries">
-    </Component>
-  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="JSparklines Demo"/>
@@ -30,7 +24,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="gradientPanel" max="32767" attributes="0"/>
+          <Component id="gradientPanel" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -51,29 +45,27 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="singleValuesJPanel" linkSize="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="singleValuesJPanel" linkSize="8" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="multipleValuesJPanel" linkSize="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="multipleValuesJPanel" linkSize="8" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="multipleDataSeriesJPanel" linkSize="2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="multipleDataSeriesJPanel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="multipleDataSeriesJPanel" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                          <Component id="multipleValuesJPanel" alignment="1" min="-2" max="-2" attributes="1"/>
-                          <Component id="singleValuesJPanel" alignment="0" min="-2" max="-2" attributes="1"/>
-                      </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="multipleDataSeriesJPanel" alignment="0" max="32767" attributes="1"/>
+                      <Component id="multipleValuesJPanel" alignment="0" max="32767" attributes="1"/>
+                      <Component id="singleValuesJPanel" alignment="0" max="32767" attributes="1"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -96,7 +88,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="showJSparklinesJCheckBox" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="singleValuesJScrollPane" alignment="1" pref="355" max="32767" attributes="0"/>
+                          <Component id="singleValuesJScrollPane" alignment="1" pref="362" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -106,7 +98,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="singleValuesJScrollPane" pref="262" max="32767" attributes="0"/>
+                      <Component id="singleValuesJScrollPane" pref="261" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="showJSparklinesJCheckBox" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -118,6 +110,8 @@
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Show Sparklines"/>
+                <Property name="toolTipText" type="java.lang.String" value="Turn the sparklines on or off"/>
+                <Property name="iconTextGap" type="int" value="8"/>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -174,13 +168,11 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="multipleValuesJScrollPane" alignment="1" pref="355" max="32767" attributes="0"/>
+                          <Component id="multipleValuesJScrollPane" alignment="1" pref="362" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="lineChartMultipleValuesJRadioButton" linkSize="1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="areaChartMultipleValuesJRadioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="barChartMultipleValuesJRadioButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="verticalPlotMultipleValuesJCheckBox" linkSize="6" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="multipleValuesJComboBox" linkSize="6" min="-2" pref="87" max="-2" attributes="1"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -191,12 +183,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="multipleValuesJScrollPane" pref="262" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                      <Component id="multipleValuesJScrollPane" pref="259" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="barChartMultipleValuesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="areaChartMultipleValuesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lineChartMultipleValuesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="multipleValuesJComboBox" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="verticalPlotMultipleValuesJCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -229,41 +220,37 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JRadioButton" name="lineChartMultipleValuesJRadioButton">
+            <Component class="javax.swing.JCheckBox" name="verticalPlotMultipleValuesJCheckBox">
               <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="buttonGroupMultipleValues"/>
-                </Property>
                 <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Line"/>
+                <Property name="text" type="java.lang.String" value="Vertical"/>
+                <Property name="toolTipText" type="java.lang.String" value="Set the orientation of the charts"/>
+                <Property name="iconTextGap" type="int" value="8"/>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lineChartMultipleValuesJRadioButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verticalPlotMultipleValuesJCheckBoxActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="barChartMultipleValuesJRadioButton">
+            <Component class="javax.swing.JComboBox" name="multipleValuesJComboBox">
               <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="buttonGroupMultipleValues"/>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="5">
+                    <StringItem index="0" value="Line"/>
+                    <StringItem index="1" value="Area"/>
+                    <StringItem index="2" value="Bar"/>
+                    <StringItem index="3" value="Box"/>
+                    <StringItem index="4" value="Up/Down"/>
+                  </StringArray>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Bar"/>
+                <Property name="toolTipText" type="java.lang.String" value="Set the chart type"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[48, 20]"/>
+                </Property>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="barChartMultipleValuesJRadioButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JRadioButton" name="areaChartMultipleValuesJRadioButton">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="buttonGroupMultipleValues"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Area"/>
-                <Property name="opaque" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="areaChartMultipleValuesJRadioButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="multipleValuesJComboBoxActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -281,21 +268,15 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="lineChartMultipleDataSeriesJRadioButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="verticalPlotMultipleDataSeriesJCheckBox" linkSize="7" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="areaChartMultipleDataSeriesJRadioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="barChartMultipleDataSeriesJRadioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="stackedBarChartMultipleDataSeriesJRadioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="pieChartMultipleDataSeriesJRadioButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="multipleDataSeriesJComboBox" linkSize="7" pref="87" max="32767" attributes="1"/>
                           </Group>
-                          <Component id="multipleDataSeriesJScrollPane" alignment="1" pref="355" max="32767" attributes="0"/>
+                          <Component id="multipleDataSeriesJScrollPane" alignment="0" min="-2" pref="353" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -303,16 +284,13 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="multipleDataSeriesJScrollPane" pref="262" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                      <Component id="multipleDataSeriesJScrollPane" pref="259" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="barChartMultipleDataSeriesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="stackedBarChartMultipleDataSeriesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="pieChartMultipleDataSeriesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="areaChartMultipleDataSeriesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lineChartMultipleDataSeriesJRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="multipleDataSeriesJComboBox" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="verticalPlotMultipleDataSeriesJCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -346,65 +324,40 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JRadioButton" name="lineChartMultipleDataSeriesJRadioButton">
+            <Component class="javax.swing.JComboBox" name="multipleDataSeriesJComboBox">
               <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="buttonGroupMultipleDataSeries"/>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="8">
+                    <StringItem index="0" value="Line"/>
+                    <StringItem index="1" value="Area"/>
+                    <StringItem index="2" value="Bar"/>
+                    <StringItem index="3" value="Stack"/>
+                    <StringItem index="4" value="Stack %"/>
+                    <StringItem index="5" value="Box"/>
+                    <StringItem index="6" value="Pie"/>
+                    <StringItem index="7" value="Up/Down"/>
+                  </StringArray>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Line"/>
+                <Property name="toolTipText" type="java.lang.String" value="Set the chart type"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[48, 20]"/>
+                </Property>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lineChartMultipleDataSeriesJRadioButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="multipleDataSeriesJComboBoxActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="barChartMultipleDataSeriesJRadioButton">
+            <Component class="javax.swing.JCheckBox" name="verticalPlotMultipleDataSeriesJCheckBox">
               <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="buttonGroupMultipleDataSeries"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Bar"/>
-                <Property name="opaque" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="barChartMultipleDataSeriesJRadioButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JRadioButton" name="pieChartMultipleDataSeriesJRadioButton">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="buttonGroupMultipleDataSeries"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Pie"/>
-                <Property name="opaque" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pieChartMultipleDataSeriesJRadioButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JRadioButton" name="stackedBarChartMultipleDataSeriesJRadioButton">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="buttonGroupMultipleDataSeries"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Stack"/>
-                <Property name="opaque" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stackedBarChartMultipleDataSeriesJRadioButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JRadioButton" name="areaChartMultipleDataSeriesJRadioButton">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="buttonGroupMultipleDataSeries"/>
-                </Property>
                 <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Area"/>
+                <Property name="text" type="java.lang.String" value="Vertical"/>
+                <Property name="toolTipText" type="java.lang.String" value="Set the orientation of the charts"/>
+                <Property name="iconTextGap" type="int" value="8"/>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="areaChartMultipleDataSeriesJRadioButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verticalPlotMultipleDataSeriesJCheckBoxActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

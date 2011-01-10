@@ -19,7 +19,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * A renderer for displaying a JSparklines bar chart inside a table cell.
- * Assumes that the cell values are of type Double or Integer.
+ * Assumes that the cell values are of type Integer, Short, Byte, Long,
+ * Double or Float.
  *
  * @author Harald Barsnes
  */
@@ -168,7 +169,12 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
         // if show numbers, format as number and return
         if (showNumbers) {
 
-            if (value instanceof Double) {
+            if (value instanceof Double || value instanceof Float) {
+
+                if (value instanceof Float) {
+                    value = ((Float) value).doubleValue();
+                }
+
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, roundDouble(((Double) value).doubleValue(), 2),
                         isSelected, hasFocus, row, column);
 
@@ -176,7 +182,19 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
                     c.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 8));
                 }
 
-            } else {
+            } else if (value instanceof Integer ||
+                    value instanceof Short ||
+                    value instanceof Long ||
+                    value instanceof Short) {
+
+                if (value instanceof Short) {
+                    value = ((Short) value).intValue();
+                } else if (value instanceof Long) {
+                    value = ((Long) value).intValue();
+                } else if (value instanceof Short) {
+                    value = ((Short) value).intValue();
+                }
+
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, (Integer) value,
                         isSelected, hasFocus, row, column);
             }
@@ -187,7 +205,11 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
         }
 
         // set the tooltip text
-        if (value instanceof Double) {
+        if (value instanceof Double || value instanceof Float) {
+
+            if (value instanceof Float) {
+                value = ((Float) value).doubleValue();
+            }
 
             if (Math.abs(new Double("" + value)) < tooltipLowerValue) {
                 this.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 8));
@@ -207,13 +229,31 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
         // create the bar chart
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        if (value instanceof Double) {
+        if (value instanceof Double || value instanceof Float) {
+
+            if (value instanceof Float) {
+                value = ((Float) value).doubleValue();
+            }
+
             if (((Double) value).doubleValue() < minimumChartValue && ((Double) value).doubleValue() > 0) {
                 dataset.addValue(minimumChartValue, "1", "1");
             } else {
                 dataset.addValue(((Double) value), "1", "1");
             }
-        } else {
+
+        } else if (value instanceof Integer ||
+                value instanceof Short ||
+                value instanceof Long ||
+                value instanceof Short) {
+
+            if (value instanceof Short) {
+                value = ((Short) value).intValue();
+            } else if (value instanceof Long) {
+                value = ((Long) value).intValue();
+            } else if (value instanceof Short) {
+                value = ((Short) value).intValue();
+            }
+
             dataset.addValue(((Integer) value), "1", "1");
         }
 
@@ -238,15 +278,33 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
         plot.setRangeGridlinesVisible(false);
 
         // set up the chart renderer
-        CategoryItemRenderer renderer;
+        CategoryItemRenderer renderer = null;
 
-        if (value instanceof Double) {
+        if (value instanceof Double || value instanceof Float) {
+
+            if (value instanceof Float) {
+                value = ((Float) value).doubleValue();
+            }
+
             if (((Double) value).doubleValue() >= 0) {
                 renderer = new BarChartColorRenderer(positiveValuesColor);
             } else {
                 renderer = new BarChartColorRenderer(negativeValuesColor);
             }
-        } else {
+
+        } else if (value instanceof Integer ||
+                value instanceof Short ||
+                value instanceof Long ||
+                value instanceof Short) {
+
+            if (value instanceof Short) {
+                value = ((Short) value).intValue();
+            } else if (value instanceof Long) {
+                value = ((Long) value).intValue();
+            } else if (value instanceof Short) {
+                value = ((Short) value).intValue();
+            }
+
             if (((Integer) value).intValue() >= 0) {
                 renderer = new BarChartColorRenderer(positiveValuesColor);
             } else {
