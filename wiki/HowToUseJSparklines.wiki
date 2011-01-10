@@ -6,6 +6,7 @@ Using *JSparklines* is very easy and only requires a couple of lines of code. Be
  * [#Single_Values Single Values]
  * [#Multiple_Values Multiple Values]
  * [#Multiple_Data_Series Multiple Data Series]
+ * [#Adding_Reference_Lines_and_Areas Adding Reference Lines and Areas]
  * [#Maven_Dependency Maven Dependency]
 
 For the complete source code see the *JSparklines* demo found with the source code. 
@@ -148,6 +149,44 @@ multipleDataSeriesJTable.getColumn("Change").setCellRenderer(
 
  * *Note* that cells with JSparklines with multiple values are NOT editable.
  * *Note* that the chart type, the maximum and minimum values, the line width for line charts etc can be change later by using the and setPlotType(...), setMaxValue(...), setMinValue(...), setLineWidth(...), etc, methods in JSparklinesTableCellRenderer.
+
+[#Using_JSparklines Go to top of page]
+
+----
+
+== Adding Reference Lines and Areas ==
+
+Often it can be helpfull to add reference lines or areas to the charts to make them easier to compare. In *JSparklines* this is very easy:
+
+{{{
+    // get the JSparklines cell renderer
+    JSparklinesTableCellRenderer tempRenderer = ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("My Column").getCellRenderer());
+    
+    // add the reference
+    tempRenderer.addReferenceArea(
+        "My Reference",               // the reference label
+        4,                            // the start value
+        6,                            // the end value
+        Color.LIGHT_GRAY,             // the color to use
+        0.5f);                        // the alpha level
+
+    // repaint the chart
+    myJTable.revalidate();
+    myJTable.repaint();
+}}}
+
+Removing the reference is equally straightforward:
+
+{{{
+    // get the JSparklines cell renderer
+    JSparklinesTableCellRenderer tempRenderer = ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("My Column").getCellRenderer());
+
+    // remove the reference
+    tempRenderer.removeReferenceArea("My Reference");
+}}}
+
+To add a line reference instead if an area reference, simply use the addReferenceLine(...) method instead.
+
 
 [#Using_JSparklines Go to top of page]
 
