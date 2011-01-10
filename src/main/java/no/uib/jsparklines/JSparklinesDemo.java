@@ -76,7 +76,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         // note: JSparklines with multiple values are NOT editable, so remember to set the columns as 'not editable' in the JTable
         multipleValuesJTable.getColumn("Change").setCellRenderer(new JSparklinesTableCellRenderer(JSparklinesTableCellRenderer.PlotType.lineChart, PlotOrientation.VERTICAL, 0.0, maxValue));
 
-
         // add data to the multiple data series example
         addDataMultipleDataSeries(maxValue);
 
@@ -94,6 +93,9 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJTable.getTableHeader().setReorderingAllowed(false);
         multipleValuesJTable.getTableHeader().setReorderingAllowed(false);
         multipleDataSeriesJTable.getTableHeader().setReorderingAllowed(false);
+
+        // enable sorting on the single values table by clicking the column headers
+        singleValuesJTable.setAutoCreateRowSorter(true);
 
         // increase the row height in the tables for bigger sparkline plots
         multipleValuesJTable.setRowHeight(30);
@@ -280,13 +282,12 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         multipleValuesJPanel = new javax.swing.JPanel();
         multipleValuesJScrollPane = new javax.swing.JScrollPane();
         multipleValuesJTable = new javax.swing.JTable();
-        verticalPlotMultipleValuesJCheckBox = new javax.swing.JCheckBox();
         multipleValuesJComboBox = new javax.swing.JComboBox();
+        referenceMultipleValuesJCheckBox = new javax.swing.JCheckBox();
         multipleDataSeriesJPanel = new javax.swing.JPanel();
         multipleDataSeriesJScrollPane = new javax.swing.JScrollPane();
         multipleDataSeriesJTable = new javax.swing.JTable();
         multipleDataSeriesJComboBox = new javax.swing.JComboBox();
-        verticalPlotMultipleDataSeriesJCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JSparklines Demo");
@@ -339,7 +340,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(showJSparklinesJCheckBox)
-                    .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE))
+                    .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
                 .addContainerGap())
         );
         singleValuesJPanelLayout.setVerticalGroup(
@@ -348,7 +349,8 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(showJSparklinesJCheckBox))
+                .addComponent(showJSparklinesJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         multipleValuesJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Multiple Values"));
@@ -383,17 +385,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         multipleValuesJTable.setSelectionBackground(new java.awt.Color(204, 204, 204));
         multipleValuesJScrollPane.setViewportView(multipleValuesJTable);
 
-        verticalPlotMultipleValuesJCheckBox.setSelected(true);
-        verticalPlotMultipleValuesJCheckBox.setText("Vertical");
-        verticalPlotMultipleValuesJCheckBox.setToolTipText("Set the orientation of the charts");
-        verticalPlotMultipleValuesJCheckBox.setIconTextGap(8);
-        verticalPlotMultipleValuesJCheckBox.setOpaque(false);
-        verticalPlotMultipleValuesJCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                verticalPlotMultipleValuesJCheckBoxActionPerformed(evt);
-            }
-        });
-
         multipleValuesJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Line", "Area", "Bar", "Box", "Up/Down" }));
         multipleValuesJComboBox.setToolTipText("Set the chart type");
         multipleValuesJComboBox.setMaximumSize(new java.awt.Dimension(48, 20));
@@ -404,6 +395,16 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             }
         });
 
+        referenceMultipleValuesJCheckBox.setText("Reference");
+        referenceMultipleValuesJCheckBox.setToolTipText("Show reference area");
+        referenceMultipleValuesJCheckBox.setIconTextGap(8);
+        referenceMultipleValuesJCheckBox.setOpaque(false);
+        referenceMultipleValuesJCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                referenceMultipleValuesJCheckBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout multipleValuesJPanelLayout = new javax.swing.GroupLayout(multipleValuesJPanel);
         multipleValuesJPanel.setLayout(multipleValuesJPanelLayout);
         multipleValuesJPanelLayout.setHorizontalGroup(
@@ -411,25 +412,23 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleValuesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(multipleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                    .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                     .addGroup(multipleValuesJPanelLayout.createSequentialGroup()
-                        .addComponent(verticalPlotMultipleValuesJCheckBox)
+                        .addComponent(referenceMultipleValuesJCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(multipleValuesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-
-        multipleValuesJPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {multipleValuesJComboBox, verticalPlotMultipleValuesJCheckBox});
-
         multipleValuesJPanelLayout.setVerticalGroup(
             multipleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleValuesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(multipleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(multipleValuesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(verticalPlotMultipleValuesJCheckBox)))
+                    .addComponent(referenceMultipleValuesJCheckBox))
+                .addContainerGap())
         );
 
         multipleDataSeriesJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Multiple Data Series"));
@@ -476,43 +475,27 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             }
         });
 
-        verticalPlotMultipleDataSeriesJCheckBox.setSelected(true);
-        verticalPlotMultipleDataSeriesJCheckBox.setText("Vertical");
-        verticalPlotMultipleDataSeriesJCheckBox.setToolTipText("Set the orientation of the charts");
-        verticalPlotMultipleDataSeriesJCheckBox.setIconTextGap(8);
-        verticalPlotMultipleDataSeriesJCheckBox.setOpaque(false);
-        verticalPlotMultipleDataSeriesJCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                verticalPlotMultipleDataSeriesJCheckBoxActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout multipleDataSeriesJPanelLayout = new javax.swing.GroupLayout(multipleDataSeriesJPanel);
         multipleDataSeriesJPanel.setLayout(multipleDataSeriesJPanelLayout);
         multipleDataSeriesJPanelLayout.setHorizontalGroup(
             multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleDataSeriesJPanelLayout.createSequentialGroup()
+                .addContainerGap(276, Short.MAX_VALUE)
+                .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(multipleDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(multipleDataSeriesJPanelLayout.createSequentialGroup()
-                        .addComponent(verticalPlotMultipleDataSeriesJCheckBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(multipleDataSeriesJComboBox, 0, 87, Short.MAX_VALUE))
-                    .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        multipleDataSeriesJPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {multipleDataSeriesJComboBox, verticalPlotMultipleDataSeriesJCheckBox});
-
         multipleDataSeriesJPanelLayout.setVerticalGroup(
             multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(verticalPlotMultipleDataSeriesJCheckBox)))
+                .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout gradientPanelLayout = new javax.swing.GroupLayout(gradientPanel);
@@ -529,7 +512,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        gradientPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {multipleValuesJPanel, singleValuesJPanel});
+        gradientPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {multipleDataSeriesJPanel, multipleValuesJPanel, singleValuesJPanel});
 
         gradientPanelLayout.setVerticalGroup(
             gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -537,8 +520,8 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(singleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(singleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -594,25 +577,16 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         }
 
         // update the chart orientation
-        if (verticalPlotMultipleValuesJCheckBox.isSelected()) {
-            ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setPlotOrientation(PlotOrientation.VERTICAL);
-        } else {
+        if (selectedPlotType.equalsIgnoreCase("Box")) {
             ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setPlotOrientation(PlotOrientation.HORIZONTAL);
+        } else {
+            ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).setPlotOrientation(PlotOrientation.VERTICAL);
         }
 
         // repaint the table to update the plot
         multipleValuesJTable.revalidate();
         multipleValuesJTable.repaint();
     }//GEN-LAST:event_multipleValuesJComboBoxActionPerformed
-
-    /**
-     * Updates the plot orientation.
-     * 
-     * @param evt
-     */
-    private void verticalPlotMultipleValuesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verticalPlotMultipleValuesJCheckBoxActionPerformed
-        multipleValuesJComboBoxActionPerformed(null);
-    }//GEN-LAST:event_verticalPlotMultipleValuesJCheckBoxActionPerformed
 
     /**
      * Updates the plot type.
@@ -652,10 +626,10 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         }
 
         // update the chart orientation
-        if (verticalPlotMultipleDataSeriesJCheckBox.isSelected()) {
-            ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotOrientation(PlotOrientation.VERTICAL);
-        } else {
+        if (selectedPlotType.equalsIgnoreCase("Box")) {
             ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotOrientation(PlotOrientation.HORIZONTAL);
+        } else {
+            ((JSparklinesTableCellRenderer) multipleDataSeriesJTable.getColumn("Change").getCellRenderer()).setPlotOrientation(PlotOrientation.VERTICAL);
         }
 
         // repaint the table to update the plot
@@ -664,13 +638,21 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     }//GEN-LAST:event_multipleDataSeriesJComboBoxActionPerformed
 
     /**
-     * Updates the plot orientation.
+     * Add or remove the reference line from the multiple values plots.
      * 
      * @param evt
      */
-    private void verticalPlotMultipleDataSeriesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verticalPlotMultipleDataSeriesJCheckBoxActionPerformed
-        multipleDataSeriesJComboBoxActionPerformed(null);
-    }//GEN-LAST:event_verticalPlotMultipleDataSeriesJCheckBoxActionPerformed
+    private void referenceMultipleValuesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_referenceMultipleValuesJCheckBoxActionPerformed
+        if (referenceMultipleValuesJCheckBox.isSelected()) {
+            ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).addReferenceArea("Middle", 4, 6, Color.LIGHT_GRAY, 0.5f);
+        } else {
+            ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).removeReferenceArea("Middle");
+        }
+
+        // repaint the table to update the plot
+        multipleValuesJTable.revalidate();
+        multipleValuesJTable.repaint();
+    }//GEN-LAST:event_referenceMultipleValuesJCheckBoxActionPerformed
 
     /**
      * Starts the JSparklines demo.
@@ -695,12 +677,11 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     private javax.swing.JPanel multipleValuesJPanel;
     private javax.swing.JScrollPane multipleValuesJScrollPane;
     private javax.swing.JTable multipleValuesJTable;
+    private javax.swing.JCheckBox referenceMultipleValuesJCheckBox;
     private javax.swing.JCheckBox showJSparklinesJCheckBox;
     private javax.swing.JPanel singleValuesJPanel;
     private javax.swing.JScrollPane singleValuesJScrollPane;
     private javax.swing.JTable singleValuesJTable;
-    private javax.swing.JCheckBox verticalPlotMultipleDataSeriesJCheckBox;
-    private javax.swing.JCheckBox verticalPlotMultipleValuesJCheckBox;
     // End of variables declaration//GEN-END:variables
 
     /**

@@ -1,4 +1,4 @@
-package no.uib.jsparklines.renderers;
+package no.uib.jsparklines.extra;
 
 import java.awt.Component;
 import javax.swing.ImageIcon;
