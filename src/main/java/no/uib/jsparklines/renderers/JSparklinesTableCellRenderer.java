@@ -16,19 +16,25 @@ import no.uib.jsparklines.data.JSparklinesDataset;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.IntervalMarker;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.chart.renderer.category.StackedBarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.Layer;
 
 /**
  * A renderer for displaying JSparklines plots consisting of multiple values
@@ -43,7 +49,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     public enum PlotType {
 
-        barChart, lineChart, pieChart, stackedBarChart, areaChart
+        barChart, lineChart, pieChart, stackedBarChart, stackedPercentBarChart, areaChart, boxPlot, upDownChart
     }
 
     /**
@@ -85,10 +91,33 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     private int lineWidth = 5;
     /**
-     * Controls whether the stacked bar charts display each item value as a
-     * percentage (so that the stacked bars add to 100%).
+     * The color used to highlight the maximum values in the chart.
      */
-    private boolean renderStackedBarChartsAsPercentages = false;
+    private Color maxValueColor = new Color(251, 51, 51);;
+    /**
+     * The color used to highlight the minimum values in the chart.
+     */
+    private Color minValueColor = new Color(51, 51, 251);
+    /**
+     * The color used for the 'up values' in the Up/Down charts.
+     */
+    private Color upColor = new Color(251, 51, 51);;
+    /**
+     * The color used for the 'down values' in the Up/Down charts.
+     */
+    private Color downColor = new Color(51, 51, 251);
+    /**
+     * If true the max and min values in line and area plots are
+     * highlighted.
+     *
+     * Note: experimental feature, not yet finished.
+     */
+    private boolean highlightMaxAndMin = false;
+    /***
+     * The width of the max and min highlights.
+     * See highlightMaxAndMin above.
+     */
+    private double widthOfMaxAndMinHighlight = 0.4;
 
     /**
      * Creates a new JSparkLinesTableCellRenderer. Used this constructor when
@@ -209,21 +238,93 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Returns true if the stacked bar charts are plotted as percentages.
+     * Get the color used to highlight the maximum values in the charts.
      *
-     * @return true if the stacked bar charts are plotted as percentages
+     * @return the color used to highlight the maximum values in the charts
      */
-    public boolean isRendersStackedChartsAsPercentages() {
-        return renderStackedBarChartsAsPercentages;
+    public Color getMaxValueColor() {
+        return maxValueColor;
     }
 
     /**
-     * Set if the stacked bar charts are to be plotted as percentages.
+     * Set the color used to highlight the maximum values in the charts.
      *
-     * @param rendersStackedChartsAsPercentages if the stacked bar charts are to be plotted as percentages
+     * @param maxValueColor the color to set
      */
-    public void setRendersStackedChartsAsPercentages(boolean rendersStackedChartsAsPercentages) {
-        this.renderStackedBarChartsAsPercentages = rendersStackedChartsAsPercentages;
+    public void setMaxValueColor(Color maxValueColor) {
+        this.maxValueColor = maxValueColor;
+    }
+
+    /**
+     * Get the color used to highlight the minimum values in the charts.
+     *
+     * @return the color used to highlight the minimum values in the charts
+     */
+    public Color getMinValueColor() {
+        return minValueColor;
+    }
+
+    /**
+     * Set the color used to highlight the minimum values in the charts.
+     *
+     * @param minValueColor the color to set
+     */
+    public void setMinValueColor(Color minValueColor) {
+        this.minValueColor = minValueColor;
+    }
+
+    /**
+     * Get the color used for the 'up values' in the Up/Down charts.
+     *
+     * @return tthe color used for the 'up values' in the Up/Down charts
+     */
+    public Color getUpColor() {
+        return upColor;
+    }
+
+    /**
+     * Set the color used for the 'up values' in the Up/Down charts.
+     *
+     * @param upColor the color for the 'up values' in the Up/Down charts
+     */
+    public void setUpColor(Color upColor) {
+        this.upColor = upColor;
+    }
+
+   /**
+     * Get the color used for the 'down values' in the Up/Down charts.
+     *
+     * @return tthe color used for the 'down values' in the Up/Down charts
+     */
+    public Color getDownColor() {
+        return downColor;
+    }
+
+    /**
+     * Set the color used for the 'down values' in the Up/Down charts.
+     *
+     * @param upColor the color for the 'down values' in the Up/Down charts
+     */
+    public void setDownColor(Color downColor) {
+        this.downColor = downColor;
+    }
+
+    /**
+     * Get the current plot orientation.
+     *
+     * @return the current plot orientation
+     */
+    public PlotOrientation getPlotOrientation() {
+        return plotOrientation;
+    }
+
+    /**
+     * Set the plot orientation.
+     *
+     * @param plotOrientation the new plot orientation
+     */
+    public void setPlotOrientation(PlotOrientation plotOrientation) {
+        this.plotOrientation = plotOrientation;
     }
 
     /**
@@ -329,6 +430,12 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 ((AreaRenderer) renderer).setOutline(true);
             }
 
+            // variables for storing the max and min values
+            double plotMaxValue = Double.MIN_VALUE;
+            double plotMinValue = Double.MAX_VALUE;
+            int indexOfMaxValue = -1;
+            int indexOfMinValue = -1;
+
             XYSeriesCollection lineChartDataset = new XYSeriesCollection();
 
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {
@@ -345,6 +452,16 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
                     tempSeries.add(j, sparklineDataSeries.getData().get(j));
+
+                    if (sparklineDataSeries.getData().get(j) > plotMaxValue) {
+                        plotMaxValue = sparklineDataSeries.getData().get(j);
+                        indexOfMaxValue = j;
+                    }
+
+                    if (sparklineDataSeries.getData().get(j) < plotMinValue) {
+                        plotMinValue = sparklineDataSeries.getData().get(j);
+                        indexOfMinValue = j;
+                    }
                 }
 
                 lineChartDataset.addSeries(tempSeries);
@@ -364,6 +481,19 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             // fine tune the chart properites
             XYPlot plot = chart.getXYPlot();
+
+            // add markers of max and min
+            // note: experimental feature, not finished
+            if (highlightMaxAndMin) {
+                plot.addDomainMarker(new IntervalMarker(
+                        indexOfMaxValue - widthOfMaxAndMinHighlight, indexOfMaxValue + widthOfMaxAndMinHighlight,
+                        maxValueColor.brighter().brighter().brighter(),
+                        new BasicStroke(1.0f), Color.lightGray, new BasicStroke(0.1f), 0.5f), Layer.BACKGROUND);
+                plot.addDomainMarker(new IntervalMarker(
+                        indexOfMinValue - widthOfMaxAndMinHighlight, indexOfMinValue + widthOfMaxAndMinHighlight,
+                        minValueColor.brighter().brighter().brighter(),
+                        new BasicStroke(1.0f), Color.lightGray, new BasicStroke(0.1f), 0.5f), Layer.BACKGROUND);
+            }
 
             // set the axis range
             if (maxValue > 0) {
@@ -424,7 +554,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 piePlot.setSectionPaint(sparklineDataset.getData().get(i).getSeriesLabel(), sparklineDataset.getData().get(i).getSeriesColor());
             }
 
-        } else if (plotType == PlotType.stackedBarChart) {
+        } else if (plotType == PlotType.stackedBarChart || plotType == PlotType.stackedPercentBarChart) {
 
             /////////////////////
             // STACKED BAR CHART
@@ -434,7 +564,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             StackedBarRenderer renderer = new StackedBarRenderer();
             renderer.setShadowVisible(false);
-            //renderer.setDefaultBarPainter(new StandardBarPainter());
 
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {
 
@@ -457,16 +586,14 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             // fine tune the chart properites
             CategoryPlot plot = chart.getCategoryPlot();
 
-            if (renderStackedBarChartsAsPercentages) {
-                renderer.setRenderAsPercentages(true); // @TODO: make this a user choice??
+            if (plotType == PlotType.stackedPercentBarChart) {
+                renderer.setRenderAsPercentages(true);
             } else {
                 // set the axis range
                 if (maxValue > 0) {
                     plot.getRangeAxis().setRange(minValue * sparklineDataset.getData().size(), maxValue * sparklineDataset.getData().size());
                 }
             }
-
-
 
             // add the dataset
             plot.setDataset(barChartDataset);
@@ -478,6 +605,107 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             plot.setDomainGridlinesVisible(false);
 
             // set up the chart renderer
+            plot.setRenderer(renderer);
+
+        } else if (plotType == PlotType.boxPlot) {
+
+            //////////////
+            // BOX PLOT
+            //////////////
+
+            DefaultBoxAndWhiskerCategoryDataset boxPlotDataset = new DefaultBoxAndWhiskerCategoryDataset();
+
+            BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+
+            for (int i = 0; i < sparklineDataset.getData().size(); i++) {
+
+                JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
+
+                ArrayList<Double> listValues = new ArrayList();
+
+                tooltip += "<font color=rgb("
+                        + sparklineDataSeries.getSeriesColor().getRed() + ","
+                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                        + sparklineDataSeries.getSeriesLabel() + "<br>";
+
+                for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
+                    listValues.add(sparklineDataSeries.getData().get(j));
+                    renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
+                }
+
+                boxPlotDataset.add(listValues, sparklineDataSeries.getSeriesLabel(), "1");
+            }
+
+            renderer.setMeanVisible(false);
+            renderer.setMaximumBarWidth(0.5);
+
+            CategoryPlot plot = new CategoryPlot(boxPlotDataset, new CategoryAxis(), new NumberAxis(), renderer);
+
+            // hide unwanted chart details
+            plot.getRangeAxis().setVisible(false);
+            plot.getDomainAxis().setVisible(false);
+            plot.setRangeGridlinesVisible(false);
+            plot.setDomainGridlinesVisible(false);
+
+            plot.setOrientation(plotOrientation);
+
+            chart = new JFreeChart(
+                    null,
+                    null,
+                    plot,
+                    false);
+
+        } else if (plotType == PlotType.upDownChart) {
+
+            /////////////////
+            // UP/DOWN CHART
+            /////////////////
+
+            DefaultCategoryDataset barChartDataset = new DefaultCategoryDataset();
+
+            for (int i = 0; i < sparklineDataset.getData().size(); i++) {
+
+                JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
+
+                tooltip += "<font color=rgb("
+                        + sparklineDataSeries.getSeriesColor().getRed() + ","
+                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                        + sparklineDataSeries.getSeriesLabel() + "<br>";
+
+                for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
+
+                    if (sparklineDataSeries.getData().get(j) > 0) {
+                        barChartDataset.addValue(1, "1", new Integer(dataCounter++));
+                        colors.add(upColor);
+                    } else {
+                        barChartDataset.addValue(-1, "1", new Integer(dataCounter++));
+                        colors.add(downColor);
+                    }
+                }
+            }
+
+            chart = ChartFactory.createBarChart(null, null, null, barChartDataset, plotOrientation, false, false, false);
+
+            // fine tune the chart properites
+            CategoryPlot plot = chart.getCategoryPlot();
+
+            // set the axis range
+            plot.getRangeAxis().setRange(-1, 1);
+
+            // add the dataset
+            plot.setDataset(barChartDataset);
+
+            // hide unwanted chart details
+            plot.getRangeAxis().setVisible(false);
+            plot.getDomainAxis().setVisible(false);
+            plot.setRangeGridlinesVisible(false);
+            plot.setDomainGridlinesVisible(false);
+
+            // set up the chart renderer
+            BarChartColorRenderer renderer = new BarChartColorRenderer(colors);
+            renderer.setShadowVisible(false);
             plot.setRenderer(renderer);
         }
 
