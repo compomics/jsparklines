@@ -44,7 +44,7 @@ This effectively sets the lower range to zero.
 
 *Notes:*
 
- * *Note* that when using JSparklines in this way the underlaying values can be edited as normal by double clicking the cell to edit.
+ * *Note* that when using *JSparklines* in this way the underlaying values can be edited as normal by double clicking the cell to edit.
  * *Note* that it is possible to change the maximum and minimum values later by using the setMaxValue(...) and setMinValue(...) methods in the renderer.
  * *Note* that the underlying values can be shown by using the showNumbers(...) method.
 
@@ -88,7 +88,7 @@ multipleValuesJTable.getColumn("Change").setCellRenderer(
 
 *Notes:*
 
- * *Note* that cells with JSparklines with multiple values are NOT editable.
+ * *Note* that cells with *JSparklines* with multiple values are NOT editable.
  * *Note* that the chart type, the maximum and minimum values, the line width for line charts etc can be change later by using the and setPlotType(...), setMaxValue(...), setMinValue(...), setLineWidth(...), etc, methods in JSparklinesTableCellRenderer.
 
 [#Using_JSparklines Go to top of page]
@@ -97,7 +97,7 @@ multipleValuesJTable.getColumn("Change").setCellRenderer(
 
 == Multiple Data Series ==
 
-Displaying more than one data series is also very simple with JSparklines. Simply add multiple JSparklineDataSeries to the JSparklineDataset:
+Displaying more than one data series is also very simple with *JSparklines*. Simply add multiple JSparklineDataSeries to the JSparklineDataset:
 
 {{{
 // add the data points for the first data series
@@ -147,7 +147,7 @@ multipleDataSeriesJTable.getColumn("Change").setCellRenderer(
 
 *Notes:*
 
- * *Note* that cells with JSparklines with multiple values are NOT editable.
+ * *Note* that cells with *JSparklines* with multiple values are NOT editable.
  * *Note* that the chart type, the maximum and minimum values, the line width for line charts etc can be change later by using the and setPlotType(...), setMaxValue(...), setMinValue(...), setLineWidth(...), etc, methods in JSparklinesTableCellRenderer.
 
 [#Using_JSparklines Go to top of page]
