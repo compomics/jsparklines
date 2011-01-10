@@ -466,6 +466,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         multipleDataSeriesJScrollPane.setViewportView(multipleDataSeriesJTable);
 
         multipleDataSeriesJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Line", "Area", "Bar", "Stack", "Stack %", "Box", "Pie", "Up/Down" }));
+        multipleDataSeriesJComboBox.setSelectedIndex(1);
         multipleDataSeriesJComboBox.setToolTipText("Set the chart type");
         multipleDataSeriesJComboBox.setMaximumSize(new java.awt.Dimension(48, 20));
         multipleDataSeriesJComboBox.setOpaque(false);

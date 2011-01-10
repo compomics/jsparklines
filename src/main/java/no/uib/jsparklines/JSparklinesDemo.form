@@ -338,6 +338,7 @@
                     <StringItem index="7" value="Up/Down"/>
                   </StringArray>
                 </Property>
+                <Property name="selectedIndex" type="int" value="1"/>
                 <Property name="toolTipText" type="java.lang.String" value="Set the chart type"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[48, 20]"/>
