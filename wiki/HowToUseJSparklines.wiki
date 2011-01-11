@@ -88,7 +88,7 @@ multipleValuesJTable.getColumn("Change").setCellRenderer(
 
 *Notes:*
 
- * *Note* that cells with *JSparklines* with multiple values are NOT editable.
+ * *Note* that cells with *JSparklines* with multiple values are NOT editable, so please set columns using *JSparklines* non-editable.
  * *Note* that the chart type, the maximum and minimum values, the line width for line charts etc can be change later by using the and setPlotType(...), setMaxValue(...), setMinValue(...), setLineWidth(...), etc, methods in JSparklinesTableCellRenderer.
 
 [#Using_JSparklines Go to top of page]
@@ -147,7 +147,7 @@ multipleDataSeriesJTable.getColumn("Change").setCellRenderer(
 
 *Notes:*
 
- * *Note* that cells with *JSparklines* with multiple values are NOT editable.
+ * *Note* that cells with *JSparklines* with multiple values are NOT editable, so please set columns using *JSparklines* non-editable.
  * *Note* that the chart type, the maximum and minimum values, the line width for line charts etc can be change later by using the and setPlotType(...), setMaxValue(...), setMinValue(...), setLineWidth(...), etc, methods in JSparklinesTableCellRenderer.
 
 [#Using_JSparklines Go to top of page]
