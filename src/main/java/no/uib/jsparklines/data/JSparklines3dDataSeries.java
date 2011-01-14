@@ -5,16 +5,16 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 /**
- * Object containing a sparkline data series to be added to a JSparklinesDataset.
+ * Object containing a 3D sparkline data series to be added to a JSparklines3dDataset.
  *
  * @author Harald Barsnes
  */
-public class JSparklinesDataSeries {
+public class JSparklines3dDataSeries {
 
     /**
      * The data to plot.
      */
-    private ArrayList<Double> data;
+    private ArrayList<XYZDataPoint> data;
     /**
      * The color to use for this data series.
      */
@@ -25,13 +25,13 @@ public class JSparklinesDataSeries {
     private String seriesLabel;
 
     /**
-     * Creates a new JSparklinesDataSeries.
+     * Creates a new JSparklines3dDataSeries.
      *
-     * @param data the data to plot
-     * @param seriesColor the color to use for the series
-     * @param seriesLabel the data series label
+     * @param data          the data to plot
+     * @param seriesColor   the color to use for the series
+     * @param seriesLabel   the data series label
      */
-    public JSparklinesDataSeries(ArrayList<Double> data, Color seriesColor, String seriesLabel) {
+    public JSparklines3dDataSeries(ArrayList<XYZDataPoint> data, Color seriesColor, String seriesLabel) {
         this.data = data;
         this.seriesColor = seriesColor;
         this.seriesLabel = seriesLabel;
@@ -42,7 +42,7 @@ public class JSparklinesDataSeries {
      *
      * @return the sparkline data
      */
-    public ArrayList<Double> getData() {
+    public ArrayList<XYZDataPoint> getData() {
         return data;
     }
 
@@ -51,7 +51,7 @@ public class JSparklinesDataSeries {
      *
      * @param data the data to set
      */
-    public void setData(ArrayList<Double> data) {
+    public void setData(ArrayList<XYZDataPoint> data) {
         this.data = data;
     }
 

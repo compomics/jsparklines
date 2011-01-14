@@ -137,7 +137,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     private HashMap<String, ReferenceArea> referenceAreas;
 
     /**
-     * Creates a new JSparkLinesTableCellRenderer. Used this constructor when
+     * Creates a new JSparkLinesTableCellRenderer. Use this constructor when
      * creating pie charts where no upper range is used.
      *
      * @param plotType          the plot type
@@ -148,7 +148,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Creates a new JSparkLinesTableCellRenderer. Used this constructor when only positive
+     * Creates a new JSparkLinesTableCellRenderer. Use this constructor when only positive
      * values are to be plotted.
      *
      * @param plotType          the plot type
@@ -162,7 +162,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Creates a new JSparkLinesTableCellRenderer. Used this constructor when only positive
+     * Creates a new JSparkLinesTableCellRenderer. Use this constructor when only positive
      * values are to be plotted.
      *
      * @param plotType          the plot type
@@ -178,7 +178,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Creates a new JSparkLinesTableCellRenderer. Used this constructor when positive
+     * Creates a new JSparkLinesTableCellRenderer. Use this constructor when positive
      * and negative values are to be plotted.
      *
      * @param plotType          the plot type
@@ -193,7 +193,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Creates a new JSparkLinesTableCellRenderer. Used this constructor when positive
+     * Creates a new JSparkLinesTableCellRenderer. Use this constructor when positive
      * and negative values are to be plotted.
      *
      * @param plotType          the plot type
@@ -288,6 +288,10 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             // fine tune the chart properites
             CategoryPlot plot = chart.getCategoryPlot();
+
+            // remove space before/after the domain axis
+            plot.getDomainAxis().setUpperMargin(0);
+            plot.getDomainAxis().setLowerMargin(0);
 
             // add reference lines, if any
             Iterator<String> allReferencesLines = referenceLines.keySet().iterator();
@@ -393,6 +397,10 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             // fine tune the chart properites
             XYPlot plot = chart.getXYPlot();
+
+            // remove space before/after the domain axis
+            plot.getDomainAxis().setUpperMargin(0);
+            plot.getDomainAxis().setLowerMargin(0);
 
             // add markers of max and min
             // note: experimental feature, not finished
@@ -516,6 +524,10 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             // fine tune the chart properites
             CategoryPlot plot = chart.getCategoryPlot();
 
+            // remove space before/after the domain axis
+            plot.getDomainAxis().setUpperMargin(0);
+            plot.getDomainAxis().setLowerMargin(0);
+
             // add reference lines, if any
             Iterator<String> allReferencesLines = referenceLines.keySet().iterator();
 
@@ -590,6 +602,10 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             CategoryPlot plot = new CategoryPlot(boxPlotDataset, new CategoryAxis(), new NumberAxis(), renderer);
 
+            // remove space before/after the domain axis
+            plot.getDomainAxis().setUpperMargin(0);
+            plot.getDomainAxis().setLowerMargin(0);
+
             // hide unwanted chart details
             plot.getRangeAxis().setVisible(false);
             plot.getDomainAxis().setVisible(false);
@@ -645,6 +661,10 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             // add the dataset
             plot.setDataset(barChartDataset);
 
+            // remove space before/after the domain axis
+            plot.getDomainAxis().setUpperMargin(0);
+            plot.getDomainAxis().setLowerMargin(0);
+
             // hide unwanted chart details
             plot.getRangeAxis().setVisible(false);
             plot.getDomainAxis().setVisible(false);
@@ -699,9 +719,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Removes all the reference lines with the given label.
-     *
-     * @param label the reference to remove
+     * Removes all the reference lines.
      */
     public void removeAllReferenceLines() {
         referenceLines = new HashMap<String, ReferenceLine>();
@@ -740,9 +758,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Removes all the reference areas with the given label.
-     *
-     * @param label the reference to remove
+     * Removes all the reference areas.
      */
     public void removeAllReferenceAreas() {
         referenceAreas = new HashMap<String, ReferenceArea>();
@@ -770,7 +786,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * Set the minimum value.
      *
-     * @param minValue the minumum  value
+     * @param minValue the minimum value
      */
     public void setMinValue(double minValue) {
         this.minValue = minValue;
