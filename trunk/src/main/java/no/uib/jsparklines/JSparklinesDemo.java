@@ -20,8 +20,12 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import no.uib.jsparklines.data.JSparklines3dDataSeries;
+import no.uib.jsparklines.data.JSparklines3dDataset;
 import no.uib.jsparklines.data.JSparklinesDataSeries;
 import no.uib.jsparklines.data.JSparklinesDataset;
+import no.uib.jsparklines.data.XYZDataPoint;
+import no.uib.jsparklines.renderers.JSparklines3dTableCellRenderer;
 import no.uib.jsparklines.renderers.JSparklinesBarChartTableCellRenderer;
 import no.uib.jsparklines.renderers.JSparklinesTableCellRenderer;
 import org.jfree.chart.plot.PlotOrientation;
@@ -61,7 +65,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         // add data to the single values example
         addDataSingleValues();
 
-        // set the JSparklines renderers for the columns containing numbers in the first example table
+        // set the JSparklines renderer for the columns containing numbers in the first example table
         // note: JSparklines with single values are editable, so the columns can be 'editable' in the JTable
         singleValuesJTable.getColumn("Fold Change").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, -5.0, 5.0, colorB, colorA));
         singleValuesJTable.getColumn("Peptides").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, 80.0, colorC));
@@ -72,16 +76,26 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         double maxValue = 10;
         addDataMultipleValues(maxValue);
 
-        // set the JSparklines renderers
+        // set the JSparklines renderer
         // note: JSparklines with multiple values are NOT editable, so remember to set the columns as 'not editable' in the JTable
         multipleValuesJTable.getColumn("Change").setCellRenderer(new JSparklinesTableCellRenderer(JSparklinesTableCellRenderer.PlotType.lineChart, PlotOrientation.VERTICAL, 0.0, maxValue));
 
         // add data to the multiple data series example
         addDataMultipleDataSeries(maxValue);
 
-        // set the JSparklines renderers
+        // set the JSparklines renderer
         // note: JSparklines with multiple values are NOT editable, so remember to set the columns as 'not editable' in the JTable
         multipleDataSeriesJTable.getColumn("Change").setCellRenderer(new JSparklinesTableCellRenderer(JSparklinesTableCellRenderer.PlotType.areaChart, PlotOrientation.VERTICAL, 0.0, maxValue));
+
+
+        // add data to the 3D dataset examples
+        int maxYValue = 100;
+        add3dData(maxYValue);
+
+        // set the JSparklines 3D renderer
+        // note: JSparklines with 3D values are NOT editable, so remember to set the columns as 'not editable' in the JTable
+        treeDimensionalDataSeriesJTable.getColumn("Spread").setCellRenderer(new JSparklines3dTableCellRenderer(
+                JSparklines3dTableCellRenderer.PlotType.bubblePlot, -10d, (double) maxYValue + 10, -10d, (double) maxYValue + 10));
     }
 
     /**
@@ -93,6 +107,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJTable.getTableHeader().setReorderingAllowed(false);
         multipleValuesJTable.getTableHeader().setReorderingAllowed(false);
         multipleDataSeriesJTable.getTableHeader().setReorderingAllowed(false);
+        treeDimensionalDataSeriesJTable.getTableHeader().setReorderingAllowed(false);
 
         // enable sorting on the single values table by clicking the column headers
         singleValuesJTable.setAutoCreateRowSorter(true);
@@ -100,6 +115,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         // increase the row height in the tables for bigger sparkline plots
         multipleValuesJTable.setRowHeight(30);
         multipleDataSeriesJTable.setRowHeight(30);
+        treeDimensionalDataSeriesJTable.setRowHeight(80);
 
         // set the maximum with of the protein columns
         multipleValuesJTable.getColumn("Protein").setMaxWidth(70);
@@ -113,10 +129,12 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJScrollPane.getViewport().setOpaque(false);
         multipleValuesJScrollPane.getViewport().setOpaque(false);
         multipleDataSeriesJScrollPane.getViewport().setOpaque(false);
+        treeDimensionalDataSeriesJScrollPane.getViewport().setOpaque(false);
 
         // set the renderer for the comboboxes
         multipleValuesJComboBox.setRenderer(new ComboBoxListCellRenderer());
         multipleDataSeriesJComboBox.setRenderer(new ComboBoxListCellRenderer());
+        treeDimensionalDataSeriesJComboBox.setRenderer(new ComboBoxListCellRenderer());
 
         // locate the dialog in the middle of the screen
         setLocationRelativeTo(null);
@@ -243,6 +261,51 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Add data to the 3D values example.
+     */
+    private void add3dData(int maxYValue) {
+
+        final int NUMBER_OF_ROWS = 3;
+        final int NUMBER_OF_VALUES = 50;
+        final int MAX_Y_VALUE = maxYValue;
+        final int MAX_Z = 15;
+
+        // ----------------------------------------
+        // create the data and add it to the table
+        // ----------------------------------------
+
+        Random random = new Random();
+
+        for (int j = 0; j < NUMBER_OF_ROWS; j++) {
+
+            ArrayList<XYZDataPoint> dataA = new ArrayList<XYZDataPoint>();
+            ArrayList<XYZDataPoint> dataB = new ArrayList<XYZDataPoint>();
+            ArrayList<XYZDataPoint> dataC = new ArrayList<XYZDataPoint>();
+
+            for (int i = 0; i < NUMBER_OF_VALUES; i++) {
+                dataA.add(new XYZDataPoint(random.nextInt(40), random.nextInt(MAX_Y_VALUE), random.nextInt(MAX_Z)));
+                dataB.add(new XYZDataPoint(30 + random.nextInt(40), random.nextInt(MAX_Y_VALUE), random.nextInt(MAX_Z)));
+                dataC.add(new XYZDataPoint(60 + random.nextInt(40), random.nextInt(MAX_Y_VALUE), random.nextInt(MAX_Z)));
+            }
+
+            JSparklines3dDataSeries sparkline3dDataseriesA = new JSparklines3dDataSeries(dataA, colorA, "Dataset A");
+            JSparklines3dDataSeries sparkline3dDataseriesB = new JSparklines3dDataSeries(dataB, colorB, "Dataset B");
+            JSparklines3dDataSeries sparkline3dDataseriesC = new JSparklines3dDataSeries(dataC, colorC, "Dataset C");
+
+            // add to dataset
+            ArrayList<JSparklines3dDataSeries> sparkLine3dDataSeriesAll = new ArrayList<JSparklines3dDataSeries>();
+            sparkLine3dDataSeriesAll.add(sparkline3dDataseriesA);
+            sparkLine3dDataSeriesAll.add(sparkline3dDataseriesB);
+            sparkLine3dDataSeriesAll.add(sparkline3dDataseriesC);
+
+            JSparklines3dDataset dataset = new JSparklines3dDataset(sparkLine3dDataSeriesAll);
+
+            // add to table
+            ((DefaultTableModel) treeDimensionalDataSeriesJTable.getModel()).addRow(new Object[]{"Protein " + (j + 1), dataset});
+        }
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -279,15 +342,20 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 return true;
             }
         };
+        multipleDataSeriesJPanel = new javax.swing.JPanel();
+        multipleDataSeriesJScrollPane = new javax.swing.JScrollPane();
+        multipleDataSeriesJTable = new javax.swing.JTable();
+        multipleDataSeriesJComboBox = new javax.swing.JComboBox();
+        treeDimensionalDataSeriesJPanel = new javax.swing.JPanel();
+        treeDimensionalDataSeriesJScrollPane = new javax.swing.JScrollPane();
+        treeDimensionalDataSeriesJTable = new javax.swing.JTable();
+        treeDimensionalDataSeriesJComboBox = new javax.swing.JComboBox();
+        reference3dValuesJCheckBox = new javax.swing.JCheckBox();
         multipleValuesJPanel = new javax.swing.JPanel();
         multipleValuesJScrollPane = new javax.swing.JScrollPane();
         multipleValuesJTable = new javax.swing.JTable();
         multipleValuesJComboBox = new javax.swing.JComboBox();
         referenceMultipleValuesJCheckBox = new javax.swing.JCheckBox();
-        multipleDataSeriesJPanel = new javax.swing.JPanel();
-        multipleDataSeriesJScrollPane = new javax.swing.JScrollPane();
-        multipleDataSeriesJTable = new javax.swing.JTable();
-        multipleDataSeriesJComboBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JSparklines Demo");
@@ -350,6 +418,154 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(showJSparklinesJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        multipleDataSeriesJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Multiple Data Series"));
+        multipleDataSeriesJPanel.setOpaque(false);
+
+        multipleDataSeriesJScrollPane.setOpaque(false);
+
+        multipleDataSeriesJTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Protein", "Change"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        multipleDataSeriesJTable.setFillsViewportHeight(true);
+        multipleDataSeriesJTable.setOpaque(false);
+        multipleDataSeriesJTable.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        multipleDataSeriesJScrollPane.setViewportView(multipleDataSeriesJTable);
+
+        multipleDataSeriesJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Line", "Area", "Bar", "Stack", "Stack %", "Box", "Pie", "Up/Down" }));
+        multipleDataSeriesJComboBox.setSelectedIndex(1);
+        multipleDataSeriesJComboBox.setToolTipText("Set the chart type");
+        multipleDataSeriesJComboBox.setMaximumSize(new java.awt.Dimension(48, 20));
+        multipleDataSeriesJComboBox.setOpaque(false);
+        multipleDataSeriesJComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                multipleDataSeriesJComboBoxActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout multipleDataSeriesJPanelLayout = new javax.swing.GroupLayout(multipleDataSeriesJPanel);
+        multipleDataSeriesJPanel.setLayout(multipleDataSeriesJPanelLayout);
+        multipleDataSeriesJPanelLayout.setHorizontalGroup(
+            multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleDataSeriesJPanelLayout.createSequentialGroup()
+                .addContainerGap(276, Short.MAX_VALUE)
+                .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(multipleDataSeriesJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        multipleDataSeriesJPanelLayout.setVerticalGroup(
+            multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleDataSeriesJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        treeDimensionalDataSeriesJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("2D/3D Data Series"));
+        treeDimensionalDataSeriesJPanel.setOpaque(false);
+
+        treeDimensionalDataSeriesJScrollPane.setOpaque(false);
+
+        treeDimensionalDataSeriesJTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Protein", "Spread"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        treeDimensionalDataSeriesJTable.setFillsViewportHeight(true);
+        treeDimensionalDataSeriesJTable.setOpaque(false);
+        treeDimensionalDataSeriesJTable.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        treeDimensionalDataSeriesJScrollPane.setViewportView(treeDimensionalDataSeriesJTable);
+
+        treeDimensionalDataSeriesJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Scatter", "Bubble" }));
+        treeDimensionalDataSeriesJComboBox.setSelectedIndex(1);
+        treeDimensionalDataSeriesJComboBox.setToolTipText("Set the chart type");
+        treeDimensionalDataSeriesJComboBox.setMaximumSize(new java.awt.Dimension(48, 20));
+        treeDimensionalDataSeriesJComboBox.setOpaque(false);
+        treeDimensionalDataSeriesJComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                treeDimensionalDataSeriesJComboBoxActionPerformed(evt);
+            }
+        });
+
+        reference3dValuesJCheckBox.setText("Reference");
+        reference3dValuesJCheckBox.setToolTipText("Show reference area");
+        reference3dValuesJCheckBox.setIconTextGap(8);
+        reference3dValuesJCheckBox.setOpaque(false);
+        reference3dValuesJCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reference3dValuesJCheckBoxActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout treeDimensionalDataSeriesJPanelLayout = new javax.swing.GroupLayout(treeDimensionalDataSeriesJPanel);
+        treeDimensionalDataSeriesJPanel.setLayout(treeDimensionalDataSeriesJPanelLayout);
+        treeDimensionalDataSeriesJPanelLayout.setHorizontalGroup(
+            treeDimensionalDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
+                .addContainerGap(191, Short.MAX_VALUE)
+                .addComponent(reference3dValuesJCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(treeDimensionalDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(treeDimensionalDataSeriesJScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        treeDimensionalDataSeriesJPanelLayout.setVerticalGroup(
+            treeDimensionalDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(treeDimensionalDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(treeDimensionalDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(treeDimensionalDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reference3dValuesJCheckBox))
                 .addContainerGap())
         );
 
@@ -431,84 +647,21 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        multipleDataSeriesJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Multiple Data Series"));
-        multipleDataSeriesJPanel.setOpaque(false);
-
-        multipleDataSeriesJScrollPane.setOpaque(false);
-
-        multipleDataSeriesJTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Protein", "Change"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        multipleDataSeriesJTable.setFillsViewportHeight(true);
-        multipleDataSeriesJTable.setOpaque(false);
-        multipleDataSeriesJTable.setSelectionBackground(new java.awt.Color(204, 204, 204));
-        multipleDataSeriesJScrollPane.setViewportView(multipleDataSeriesJTable);
-
-        multipleDataSeriesJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Line", "Area", "Bar", "Stack", "Stack %", "Box", "Pie", "Up/Down" }));
-        multipleDataSeriesJComboBox.setSelectedIndex(1);
-        multipleDataSeriesJComboBox.setToolTipText("Set the chart type");
-        multipleDataSeriesJComboBox.setMaximumSize(new java.awt.Dimension(48, 20));
-        multipleDataSeriesJComboBox.setOpaque(false);
-        multipleDataSeriesJComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                multipleDataSeriesJComboBoxActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout multipleDataSeriesJPanelLayout = new javax.swing.GroupLayout(multipleDataSeriesJPanel);
-        multipleDataSeriesJPanel.setLayout(multipleDataSeriesJPanelLayout);
-        multipleDataSeriesJPanelLayout.setHorizontalGroup(
-            multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleDataSeriesJPanelLayout.createSequentialGroup()
-                .addContainerGap(276, Short.MAX_VALUE)
-                .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(multipleDataSeriesJPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        multipleDataSeriesJPanelLayout.setVerticalGroup(
-            multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleDataSeriesJPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout gradientPanelLayout = new javax.swing.GroupLayout(gradientPanel);
         gradientPanel.setLayout(gradientPanelLayout);
         gradientPanelLayout.setHorizontalGroup(
             gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(singleValuesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(gradientPanelLayout.createSequentialGroup()
+                        .addComponent(singleValuesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(treeDimensionalDataSeriesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanelLayout.createSequentialGroup()
+                        .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -519,10 +672,13 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             .addGroup(gradientPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(singleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(treeDimensionalDataSeriesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(singleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -555,7 +711,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     }//GEN-LAST:event_showJSparklinesJCheckBoxActionPerformed
 
     /**
-     * Updates the plot type.
+     * Updates the plot type in the multiple values table.
      *
      * @param evt
      */
@@ -589,7 +745,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     }//GEN-LAST:event_multipleValuesJComboBoxActionPerformed
 
     /**
-     * Updates the plot type.
+     * Updates the plot type in the multiple data series table.
      *
      * @param evt
      */
@@ -638,7 +794,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     }//GEN-LAST:event_multipleDataSeriesJComboBoxActionPerformed
 
     /**
-     * Add or remove the reference line from the multiple values plots.
+     * Add or remove the reference line from the multiple values plot.
      * 
      * @param evt
      */
@@ -653,6 +809,44 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         multipleValuesJTable.revalidate();
         multipleValuesJTable.repaint();
     }//GEN-LAST:event_referenceMultipleValuesJCheckBoxActionPerformed
+
+    /**
+     * Updates the plot type in the 3D values table.
+     *
+     * @param evt
+     */
+    private void treeDimensionalDataSeriesJComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeDimensionalDataSeriesJComboBoxActionPerformed
+        
+        String selectedPlotType = (String) treeDimensionalDataSeriesJComboBox.getSelectedItem();
+
+        // update the chart type
+        if (selectedPlotType.equalsIgnoreCase("Scatter")) {
+            ((JSparklines3dTableCellRenderer) treeDimensionalDataSeriesJTable.getColumn("Spread").getCellRenderer()).setPlotType(JSparklines3dTableCellRenderer.PlotType.scatterPlot);
+        } else if (selectedPlotType.equalsIgnoreCase("Bubble")) {
+            ((JSparklines3dTableCellRenderer) treeDimensionalDataSeriesJTable.getColumn("Spread").getCellRenderer()).setPlotType(JSparklines3dTableCellRenderer.PlotType.bubblePlot);
+        }
+
+        // repaint the table to update the plot
+        treeDimensionalDataSeriesJTable.revalidate();
+        treeDimensionalDataSeriesJTable.repaint();
+    }//GEN-LAST:event_treeDimensionalDataSeriesJComboBoxActionPerformed
+
+    /**
+     * Add or remove the reference line from the 3D values plot.
+     *
+     * @param evt
+     */
+    private void reference3dValuesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reference3dValuesJCheckBoxActionPerformed
+        if (reference3dValuesJCheckBox.isSelected()) {
+            ((JSparklines3dTableCellRenderer) treeDimensionalDataSeriesJTable.getColumn("Spread").getCellRenderer()).addXAxisReferenceArea("DatasetB", 33, 66, Color.ORANGE, 0.3f);
+        } else {
+            ((JSparklines3dTableCellRenderer) treeDimensionalDataSeriesJTable.getColumn("Spread").getCellRenderer()).removeXAxisReferenceArea("DatasetB");
+        }
+
+        // repaint the table to update the plot
+        treeDimensionalDataSeriesJTable.revalidate();
+        treeDimensionalDataSeriesJTable.repaint();
+    }//GEN-LAST:event_reference3dValuesJCheckBoxActionPerformed
 
     /**
      * Starts the JSparklines demo.
@@ -677,11 +871,16 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     private javax.swing.JPanel multipleValuesJPanel;
     private javax.swing.JScrollPane multipleValuesJScrollPane;
     private javax.swing.JTable multipleValuesJTable;
+    private javax.swing.JCheckBox reference3dValuesJCheckBox;
     private javax.swing.JCheckBox referenceMultipleValuesJCheckBox;
     private javax.swing.JCheckBox showJSparklinesJCheckBox;
     private javax.swing.JPanel singleValuesJPanel;
     private javax.swing.JScrollPane singleValuesJScrollPane;
     private javax.swing.JTable singleValuesJTable;
+    private javax.swing.JComboBox treeDimensionalDataSeriesJComboBox;
+    private javax.swing.JPanel treeDimensionalDataSeriesJPanel;
+    private javax.swing.JScrollPane treeDimensionalDataSeriesJScrollPane;
+    private javax.swing.JTable treeDimensionalDataSeriesJTable;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -730,7 +929,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
             JLabel c = (JLabel) super.getListCellRendererComponent(
                     list, value, index, isSelected, cellHasFocus);
-            
+
             ((JComponent) c).setOpaque(isSelected);
 
             if (isSelected || cellHasFocus) {
