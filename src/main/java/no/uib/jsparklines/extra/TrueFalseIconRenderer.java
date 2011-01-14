@@ -57,13 +57,13 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
 
         Component c = delegate.getTableCellRendererComponent(table, value, isSelected,
                 hasFocus, row, column);
+
+        ((JLabel) c).setText(null);
         
         if (c instanceof JLabel && (Boolean) value == true) {
             ((JLabel) c).setIcon(trueIcon);
-            ((JLabel) c).setText(null);
         } else {
             ((JLabel) c).setIcon(falseIcon);
-            ((JLabel) c).setText(null);
         }
 
         ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
