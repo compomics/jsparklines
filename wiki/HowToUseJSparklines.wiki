@@ -168,7 +168,7 @@ dataA.add(new XYZDataPoint(5.8, 2.7, 8.2);
 ...
 dataA.add(new XYZDataPoint(6.2, 6.3, 1.1);
 
-// create a JSparkline3dDataSeries 
+// create a JSparkline3dDataSeries
 JSparklines3dDataSeries sparkline3dDataseriesA = new JSparklines3dDataSeries(dataA, Color.DARK_GRAY, "Dataset A);
 
 // add the data series to JSparkline3dDataset
@@ -181,8 +181,7 @@ JSparklines3dDataset dataset = new JSparklines3dDataset(sparkLine3dDataSeriesAll
 ((DefaultTableModel) 3dValuesJTable.getModel()).addRow(new Object[]{"Protein " + (j + 1), dataset});
 
 // set the JSparklines 3D renderer
-3dValuesJTable.getColumn("Spread").setCellRenderer(new JSparklines3dTableCellRenderer(
-    JSparklines3dTableCellRenderer.PlotType.bubblePlot, // plot type
+3dValuesJTable.getColumn("Spread").setCellRenderer(new JSparklines3dTableCellRenderer( JSparklines3dTableCellRenderer.PlotType.bubblePlot,     // plot type
     -10d,                                               // x lower
     100d,                                               // x upper
     -10d,                                               // y lower
