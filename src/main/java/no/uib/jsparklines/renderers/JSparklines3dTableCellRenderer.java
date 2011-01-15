@@ -328,8 +328,6 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
 
     /**
      * Removes all x-axis reference lines.
-     *
-     * @param label the reference to remove
      */
     public void removeAllXAxisReferenceLines() {
         referenceLinesXAxis = new HashMap<String, ReferenceLine>();
@@ -369,8 +367,6 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
 
     /**
      * Removes all the x-axis reference areas.
-     *
-     * @param label the reference to remove
      */
     public void removeAllXAxisReferenceAreas() {
         referenceAreasXAxis = new HashMap<String, ReferenceArea>();
@@ -410,8 +406,6 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
 
     /**
      * Removes all y-axis reference lines.
-     *
-     * @param label the reference to remove
      */
     public void removeAllYAxisReferenceLines() {
         referenceLinesYAxis = new HashMap<String, ReferenceLine>();
@@ -451,8 +445,6 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
 
     /**
      * Removes all the y-axis reference areas.
-     *
-     * @param label the reference to remove
      */
     public void removeAllYAxisReferenceAreas() {
         referenceAreasYAxis = new HashMap<String, ReferenceArea>();

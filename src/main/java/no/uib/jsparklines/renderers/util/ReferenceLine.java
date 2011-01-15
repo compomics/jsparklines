@@ -46,7 +46,7 @@ public class ReferenceLine {
     /**
      * Set the label.
      *
-     * @param the label to set
+     * @param label the label to set
      */
     public void setLabel(String label) {
         this.label = label;
@@ -64,7 +64,7 @@ public class ReferenceLine {
     /**
      * Set the value.
      *
-     * @param the value to set
+     * @param value the value to set
      */
     public void setValue(double value) {
         this.value = value;
