@@ -6,6 +6,7 @@ Using *JSparklines* is very easy and only requires a couple of lines of code. Be
  * [#Single_Values Single Values]
  * [#Multiple_Values Multiple Values]
  * [#Multiple_Data_Series Multiple Data Series]
+ * [#2D/3D_Data_Series 2D/3D Data Series]
  * [#Adding_Reference_Lines_and_Areas Adding Reference Lines and Areas]
  * [#Maven_Dependency Maven Dependency]
 
@@ -154,6 +155,49 @@ multipleDataSeriesJTable.getColumn("Change").setCellRenderer(
 
 ----
 
+= 2D/3D Data Series = 
+
+When plotting 2D or 3D data use the JSparklines3dTableCellRenderer instead of the standard JSparklinesTableCellRenderer, and the JSparklines3dDataset instead of the JSparklinesDataset.
+
+{{{
+// add the 2D/3D data points to display to an arraylist
+ArrayList<XYZDataPoint> dataA = new ArrayList<XYZDataPoint>();
+
+dataA.add(new XYZDataPoint(2.4, 3.4, 2.7);
+dataA.add(new XYZDataPoint(5.8, 2.7, 8.2);
+...
+dataA.add(new XYZDataPoint(6.2, 6.3, 1.1);
+
+// create a JSparkline3dDataSeries 
+JSparklines3dDataSeries sparkline3dDataseriesA = new JSparklines3dDataSeries(dataA, Color.DARK_GRAY, "Dataset A);
+
+// add the data series to JSparkline3dDataset
+ArrayList<JSparklines3dDataSeries> sparkLine3dDataSeriesAll = new ArrayList<JSparklines3dDataSeries>();
+sparkLine3dDataSeriesAll.add(sparkline3dDataseriesA);
+
+JSparklines3dDataset dataset = new JSparklines3dDataset(sparkLine3dDataSeriesAll);
+
+// add the data to the table
+((DefaultTableModel) 3dValuesJTable.getModel()).addRow(new Object[]{"Protein " + (j + 1), dataset});
+
+// set the JSparklines 3D renderer
+3dValuesJTable.getColumn("Spread").setCellRenderer(new JSparklines3dTableCellRenderer(
+    JSparklines3dTableCellRenderer.PlotType.bubblePlot, // plot type
+    -10d,                                               // x lower
+    100d,                                               // x upper
+    -10d,                                               // y lower
+    110d));                                             // y upper
+}}}
+
+*Notes:*
+
+ * *Note* that cells with *JSparklines* with 2D/3D values are NOT editable, so please set columns using *JSparklines* non-editable.
+ * *Note* that the chart type, the maximum and minimum values, etc can be change later by using the and setPlotType(...), setMaxXValue(...), setMinXValue(...), etc, methods in JSparklines3dTableCellRenderer.
+
+[#Using_JSparklines Go to top of page]
+
+----
+
 == Adding Reference Lines and Areas ==
 
 Often it can be helpfull to add reference lines or areas to the charts to make them easier to compare. In *JSparklines* this is very easy:
@@ -186,6 +230,8 @@ Removing the reference is equally straightforward:
 }}}
 
 To add a line reference instead if an area reference, simply use the addReferenceLine(...) method instead.
+
+*Note:* For 2D/3D plots use addXAxisReferenceLine(...), removeXAxisReferenceLine(...), etc, to add or remove reference lines and areas.
 
 
 [#Using_JSparklines Go to top of page]
