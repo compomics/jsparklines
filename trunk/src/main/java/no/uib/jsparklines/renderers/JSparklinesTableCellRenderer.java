@@ -876,7 +876,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * Set the color used for the 'down values' in the Up/Down charts.
      *
-     * @param upColor the color for the 'down values' in the Up/Down charts
+     * @param downColor the color for the 'down values' in the Up/Down charts
      */
     public void setDownColor(Color downColor) {
         this.downColor = downColor;
