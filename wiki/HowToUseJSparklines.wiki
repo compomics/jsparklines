@@ -181,7 +181,8 @@ JSparklines3dDataset dataset = new JSparklines3dDataset(sparkLine3dDataSeriesAll
 ((DefaultTableModel) 3dValuesJTable.getModel()).addRow(new Object[]{"Protein " + (j + 1), dataset});
 
 // set the JSparklines 3D renderer
-3dValuesJTable.getColumn("Spread").setCellRenderer(new JSparklines3dTableCellRenderer( JSparklines3dTableCellRenderer.PlotType.bubblePlot,     // plot type
+3dValuesJTable.getColumn("Spread").setCellRenderer(new JSparklines3dTableCellRenderer(
+    JSparklines3dTableCellRenderer.PlotType.bubblePlot, // plot type
     -10d,                                               // x lower
     100d,                                               // x upper
     -10d,                                               // y lower
