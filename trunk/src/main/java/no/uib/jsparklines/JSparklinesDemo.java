@@ -561,7 +561,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(treeDimensionalDataSeriesJScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(treeDimensionalDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                 .addContainerGap())
         );
         treeDimensionalDataSeriesJPanelLayout.setVerticalGroup(
