@@ -28,7 +28,8 @@ import org.jfree.ui.StandardGradientPaintTransformer;
 import org.jfree.util.ShapeUtilities;
 
 /**
- * Custom renderer.
+ * Custom renderer displaying line charts with the area under the line
+ * is filled.
  *
  * From an example found at www.jfree.org.
  * Complete link: www.jfree.org/phpBB2/viewtopic.php?f=10&t=15596

@@ -120,7 +120,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      * Note: experimental feature, not yet finished.
      */
     private boolean highlightMaxAndMin = false;
-    /***
+    /**
      * The width of the max and min highlights.
      * See highlightMaxAndMin above.
      */
