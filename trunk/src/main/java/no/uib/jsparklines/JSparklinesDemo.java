@@ -80,6 +80,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         // note: JSparklines with multiple values are NOT editable, so remember to set the columns as 'not editable' in the JTable
         multipleValuesJTable.getColumn("Change").setCellRenderer(new JSparklinesTableCellRenderer(JSparklinesTableCellRenderer.PlotType.lineChart, PlotOrientation.VERTICAL, 0.0, maxValue));
 
+
         // add data to the multiple data series example
         addDataMultipleDataSeries(maxValue);
 
@@ -88,7 +89,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         multipleDataSeriesJTable.getColumn("Change").setCellRenderer(new JSparklinesTableCellRenderer(JSparklinesTableCellRenderer.PlotType.areaChart, PlotOrientation.VERTICAL, 0.0, maxValue));
 
 
-        // add data to the 3D dataset examples
+        // add data to the 3D dataset example
         int maxYValue = 100;
         add3dData(maxYValue);
 
@@ -99,7 +100,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     }
 
     /**
-     * Setup some additional GUI properties.
+     * Set up some additional GUI properties.
      */
     private void setAdditionalGuiProperties() {
 
@@ -198,10 +199,12 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
             ArrayList<Double> dataA = new ArrayList<Double>();
 
+            // create the random data
             for (int i = 0; i < NUMBER_OF_VALUES; i++) {
                 dataA.add(new Double(random.nextInt(MAX_VALUE)));
             }
 
+            // add the random data to the data series
             JSparklinesDataSeries sparklineDataseriesA = new JSparklinesDataSeries(dataA, colorA, "Dataset A");
 
             // add to dataset
@@ -238,12 +241,14 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             ArrayList<Double> dataB = new ArrayList<Double>();
             ArrayList<Double> dataC = new ArrayList<Double>();
 
+            // create the random data
             for (int i = 0; i < NUMBER_OF_VALUES; i++) {
                 dataA.add(new Double(random.nextInt(MAX_VALUE - 1)));
                 dataB.add(new Double(random.nextInt(MAX_VALUE)));
                 dataC.add(new Double(random.nextInt(MAX_VALUE + 1)));
             }
 
+            // add random data to the data series
             JSparklinesDataSeries sparklineDataseriesA = new JSparklinesDataSeries(dataA, colorA, "Dataset A");
             JSparklinesDataSeries sparklineDataseriesB = new JSparklinesDataSeries(dataB, colorB, "Dataset B");
             JSparklinesDataSeries sparklineDataseriesC = new JSparklinesDataSeries(dataC, colorC, "Dataset C");
@@ -283,12 +288,14 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             ArrayList<XYZDataPoint> dataB = new ArrayList<XYZDataPoint>();
             ArrayList<XYZDataPoint> dataC = new ArrayList<XYZDataPoint>();
 
+            // create the random data
             for (int i = 0; i < NUMBER_OF_VALUES; i++) {
                 dataA.add(new XYZDataPoint(random.nextInt(40), random.nextInt(MAX_Y_VALUE), random.nextInt(MAX_Z)));
                 dataB.add(new XYZDataPoint(30 + random.nextInt(40), random.nextInt(MAX_Y_VALUE), random.nextInt(MAX_Z)));
                 dataC.add(new XYZDataPoint(60 + random.nextInt(40), random.nextInt(MAX_Y_VALUE), random.nextInt(MAX_Z)));
             }
 
+            // add the random data to the data series
             JSparklines3dDataSeries sparkline3dDataseriesA = new JSparklines3dDataSeries(dataA, colorA, "Dataset A");
             JSparklines3dDataSeries sparkline3dDataseriesB = new JSparklines3dDataSeries(dataB, colorB, "Dataset B");
             JSparklines3dDataSeries sparkline3dDataseriesC = new JSparklines3dDataSeries(dataC, colorC, "Dataset C");
@@ -799,6 +806,8 @@ public class JSparklinesDemo extends javax.swing.JFrame {
      * @param evt
      */
     private void referenceMultipleValuesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_referenceMultipleValuesJCheckBoxActionPerformed
+
+        // add or remove the reference area
         if (referenceMultipleValuesJCheckBox.isSelected()) {
             ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("Change").getCellRenderer()).addReferenceArea("Middle", 4, 6, Color.LIGHT_GRAY, 0.5f);
         } else {
@@ -837,6 +846,8 @@ public class JSparklinesDemo extends javax.swing.JFrame {
      * @param evt
      */
     private void reference3dValuesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reference3dValuesJCheckBoxActionPerformed
+
+        // add or remove the reference area
         if (reference3dValuesJCheckBox.isSelected()) {
             ((JSparklines3dTableCellRenderer) treeDimensionalDataSeriesJTable.getColumn("Spread").getCellRenderer()).addXAxisReferenceArea("DatasetB", 33, 66, Color.ORANGE, 0.3f);
         } else {

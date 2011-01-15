@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * A render that displays icons instead of true or false, Assumes that
+ * A render that displays icons instead of true or false. Assumes that
  * the cell values are of type Boolean.
  *
  * @author Harald Barsnes
@@ -55,19 +55,22 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
-        Component c = delegate.getTableCellRendererComponent(table, value, isSelected,
-                hasFocus, row, column);
+        JLabel label = (JLabel) delegate.getTableCellRendererComponent(
+                table, value, isSelected, hasFocus, row, column);
 
-        ((JLabel) c).setText(null);
-        
-        if (c instanceof JLabel && (Boolean) value == true) {
-            ((JLabel) c).setIcon(trueIcon);
-        } else {
-            ((JLabel) c).setIcon(falseIcon);
+        // set the icon to use for the boolean values
+        if (value instanceof Boolean) {
+            
+            label.setText(null);
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            
+            if ((Boolean) value == true) {
+                label.setIcon(trueIcon);
+            } else {
+                label.setIcon(falseIcon);
+            }
         }
 
-        ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
-
-        return c;
+        return label;
     }
 }
