@@ -71,6 +71,21 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
      * The colors to use for the bars with positive numbers.
      */
     private Color positiveValuesColor;
+    /**
+     * If true the values are logged transformed before drawing the bar. The
+     * underlying numbers are not changed. NB: only works for positive numbers.
+     *
+     * Note yet fully tested...
+     */
+    private boolean logTransform = false;
+    /**
+     * The color to use for the non-significant values.
+     */
+    private Color nonSignificantColor;
+    /**
+     * The lower level for when to use the significant values color.
+     */
+    private double significanceLevel;
 
     /**
      * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when only positive
@@ -102,12 +117,35 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
      */
     public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue,
             Color negativeValuesColor, Color positiveValuesColor) {
+        this(plotOrientation, minValue, maxValue, negativeValuesColor, positiveValuesColor, Color.GRAY, 0);
+    }
+
+    /**
+     * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when positive
+     * and negative values are to be plotted.
+     *
+     * @param plotOrientation       the orientation of the plot
+     * @param minValue              the minium value to be plotted, used to make sure that all plots
+     *                              in the same column has the same minmum value and are thus comparable
+     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
+     *                              in the same column has the same maxium value and are thus comparable
+     * @param negativeValuesColor   the color to use for the negative values if two sided data is shown
+     * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
+     *                              and the color used for one sided data
+     * @param nonSignificantColor   the color to use for the non-significant values
+     * @param significanceLevel     the lower level for when to use the significant values color
+     */
+    public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue,
+            Color negativeValuesColor, Color positiveValuesColor, Color nonSignificantColor, double significanceLevel) {
 
         this.negativeValuesColor = negativeValuesColor;
         this.positiveValuesColor = positiveValuesColor;
 
         this.maxValue = maxValue;
         this.minValue = minValue;
+
+        this.nonSignificantColor = nonSignificantColor;
+        this.significanceLevel = significanceLevel;
 
         delegate = new DefaultTableCellRenderer();
         setName("Table.cellRenderer");
@@ -237,10 +275,14 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
             }
 
             if (((Double) value).doubleValue() < minimumChartValue && ((Double) value).doubleValue() > 0) {
-                dataset.addValue(minimumChartValue, "1", "1");
-            } else {
-                dataset.addValue(((Double) value), "1", "1");
+                value = minimumChartValue;
             }
+            
+            if (logTransform) {
+                value = Math.log((Double) value);
+            }
+
+            dataset.addValue(((Double) value), "1", "1");
 
         } else if (value instanceof Integer ||
                 value instanceof Short ||
@@ -253,6 +295,10 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
                 value = ((Long) value).intValue();
             } else if (value instanceof Short) {
                 value = ((Short) value).intValue();
+            }
+
+            if (logTransform) {
+                value = Math.log((Integer) value);
             }
 
             dataset.addValue(((Integer) value), "1", "1");
@@ -288,9 +334,17 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
             }
 
             if (((Double) value).doubleValue() >= 0) {
-                renderer = new BarChartColorRenderer(positiveValuesColor);
+                if (((Double) value).doubleValue() >= significanceLevel) {
+                    renderer = new BarChartColorRenderer(positiveValuesColor);
+                } else {
+                    renderer = new BarChartColorRenderer(nonSignificantColor);
+                }
             } else {
-                renderer = new BarChartColorRenderer(negativeValuesColor);
+                if (((Double) value).doubleValue() <= - significanceLevel) {
+                    renderer = new BarChartColorRenderer(negativeValuesColor);
+                } else {
+                    renderer = new BarChartColorRenderer(nonSignificantColor);
+                }
             }
 
         } else if (value instanceof Integer ||
@@ -307,9 +361,17 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
             }
 
             if (((Integer) value).intValue() >= 0) {
-                renderer = new BarChartColorRenderer(positiveValuesColor);
+                if (((Integer) value).intValue() >= significanceLevel) {
+                    renderer = new BarChartColorRenderer(positiveValuesColor);
+                } else {
+                    renderer = new BarChartColorRenderer(nonSignificantColor);
+                }
             } else {
-                renderer = new BarChartColorRenderer(negativeValuesColor);
+                if (((Integer) value).intValue() <= - significanceLevel) {
+                    renderer = new BarChartColorRenderer(negativeValuesColor);
+                } else {
+                    renderer = new BarChartColorRenderer(nonSignificantColor);
+                }
             }
         }
 
@@ -381,5 +443,63 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
      */
     public void setTooltipLowerValue(double tooltipLowerValue) {
         this.tooltipLowerValue = tooltipLowerValue;
+    }
+
+    /**
+     * Return if the values are to be log transformed.
+     *
+     * @return if the values are to be log transformed
+     */
+    public boolean isLogTransform() {
+        return logTransform;
+    }
+
+    /**
+     * Set if the values are to be log transformed.
+     *
+     * @param logTransform if the values are to be log transformed
+     */
+    public void setLogTransform(boolean logTransform) {
+        this.logTransform = logTransform;
+    }
+
+    /**
+     * Return the color to use for the non-significant values.
+     *
+     * @return the color to use for the non-significant values
+     */
+    public Color getNonSignificantColor() {
+        return nonSignificantColor;
+    }
+
+    /**
+     * Set the color to use for the non-significant values.
+     *
+     * @param nonSignificantColor the color to set
+     */
+    public void setNonSignificantColor(Color nonSignificantColor) {
+        this.nonSignificantColor = nonSignificantColor;
+    }
+
+    /**
+     * Returns the lower significance level. Values above this level will be
+     * colored with the positive/negative values colors, while values below
+     * the threshold will be colored with the non-significant color.
+     *
+     * @return the lower significance level
+     */
+    public double getSignificanceLevel() {
+        return significanceLevel;
+    }
+
+    /**
+     * Set the lower significance level. Values above this level will be
+     * colored with the positive/negative values colors, while values below
+     * the threshold will be colored with the non-significant color.
+     *
+     * @param significanceLevel the lower significance level to set
+     */
+    public void setSignificanceLevel(double significanceLevel) {
+        this.significanceLevel = significanceLevel;
     }
 }
