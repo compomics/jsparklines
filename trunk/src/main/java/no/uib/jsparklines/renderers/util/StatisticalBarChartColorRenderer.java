@@ -6,15 +6,15 @@ import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.renderer.category.BarRenderer3D;
+import org.jfree.chart.renderer.category.StatisticalBarRenderer;
 
 /**
  * A custom renderer that makes it possible to use different colors for
- * individual data bars in 3D bar charts.
+ * individual data bars in statistical bar charts.
  *
  * @author Harald Barsnes
  */
-public class BarChartColorRenderer extends BarRenderer3D {
+public class StatisticalBarChartColorRenderer extends StatisticalBarRenderer {
 
     /**
      * The colors to use.
@@ -30,8 +30,8 @@ public class BarChartColorRenderer extends BarRenderer3D {
      *
      * @param colors the colors to use.
      */
-    public BarChartColorRenderer(ArrayList<Color> colors) {
-        super(0, 0);
+    public StatisticalBarChartColorRenderer(ArrayList<Color> colors) {
+        super();
         this.colors = colors;
     }
 
@@ -41,8 +41,8 @@ public class BarChartColorRenderer extends BarRenderer3D {
      *
      * @param color the color to use.
      */
-    public BarChartColorRenderer(Color color) {
-        super(0, 0);
+    public StatisticalBarChartColorRenderer(Color color) {
+        super();
         mainColor = color;
     }
 
@@ -50,8 +50,8 @@ public class BarChartColorRenderer extends BarRenderer3D {
      * Returns the color for an item.  Overrides the default behaviour inherited from
      * AbstractSeriesRenderer.
      *
-     * @param row  the series.
-     * @param column  the category.
+     * @param row       the series.
+     * @param column    the category.
      *
      * @return the item color.
      */
@@ -72,8 +72,8 @@ public class BarChartColorRenderer extends BarRenderer3D {
      * Overwritten method in order to not draw the background wall. Note
      * that the method is thus empty and draws nothing.
      *
-     * @param g2  the graphics device.
-     * @param plot  the plot.
+     * @param g2        the graphics device.
+     * @param plot      the plot.
      * @param dataArea  the area inside the axes.
      */
     public void drawBackground(Graphics2D g2, CategoryPlot plot, Rectangle2D dataArea) {
