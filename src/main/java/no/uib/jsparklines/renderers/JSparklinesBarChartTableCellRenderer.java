@@ -10,6 +10,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import no.uib.jsparklines.data.XYDataPoint;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -21,7 +22,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 /**
  * A renderer for displaying a JSparklines bar chart inside a table cell.
  * Assumes that the cell values are of type Integer, Short, Byte, Long,
- * Double or Float.
+ * Double, Float or XYDataPoint.
  *
  * @author Harald Barsnes
  */
@@ -32,7 +33,7 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
      * limit are shown as this minimum value when shown as a chart. This to make
      * sure that the chart is visible at all.
      */
-    private double minimumChartValue = 0.01;
+    private double minimumChartValue = 0.05;
     /**
      * Used to decide how many decimals to include in the tooltip. If the number
      * is smaller than the lower limit, 8 decimnals are shown, otherwise only
@@ -66,26 +67,54 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
     /**
      * The colors to use for the bars with negative numbers.
      */
-    private Color negativeValuesColor;
+    private Color negativeValuesColor = new Color(51, 51, 255);
     /**
      * The colors to use for the bars with positive numbers.
      */
-    private Color positiveValuesColor;
-    /**
-     * If true the values are logged transformed before drawing the bar. The
-     * underlying numbers are not changed. NB: only works for positive numbers.
-     *
-     * Note yet fully tested...
-     */
-    private boolean logTransform = false;
+    private Color positiveValuesColor = new Color(255, 51, 51);
     /**
      * The color to use for the non-significant values.
      */
-    private Color nonSignificantColor;
+    private Color nonSignificantColor = Color.GRAY;
     /**
-     * The lower level for when to use the significant values color.
+     * The color to use for bar charts shown inside a table cell when a big
+     * value is "good".
      */
-    private double significanceLevel;
+    private Color tableCellBarChartColorBig = new Color(110, 196, 97);
+    /**
+     * The color to use for bar charts shown inside a table cell when a small
+     * value is "good".
+     */
+    private Color tableCellBarChartColorSmall = new Color(247, 247, 23);
+    /**
+     * The upper level for when to use the significant values color.
+     */
+    private double significanceLevel = 1;
+
+    /**
+     * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when only positive
+     * values are to be plotted. This constructor uses default colors for the bars. If you want to
+     * set your own colors, use one of the other constructors.
+     *
+     * @param plotOrientation       the orientation of the plot
+     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
+     *                              in the same column has the same maxium value and are thus comparable
+     *                              (this is the same as setting the minimum value to 0)
+     * @param largeNumbersAreGood   makes sure that different colors are used for bars where large numbers
+     *                              are "good", versus when small numbers are "good"
+     */
+    public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, boolean largeNumbersAreGood) {
+
+        if (largeNumbersAreGood) {
+            positiveValuesColor = tableCellBarChartColorBig;
+        } else {
+            positiveValuesColor = tableCellBarChartColorSmall;
+        }
+
+        this.maxValue = maxValue;
+
+        setUpRendererAndChart(plotOrientation);
+    }
 
     /**
      * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when only positive
@@ -103,21 +132,42 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
     }
 
     /**
+     * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when only positive
+     * values are to be plotted. Note that to use the significance color coding the object in the
+     * table cell has to be of type XYDataPoint.
+     *
+     * @param plotOrientation       the orientation of the plot
+     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
+     *                              in the same column has the same maxium value and are thus comparable
+     *                              (this is the same as setting the minimum value to 0)
+     * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
+     *                              and the color used for one sided data
+     * @param nonSignificantColor   the color to use for the non-significant values
+     * @param significanceLevel     the upper level for when to use the significant values color
+     */
+    public JSparklinesBarChartTableCellRenderer(
+            PlotOrientation plotOrientation, Double maxValue, Color positiveValuesColor,
+            Color nonSignificantColor, double significanceLevel) {
+        this(plotOrientation, 0.0, maxValue, null, positiveValuesColor, nonSignificantColor, significanceLevel);
+    }
+
+    /**
      * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when positive
-     * and negative values are to be plotted.
+     * and negative values are to be plotted. This constructor uses default colors for the bars.
+     * If you want to set your own colors, use one of the other constructors.
      *
      * @param plotOrientation       the orientation of the plot
      * @param minValue              the minium value to be plotted, used to make sure that all plots
      *                              in the same column has the same minmum value and are thus comparable
      * @param maxValue              the maximum value to be plotted, used to make sure that all plots
      *                              in the same column has the same maxium value and are thus comparable
-     * @param negativeValuesColor   the color to use for the negative values if two sided data is shown
-     * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
-     *                              and the color used for one sided data
      */
-    public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue,
-            Color negativeValuesColor, Color positiveValuesColor) {
-        this(plotOrientation, minValue, maxValue, negativeValuesColor, positiveValuesColor, Color.GRAY, 0);
+    public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue) {
+
+        this.maxValue = maxValue;
+        this.minValue = minValue;
+
+        setUpRendererAndChart(plotOrientation);
     }
 
     /**
@@ -132,11 +182,33 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
      * @param negativeValuesColor   the color to use for the negative values if two sided data is shown
      * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
      *                              and the color used for one sided data
-     * @param nonSignificantColor   the color to use for the non-significant values
-     * @param significanceLevel     the lower level for when to use the significant values color
      */
-    public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue,
-            Color negativeValuesColor, Color positiveValuesColor, Color nonSignificantColor, double significanceLevel) {
+    public JSparklinesBarChartTableCellRenderer(
+            PlotOrientation plotOrientation, Double minValue, Double maxValue,
+            Color negativeValuesColor, Color positiveValuesColor) {
+        this(plotOrientation, minValue, maxValue, negativeValuesColor, positiveValuesColor, Color.GRAY, 1);
+    }
+
+    /**
+     * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when positive
+     * and negative values are to be plotted. Note that to use the significance color coding the 
+     * object in the table cell has to be of type XYDataPoint.
+     *
+     * @param plotOrientation       the orientation of the plot
+     * @param minValue              the minium value to be plotted, used to make sure that all plots
+     *                              in the same column has the same minmum value and are thus comparable
+     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
+     *                              in the same column has the same maxium value and are thus comparable
+     * @param negativeValuesColor   the color to use for the negative values if two sided data is shown
+     * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
+     *                              and the color used for one sided data
+     * @param nonSignificantColor   the color to use for the non-significant values
+     * @param significanceLevel     the upper level for when to use the significant values color
+     */
+    public JSparklinesBarChartTableCellRenderer(
+            PlotOrientation plotOrientation, Double minValue, Double maxValue,
+            Color negativeValuesColor, Color positiveValuesColor,
+            Color nonSignificantColor, double significanceLevel) {
 
         this.negativeValuesColor = negativeValuesColor;
         this.positiveValuesColor = positiveValuesColor;
@@ -146,6 +218,16 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
 
         this.nonSignificantColor = nonSignificantColor;
         this.significanceLevel = significanceLevel;
+
+        setUpRendererAndChart(plotOrientation);
+    }
+
+    /**
+     * Sets up the table cell renderer and the bar chart.
+     *
+     * @param plotOrientation
+     */
+    private void setUpRendererAndChart(PlotOrientation plotOrientation) {
 
         delegate = new DefaultTableCellRenderer();
         setName("Table.cellRenderer");
@@ -221,10 +303,10 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
                     c.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 8));
                 }
 
-            } else if (value instanceof Integer ||
-                    value instanceof Short ||
-                    value instanceof Long ||
-                    value instanceof Short) {
+            } else if (value instanceof Integer
+                    || value instanceof Short
+                    || value instanceof Long
+                    || value instanceof Short) {
 
                 if (value instanceof Short) {
                     value = ((Short) value).intValue();
@@ -236,6 +318,15 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
 
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, (Integer) value,
                         isSelected, hasFocus, row, column);
+
+            } else if (value instanceof XYDataPoint) {
+
+                c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, ((XYDataPoint) value).toString(),
+                        isSelected, hasFocus, row, column);
+
+                if (Math.abs(new Double("" + ((XYDataPoint) value).getX())) < tooltipLowerValue) {
+                    c.setToolTipText("" + roundDouble(new Double("" + ((XYDataPoint) value).getX()).doubleValue(), 8));
+                }
             }
 
             ((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
@@ -256,8 +347,19 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
                 this.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 2));
             }
 
-        } else {
+        } else if (value instanceof Integer
+                || value instanceof Short
+                || value instanceof Long
+                || value instanceof Short) {
+
             this.setToolTipText("" + value);
+
+        } else if (value instanceof XYDataPoint) {
+            if (Math.abs(((XYDataPoint) value).getX()) < tooltipLowerValue) {
+                this.setToolTipText("" + roundDouble(((XYDataPoint) value).getX(), 8));
+            } else {
+                this.setToolTipText("" + roundDouble(((XYDataPoint) value).getX(), 2));
+            }
         }
 
         // respect focus and hightlighting
@@ -277,17 +379,13 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
             if (((Double) value).doubleValue() < minimumChartValue && ((Double) value).doubleValue() > 0) {
                 value = minimumChartValue;
             }
-            
-            if (logTransform) {
-                value = Math.log((Double) value);
-            }
 
             dataset.addValue(((Double) value), "1", "1");
 
-        } else if (value instanceof Integer ||
-                value instanceof Short ||
-                value instanceof Long ||
-                value instanceof Short) {
+        } else if (value instanceof Integer
+                || value instanceof Short
+                || value instanceof Long
+                || value instanceof Short) {
 
             if (value instanceof Short) {
                 value = ((Short) value).intValue();
@@ -297,11 +395,15 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
                 value = ((Short) value).intValue();
             }
 
-            if (logTransform) {
-                value = Math.log((Integer) value);
+            dataset.addValue(((Integer) value), "1", "1");
+
+        } else if (value instanceof XYDataPoint) {
+
+            if (((XYDataPoint) value).getX() < minimumChartValue && ((XYDataPoint) value).getX() > 0) {
+                value = minimumChartValue;
             }
 
-            dataset.addValue(((Integer) value), "1", "1");
+            dataset.addValue(((XYDataPoint) value).getX(), "1", "1");
         }
 
         // fine tune the chart properites
@@ -334,23 +436,15 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
             }
 
             if (((Double) value).doubleValue() >= 0) {
-                if (((Double) value).doubleValue() >= significanceLevel) {
-                    renderer = new BarChartColorRenderer(positiveValuesColor);
-                } else {
-                    renderer = new BarChartColorRenderer(nonSignificantColor);
-                }
+                renderer = new BarChartColorRenderer(positiveValuesColor);
             } else {
-                if (((Double) value).doubleValue() <= - significanceLevel) {
-                    renderer = new BarChartColorRenderer(negativeValuesColor);
-                } else {
-                    renderer = new BarChartColorRenderer(nonSignificantColor);
-                }
+                renderer = new BarChartColorRenderer(negativeValuesColor);
             }
 
-        } else if (value instanceof Integer ||
-                value instanceof Short ||
-                value instanceof Long ||
-                value instanceof Short) {
+        } else if (value instanceof Integer
+                || value instanceof Short
+                || value instanceof Long
+                || value instanceof Short) {
 
             if (value instanceof Short) {
                 value = ((Short) value).intValue();
@@ -361,16 +455,24 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
             }
 
             if (((Integer) value).intValue() >= 0) {
-                if (((Integer) value).intValue() >= significanceLevel) {
-                    renderer = new BarChartColorRenderer(positiveValuesColor);
-                } else {
+                renderer = new BarChartColorRenderer(positiveValuesColor);
+            } else {
+                renderer = new BarChartColorRenderer(negativeValuesColor);
+            }
+
+        } else if (value instanceof XYDataPoint) {
+
+            if (((XYDataPoint) value).getX() >= 0) {
+                if (((XYDataPoint) value).getY() >= significanceLevel) {
                     renderer = new BarChartColorRenderer(nonSignificantColor);
+                } else {
+                    renderer = new BarChartColorRenderer(positiveValuesColor);
                 }
             } else {
-                if (((Integer) value).intValue() <= - significanceLevel) {
-                    renderer = new BarChartColorRenderer(negativeValuesColor);
-                } else {
+                if (((XYDataPoint) value).getY() >= significanceLevel) {
                     renderer = new BarChartColorRenderer(nonSignificantColor);
+                } else {
+                    renderer = new BarChartColorRenderer(negativeValuesColor);
                 }
             }
         }
@@ -443,24 +545,6 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
      */
     public void setTooltipLowerValue(double tooltipLowerValue) {
         this.tooltipLowerValue = tooltipLowerValue;
-    }
-
-    /**
-     * Return if the values are to be log transformed.
-     *
-     * @return if the values are to be log transformed
-     */
-    public boolean isLogTransform() {
-        return logTransform;
-    }
-
-    /**
-     * Set if the values are to be log transformed.
-     *
-     * @param logTransform if the values are to be log transformed
-     */
-    public void setLogTransform(boolean logTransform) {
-        this.logTransform = logTransform;
     }
 
     /**
