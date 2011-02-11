@@ -98,7 +98,11 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="showJSparklinesJCheckBox" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="showJSparklinesJCheckBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="showBothJCheckBox" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <Component id="singleValuesJScrollPane" alignment="1" pref="353" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -111,7 +115,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="singleValuesJScrollPane" pref="261" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="showJSparklinesJCheckBox" min="-2" pref="26" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="showBothJCheckBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="showJSparklinesJCheckBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -162,6 +169,17 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JCheckBox" name="showBothJCheckBox">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Show Both"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;Display the chart &lt;u&gt;and&lt;/u&gt; the number&#xa;&lt;/html&gt;"/>
+                <Property name="iconTextGap" type="int" value="8"/>
+                <Property name="opaque" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showBothJCheckBoxActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="multipleDataSeriesJPanel">

@@ -50,13 +50,13 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
     }
 
     /**
-     * Returns the xy-values as a string. Note that the values are rounded
+     * Returns the x-value as a string. Note that the values are rounded
      * to two decimals.
      *
      * @return the xy-values as a string
      */
     public String toString() {
-        return "(" + roundDouble(x, 2) + "," + roundDouble(y, 2) + ")";
+        return "" + roundDouble(x, 2);
     }
 
     /**
