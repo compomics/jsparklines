@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -269,12 +270,31 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * False only display the bar chart. This method is not to be confused with
      * the showNumbers-method that only displays the numbers.
      *
-     * @param showNumberAndChart if true the number and the chart is shown in the cell
-     * @param widthOfLabel the width used to display the label containing the number
+     * @param showNumberAndChart    if true the number and the chart is shown in the cell
+     * @param widthOfLabel          the width used to display the label containing the number
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel) {
         this.showNumberAndChart = showNumberAndChart;
         this.widthOfValueLabel = widthOfLabel;
+    }
+
+    /**
+     * If true the number will be shown together with the bar chart in the cell.
+     * False only display the bar chart. This method is not to be confused with
+     * the showNumbers-method that only displays the numbers.
+     *
+     * @param showNumberAndChart    if true the number and the chart is shown in the cell
+     * @param widthOfLabel          the width used to display the label containing the number
+     * @param font                  the font to use for the label
+     * @param horizontalAlignement  the horizontal alignent of the text in the label:
+     *                              one of the following constants defined in SwingConstants:
+     *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
+     */
+    public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement) {
+        this.showNumberAndChart = showNumberAndChart;
+        this.widthOfValueLabel = widthOfLabel;
+        valueLabel.setHorizontalAlignment(horizontalAlignement);
+        valueLabel.setFont(font);
     }
 
     /**
@@ -402,8 +422,19 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
         // show the number _and_ the chart if option selected
         if (showNumberAndChart) {
+
+            if (value instanceof Double || value instanceof Float) {
+                valueLabel.setText("" + roundDouble(Double.valueOf("" + value).doubleValue(), 2));
+            } else if (value instanceof Integer
+                || value instanceof Short
+                || value instanceof Long
+                || value instanceof Short) {
+                valueLabel.setText("" + Integer.valueOf("" + value).intValue());
+            } else if (value instanceof XYDataPoint) {
+                valueLabel.setText("" + roundDouble(((XYDataPoint) value).getX(), 2));
+            }
+
             valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
-            valueLabel.setText("" + roundDouble(new Double("" + value).doubleValue(), 2));
             valueLabel.setVisible(true);
         } else {
             valueLabel.setMinimumSize(new Dimension(0, 0));
