@@ -349,6 +349,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 return true;
             }
         };
+        showBothJCheckBox = new javax.swing.JCheckBox();
         multipleDataSeriesJPanel = new javax.swing.JPanel();
         multipleDataSeriesJScrollPane = new javax.swing.JScrollPane();
         multipleDataSeriesJTable = new javax.swing.JTable();
@@ -407,6 +408,16 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJTable.setSelectionBackground(new java.awt.Color(204, 204, 204));
         singleValuesJScrollPane.setViewportView(singleValuesJTable);
 
+        showBothJCheckBox.setText("Show Both");
+        showBothJCheckBox.setToolTipText("<html>\nDisplay the chart <u>and</u> the number\n</html>");
+        showBothJCheckBox.setIconTextGap(8);
+        showBothJCheckBox.setOpaque(false);
+        showBothJCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showBothJCheckBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout singleValuesJPanelLayout = new javax.swing.GroupLayout(singleValuesJPanel);
         singleValuesJPanel.setLayout(singleValuesJPanelLayout);
         singleValuesJPanelLayout.setHorizontalGroup(
@@ -414,7 +425,10 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, singleValuesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(showJSparklinesJCheckBox)
+                    .addGroup(singleValuesJPanelLayout.createSequentialGroup()
+                        .addComponent(showJSparklinesJCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(showBothJCheckBox))
                     .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -424,7 +438,9 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(showJSparklinesJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(showBothJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showJSparklinesJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -553,15 +569,14 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         treeDimensionalDataSeriesJPanel.setLayout(treeDimensionalDataSeriesJPanelLayout);
         treeDimensionalDataSeriesJPanelLayout.setHorizontalGroup(
             treeDimensionalDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
-                .addContainerGap(191, Short.MAX_VALUE)
-                .addComponent(reference3dValuesJCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(treeDimensionalDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
             .addGroup(treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(treeDimensionalDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                .addGroup(treeDimensionalDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
+                        .addComponent(reference3dValuesJCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(treeDimensionalDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(treeDimensionalDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
                 .addContainerGap())
         );
         treeDimensionalDataSeriesJPanelLayout.setVerticalGroup(
@@ -709,6 +724,9 @@ public class JSparklinesDemo extends javax.swing.JFrame {
      * @param evt
      */
     private void showJSparklinesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showJSparklinesJCheckBoxActionPerformed
+
+        showBothJCheckBox.setEnabled(showJSparklinesJCheckBox.isSelected());
+
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
@@ -860,6 +878,21 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     }//GEN-LAST:event_reference3dValuesJCheckBoxActionPerformed
 
     /**
+     * Displays the number _and_ the chart or just the chart for the bar chart
+     * example.
+     * 
+     * @param evt
+     */
+    private void showBothJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showBothJCheckBoxActionPerformed
+        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showNumberAndChart(showBothJCheckBox.isSelected(), 40);
+        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showNumberAndChart(showBothJCheckBox.isSelected(), 40);
+        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showNumberAndChart(showBothJCheckBox.isSelected(), 40);
+
+        singleValuesJTable.revalidate();
+        singleValuesJTable.repaint();
+    }//GEN-LAST:event_showBothJCheckBoxActionPerformed
+
+    /**
      * Starts the JSparklines demo.
      *
      * @param args the command line arguments
@@ -884,6 +917,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     private javax.swing.JTable multipleValuesJTable;
     private javax.swing.JCheckBox reference3dValuesJCheckBox;
     private javax.swing.JCheckBox referenceMultipleValuesJCheckBox;
+    private javax.swing.JCheckBox showBothJCheckBox;
     private javax.swing.JCheckBox showJSparklinesJCheckBox;
     private javax.swing.JPanel singleValuesJPanel;
     private javax.swing.JScrollPane singleValuesJScrollPane;

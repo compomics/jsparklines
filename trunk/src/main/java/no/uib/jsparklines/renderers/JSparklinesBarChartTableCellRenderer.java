@@ -4,8 +4,11 @@ import no.uib.jsparklines.renderers.util.BarChartColorRenderer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -26,7 +29,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
  *
  * @author Harald Barsnes
  */
-public class JSparklinesBarChartTableCellRenderer extends JLabel implements TableCellRenderer {
+public class JSparklinesBarChartTableCellRenderer extends JPanel implements TableCellRenderer {
 
     /**
      * The minimum value to display as a chart. Values smaller than this lower
@@ -52,6 +55,11 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
      * The chart to display.
      */
     private JFreeChart chart;
+    /**
+     * The label used to display the number and the bar chart at the same
+     * time.
+     */
+    private JLabel valueLabel;
     /**
      * The maximum value. Used to set the maximum range for the chart.
      */
@@ -90,6 +98,15 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
      * The upper level for when to use the significant values color.
      */
     private double significanceLevel = 1;
+    /**
+     * If true the value of the chart is shown next to the bar chart.
+     */
+    private boolean showNumberAndChart = false;
+    /**
+     * The width of the label used to display the value and the chart in the
+     * same time.
+     */
+    private int widthOfValueLabel = 40;
 
     /**
      * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when only positive
@@ -233,10 +250,31 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
         setName("Table.cellRenderer");
         setLayout(new BorderLayout());
 
+        valueLabel = new JLabel("");
+        valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
+        valueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); // @TODO: perhaps this could be set by the user?
+        valueLabel.setFont(valueLabel.getFont().deriveFont(valueLabel.getFont().getSize()-2f)); // @TODO: perhaps this could be set by the user?
+
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         chart = ChartFactory.createBarChart(null, null, null, dataset, plotOrientation, false, false, false);
         this.chartPanel = new ChartPanel(chart);
+        
+        this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+        this.add(valueLabel);
         add(chartPanel);
+    }
+
+    /**
+     * If true the number will be shown together with the bar chart in the cell.
+     * False only display the bar chart. This method is not to be confused with
+     * the showNumbers-method that only displays the numbers.
+     *
+     * @param showNumberAndChart if true the number and the chart is shown in the cell
+     * @param widthOfLabel the width used to display the label containing the number
+     */
+    public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel) {
+        this.showNumberAndChart = showNumberAndChart;
+        this.widthOfValueLabel = widthOfLabel;
     }
 
     /**
@@ -360,6 +398,17 @@ public class JSparklinesBarChartTableCellRenderer extends JLabel implements Tabl
             } else {
                 this.setToolTipText("" + roundDouble(((XYDataPoint) value).getX(), 2));
             }
+        }
+
+        // show the number _and_ the chart if option selected
+        if (showNumberAndChart) {
+            valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
+            valueLabel.setText("" + roundDouble(new Double("" + value).doubleValue(), 2));
+            valueLabel.setVisible(true);
+        } else {
+            valueLabel.setMinimumSize(new Dimension(0, 0));
+            valueLabel.setSize(0, 0);
+            valueLabel.setVisible(false);
         }
 
         // respect focus and hightlighting
