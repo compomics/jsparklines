@@ -123,6 +123,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * The currently selected color gradient.
      */
     private ColorGradient currentColorGradient = ColorGradient.greenRed;
+    /**
+     * If true, the values are shown as a heat map.
+     */
+    private boolean showAsHeatMap = false;
 
     /**
      * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when only positive
@@ -278,6 +282,37 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         this.add(valueLabel);
         add(chartPanel);
+    }
+
+    /**
+     * Displays the values as a heat map using the selected color gradient.
+     * To disable the heat map use null as the paramater.
+     * <br><br>
+     * <b>NB: the programmer has to make sure that the max and min values are
+     * the same for all columns used in a heat map to ensure that the color
+     * coding is comparable accross the columns. This method can not handle
+     * this.</b>
+     * <br><br>
+     * Values below zero uses the first color in the gradient name, while values
+     * above zero uses the second color in the gradient, i.e., if the column contains
+     * only positive values only the second color will be used.
+     * <br><br>
+     * Note that the max value is set to the maximum absolute value of the max
+     * and min values in order to make the color gradient equal on both sides.
+     *
+     * @param colorGradient the color gradient to use, null disables the color gradient
+     */
+    public void showAsHeatMap(ColorGradient colorGradient) {
+
+        this.showAsHeatMap = (colorGradient != null);
+        gradientColoring = (colorGradient != null);
+        this.currentColorGradient = colorGradient;
+
+        if (showAsHeatMap) {
+            if (Math.abs(minValue) > maxValue) {
+                maxValue = Math.abs(minValue);
+            }
+        }
     }
 
     /**
@@ -501,7 +536,11 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 value = minimumChartValue;
             }
 
-            dataset.addValue(((Double) value), "1", "1");
+            if (showAsHeatMap) {
+                dataset.addValue(maxValue, "1", "1");
+            } else {
+                dataset.addValue(((Double) value), "1", "1");
+            }
 
         } else if (value instanceof Integer
                 || value instanceof Short
@@ -516,7 +555,11 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 value = ((Short) value).intValue();
             }
 
-            dataset.addValue(((Integer) value), "1", "1");
+            if (showAsHeatMap) {
+                dataset.addValue(maxValue, "1", "1");
+            } else {
+                dataset.addValue(((Integer) value), "1", "1");
+            }
 
         } else if (value instanceof XYDataPoint) {
 
@@ -524,19 +567,23 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 value = minimumChartValue;
             }
 
-            dataset.addValue(((XYDataPoint) value).getX(), "1", "1");
+            if (showAsHeatMap) {
+                dataset.addValue(maxValue, "1", "1");
+            } else {
+                dataset.addValue(((XYDataPoint) value).getX(), "1", "1");
+            }
         }
 
         // fine tune the chart properites
         CategoryPlot plot = chart.getCategoryPlot();
 
         // set the axis range
-        plot.getRangeAxis().setRange(minValue, maxValue);
-
-        // make sure the background is the same as the table row color
-        plot.setBackgroundPaint(c.getBackground());
-        chartPanel.setBackground(c.getBackground());
-        chart.setBackgroundPaint(c.getBackground());
+        if (showAsHeatMap) {
+            plot.getRangeAxis().setRange(0, maxValue);
+        } else {
+            plot.getRangeAxis().setRange(minValue, maxValue);
+        }
+        
 
         // add the dataset
         plot.setDataset(dataset);
@@ -550,6 +597,8 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         // set up the chart renderer
         CategoryItemRenderer renderer = null;
 
+        Color currentColor = c.getBackground();
+
         if (value instanceof Double || value instanceof Float) {
 
             if (value instanceof Float) {
@@ -557,13 +606,16 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             }
 
             if (gradientColoring) {
-                renderer = new BarChartColorRenderer(findGradientColor((Double) value));
+                currentColor = findGradientColor((Double) value);
+                renderer = new BarChartColorRenderer(currentColor);
             } else {
 
                 if (((Double) value).doubleValue() >= 0) {
-                    renderer = new BarChartColorRenderer(positiveValuesColor);
+                    currentColor = positiveValuesColor;
+                    renderer = new BarChartColorRenderer(currentColor);
                 } else {
-                    renderer = new BarChartColorRenderer(negativeValuesColor);
+                    currentColor = negativeValuesColor;
+                    renderer = new BarChartColorRenderer(currentColor);
                 }
             }
 
@@ -581,12 +633,15 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             }
 
             if (gradientColoring) {
-                renderer = new BarChartColorRenderer(findGradientColor(((Integer) value).doubleValue()));
+                currentColor = findGradientColor(((Integer) value).doubleValue());
+                renderer = new BarChartColorRenderer(currentColor);
             } else {
 
                 if (((Integer) value).intValue() >= 0) {
-                    renderer = new BarChartColorRenderer(positiveValuesColor);
+                    currentColor = positiveValuesColor;
+                    renderer = new BarChartColorRenderer(currentColor);
                 } else {
+                    currentColor = negativeValuesColor;
                     renderer = new BarChartColorRenderer(negativeValuesColor);
                 }
             }
@@ -595,17 +650,33 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
             if (((XYDataPoint) value).getX() >= 0) {
                 if (((XYDataPoint) value).getY() >= significanceLevel) {
-                    renderer = new BarChartColorRenderer(nonSignificantColor);
+                    currentColor = nonSignificantColor;
+                    renderer = new BarChartColorRenderer(currentColor);
                 } else {
-                    renderer = new BarChartColorRenderer(positiveValuesColor);
+                    currentColor = positiveValuesColor;
+                    renderer = new BarChartColorRenderer(currentColor);
                 }
             } else {
                 if (((XYDataPoint) value).getY() >= significanceLevel) {
-                    renderer = new BarChartColorRenderer(nonSignificantColor);
+                    currentColor = nonSignificantColor;
+                    renderer = new BarChartColorRenderer(currentColor);
                 } else {
-                    renderer = new BarChartColorRenderer(negativeValuesColor);
+                    currentColor = negativeValuesColor;
+                    renderer = new BarChartColorRenderer(currentColor);
                 }
             }
+        }
+
+        // make sure the background is the same as the table row color
+        if (showAsHeatMap) {
+            plot.setBackgroundPaint(currentColor);
+            chartPanel.setBackground(currentColor);
+            chart.setBackgroundPaint(currentColor);
+            this.setBackground(currentColor);
+        } else {
+            plot.setBackgroundPaint(c.getBackground());
+            chartPanel.setBackground(c.getBackground());
+            chart.setBackgroundPaint(c.getBackground());
         }
 
         plot.setRenderer(renderer);
