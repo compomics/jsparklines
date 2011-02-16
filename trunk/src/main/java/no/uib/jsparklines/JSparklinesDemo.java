@@ -27,6 +27,7 @@ import no.uib.jsparklines.data.JSparklinesDataset;
 import no.uib.jsparklines.data.XYZDataPoint;
 import no.uib.jsparklines.renderers.JSparklines3dTableCellRenderer;
 import no.uib.jsparklines.renderers.JSparklinesBarChartTableCellRenderer;
+import no.uib.jsparklines.renderers.JSparklinesBarChartTableCellRenderer.ColorGradient;
 import no.uib.jsparklines.renderers.JSparklinesTableCellRenderer;
 import org.jfree.chart.plot.PlotOrientation;
 
@@ -71,7 +72,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJTable.getColumn("Peptides").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, 80.0, colorC));
         singleValuesJTable.getColumn("Coverage").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, 100.0, colorC));
 
-        
+
         // add data to the multiple values example
         double maxValue = 10;
         addDataMultipleValues(maxValue);
@@ -350,6 +351,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             }
         };
         showBothJCheckBox = new javax.swing.JCheckBox();
+        showGradientJCheckBox = new javax.swing.JCheckBox();
         multipleDataSeriesJPanel = new javax.swing.JPanel();
         multipleDataSeriesJScrollPane = new javax.swing.JScrollPane();
         multipleDataSeriesJTable = new javax.swing.JTable();
@@ -375,7 +377,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJPanel.setOpaque(false);
 
         showJSparklinesJCheckBox.setSelected(true);
-        showJSparklinesJCheckBox.setText("Show Sparklines");
+        showJSparklinesJCheckBox.setText("Sparklines");
         showJSparklinesJCheckBox.setToolTipText("Turn the sparklines on or off");
         showJSparklinesJCheckBox.setIconTextGap(8);
         showJSparklinesJCheckBox.setOpaque(false);
@@ -408,13 +410,23 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJTable.setSelectionBackground(new java.awt.Color(204, 204, 204));
         singleValuesJScrollPane.setViewportView(singleValuesJTable);
 
-        showBothJCheckBox.setText("Show Both");
+        showBothJCheckBox.setText("Lines & Values");
         showBothJCheckBox.setToolTipText("<html>\nDisplay the chart <u>and</u> the number\n</html>");
         showBothJCheckBox.setIconTextGap(8);
         showBothJCheckBox.setOpaque(false);
         showBothJCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showBothJCheckBoxActionPerformed(evt);
+            }
+        });
+
+        showGradientJCheckBox.setText("Gradient");
+        showGradientJCheckBox.setToolTipText("Turn the gradient color coding on or off");
+        showGradientJCheckBox.setIconTextGap(8);
+        showGradientJCheckBox.setOpaque(false);
+        showGradientJCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showGradientJCheckBoxActionPerformed(evt);
             }
         });
 
@@ -425,11 +437,13 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, singleValuesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                     .addGroup(singleValuesJPanelLayout.createSequentialGroup()
                         .addComponent(showJSparklinesJCheckBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(showBothJCheckBox))
-                    .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(showBothJCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(showGradientJCheckBox)))
                 .addContainerGap())
         );
         singleValuesJPanelLayout.setVerticalGroup(
@@ -439,6 +453,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(showGradientJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(showBothJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(showJSparklinesJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -726,6 +741,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     private void showJSparklinesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showJSparklinesJCheckBoxActionPerformed
 
         showBothJCheckBox.setEnabled(showJSparklinesJCheckBox.isSelected());
+        showGradientJCheckBox.setEnabled(showJSparklinesJCheckBox.isSelected());
 
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
@@ -843,7 +859,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
      * @param evt
      */
     private void treeDimensionalDataSeriesJComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeDimensionalDataSeriesJComboBoxActionPerformed
-        
+
         String selectedPlotType = (String) treeDimensionalDataSeriesJComboBox.getSelectedItem();
 
         // update the chart type
@@ -893,6 +909,25 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     }//GEN-LAST:event_showBothJCheckBoxActionPerformed
 
     /**
+     * Turns the gradient color coding on or off.
+     * 
+     * @param evt
+     */
+    private void showGradientJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showGradientJCheckBoxActionPerformed
+
+        if (showGradientJCheckBox.isSelected()) {
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.yellowGreen);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(ColorGradient.yellowGreen);
+        } else {
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(null);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(null);
+        }
+
+        singleValuesJTable.revalidate();
+        singleValuesJTable.repaint();
+    }//GEN-LAST:event_showGradientJCheckBoxActionPerformed
+
+    /**
      * Starts the JSparklines demo.
      *
      * @param args the command line arguments
@@ -918,6 +953,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     private javax.swing.JCheckBox reference3dValuesJCheckBox;
     private javax.swing.JCheckBox referenceMultipleValuesJCheckBox;
     private javax.swing.JCheckBox showBothJCheckBox;
+    private javax.swing.JCheckBox showGradientJCheckBox;
     private javax.swing.JCheckBox showJSparklinesJCheckBox;
     private javax.swing.JPanel singleValuesJPanel;
     private javax.swing.JScrollPane singleValuesJScrollPane;
