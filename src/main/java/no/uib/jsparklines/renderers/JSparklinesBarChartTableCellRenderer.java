@@ -33,6 +33,13 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class JSparklinesBarChartTableCellRenderer extends JPanel implements TableCellRenderer {
 
     /**
+     * An enumerator of the supported color gradient types.
+     */
+    public enum ColorGradient {
+
+        redGreen, greenRed, greenBlue, blueGreen, greenYellow, yellowGreen, greenPurple, purpleGreen, redMagenta, magentaRed
+    }
+    /**
      * The minimum value to display as a chart. Values smaller than this lower
      * limit are shown as this minimum value when shown as a chart. This to make
      * sure that the chart is visible at all.
@@ -112,6 +119,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * If true a red/green gradient coloring is used.
      */
     private boolean gradientColoring = false;
+    /**
+     * The currently selected color gradient.
+     */
+    private ColorGradient currentColorGradient = ColorGradient.greenRed;
 
     /**
      * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when only positive
@@ -270,17 +281,28 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * If set to true a red/green color grading is used of the bars.
-     * The max value is set to the maximum absolute value of the max
-     * and min values.
+     * Set the color gradient to use for the bars. To disable the color gradient
+     * use null as the paramater.
+     * <br><br>
+     * Values below zero uses the first color in the gradient name, while values
+     * above zero uses the second color in the gradient, i.e., if the column contains
+     * only positive values only the second color will be used.
+     * <br><br>
+     * Note that the max value is set to the maximum absolute value of the max
+     * and min values in order to make the color gradient equal on both sides.
      * 
-     * @param gradientColoring
+     * @param colorGradient the color gradient to use, null disables the color gradient
      */
-    public void useGradientColoring(boolean gradientColoring) {
-        this.gradientColoring = gradientColoring;
+    public void setGradientColoring(ColorGradient colorGradient) {
 
-        if (Math.abs(minValue) > maxValue) {
-            maxValue = Math.abs(minValue);
+        this.gradientColoring = (colorGradient != null);
+
+        this.currentColorGradient = colorGradient;
+
+        if (gradientColoring) {
+            if (Math.abs(minValue) > maxValue) {
+                maxValue = Math.abs(minValue);
+            }
         }
     }
 
@@ -592,7 +614,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Returns the red/green gradient color to use.
+     * Returns the gradient color using the currently selected color gradient.
+     * Values below zero uses the first color in the gradient, while values
+     * above zero uses the second color in the gradient. If the column contains
+     * only positive values only the second color will be used.
      *
      * @param value the value to find the gradient color for
      * @return      the gradient color
@@ -602,37 +627,135 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         int numberOfColorLevels = 50;
         double distanceBetweenCorrelationLevels = maxValue / (((double) numberOfColorLevels) / 2);
 
-        Color backGroundColor = Color.BLUE;
+        Color backGroundColor = null;
 
+        // find the color for the values below zero
         for (int i = 0; i < (numberOfColorLevels / 2); i++) {
 
+            // find the lower and upper range for the current color
             Double lowerRange = new Double(-maxValue + (i * distanceBetweenCorrelationLevels));
             Double upperRange = new Double(-maxValue + ((i + maxValue) * distanceBetweenCorrelationLevels));
 
-            Color tempColor = new Color(50 - (i * 2), 255 - (i * 10), 0);
+            Color tempColor = null;
 
+            // calculate the current color
+            if (currentColorGradient == ColorGradient.greenRed) {
+                tempColor = new Color(50 - (i * 2), 255 - (i * 10), 0);
+            } else if (currentColorGradient == ColorGradient.redGreen) {
+                tempColor = new Color(255 - (i * 10), 50 - (i * 2), 0);
+            } else if (currentColorGradient == ColorGradient.greenBlue) {
+                tempColor = new Color(0, 255 - (i * 10), 50 - (i * 2));
+            } else if (currentColorGradient == ColorGradient.blueGreen) {
+                tempColor = new Color(0, 50 - (i * 2), 255 - (i * 10));
+            } else if (currentColorGradient == ColorGradient.greenYellow) {
+                tempColor = new Color(50 - (i * 2), 255 - (i * 10), 0);
+            } else if (currentColorGradient == ColorGradient.yellowGreen) {
+                tempColor = new Color(255 - 10 * i, 255 - 10 * i, 0);
+            } else if (currentColorGradient == ColorGradient.greenPurple) {
+                tempColor = new Color(50 - (i * 2), 255 - (i * 10), 0);
+            } else if (currentColorGradient == ColorGradient.purpleGreen) {
+                tempColor = new Color(255 - 10 * i, 0, 255 - 10 * i);
+            } else if (currentColorGradient == ColorGradient.redMagenta) {
+                tempColor = new Color(255 - (i * 10), 50 - (i * 2), 0);
+            } else if (currentColorGradient == ColorGradient.magentaRed) {
+                tempColor = new Color(0, 255 - 10 * i, 255 - 10 * i);
+            }
+
+            // see of the value is in the wanted range
             if (value.doubleValue() >= lowerRange && value.doubleValue() < upperRange) {
                 backGroundColor = tempColor;
             }
         }
 
+        // find the color for the values above zero
         for (int i = 0; i < (numberOfColorLevels / 2); i++) {
 
+            // find the lower and upper range for the current color
             Double lowerRange = new Double(0.0 + distanceBetweenCorrelationLevels * i);
             Double upperRange = new Double(0.0 + distanceBetweenCorrelationLevels * (i + maxValue));
 
-            Color tempColor = new Color(15 + 10 * i, 0, 0);
+            Color tempColor = null;
 
+            // calculate the current color
+            if (currentColorGradient == ColorGradient.greenRed) {
+                tempColor = new Color(15 + 10 * i, 0, 0);
+            } else if (currentColorGradient == ColorGradient.redGreen) {
+                tempColor = new Color(0, 15 + 10 * i, 0);
+            } else if (currentColorGradient == ColorGradient.greenBlue) {
+                tempColor = new Color(0, 0, 15 + 10 * i);
+            } else if (currentColorGradient == ColorGradient.greenBlue) {
+                tempColor = new Color(0, 15 + 10 * i, 0);
+            } else if (currentColorGradient == ColorGradient.greenYellow) {
+                tempColor = new Color(15 + 10 * i, 15 + 10 * i, 0);
+            } else if (currentColorGradient == ColorGradient.yellowGreen) {
+                tempColor = new Color(0, 15 + 10 * i, 0);
+            } else if (currentColorGradient == ColorGradient.greenPurple) {
+                tempColor = new Color(15 + 10 * i, 0, 15 + 10 * i);
+            } else if (currentColorGradient == ColorGradient.purpleGreen) {
+                tempColor = new Color(0, 15 + 10 * i, 0);
+            } else if (currentColorGradient == ColorGradient.redMagenta) {
+                tempColor = new Color(0, 15 + 10 * i, 15 + 10 * i);
+            } else if (currentColorGradient == ColorGradient.magentaRed) {
+                tempColor = new Color(15 + 10 * i, 0, 0);
+            }
+
+            // see of the value is in the wanted range
             if ((value.doubleValue() >= lowerRange && value.doubleValue() < upperRange)
                     || (upperRange.doubleValue() == maxValue && value.doubleValue() == upperRange.doubleValue())) {
                 backGroundColor = tempColor;
             }
         }
 
+        // calculate the color for values outside the value range
         if (value.doubleValue() < minValue) {
-            backGroundColor = Color.GREEN;
+
+            // calculate the color for values smaller than the lower range
+            if (currentColorGradient == ColorGradient.greenRed) {
+                backGroundColor = Color.GREEN;
+            } else if (currentColorGradient == ColorGradient.redGreen) {
+                backGroundColor = Color.RED;
+            } else if (currentColorGradient == ColorGradient.greenBlue) {
+                backGroundColor = Color.GREEN;
+            } else if (currentColorGradient == ColorGradient.blueGreen) {
+                backGroundColor = Color.BLUE;
+            } else if (currentColorGradient == ColorGradient.greenYellow) {
+                backGroundColor = Color.GREEN;
+            } else if (currentColorGradient == ColorGradient.yellowGreen) {
+                backGroundColor = Color.YELLOW;
+            } else if (currentColorGradient == ColorGradient.greenPurple) {
+                backGroundColor = Color.GREEN;
+            } else if (currentColorGradient == ColorGradient.purpleGreen) {
+                backGroundColor = new Color(255, 0, 255);
+            } else if (currentColorGradient == ColorGradient.redMagenta) {
+                backGroundColor = Color.RED;
+            } else if (currentColorGradient == ColorGradient.magentaRed) {
+                backGroundColor = new Color(0, 255, 255);
+            }
+
         } else if (value.doubleValue() > maxValue) {
-            backGroundColor = Color.RED;
+
+            // calculate the color for values bigger than the upper range
+            if (currentColorGradient == ColorGradient.greenRed) {
+                backGroundColor = Color.RED;
+            } else if (currentColorGradient == ColorGradient.redGreen) {
+                backGroundColor = Color.GREEN;
+            } else if (currentColorGradient == ColorGradient.greenBlue) {
+                backGroundColor = Color.BLUE;
+            } else if (currentColorGradient == ColorGradient.blueGreen) {
+                backGroundColor = Color.GREEN;
+            } else if (currentColorGradient == ColorGradient.greenYellow) {
+                backGroundColor = Color.YELLOW;
+            } else if (currentColorGradient == ColorGradient.yellowGreen) {
+                backGroundColor = Color.GREEN;
+            } else if (currentColorGradient == ColorGradient.greenPurple) {
+                backGroundColor = new Color(255, 0, 255);
+            } else if (currentColorGradient == ColorGradient.purpleGreen) {
+                backGroundColor = Color.GREEN;
+            } else if (currentColorGradient == ColorGradient.redMagenta) {
+                backGroundColor = new Color(0, 255, 255);
+            } else if (currentColorGradient == ColorGradient.magentaRed) {
+                backGroundColor = Color.RED;
+            }
         }
 
         return backGroundColor;
