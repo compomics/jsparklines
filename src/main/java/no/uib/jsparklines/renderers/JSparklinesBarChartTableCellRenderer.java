@@ -108,9 +108,13 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * same time.
      */
     private int widthOfValueLabel = 40;
+    /**
+     * If true a red/green gradient coloring is used.
+     */
+    private boolean gradientColoring = false;
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when only positive
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when only positive
      * values are to be plotted. This constructor uses default colors for the bars. If you want to
      * set your own colors, use one of the other constructors.
      *
@@ -135,7 +139,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when only positive
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when only positive
      * values are to be plotted.
      *
      * @param plotOrientation       the orientation of the plot
@@ -150,7 +154,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when only positive
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when only positive
      * values are to be plotted. Note that to use the significance color coding the object in the
      * table cell has to be of type XYDataPoint.
      *
@@ -170,7 +174,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when positive
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when positive
      * and negative values are to be plotted. This constructor uses default colors for the bars.
      * If you want to set your own colors, use one of the other constructors.
      *
@@ -189,7 +193,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when positive
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when positive
      * and negative values are to be plotted.
      *
      * @param plotOrientation       the orientation of the plot
@@ -208,7 +212,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Used this constructor when positive
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when positive
      * and negative values are to be plotted. Note that to use the significance color coding the 
      * object in the table cell has to be of type XYDataPoint.
      *
@@ -253,16 +257,31 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
         valueLabel = new JLabel("");
         valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
-        valueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); // @TODO: perhaps this could be set by the user?
-        valueLabel.setFont(valueLabel.getFont().deriveFont(valueLabel.getFont().getSize()-2f)); // @TODO: perhaps this could be set by the user?
+        valueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        valueLabel.setFont(valueLabel.getFont().deriveFont(valueLabel.getFont().getSize() - 2f));
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         chart = ChartFactory.createBarChart(null, null, null, dataset, plotOrientation, false, false, false);
         this.chartPanel = new ChartPanel(chart);
-        
+
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         this.add(valueLabel);
         add(chartPanel);
+    }
+
+    /**
+     * If set to true a red/green color grading is used of the bars.
+     * The max value is set to the maximum absolute value of the max
+     * and min values.
+     * 
+     * @param gradientColoring
+     */
+    public void useGradientColoring(boolean gradientColoring) {
+        this.gradientColoring = gradientColoring;
+
+        if (Math.abs(minValue) > maxValue) {
+            maxValue = Math.abs(minValue);
+        }
     }
 
     /**
@@ -426,9 +445,9 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             if (value instanceof Double || value instanceof Float) {
                 valueLabel.setText("" + roundDouble(Double.valueOf("" + value).doubleValue(), 2));
             } else if (value instanceof Integer
-                || value instanceof Short
-                || value instanceof Long
-                || value instanceof Short) {
+                    || value instanceof Short
+                    || value instanceof Long
+                    || value instanceof Short) {
                 valueLabel.setText("" + Integer.valueOf("" + value).intValue());
             } else if (value instanceof XYDataPoint) {
                 valueLabel.setText("" + roundDouble(((XYDataPoint) value).getX(), 2));
@@ -515,10 +534,15 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 value = ((Float) value).doubleValue();
             }
 
-            if (((Double) value).doubleValue() >= 0) {
-                renderer = new BarChartColorRenderer(positiveValuesColor);
+            if (gradientColoring) {
+                renderer = new BarChartColorRenderer(findGradientColor((Double) value));
             } else {
-                renderer = new BarChartColorRenderer(negativeValuesColor);
+
+                if (((Double) value).doubleValue() >= 0) {
+                    renderer = new BarChartColorRenderer(positiveValuesColor);
+                } else {
+                    renderer = new BarChartColorRenderer(negativeValuesColor);
+                }
             }
 
         } else if (value instanceof Integer
@@ -534,10 +558,15 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 value = ((Short) value).intValue();
             }
 
-            if (((Integer) value).intValue() >= 0) {
-                renderer = new BarChartColorRenderer(positiveValuesColor);
+            if (gradientColoring) {
+                renderer = new BarChartColorRenderer(findGradientColor(((Integer) value).doubleValue()));
             } else {
-                renderer = new BarChartColorRenderer(negativeValuesColor);
+
+                if (((Integer) value).intValue() >= 0) {
+                    renderer = new BarChartColorRenderer(positiveValuesColor);
+                } else {
+                    renderer = new BarChartColorRenderer(negativeValuesColor);
+                }
             }
 
         } else if (value instanceof XYDataPoint) {
@@ -560,6 +589,53 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         plot.setRenderer(renderer);
 
         return this;
+    }
+
+    /**
+     * Returns the red/green gradient color to use.
+     *
+     * @param value the value to find the gradient color for
+     * @return      the gradient color
+     */
+    private Color findGradientColor(Double value) {
+
+        int numberOfColorLevels = 50;
+        double distanceBetweenCorrelationLevels = maxValue / (((double) numberOfColorLevels) / 2);
+
+        Color backGroundColor = Color.BLUE;
+
+        for (int i = 0; i < (numberOfColorLevels / 2); i++) {
+
+            Double lowerRange = new Double(-maxValue + (i * distanceBetweenCorrelationLevels));
+            Double upperRange = new Double(-maxValue + ((i + maxValue) * distanceBetweenCorrelationLevels));
+
+            Color tempColor = new Color(50 - (i * 2), 255 - (i * 10), 0);
+
+            if (value.doubleValue() >= lowerRange && value.doubleValue() < upperRange) {
+                backGroundColor = tempColor;
+            }
+        }
+
+        for (int i = 0; i < (numberOfColorLevels / 2); i++) {
+
+            Double lowerRange = new Double(0.0 + distanceBetweenCorrelationLevels * i);
+            Double upperRange = new Double(0.0 + distanceBetweenCorrelationLevels * (i + maxValue));
+
+            Color tempColor = new Color(15 + 10 * i, 0, 0);
+
+            if ((value.doubleValue() >= lowerRange && value.doubleValue() < upperRange)
+                    || (upperRange.doubleValue() == maxValue && value.doubleValue() == upperRange.doubleValue())) {
+                backGroundColor = tempColor;
+            }
+        }
+
+        if (value.doubleValue() < minValue) {
+            backGroundColor = Color.GREEN;
+        } else if (value.doubleValue() > maxValue) {
+            backGroundColor = Color.RED;
+        }
+
+        return backGroundColor;
     }
 
     /**

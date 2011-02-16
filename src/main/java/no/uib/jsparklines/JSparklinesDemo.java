@@ -71,7 +71,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJTable.getColumn("Peptides").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, 80.0, colorC));
         singleValuesJTable.getColumn("Coverage").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, 100.0, colorC));
 
-
+        
         // add data to the multiple values example
         double maxValue = 10;
         addDataMultipleValues(maxValue);
