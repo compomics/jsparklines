@@ -100,6 +100,8 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="singleValuesJScrollPane" alignment="1" pref="353" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
+                              <Component id="showHeatMapJCheckBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="showJSparklinesJCheckBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="showBothJCheckBox" min="-2" max="-2" attributes="0"/>
@@ -121,6 +123,7 @@
                           <Component id="showGradientJCheckBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="showBothJCheckBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="showJSparklinesJCheckBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="showHeatMapJCheckBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -192,6 +195,17 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showGradientJCheckBoxActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="showHeatMapJCheckBox">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Heat Map"/>
+                <Property name="toolTipText" type="java.lang.String" value="Show the values as a heat map"/>
+                <Property name="iconTextGap" type="int" value="8"/>
+                <Property name="opaque" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showHeatMapJCheckBoxActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
