@@ -27,8 +27,8 @@ import no.uib.jsparklines.data.JSparklinesDataset;
 import no.uib.jsparklines.data.XYZDataPoint;
 import no.uib.jsparklines.renderers.JSparklines3dTableCellRenderer;
 import no.uib.jsparklines.renderers.JSparklinesBarChartTableCellRenderer;
-import no.uib.jsparklines.renderers.JSparklinesBarChartTableCellRenderer.ColorGradient;
 import no.uib.jsparklines.renderers.JSparklinesTableCellRenderer;
+import no.uib.jsparklines.renderers.util.GradientColorCoding.ColorGradient;
 import org.jfree.chart.plot.PlotOrientation;
 
 /**
