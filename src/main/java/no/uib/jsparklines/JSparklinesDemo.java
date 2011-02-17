@@ -527,7 +527,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(multipleDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                 .addContainerGap())
         );
         multipleDataSeriesJPanelLayout.setVerticalGroup(
@@ -706,23 +706,20 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(gradientPanelLayout.createSequentialGroup()
-                        .addComponent(singleValuesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(treeDimensionalDataSeriesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanelLayout.createSequentialGroup()
-                        .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(singleValuesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(treeDimensionalDataSeriesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanelLayout.createSequentialGroup()
+                        .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-
-        gradientPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {multipleDataSeriesJPanel, multipleValuesJPanel, singleValuesJPanel});
-
         gradientPanelLayout.setVerticalGroup(
             gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gradientPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(treeDimensionalDataSeriesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(singleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -736,11 +733,11 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gradientPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(gradientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gradientPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(gradientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -756,6 +753,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
         showBothJCheckBox.setEnabled(showJSparklinesJCheckBox.isSelected());
         showGradientJCheckBox.setEnabled(showJSparklinesJCheckBox.isSelected());
+        showHeatMapJCheckBox.setEnabled(showJSparklinesJCheckBox.isSelected());
 
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
@@ -930,11 +928,13 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     private void showGradientJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showGradientJCheckBoxActionPerformed
 
         if (showGradientJCheckBox.isSelected()) {
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.yellowGreen);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(ColorGradient.yellowGreen);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.blueBlackGreen);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(ColorGradient.blueBlackGreen);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).setGradientColoring(ColorGradient.blueBlackRed);
         } else {
             ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(null);
             ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(null);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).setGradientColoring(null);
         }
 
         singleValuesJTable.revalidate();
@@ -951,11 +951,13 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         showGradientJCheckBox.setSelected(showHeatMapJCheckBox.isSelected());
         
         if (showHeatMapJCheckBox.isSelected()) {
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showAsHeatMap(ColorGradient.yellowGreen);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showAsHeatMap(ColorGradient.yellowGreen);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showAsHeatMap(ColorGradient.blueBlackGreen);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showAsHeatMap(ColorGradient.blueBlackGreen);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showAsHeatMap(ColorGradient.blueBlackRed);
         } else {
             ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showAsHeatMap(null);
             ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showAsHeatMap(null);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showAsHeatMap(null);
         }
 
         singleValuesJTable.revalidate();
