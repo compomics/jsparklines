@@ -18,10 +18,10 @@ public class GradientColorCoding {
      */
     public enum ColorGradient {
 
-        redBlackGreen, greenBlackRed, greenBlackBlue, blueBlackGreen, greenBlackYellow,
-        yellowBlackGreen, greenBlackPurple, purpleBlackGreen, redBlackMagenta, magentaBlackRed,
-        greenWhiteRed, redWhiteGreen, blueWhiteRed, redWhiteBlue, blueBlackRed, redBlackBlue,
-        greenWhiteBlue, blueWhiteGreen
+        RedBlackGreen, GreenBlackRed, GreenBlackBlue, BlueBlackGreen, GreenBlackYellow,
+        YellowBlackGreen, GreenBlackPurple, PurpleBlackGreen, RedBlackMagenta, MagentaBlackRed,
+        BlueBlackRed, RedBlackBlue, GreenWhiteRed, RedWhiteGreen, BlueWhiteRed, RedWhiteBlue,
+        GreenWhiteBlue, BlueWhiteGreen
     }
 
      /**
@@ -50,41 +50,41 @@ public class GradientColorCoding {
             Color tempColor = null;
 
             // calculate the current color
-            if (colorGradient == ColorGradient.greenBlackRed) {
+            if (colorGradient == ColorGradient.GreenBlackRed) {
                 tempColor = new Color(50 - (i * 2), 255 - (i * 10), 0);
-            } else if (colorGradient == ColorGradient.redBlackGreen) {
+            } else if (colorGradient == ColorGradient.RedBlackGreen) {
                 tempColor = new Color(255 - (i * 10), 50 - (i * 2), 0);
-            } else if (colorGradient == ColorGradient.greenBlackBlue) {
+            } else if (colorGradient == ColorGradient.GreenBlackBlue) {
                 tempColor = new Color(0, 255 - (i * 10), 50 - (i * 2));
-            } else if (colorGradient == ColorGradient.blueBlackGreen) {
+            } else if (colorGradient == ColorGradient.BlueBlackGreen) {
                 tempColor = new Color(0, 50 - (i * 2), 255 - (i * 10));
-            } else if (colorGradient == ColorGradient.greenBlackYellow) {
+            } else if (colorGradient == ColorGradient.GreenBlackYellow) {
                 tempColor = new Color(50 - (i * 2), 255 - (i * 10), 0);
-            } else if (colorGradient == ColorGradient.yellowBlackGreen) {
+            } else if (colorGradient == ColorGradient.YellowBlackGreen) {
                 tempColor = new Color(255 - 10 * i, 255 - 10 * i, 0);
-            } else if (colorGradient == ColorGradient.greenBlackPurple) {
+            } else if (colorGradient == ColorGradient.GreenBlackPurple) {
                 tempColor = new Color(50 - (i * 2), 255 - (i * 10), 0);
-            } else if (colorGradient == ColorGradient.purpleBlackGreen) {
+            } else if (colorGradient == ColorGradient.PurpleBlackGreen) {
                 tempColor = new Color(255 - 10 * i, 0, 255 - 10 * i);
-            } else if (colorGradient == ColorGradient.redBlackMagenta) {
+            } else if (colorGradient == ColorGradient.RedBlackMagenta) {
                 tempColor = new Color(255 - (i * 10), 50 - (i * 2), 0);
-            } else if (colorGradient == ColorGradient.magentaBlackRed) {
+            } else if (colorGradient == ColorGradient.MagentaBlackRed) {
                 tempColor = new Color(0, 255 - 10 * i, 255 - 10 * i);
-            } else if (colorGradient == ColorGradient.greenWhiteRed) {
+            } else if (colorGradient == ColorGradient.GreenWhiteRed) {
                 tempColor = new Color(15 + 10 * i, 255, 15 + 10 * i);
-            } else if (colorGradient == ColorGradient.redWhiteGreen) {
+            } else if (colorGradient == ColorGradient.RedWhiteGreen) {
                 tempColor = new Color(255, 15 + 10 * i, 15 + 10 * i);
-            } else if (colorGradient == ColorGradient.blueWhiteRed) {
+            } else if (colorGradient == ColorGradient.BlueWhiteRed) {
                 tempColor = new Color(15 + 10 * i, 15 + 10 * i, 255);
-            } else if (colorGradient == ColorGradient.redWhiteBlue) {
+            } else if (colorGradient == ColorGradient.RedWhiteBlue) {
                 tempColor = new Color(255, 15 + 10 * i, 15 + 10 * i);
-            } else if (colorGradient == ColorGradient.blueBlackRed) {
+            } else if (colorGradient == ColorGradient.BlueBlackRed) {
                 tempColor = new Color(50 - (i * 2), 0, 255 - (i * 10));
-            } else if (colorGradient == ColorGradient.redBlackBlue) {
+            } else if (colorGradient == ColorGradient.RedBlackBlue) {
                 tempColor = new Color(255 - (i * 10), 0, 50 - (i * 2));
-            } else if (colorGradient == ColorGradient.greenWhiteBlue) {
+            } else if (colorGradient == ColorGradient.GreenWhiteBlue) {
                 tempColor = new Color(15 + 10 * i, 255, 15 + 10 * i);
-            } else if (colorGradient == ColorGradient.blueWhiteGreen) {
+            } else if (colorGradient == ColorGradient.BlueWhiteGreen) {
                 tempColor = new Color(15 + 10 * i, 15 + 10 * i, 255);
             }
 
@@ -104,41 +104,41 @@ public class GradientColorCoding {
             Color tempColor = null;
 
             // calculate the current color
-            if (colorGradient == ColorGradient.greenBlackRed) {
+            if (colorGradient == ColorGradient.GreenBlackRed) {
                 tempColor = new Color(15 + 10 * i, 0, 0);
-            } else if (colorGradient == ColorGradient.redBlackGreen) {
+            } else if (colorGradient == ColorGradient.RedBlackGreen) {
                 tempColor = new Color(0, 15 + 10 * i, 0);
-            } else if (colorGradient == ColorGradient.greenBlackBlue) {
+            } else if (colorGradient == ColorGradient.GreenBlackBlue) {
                 tempColor = new Color(0, 0, 15 + 10 * i);
-            } else if (colorGradient == ColorGradient.blueBlackGreen) {
+            } else if (colorGradient == ColorGradient.BlueBlackGreen) {
                 tempColor = new Color(0, 15 + 10 * i, 0);
-            } else if (colorGradient == ColorGradient.greenBlackYellow) {
+            } else if (colorGradient == ColorGradient.GreenBlackYellow) {
                 tempColor = new Color(15 + 10 * i, 15 + 10 * i, 0);
-            } else if (colorGradient == ColorGradient.yellowBlackGreen) {
+            } else if (colorGradient == ColorGradient.YellowBlackGreen) {
                 tempColor = new Color(0, 15 + 10 * i, 0);
-            } else if (colorGradient == ColorGradient.greenBlackPurple) {
+            } else if (colorGradient == ColorGradient.GreenBlackPurple) {
                 tempColor = new Color(15 + 10 * i, 0, 15 + 10 * i);
-            } else if (colorGradient == ColorGradient.purpleBlackGreen) {
+            } else if (colorGradient == ColorGradient.PurpleBlackGreen) {
                 tempColor = new Color(0, 15 + 10 * i, 0);
-            } else if (colorGradient == ColorGradient.redBlackMagenta) {
+            } else if (colorGradient == ColorGradient.RedBlackMagenta) {
                 tempColor = new Color(0, 15 + 10 * i, 15 + 10 * i);
-            } else if (colorGradient == ColorGradient.magentaBlackRed) {
+            } else if (colorGradient == ColorGradient.MagentaBlackRed) {
                 tempColor = new Color(15 + 10 * i, 0, 0);
-            } else if (colorGradient == ColorGradient.greenWhiteRed) {
+            } else if (colorGradient == ColorGradient.GreenWhiteRed) {
                 tempColor = new Color(255, 230 - (10 - 1) * i, 230 - (10 - 1) * i);
-            } else if (colorGradient == ColorGradient.redWhiteGreen) {
+            } else if (colorGradient == ColorGradient.RedWhiteGreen) {
                 tempColor = new Color(230 - (10 - 1) * i, 255, 230 - (10 - 1) * i);
-            } else if (colorGradient == ColorGradient.blueWhiteRed) {
+            } else if (colorGradient == ColorGradient.BlueWhiteRed) {
                 tempColor = new Color(255, 230 - (10 - 1) * i, 230 - (10 - 1) * i);
-            } else if (colorGradient == ColorGradient.redWhiteBlue) {
+            } else if (colorGradient == ColorGradient.RedWhiteBlue) {
                 tempColor = new Color(230 - (10 - 1) * i, 230 - (10 - 1) * i, 255);
-            } else if (colorGradient == ColorGradient.blueBlackRed) {
+            } else if (colorGradient == ColorGradient.BlueBlackRed) {
                 tempColor = new Color(15 + 10 * i, 0, 0);
-            } else if (colorGradient == ColorGradient.redBlackBlue) {
+            } else if (colorGradient == ColorGradient.RedBlackBlue) {
                 tempColor = new Color(0, 0, 15 + 10 * i);
-            } else if (colorGradient == ColorGradient.greenWhiteBlue) {
+            } else if (colorGradient == ColorGradient.GreenWhiteBlue) {
                 tempColor = new Color(230 - (10 - 1) * i, 230 - (10 - 1) * i, 255);
-            } else if (colorGradient == ColorGradient.blueWhiteGreen) {
+            } else if (colorGradient == ColorGradient.BlueWhiteGreen) {
                 tempColor = new Color(230 - (10 - 1) * i, 255, 230 - (10 - 1) * i);
             }
 
@@ -153,82 +153,82 @@ public class GradientColorCoding {
         if (value.doubleValue() < minValue) {
 
             // calculate the color for values smaller than the lower range
-            if (colorGradient == ColorGradient.greenBlackRed) {
+            if (colorGradient == ColorGradient.GreenBlackRed) {
                 backGroundColor = Color.GREEN;
-            } else if (colorGradient == ColorGradient.redBlackGreen) {
+            } else if (colorGradient == ColorGradient.RedBlackGreen) {
                 backGroundColor = Color.RED;
-            } else if (colorGradient == ColorGradient.greenBlackBlue) {
+            } else if (colorGradient == ColorGradient.GreenBlackBlue) {
                 backGroundColor = Color.GREEN;
-            } else if (colorGradient == ColorGradient.blueBlackGreen) {
+            } else if (colorGradient == ColorGradient.BlueBlackGreen) {
                 backGroundColor = Color.BLUE;
-            } else if (colorGradient == ColorGradient.greenBlackYellow) {
+            } else if (colorGradient == ColorGradient.GreenBlackYellow) {
                 backGroundColor = Color.GREEN;
-            } else if (colorGradient == ColorGradient.yellowBlackGreen) {
+            } else if (colorGradient == ColorGradient.YellowBlackGreen) {
                 backGroundColor = Color.YELLOW;
-            } else if (colorGradient == ColorGradient.greenBlackPurple) {
+            } else if (colorGradient == ColorGradient.GreenBlackPurple) {
                 backGroundColor = Color.GREEN;
-            } else if (colorGradient == ColorGradient.purpleBlackGreen) {
+            } else if (colorGradient == ColorGradient.PurpleBlackGreen) {
                 backGroundColor = new Color(255, 0, 255);
-            } else if (colorGradient == ColorGradient.redBlackMagenta) {
+            } else if (colorGradient == ColorGradient.RedBlackMagenta) {
                 backGroundColor = Color.RED;
-            } else if (colorGradient == ColorGradient.magentaBlackRed) {
+            } else if (colorGradient == ColorGradient.MagentaBlackRed) {
                 backGroundColor = new Color(0, 255, 255);
-            } else if (colorGradient == ColorGradient.greenWhiteRed) {
+            } else if (colorGradient == ColorGradient.GreenWhiteRed) {
                 backGroundColor = Color.GREEN;
-            } else if (colorGradient == ColorGradient.redWhiteGreen) {
+            } else if (colorGradient == ColorGradient.RedWhiteGreen) {
                 backGroundColor = Color.RED;
-            } else if (colorGradient == ColorGradient.blueWhiteRed) {
+            } else if (colorGradient == ColorGradient.BlueWhiteRed) {
                 backGroundColor = Color.BLUE;
-            } else if (colorGradient == ColorGradient.redWhiteBlue) {
+            } else if (colorGradient == ColorGradient.RedWhiteBlue) {
                 backGroundColor = Color.RED;
-            } else if (colorGradient == ColorGradient.blueBlackRed) {
+            } else if (colorGradient == ColorGradient.BlueBlackRed) {
                 backGroundColor = Color.BLUE;
-            } else if (colorGradient == ColorGradient.redBlackBlue) {
+            } else if (colorGradient == ColorGradient.RedBlackBlue) {
                 backGroundColor = Color.RED;
-            } else if (colorGradient == ColorGradient.greenWhiteBlue) {
+            } else if (colorGradient == ColorGradient.GreenWhiteBlue) {
                 backGroundColor = Color.GREEN;
-            } else if (colorGradient == ColorGradient.blueWhiteGreen) {
+            } else if (colorGradient == ColorGradient.BlueWhiteGreen) {
                 backGroundColor = Color.BLUE;
             }
 
         } else if (value.doubleValue() > maxValue) {
 
             // calculate the color for values bigger than the upper range
-            if (colorGradient == ColorGradient.greenBlackRed) {
+            if (colorGradient == ColorGradient.GreenBlackRed) {
                 backGroundColor = Color.RED;
-            } else if (colorGradient == ColorGradient.redBlackGreen) {
+            } else if (colorGradient == ColorGradient.RedBlackGreen) {
                 backGroundColor = Color.GREEN;
-            } else if (colorGradient == ColorGradient.greenBlackBlue) {
+            } else if (colorGradient == ColorGradient.GreenBlackBlue) {
                 backGroundColor = Color.BLUE;
-            } else if (colorGradient == ColorGradient.blueBlackGreen) {
+            } else if (colorGradient == ColorGradient.BlueBlackGreen) {
                 backGroundColor = Color.GREEN;
-            } else if (colorGradient == ColorGradient.greenBlackYellow) {
+            } else if (colorGradient == ColorGradient.GreenBlackYellow) {
                 backGroundColor = Color.YELLOW;
-            } else if (colorGradient == ColorGradient.yellowBlackGreen) {
+            } else if (colorGradient == ColorGradient.YellowBlackGreen) {
                 backGroundColor = Color.GREEN;
-            } else if (colorGradient == ColorGradient.greenBlackPurple) {
+            } else if (colorGradient == ColorGradient.GreenBlackPurple) {
                 backGroundColor = new Color(255, 0, 255);
-            } else if (colorGradient == ColorGradient.purpleBlackGreen) {
+            } else if (colorGradient == ColorGradient.PurpleBlackGreen) {
                 backGroundColor = Color.GREEN;
-            } else if (colorGradient == ColorGradient.redBlackMagenta) {
+            } else if (colorGradient == ColorGradient.RedBlackMagenta) {
                 backGroundColor = new Color(0, 255, 255);
-            } else if (colorGradient == ColorGradient.magentaBlackRed) {
+            } else if (colorGradient == ColorGradient.MagentaBlackRed) {
                 backGroundColor = Color.RED;
-            } else if (colorGradient == ColorGradient.greenWhiteRed) {
+            } else if (colorGradient == ColorGradient.GreenWhiteRed) {
                 backGroundColor = Color.RED;
-            } else if (colorGradient == ColorGradient.redWhiteGreen) {
+            } else if (colorGradient == ColorGradient.RedWhiteGreen) {
                 backGroundColor = Color.GREEN;
-            } else if (colorGradient == ColorGradient.blueWhiteRed) {
+            } else if (colorGradient == ColorGradient.BlueWhiteRed) {
                 backGroundColor = Color.RED;
-            } else if (colorGradient == ColorGradient.redWhiteBlue) {
+            } else if (colorGradient == ColorGradient.RedWhiteBlue) {
                 backGroundColor = Color.BLUE;
-            } else if (colorGradient == ColorGradient.blueBlackRed) {
+            } else if (colorGradient == ColorGradient.BlueBlackRed) {
                 backGroundColor = Color.RED;
-            } else if (colorGradient == ColorGradient.redBlackBlue) {
+            } else if (colorGradient == ColorGradient.RedBlackBlue) {
                 backGroundColor = Color.BLUE;
-            } else if (colorGradient == ColorGradient.greenWhiteBlue) {
+            } else if (colorGradient == ColorGradient.GreenWhiteBlue) {
                 backGroundColor = Color.BLUE;
-            } else if (colorGradient == ColorGradient.blueWhiteGreen) {
+            } else if (colorGradient == ColorGradient.BlueWhiteGreen) {
                 backGroundColor = Color.GREEN;
             }
         }

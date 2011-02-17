@@ -123,7 +123,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     /**
      * The currently selected color gradient.
      */
-    private ColorGradient currentColorGradient = ColorGradient.redBlackBlue;
+    private ColorGradient currentColorGradient = ColorGradient.RedBlackBlue;
     /**
      * If true, the values are shown as a heat map.
      */
@@ -357,6 +357,15 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 maxValue = Math.abs(minValue);
             }
         }
+    }
+
+    /**
+     * Set the plot background color.
+     *
+     * @param plotBackgroundColor
+     */
+    public void setBackgroundColor(Color plotBackgroundColor) {
+        this.plotBackgroundColor = plotBackgroundColor;
     }
 
     /**
