@@ -928,9 +928,9 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     private void showGradientJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showGradientJCheckBoxActionPerformed
 
         if (showGradientJCheckBox.isSelected()) {
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.blueBlackGreen);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(ColorGradient.blueBlackGreen);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).setGradientColoring(ColorGradient.blueBlackRed);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueBlackGreen);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(ColorGradient.BlueBlackGreen);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).setGradientColoring(ColorGradient.BlueBlackRed);
         } else {
             ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(null);
             ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(null);
@@ -949,11 +949,11 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     private void showHeatMapJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showHeatMapJCheckBoxActionPerformed
 
         showGradientJCheckBox.setSelected(showHeatMapJCheckBox.isSelected());
-        
+
         if (showHeatMapJCheckBox.isSelected()) {
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showAsHeatMap(ColorGradient.blueBlackGreen);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showAsHeatMap(ColorGradient.blueBlackGreen);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showAsHeatMap(ColorGradient.blueBlackRed);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showAsHeatMap(ColorGradient.BlueBlackGreen);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showAsHeatMap(ColorGradient.BlueBlackGreen);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showAsHeatMap(ColorGradient.BlueBlackRed);
         } else {
             ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showAsHeatMap(null);
             ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showAsHeatMap(null);
