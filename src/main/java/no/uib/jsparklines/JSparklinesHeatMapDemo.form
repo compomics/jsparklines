@@ -115,8 +115,8 @@
             <Component class="javax.swing.JCheckBox" name="showHeatmapJCheckBox">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Heatmap"/>
-                <Property name="toolTipText" type="java.lang.String" value="Turn the 3D heatmap on or off"/>
+                <Property name="text" type="java.lang.String" value="Heat Map"/>
+                <Property name="toolTipText" type="java.lang.String" value="Turn the heat map on or off"/>
                 <Property name="iconTextGap" type="int" value="8"/>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>

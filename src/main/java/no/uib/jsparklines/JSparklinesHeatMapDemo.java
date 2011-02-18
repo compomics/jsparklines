@@ -81,7 +81,7 @@ public class JSparklinesHeatMapDemo extends javax.swing.JFrame {
 
         // set the dialog icon and title
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/line_plot.GIF")));
-        this.setTitle("JSparklines " + getVersion() + " - Heatmap Demo");
+        this.setTitle("JSparklines " + getVersion() + " - Heat Map Demo");
 
         // make the viewports see-through (to show the gradient background)
         heatmapJScrollPane.getViewport().setOpaque(false);
@@ -163,8 +163,8 @@ public class JSparklinesHeatMapDemo extends javax.swing.JFrame {
         singleValuesJPanel.setOpaque(false);
 
         showHeatmapJCheckBox.setSelected(true);
-        showHeatmapJCheckBox.setText("Heatmap");
-        showHeatmapJCheckBox.setToolTipText("Turn the 3D heatmap on or off");
+        showHeatmapJCheckBox.setText("Heat Map");
+        showHeatmapJCheckBox.setToolTipText("Turn the heat map on or off");
         showHeatmapJCheckBox.setIconTextGap(8);
         showHeatmapJCheckBox.setOpaque(false);
         showHeatmapJCheckBox.addActionListener(new java.awt.event.ActionListener() {
