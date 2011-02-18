@@ -94,10 +94,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     private PlotOrientation plotOrientation;
     /**
-     * The with of the lines in the line plots.
-     */
-    private float lineWidth = 5;
-    /**
      * The color used to highlight the maximum values in the chart.
      */
     private Color maxValueColor = new Color(251, 51, 51);
@@ -162,22 +158,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Creates a new JSparkLinesTableCellRenderer. Use this constructor when only positive
-     * values are to be plotted.
-     *
-     * @param plotType          the plot type
-     * @param plotOrientation   the orientation of the plot
-     * @param maxValue          the maximum value to be plotted, used to make sure that all plots
-     *                          in the same column has the same maxium value and are thus comparable
-     *                          (this is the same as setting the minimum value to 0)
-     * @param lineWidth         sets the width of the lines used in the line charts, has no effect
-     *                          on bar charts
-     */
-    public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double maxValue, float lineWidth) {
-        this(plotType, plotOrientation, 0.0, maxValue, lineWidth);
-    }
-
-    /**
      * Creates a new JSparkLinesTableCellRenderer. Use this constructor when positive
      * and negative values are to be plotted.
      *
@@ -189,29 +169,11 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      *                          in the same column has the same maxium value and are thus comparable
      */
     public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double minValue, Double maxValue) {
-        this(plotType, plotOrientation, minValue, maxValue, 5);
-    }
-
-    /**
-     * Creates a new JSparkLinesTableCellRenderer. Use this constructor when positive
-     * and negative values are to be plotted.
-     *
-     * @param plotType          the plot type
-     * @param plotOrientation   the orientation of the plot
-     * @param minValue          the minium value to be plotted, used to make sure that all plots
-     *                          in the same column has the same minmum value and are thus comparable
-     * @param maxValue          the maximum value to be plotted, used to make sure that all plots
-     *                          in the same column has the same maxium value and are thus comparable
-     * @param lineWidth         sets the width of the lines used in the line charts, has no effect
-     *                          on bar charts
-     */
-    public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double minValue, Double maxValue, float lineWidth) {
 
         this.plotType = plotType;
         this.plotOrientation = plotOrientation;
         this.minValue = minValue;
         this.maxValue = maxValue;
-        this.lineWidth = lineWidth;
 
         referenceLines = new HashMap<String, ReferenceLine>();
         referenceAreas = new HashMap<String, ReferenceArea>();
@@ -384,7 +346,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 if (plotType == PlotType.lineChart) {
                     renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
-                    renderer.setSeriesStroke(i, new BasicStroke(lineWidth, BasicStroke.JOIN_ROUND, BasicStroke.CAP_ROUND));
+                    renderer.setSeriesStroke(i, sparklineDataSeries.getLineType());
                 } else {
                     renderer.setSeriesFillPaint(i, new GradientPaint(
                             0f, 0f, sparklineDataSeries.getSeriesColor().brighter().brighter(),
@@ -790,15 +752,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     public void setMinValue(double minValue) {
         this.minValue = minValue;
-    }
-
-    /**
-     * Set the line with to use for line charts.
-     *
-     * @param lineWidth the line width to set
-     */
-    public void setLineWidth(float lineWidth) {
-        this.lineWidth = lineWidth;
     }
 
     /**
