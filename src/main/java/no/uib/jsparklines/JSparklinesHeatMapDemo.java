@@ -182,8 +182,17 @@ public class JSparklinesHeatMapDemo extends javax.swing.JFrame {
             new String [] {
                 "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         heatmapJTable.setFillsViewportHeight(true);
+        heatmapJTable.setRowSelectionAllowed(false);
         heatmapJTable.setSelectionBackground(new java.awt.Color(204, 204, 204));
         heatmapJTable.setShowHorizontalLines(false);
         heatmapJTable.setShowVerticalLines(false);
