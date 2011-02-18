@@ -3,6 +3,7 @@
 
 Using *JSparklines* is very easy and only requires a couple of lines of code. Below you will find simple code examples of how to use *JSparklines* in your project.
 
+ * [#Demos Demos]
  * [#Single_Values Single Values]
  * [#Multiple_Values Multiple Values]
  * [#Multiple_Data_Series Multiple Data Series]
@@ -10,11 +11,22 @@ Using *JSparklines* is very easy and only requires a couple of lines of code. Be
  * [#Adding_Reference_Lines_and_Areas Adding Reference Lines and Areas]
  * [#Maven_Dependency Maven Dependency]
 
-For the complete source code see the *JSparklines* demo found with the source code. 
-
-To run the demo, double click the jar file or use: `java -jar jsparklines-X.Y.Z.jar`.
+For the complete source code see the *JSparklines* [#Demos demos] found with the source code.
 
 ----
+
+== Demos ==
+
+To run the main demo, double click the file `jsparklines-X.Y.Z.jar`, or use: `java -jar jsparklines-X.Y.Z.jar`.
+
+A simple heat map demo is also included. To run this double click the file `jsparklines-X.Y.Z_heat_map_demo.jar`, or use: `java -jar jsparklines-X.Y.Z_heat_map_demo.jar`.
+
+*Note:* Remember to first unzip the downloaded zip file before trying to run the demos.
+
+[#Using_JSparklines Go to top of page]
+
+----
+
 
 == Single Values ==
 
