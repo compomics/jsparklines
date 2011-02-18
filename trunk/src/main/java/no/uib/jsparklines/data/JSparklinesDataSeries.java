@@ -1,6 +1,7 @@
 
 package no.uib.jsparklines.data;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -23,18 +24,43 @@ public class JSparklinesDataSeries {
      * The label to use for the series.
      */
     private String seriesLabel;
+    /**
+     * The properties for the line when displayed in a line chart.
+     */
+    private BasicStroke lineType;
+    /**
+     * The default width of the lines in line plots.
+     */
+    private float lineWidth = 5;
 
     /**
      * Creates a new JSparklinesDataSeries.
      *
-     * @param data the data to plot
-     * @param seriesColor the color to use for the series
-     * @param seriesLabel the data series label
+     * @param data          the data to plot
+     * @param seriesColor   the color to use for the series
+     * @param seriesLabel   the data series label
      */
     public JSparklinesDataSeries(ArrayList<Double> data, Color seriesColor, String seriesLabel) {
         this.data = data;
         this.seriesColor = seriesColor;
         this.seriesLabel = seriesLabel;
+
+        lineType = new BasicStroke(lineWidth, BasicStroke.JOIN_ROUND, BasicStroke.CAP_ROUND);
+    }
+
+    /**
+     * Creates a new JSparklinesDataSeries.
+     *
+     * @param data          the data to plot
+     * @param seriesColor   the color to use for the series
+     * @param seriesLabel   the data series label
+     * @param lineType the  properties of the line when displayed as a line chart
+     */
+    public JSparklinesDataSeries(ArrayList<Double> data, Color seriesColor, String seriesLabel, BasicStroke lineType) {
+        this.data = data;
+        this.seriesColor = seriesColor;
+        this.seriesLabel = seriesLabel;
+        this.lineType = lineType;
     }
 
     /**
@@ -89,5 +115,25 @@ public class JSparklinesDataSeries {
      */
     public void setSeriesLabel(String seriesLabel) {
         this.seriesLabel = seriesLabel;
+    }
+
+    /**
+     * Returns the properties of the line. Only used when the chart is displayed
+     * as a line chart.
+     *
+     * @return the lineType
+     */
+    public BasicStroke getLineType() {
+        return lineType;
+    }
+
+    /**
+     * Set the propeties of the line. Only used when the chart is displayed
+     * as a line chart.
+     *
+     * @param lineType the lineType to set
+     */
+    public void setLineType(BasicStroke lineType) {
+        this.lineType = lineType;
     }
 }
