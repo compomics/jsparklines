@@ -1,6 +1,5 @@
 package no.uib.jsparklines;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GradientPaint;
@@ -353,7 +352,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         };
         showBothJCheckBox = new javax.swing.JCheckBox();
         showGradientJCheckBox = new javax.swing.JCheckBox();
-        showHeatMapJCheckBox = new javax.swing.JCheckBox();
         multipleDataSeriesJPanel = new javax.swing.JPanel();
         multipleDataSeriesJScrollPane = new javax.swing.JScrollPane();
         multipleDataSeriesJTable = new javax.swing.JTable();
@@ -432,16 +430,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             }
         });
 
-        showHeatMapJCheckBox.setText("Heat Map");
-        showHeatMapJCheckBox.setToolTipText("Show the values as a heat map");
-        showHeatMapJCheckBox.setIconTextGap(8);
-        showHeatMapJCheckBox.setOpaque(false);
-        showHeatMapJCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showHeatMapJCheckBoxActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout singleValuesJPanelLayout = new javax.swing.GroupLayout(singleValuesJPanel);
         singleValuesJPanel.setLayout(singleValuesJPanelLayout);
         singleValuesJPanelLayout.setHorizontalGroup(
@@ -451,8 +439,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addGroup(singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                     .addGroup(singleValuesJPanelLayout.createSequentialGroup()
-                        .addComponent(showHeatMapJCheckBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(showJSparklinesJCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(showBothJCheckBox)
@@ -469,8 +455,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
                 .addGroup(singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(showGradientJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(showBothJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showJSparklinesJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showHeatMapJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(showJSparklinesJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -522,13 +507,11 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         multipleDataSeriesJPanel.setLayout(multipleDataSeriesJPanelLayout);
         multipleDataSeriesJPanelLayout.setHorizontalGroup(
             multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleDataSeriesJPanelLayout.createSequentialGroup()
-                .addContainerGap(276, Short.MAX_VALUE)
-                .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
             .addGroup(multipleDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                .addGroup(multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
                 .addContainerGap())
         );
         multipleDataSeriesJPanelLayout.setVerticalGroup(
@@ -754,7 +737,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
         showBothJCheckBox.setEnabled(showJSparklinesJCheckBox.isSelected());
         showGradientJCheckBox.setEnabled(showJSparklinesJCheckBox.isSelected());
-        showHeatMapJCheckBox.setEnabled(showJSparklinesJCheckBox.isSelected());
 
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showNumbers(!showJSparklinesJCheckBox.isSelected());
@@ -947,24 +929,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
      * 
      * @param evt
      */
-    private void showHeatMapJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showHeatMapJCheckBoxActionPerformed
-
-        showGradientJCheckBox.setSelected(showHeatMapJCheckBox.isSelected());
-
-        if (showHeatMapJCheckBox.isSelected()) {
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showAsHeatMap(ColorGradient.BlueBlackGreen);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showAsHeatMap(ColorGradient.BlueBlackGreen);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showAsHeatMap(ColorGradient.BlueBlackRed);
-        } else {
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showAsHeatMap(null);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showAsHeatMap(null);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showAsHeatMap(null);
-        }
-
-        singleValuesJTable.revalidate();
-        singleValuesJTable.repaint();
-    }//GEN-LAST:event_showHeatMapJCheckBoxActionPerformed
-
     /**
      * Starts the JSparklines demo.
      *
@@ -992,7 +956,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     private javax.swing.JCheckBox referenceMultipleValuesJCheckBox;
     private javax.swing.JCheckBox showBothJCheckBox;
     private javax.swing.JCheckBox showGradientJCheckBox;
-    private javax.swing.JCheckBox showHeatMapJCheckBox;
     private javax.swing.JCheckBox showJSparklinesJCheckBox;
     private javax.swing.JPanel singleValuesJPanel;
     private javax.swing.JScrollPane singleValuesJScrollPane;
