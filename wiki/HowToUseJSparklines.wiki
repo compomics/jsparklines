@@ -9,6 +9,7 @@ Using *JSparklines* is very easy and only requires a couple of lines of code. Be
  * [#Multiple_Data_Series Multiple Data Series]
  * [#2D/3D_Data_Series 2D/3D Data Series]
  * [#Adding_Reference_Lines_and_Areas Adding Reference Lines and Areas]
+ * [#Heat_Maps Heat Maps]
  * [#Maven_Dependency Maven Dependency]
 
 For the complete source code see the *JSparklines* [#Demos demos] found with the source code.
@@ -245,6 +246,75 @@ To add a line reference instead if an area reference, simply use the addReferenc
 
 *Note:* For 2D/3D plots use addXAxisReferenceLine(...), removeXAxisReferenceLine(...), etc, to add or remove reference lines and areas.
 
+[#Using_JSparklines Go to top of page]
+
+----
+
+== Heat Maps ==
+
+There are two ways to create heat maps using *JSparklines*, either by using the JSparklinesBarChartTableCellRenderer and use the showAsHeatMap method, or by using the JSparklinesBubbleHeatMapTableCellRenderer. In both cases the numbers are added to the Java table as normal, and the renderer is then used for all columns in the table.
+
+Various color gradient options are available.
+
+Heat map using JSparklinesBarChartTableCellRenderer:
+
+{{{
+for (int i = 0; i < heatmapJTable.getColumnCount(); i++) {
+    heatmapJTable.getColumn(
+        heatmapJTable.getColumnNam(i)).setCellRenderer(
+            new JSparklinesBarChartTableCellRendere(
+                PlotOrientation.HORIZONTAL, 
+                -100d, 100d));
+    ((JSparklinesBarChartTableCellRenderer) heatmapJTable.getColumn(
+        heatmapJTable.getColumnName(i)).getCellRenderer()).showAsHeatMap(
+        ColorGradient.RedBlackGreen);
+}
+}}}
+
+Heat map using JSparklinesBubbleHeatMapTableCellRenderer:
+
+{{{
+for (int i = 0; i < heatmapJTable.getColumnCount(); i++) {
+    heatmapJTable.getColumn(
+        heatmapJTable.getColumnName(i)).setCellRenderer(
+            new JSparklinesBubbleHeatMapTableCellRenderer(
+            100d, ColorGradient.RedBlackGreen));
+}
+}}}
+
+Setting the background color for the heat maps:
+
+Black:
+
+{{{
+heatmapJTable.setGridColor(Color.BLACK);
+heatmapJTable.setBackground(Color.BLACK);
+heatmapJTable.setOpaque(true);
+heatmapJTable.setForeground(Color.WHITE);
+}}}
+
+White:
+
+{{{
+heatmapJTable.setGridColor(Color.WHITE);
+heatmapJTable.setBackground(Color.WHITE);
+heatmapJTable.setOpaque(true);
+heatmapJTable.setForeground(Color.BLACK);
+}}}
+
+Change the color gradient:
+
+{{{
+for (int i = 0; i < heatmapJTable.getColumnCount(); i++) {
+    ((JSparklinesBarChartTableCellRenderer) heatmapJTable.getColumn(
+        heatmapJTable.getColumnName(i)).getCellRenderer()).
+            setGradientColoring(colorGradient);
+}
+}}}
+
+Same for the JSparklinesBubbleHeatMapTableCellRenderer.
+
+For a complete demo of how to use the heat maps see the `JSparklinesHeatMapDemo` class in the `no.uib.jsparklines` package.
 
 [#Using_JSparklines Go to top of page]
 
