@@ -56,6 +56,27 @@ singleValuesJTable.getColumn("Coverage").setCellRenderer(
 
 This effectively sets the lower range to zero.
 
+*Using Color Gradients*
+
+Turn on color gradient:
+
+{{{
+((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueBlackGreen);
+}}}
+
+Turn off color gradient:
+
+{{{
+((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(null);
+}}}
+
+*Show Numbers and Chart*
+
+{{{
+((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showNumberAndChart(true, 40);
+}}}
+
+
 *Notes:*
 
  * *Note* that when using *JSparklines* in this way the underlaying values can be edited as normal by double clicking the cell to edit.
