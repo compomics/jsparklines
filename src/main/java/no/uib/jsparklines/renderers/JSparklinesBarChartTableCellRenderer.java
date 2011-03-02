@@ -594,14 +594,16 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
         } else if (value instanceof XYDataPoint) {
 
-            if (((XYDataPoint) value).getX() < minimumChartValue && ((XYDataPoint) value).getX() > 0) {
+            double tempX = ((XYDataPoint) value).getX();
+
+            if (tempX < minimumChartValue && tempX > 0) {
                 value = minimumChartValue;
             }
 
             if (showAsHeatMap) {
                 dataset.addValue(maxValue, "1", "1");
             } else {
-                dataset.addValue(((XYDataPoint) value).getX(), "1", "1");
+                dataset.addValue(tempX, "1", "1");
             }
         }
 
