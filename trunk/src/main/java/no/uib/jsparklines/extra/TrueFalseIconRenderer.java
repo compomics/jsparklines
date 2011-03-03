@@ -1,5 +1,6 @@
 package no.uib.jsparklines.extra;
 
+import java.awt.Color;
 import java.awt.Component;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -17,10 +18,6 @@ import javax.swing.table.TableCellRenderer;
 public class TrueFalseIconRenderer implements TableCellRenderer {
 
     /**
-     * A reference to a standard table cell renderer.
-     */
-    private TableCellRenderer delegate;
-    /**
      * The icon to use for the true values.
      */
     private ImageIcon trueIcon;
@@ -36,7 +33,6 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
      * @param falseIcon the icon to use for cells containing FALSE
      */
     public TrueFalseIconRenderer(ImageIcon trueIcon, ImageIcon falseIcon) {
-        this.delegate = new DefaultTableCellRenderer();
         this.trueIcon = trueIcon;
         this.falseIcon = falseIcon;
     }
@@ -55,8 +51,13 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
-        JLabel label = (JLabel) delegate.getTableCellRendererComponent(
+        JLabel label = (JLabel) new DefaultTableCellRenderer().getTableCellRendererComponent(
                 table, value, isSelected, hasFocus, row, column);
+
+        Color bg = label.getBackground();
+        // We have to create a new color object because Nimbus returns
+        // a color of type DerivedColor, which behaves strange, not sure why.
+        label.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
 
         // set the icon to use for the boolean values
         if (value instanceof Boolean) {

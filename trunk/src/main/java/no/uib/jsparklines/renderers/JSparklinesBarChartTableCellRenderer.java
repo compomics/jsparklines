@@ -55,10 +55,6 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     private double tooltipLowerValue = 0.01;
     /**
-     * A reference to a standard table cell renderer.
-     */
-    private TableCellRenderer delegate;
-    /**
      * The chart panel to be displayed.
      */
     private ChartPanel chartPanel;
@@ -275,7 +271,6 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     private void setUpRendererAndChart(PlotOrientation plotOrientation) {
 
-        delegate = new DefaultTableCellRenderer();
         setName("Table.cellRenderer");
         setLayout(new BorderLayout());
 
@@ -449,10 +444,14 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
-        JComponent c = (JComponent) delegate.getTableCellRendererComponent(table, value,
+        JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
         if (value == null) {
+            Color bg = c.getBackground();
+            // We have to create a new color object because Nimbus returns
+            // a color of type DerivedColor, which behaves strange, not sure why.
+            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
 
@@ -500,12 +499,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
             ((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
 
-            // handle the special case with Nimbus LAF and alternating colors
-            if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && row % 2 == 1 && !isSelected) {
-                c.setBackground(Color.WHITE);
-            } else {
-                c.setBackground(c.getBackground());
-            }
+            Color bg = c.getBackground();
+            // We have to create a new color object because Nimbus returns
+            // a color of type DerivedColor, which behaves strange, not sure why.
+            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
 
             return c;
         }
@@ -558,12 +555,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 valueLabel.setText(numberFormat.format(temp));
             }
 
-            // handle the special case with Nimbus LAF and alternating colors
-            if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && row % 2 == 1 && !isSelected) {
-                valueLabel.setBackground(Color.WHITE);
-            } else {
-                valueLabel.setBackground(c.getBackground());
-            }
+            // We have to create a new color object because Nimbus returns
+            // a color of type DerivedColor, which behaves strange, not sure why.
+            Color bg = c.getBackground();
+            valueLabel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
 
             // add some padding
             if (labelHorizontalAlignement == SwingConstants.RIGHT) {
@@ -755,18 +750,13 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                     renderer = new BarChartColorRenderer(Color.WHITE);
                 }
 
-                // handle the special case with Nimbus LAF and alternating colors
-                if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && row % 2 == 1 && !isSelected) {
-                    plot.setBackgroundPaint(Color.WHITE);
-                    chartPanel.setBackground(Color.WHITE);
-                    chart.setBackgroundPaint(Color.WHITE);
-                    this.setBackground(Color.WHITE);
-                } else {
-                    plot.setBackgroundPaint(c.getBackground());
-                    chartPanel.setBackground(c.getBackground());
-                    chart.setBackgroundPaint(c.getBackground());
-                    this.setBackground(c.getBackground());
-                } 
+                // We have to create a new color object because Nimbus returns
+                // a color of type DerivedColor, which behaves strange, not sure why.
+                Color bg = c.getBackground();
+                plot.setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+                chartPanel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+                chart.setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+                this.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             }
         }
 
