@@ -6,12 +6,16 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import no.uib.jsparklines.data.XYDataPoint;
@@ -34,6 +38,10 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class JSparklinesBarChartTableCellRenderer extends JPanel implements TableCellRenderer {
 
+    /**
+     * The horizontal alignment of the label when showing number and chart.
+     */
+    private int labelHorizontalAlignement = SwingConstants.RIGHT;
     /**
      * The minimum value to display as a chart. Values smaller than this lower
      * limit are shown as this minimum value when shown as a chart. This to make
@@ -396,7 +404,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement) {
         this.showNumberAndChart = showNumberAndChart;
         this.widthOfValueLabel = widthOfLabel;
-        valueLabel.setHorizontalAlignment(horizontalAlignement);
+        labelHorizontalAlignement = horizontalAlignement;
         valueLabel.setFont(font);
     }
 
@@ -492,6 +500,13 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
             ((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
 
+            // handle the special case with Nimbus LAF and alternating colors
+            if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && row % 2 == 1 && !isSelected) {
+                c.setBackground(Color.WHITE);
+            } else {
+                c.setBackground(c.getBackground());
+            }
+
             return c;
         }
 
@@ -526,17 +541,39 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         // show the number _and_ the chart if option selected
         if (showNumberAndChart) {
 
+            // make sure that floating numbers are always shown using two decimals
+            DecimalFormat numberFormat = new DecimalFormat("0.00");
+            numberFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
+
             if (value instanceof Double || value instanceof Float) {
-                valueLabel.setText("" + roundDouble(Double.valueOf("" + value).doubleValue(), 2));
+                double temp = Double.valueOf("" + value);
+                valueLabel.setText(numberFormat.format(temp));
             } else if (value instanceof Integer
                     || value instanceof Short
                     || value instanceof Long
                     || value instanceof Short) {
                 valueLabel.setText("" + Integer.valueOf("" + value).intValue());
             } else if (value instanceof XYDataPoint) {
-                valueLabel.setText("" + roundDouble(((XYDataPoint) value).getX(), 2));
+                double temp = ((XYDataPoint) value).getX();
+                valueLabel.setText(numberFormat.format(temp));
             }
 
+            // handle the special case with Nimbus LAF and alternating colors
+            if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && row % 2 == 1 && !isSelected) {
+                valueLabel.setBackground(Color.WHITE);
+            } else {
+                valueLabel.setBackground(c.getBackground());
+            }
+
+            // add some padding
+            if (labelHorizontalAlignement == SwingConstants.RIGHT) {
+                valueLabel.setText(valueLabel.getText() + "  ");
+            } else if (labelHorizontalAlignement == SwingConstants.LEFT) {
+                valueLabel.setText("  " + valueLabel.getText());
+            }
+
+            valueLabel.setForeground(c.getForeground());
+            valueLabel.setHorizontalAlignment(labelHorizontalAlignement);
             valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
             valueLabel.setVisible(true);
         } else {
@@ -712,9 +749,24 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 chartPanel.setBackground(plotBackgroundColor);
                 chart.setBackgroundPaint(plotBackgroundColor);
             } else {
-                plot.setBackgroundPaint(c.getBackground());
-                chartPanel.setBackground(c.getBackground());
-                chart.setBackgroundPaint(c.getBackground());
+
+                // handle the special case with Nimbus LAF and alternating colors
+                if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && isSelected) {
+                    renderer = new BarChartColorRenderer(Color.WHITE);
+                }
+
+                // handle the special case with Nimbus LAF and alternating colors
+                if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && row % 2 == 1 && !isSelected) {
+                    plot.setBackgroundPaint(Color.WHITE);
+                    chartPanel.setBackground(Color.WHITE);
+                    chart.setBackgroundPaint(Color.WHITE);
+                    this.setBackground(Color.WHITE);
+                } else {
+                    plot.setBackgroundPaint(c.getBackground());
+                    chartPanel.setBackground(c.getBackground());
+                    chart.setBackgroundPaint(c.getBackground());
+                    this.setBackground(c.getBackground());
+                } 
             }
         }
 
