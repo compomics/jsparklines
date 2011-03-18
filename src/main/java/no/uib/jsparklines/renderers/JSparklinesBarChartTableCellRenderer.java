@@ -568,8 +568,13 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             }
 
             valueLabel.setForeground(c.getForeground());
+
+            // set the horizontal text alignment and the label size
             valueLabel.setHorizontalAlignment(labelHorizontalAlignement);
             valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
+            valueLabel.setSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
+            valueLabel.setMaximumSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
+            valueLabel.setPreferredSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
             valueLabel.setVisible(true);
         } else {
             valueLabel.setMinimumSize(new Dimension(0, 0));
