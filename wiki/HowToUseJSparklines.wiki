@@ -104,7 +104,8 @@ dataA.add(new Double(4.1);
 dataA.add(new Double(1.3);
 
 // create a JSparklineDataSeries 
-JSparklinesDataSeries sparklineDataseriesA = new JSparklinesDataSeries(dataA, Color.DARK_GRAY, "Dataset A");
+JSparklinesDataSeries sparklineDataseriesA = new JSparklinesDataSeries(
+    dataA, Color.DARK_GRAY, "Dataset A");
 
 // add the data series to JSparklineDataset
 ArrayList<JSparklinesDataSeries> sparkLineDataSeriesAll = new ArrayList<JSparklinesDataSeries>();
