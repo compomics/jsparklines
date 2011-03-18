@@ -207,7 +207,8 @@ dataA.add(new XYZDataPoint(5.8, 2.7, 8.2);
 dataA.add(new XYZDataPoint(6.2, 6.3, 1.1);
 
 // create a JSparkline3dDataSeries
-JSparklines3dDataSeries sparkline3dDataseriesA = new JSparklines3dDataSeries(dataA, Color.DARK_GRAY, "Dataset A");
+JSparklines3dDataSeries sparkline3dDataseriesA = new JSparklines3dDataSeries(
+    dataA, Color.DARK_GRAY, "Dataset A");
 
 // add the data series to JSparkline3dDataset
 ArrayList<JSparklines3dDataSeries> sparkLine3dDataSeriesAll = new ArrayList<JSparklines3dDataSeries>();
