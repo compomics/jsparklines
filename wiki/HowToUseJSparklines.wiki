@@ -61,19 +61,22 @@ This effectively sets the lower range to zero.
 Turn on color gradient:
 
 {{{
-((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueBlackGreen);
+((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn(
+    "Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueBlackGreen);
 }}}
 
 Turn off color gradient:
 
 {{{
-((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(null);
+((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn(
+    "Peptides").getCellRenderer()).setGradientColoring(null);
 }}}
 
 *Show Numbers and Chart*
 
 {{{
-((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showNumberAndChart(true, 40);
+((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn(
+    "Peptides").getCellRenderer()).showNumberAndChart(true, 40);
 }}}
 
 
@@ -238,7 +241,8 @@ Often it can be helpfull to add reference lines or areas to the charts to make t
 
 {{{
     // get the JSparklines cell renderer
-    JSparklinesTableCellRenderer tempRenderer = ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("My Column").getCellRenderer());
+    JSparklinesTableCellRenderer tempRenderer = ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn(
+    "My Column").getCellRenderer());
     
     // add the reference
     tempRenderer.addReferenceArea(
@@ -257,7 +261,8 @@ Removing the reference is equally straightforward:
 
 {{{
     // get the JSparklines cell renderer
-    JSparklinesTableCellRenderer tempRenderer = ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn("My Column").getCellRenderer());
+    JSparklinesTableCellRenderer tempRenderer = ((JSparklinesTableCellRenderer) multipleValuesJTable.getColumn(
+    "My Column").getCellRenderer());
 
     // remove the reference
     tempRenderer.removeReferenceArea("My Reference");
