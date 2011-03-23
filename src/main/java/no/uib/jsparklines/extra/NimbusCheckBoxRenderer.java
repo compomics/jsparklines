@@ -25,7 +25,6 @@ public class NimbusCheckBoxRenderer extends DefaultTableCellRenderer {
      */
     public NimbusCheckBoxRenderer() {
         renderer = new JCheckBox();
-
     }
 
     @Override
