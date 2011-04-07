@@ -38,6 +38,8 @@ public class NimbusCheckBoxRenderer extends DefaultTableCellRenderer {
             renderer.setSelected(b);
         }
 
+        renderer.setOpaque(true);
+
         if (isSelected) {
             renderer.setForeground(table.getSelectionForeground());
             renderer.setBackground(table.getSelectionBackground());
@@ -49,7 +51,6 @@ public class NimbusCheckBoxRenderer extends DefaultTableCellRenderer {
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
             renderer.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            renderer.setOpaque(true);
         }
 
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
