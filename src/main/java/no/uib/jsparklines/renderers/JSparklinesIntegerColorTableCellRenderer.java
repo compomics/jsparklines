@@ -67,8 +67,18 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
      * plots using darker colors it is recommended to use a light background.
      */
     private Color plotBackgroundColor = null;
+    /**
+     * The default color. Used if an un-mapped integer is found.
+     */
     private Color defaultColor;
+    /**
+     * The integer to color mappings.
+     */
     private HashMap<Integer, Color> colors;
+    /**
+     * The integer to color tooltip mappings.
+     */
+    private HashMap<Integer, String> tooltips;
 
     /**
      * Creates a new JSparklinesIntegerColorTableCellRenderer, where all integer
@@ -82,6 +92,25 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
 
         this.defaultColor = defaultColor;
         this.colors = colors;
+        this.tooltips = new HashMap<Integer, String>();
+
+        setUpRendererAndChart();
+    }
+    
+    /**
+     * Creates a new JSparklinesIntegerColorTableCellRenderer, where all integer
+     * cell values are displayed is equal size bars, but using different colors
+     * as defined by the colors hash map.
+     *
+     * @param defaultColor  the color to use for the bars if an integer without a mapped color is found
+     * @param colors        a HashMap with the integer to color mappings
+     * @param tooltips      a HashMap with the integer to tooltip mappings 
+     */
+    public JSparklinesIntegerColorTableCellRenderer(Color defaultColor, HashMap<Integer, Color> colors, HashMap<Integer, String> tooltips) {
+
+        this.defaultColor = defaultColor;
+        this.colors = colors;
+        this.tooltips = tooltips;
 
         setUpRendererAndChart();
     }
@@ -209,7 +238,12 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
 
         // set the tooltip text
         if (value instanceof Integer) {
-            this.setToolTipText("" + value);
+            
+            if (tooltips.get((Integer) value) != null) {
+                this.setToolTipText(tooltips.get((Integer) value));
+            } else {
+                this.setToolTipText("" + value);
+            }
         }
 
         // show the number _and_ the chart if option selected
