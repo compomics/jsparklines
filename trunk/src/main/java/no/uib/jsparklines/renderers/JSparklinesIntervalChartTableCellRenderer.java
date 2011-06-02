@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import no.uib.jsparklines.data.XYDataPoint;
 import no.uib.jsparklines.renderers.util.GradientColorCoding;
 import no.uib.jsparklines.renderers.util.GradientColorCoding.ColorGradient;
 import org.jfree.chart.ChartFactory;
@@ -31,7 +32,10 @@ import org.jfree.data.category.DefaultIntervalCategoryDataset;
 /**
  * A renderer for displaying a JSparklines interval chart inside a table cell.
  * Assumes that the cell values are of type Integer, Short, Byte, Long,
- * Double or Float.
+ * Double, Float or XYDataPoint. If data of XYDataPoint is used the X value 
+ * is assumed to be the lower range of the interval and the Y values is 
+ * assumed to be the upper range. For the other cell value types the width 
+ * of the interval has to be set by the user.
  *
  * @author Harald Barsnes
  */
@@ -116,9 +120,13 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      */
     private ColorGradient currentColorGradient = ColorGradient.RedBlackBlue;
     /**
-     * The width of the area used to highlight the value.
+     * The width of the interval used to highlight the value.
      */
-    private double widthOfMarker;
+    private double widthOfInterval;
+    /**
+     * If true XYDataPoint cell value are required, due to the constructor used.
+     */
+    private boolean xyDataPointRequied = false;
 
     /**
      * Creates a new JSparklinesIntervalChartTableCellRenderer. Use this constructor when only positive
@@ -129,11 +137,11 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * @param maxValue              the maximum value to be plotted, used to make sure that all plots
      *                              in the same column has the same maxium value and are thus comparable
      *                              (this is the same as setting the minimum value to 0)
-     * @param widthOfMarker         the width of the area used to highlight the value
+     * @param widthOfInterval       the width of the interval used to highlight the value
      */
-    public JSparklinesIntervalChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Double widthOfMarker) {
+    public JSparklinesIntervalChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Double widthOfInterval) {
         this.maxValue = maxValue;
-        this.widthOfMarker = widthOfMarker;
+        this.widthOfInterval = widthOfInterval;
         setUpRendererAndChart(plotOrientation);
     }
 
@@ -145,12 +153,12 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * @param maxValue              the maximum value to be plotted, used to make sure that all plots
      *                              in the same column has the same maxium value and are thus comparable
      *                              (this is the same as setting the minimum value to 0)
-     * @param widthOfMarker         the width of the area used to highlight the value
+     * @param widthOfInterval       the width of the interval used to highlight the value
      * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
      *                              and the color used for one sided data
      */
-    public JSparklinesIntervalChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Double widthOfMarker, Color positiveValuesColor) {
-        this(plotOrientation, 0.0, maxValue, widthOfMarker, null, positiveValuesColor);
+    public JSparklinesIntervalChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Double widthOfInterval, Color positiveValuesColor) {
+        this(plotOrientation, 0.0, maxValue, widthOfInterval, null, positiveValuesColor);
     }
 
     /**
@@ -163,34 +171,33 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      *                              in the same column has the same minmum value and are thus comparable
      * @param maxValue              the maximum value to be plotted, used to make sure that all plots
      *                              in the same column has the same maxium value and are thus comparable
-     * @param widthOfMarker         the width of the area used to highlight the value
+     * @param widthOfInterval       the width of the interval used to highlight the value
      */
-    public JSparklinesIntervalChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue, Double widthOfMarker) {
+    public JSparklinesIntervalChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue, Double widthOfInterval) {
 
         this.maxValue = maxValue;
         this.minValue = minValue;
-        this.widthOfMarker = widthOfMarker;
+        this.widthOfInterval = widthOfInterval;
 
         setUpRendererAndChart(plotOrientation);
     }
 
     /**
      * Creates a new JSparklinesIntervalChartTableCellRenderer. Use this constructor when positive
-     * and negative values are to be plotted. Note that to use the significance color coding the 
-     * object in the table cell has to be of type XYDataPoint.
+     * and negative values are to be plotted.
      *
      * @param plotOrientation       the orientation of the plot
      * @param minValue              the minium value to be plotted, used to make sure that all plots
      *                              in the same column has the same minmum value and are thus comparable
      * @param maxValue              the maximum value to be plotted, used to make sure that all plots
      *                              in the same column has the same maxium value and are thus comparable
-     * @param widthOfMarker         the width of the area used to highlight the value
+     * @param widthOfInterval       the width of the interval used to highlight the value
      * @param negativeValuesColor   the color to use for the negative values if two sided data is shown
      * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
      *                              and the color used for one sided data
      */
     public JSparklinesIntervalChartTableCellRenderer(
-            PlotOrientation plotOrientation, Double minValue, Double maxValue, Double widthOfMarker,
+            PlotOrientation plotOrientation, Double minValue, Double maxValue, Double widthOfInterval,
             Color negativeValuesColor, Color positiveValuesColor) {
 
         this.positiveValuesColor = positiveValuesColor;
@@ -198,7 +205,36 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
 
         this.maxValue = maxValue;
         this.minValue = minValue;
-        this.widthOfMarker = widthOfMarker;
+        this.widthOfInterval = widthOfInterval;
+
+        setUpRendererAndChart(plotOrientation);
+    }
+
+    /**
+     * Creates a new JSparklinesIntervalChartTableCellRenderer. To use this constructor 
+     * the cells must contain XYDataPoint values, where X represents the lower range and 
+     * Y the upper range of the interval to be shown.
+     *
+     * @param plotOrientation       the orientation of the plot
+     * @param minValue              the minium value to be plotted, used to make sure that all plots
+     *                              in the same column has the same minmum value and are thus comparable
+     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
+     *                              in the same column has the same maxium value and are thus comparable
+     * @param negativeValuesColor   the color to use for the negative values if two sided data is shown
+     * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
+     *                              and the color used for one sided data
+     */
+    public JSparklinesIntervalChartTableCellRenderer(
+            PlotOrientation plotOrientation, Double minValue, Double maxValue,
+            Color negativeValuesColor, Color positiveValuesColor) {
+
+        this.positiveValuesColor = positiveValuesColor;
+        this.negativeValuesColor = negativeValuesColor;
+
+        this.maxValue = maxValue;
+        this.minValue = minValue;
+
+        xyDataPointRequied = true;
 
         setUpRendererAndChart(plotOrientation);
     }
@@ -364,6 +400,10 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             return c;
         }
 
+        if (xyDataPointRequied && !(value instanceof XYDataPoint)) {
+            throw new IllegalArgumentException("Inconsistent use of constructor! The constructor used requires that the cells contain values of type XYDataPoint. Type found: " + value.getClass());
+        }
+
         // if show numbers, format as number and return
         if (showNumbers) {
 
@@ -394,6 +434,11 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 }
 
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, (Integer) value,
+                        isSelected, hasFocus, row, column);
+            } else if (value instanceof XYDataPoint) {
+
+                c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table,
+                        "[" + roundDouble(((XYDataPoint) value).getX(), 2) + ", " + roundDouble(((XYDataPoint) value).getY(), 2) + "]",
                         isSelected, hasFocus, row, column);
             }
 
@@ -426,6 +471,10 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 || value instanceof Short) {
 
             this.setToolTipText("" + value);
+
+        } else if (value instanceof XYDataPoint) {
+
+            this.setToolTipText("[" + roundDouble(((XYDataPoint) value).getX(), 2) + ", " + roundDouble(((XYDataPoint) value).getY(), 2) + "]");
         }
 
         // show the number _and_ the chart if option selected
@@ -443,6 +492,8 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                     || value instanceof Long
                     || value instanceof Short) {
                 valueLabel.setText("" + Integer.valueOf("" + value).intValue());
+            } else if (value instanceof XYDataPoint) {
+                valueLabel.setText("[" + roundDouble(((XYDataPoint) value).getX(), 2) + ", " + roundDouble(((XYDataPoint) value).getY(), 2) + "]");
             }
 
             // We have to create a new color object because Nimbus returns
@@ -490,8 +541,8 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 value = minimumChartValue;
             }
 
-            double[][] lows = {{((Double) value) - (widthOfMarker/2)}};
-            double[][] highs = {{((Double) value + (widthOfMarker/2))}};
+            double[][] lows = {{((Double) value) - (widthOfInterval / 2)}};
+            double[][] highs = {{((Double) value + (widthOfInterval / 2))}};
 
             dataset = new DefaultIntervalCategoryDataset(lows, highs);
 
@@ -512,8 +563,19 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 value = Double.valueOf(minimumChartValue).intValue();
             }
 
-            double[][] lows = {{((Double) value) - (widthOfMarker/2)}};
-            double[][] highs = {{((Double) value + (widthOfMarker/2))}};
+            double[][] lows = {{((Double) value) - (widthOfInterval / 2)}};
+            double[][] highs = {{((Double) value + (widthOfInterval / 2))}};
+
+            dataset = new DefaultIntervalCategoryDataset(lows, highs);
+
+        } else if (value instanceof XYDataPoint) {
+
+            double[][] lows = {{((XYDataPoint) value).getX()}};
+            double[][] highs = {{((XYDataPoint) value).getY()}};
+
+            if (((XYDataPoint) value).getX() >= ((XYDataPoint) value).getY()) {
+                throw new IllegalArgumentException("Lower interval range >= upper interval range! " + ((XYDataPoint) value).getX() + ">=" + ((XYDataPoint) value).getY());
+            }
 
             dataset = new DefaultIntervalCategoryDataset(lows, highs);
         }
@@ -572,6 +634,22 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             } else {
 
                 if ((Double) value > 0) {
+                    renderer.setSeriesPaint(0, positiveValuesColor);
+                } else {
+                    renderer.setSeriesPaint(0, negativeValuesColor);
+                }
+            }
+        } else if (value instanceof XYDataPoint) {
+
+            // use the center of the interval to decide the color
+            double temp = ((XYDataPoint) value).getX() + ((XYDataPoint) value).getY();
+            temp /= 2;
+
+            if (gradientColoring) {
+                renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor(temp, minValue, maxValue, currentColorGradient));
+            } else {
+
+                if (temp > 0) {
                     renderer.setSeriesPaint(0, positiveValuesColor);
                 } else {
                     renderer.setSeriesPaint(0, negativeValuesColor);
