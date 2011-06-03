@@ -25,6 +25,14 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
      * The icon to use for the false values.
      */
     private ImageIcon falseIcon;
+    /**
+     * The tooltip to use for the true values.
+     */
+    private String trueToolTip = null;
+    /**
+     * The tooltip to use for the false values.
+     */
+    private String falseToolTip = null;
 
     /**
      * Creates a new IconRenderer.
@@ -35,6 +43,21 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
     public TrueFalseIconRenderer(ImageIcon trueIcon, ImageIcon falseIcon) {
         this.trueIcon = trueIcon;
         this.falseIcon = falseIcon;
+    }
+    
+    /**
+     * Creates a new IconRenderer.
+     *
+     * @param trueIcon      the icon to use for cells containing TRUE
+     * @param falseIcon     the icon to use for cells containing FALSE
+     * @param trueToolTip   the tooltip to use for the true values
+     * @param falseToolTip  the tooltip to use for the false values
+     */
+    public TrueFalseIconRenderer(ImageIcon trueIcon, ImageIcon falseIcon, String trueToolTip, String falseToolTip) {
+        this.trueIcon = trueIcon;
+        this.falseIcon = falseIcon;
+        this.trueToolTip = trueToolTip;
+        this.falseToolTip = falseToolTip;
     }
 
     /**
@@ -67,8 +90,10 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
             
             if ((Boolean) value == true) {
                 label.setIcon(trueIcon);
+                label.setToolTipText(trueToolTip);
             } else {
                 label.setIcon(falseIcon);
+                label.setToolTipText(falseToolTip);
             }
         }
 
