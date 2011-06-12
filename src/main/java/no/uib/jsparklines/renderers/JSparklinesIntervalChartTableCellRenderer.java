@@ -14,9 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import no.uib.jsparklines.data.XYDataPoint;
+import no.uib.jsparklines.renderers.util.BarChartColorRenderer;
 import no.uib.jsparklines.renderers.util.GradientColorCoding;
 import no.uib.jsparklines.renderers.util.GradientColorCoding.ColorGradient;
 import org.jfree.chart.ChartFactory;
@@ -665,10 +667,10 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             chart.setBackgroundPaint(plotBackgroundColor);
         } else {
 
-//                // handle the special case with Nimbus LAF and alternating colors
-//                if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && isSelected) {
-//                    renderer = new BarChartColorRenderer(Color.WHITE);
-//                }
+            // handle the special case with Nimbus LAF and alternating colors
+            if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && isSelected) {
+                renderer.setSeriesPaint(0, Color.WHITE);
+            }
 
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
