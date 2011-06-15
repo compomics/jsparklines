@@ -18,7 +18,6 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import no.uib.jsparklines.data.XYDataPoint;
-import no.uib.jsparklines.renderers.util.BarChartColorRenderer;
 import no.uib.jsparklines.renderers.util.GradientColorCoding;
 import no.uib.jsparklines.renderers.util.GradientColorCoding.ColorGradient;
 import org.jfree.chart.ChartFactory;
@@ -34,9 +33,9 @@ import org.jfree.data.category.DefaultIntervalCategoryDataset;
 /**
  * A renderer for displaying a JSparklines interval chart inside a table cell.
  * Assumes that the cell values are of type Integer, Short, Byte, Long,
- * Double, Float or XYDataPoint. If data of XYDataPoint is used the X value 
- * is assumed to be the lower range of the interval and the Y values is 
- * assumed to be the upper range. For the other cell value types the width 
+ * Double, Float, XYDataPoint or XYDataPoint[]. If data of XYDataPoint is used 
+ * the X value is assumed to be the lower range of the interval and the Y values 
+ * is assumed to be the upper range. For the other cell value types the width 
  * of the interval has to be set by the user.
  *
  * @author Harald Barsnes
@@ -402,8 +401,11 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             return c;
         }
 
-        if (xyDataPointRequied && !(value instanceof XYDataPoint)) {
-            throw new IllegalArgumentException("Inconsistent use of constructor! The constructor used requires that the cells contain values of type XYDataPoint. Type found: " + value.getClass());
+        if (xyDataPointRequied) {
+            if (!(value instanceof XYDataPoint) && !(value instanceof XYDataPoint[])) {
+                throw new IllegalArgumentException("Inconsistent use of constructor! "
+                        + "The constructor used requires that the cells contain values of type XYDataPoint or XYDataPoint[]. Type found: " + value.getClass());
+            }
         }
 
         // if show numbers, format as number and return
@@ -442,6 +444,17 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table,
                         "[" + roundDouble(((XYDataPoint) value).getX(), 2) + ", " + roundDouble(((XYDataPoint) value).getY(), 2) + "]",
                         isSelected, hasFocus, row, column);
+            } else if (value instanceof XYDataPoint[]) {
+
+                String temp = "";
+
+                XYDataPoint[] tempValues = (XYDataPoint[]) value;
+
+                for (int i = 0; i < tempValues.length; i++) {
+                    temp += "[" + roundDouble(tempValues[i].getX(), 2) + ", " + roundDouble(tempValues[i].getY(), 2) + "] ";
+                }
+
+                c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, temp, isSelected, hasFocus, row, column);
             }
 
             ((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
@@ -477,6 +490,20 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         } else if (value instanceof XYDataPoint) {
 
             this.setToolTipText("[" + roundDouble(((XYDataPoint) value).getX(), 2) + ", " + roundDouble(((XYDataPoint) value).getY(), 2) + "]");
+
+        } else if (value instanceof XYDataPoint[]) {
+
+            String temp = "<html>";
+
+            XYDataPoint[] tempValues = (XYDataPoint[]) value;
+
+            for (int i = 0; i < tempValues.length; i++) {
+                temp += "[" + roundDouble(tempValues[i].getX(), 2) + ", " + roundDouble(tempValues[i].getY(), 2) + "]<br>";
+            }
+
+            temp += "</html>";
+
+            this.setToolTipText(temp);
         }
 
         // show the number _and_ the chart if option selected
@@ -496,6 +523,16 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 valueLabel.setText("" + Integer.valueOf("" + value).intValue());
             } else if (value instanceof XYDataPoint) {
                 valueLabel.setText("[" + roundDouble(((XYDataPoint) value).getX(), 2) + ", " + roundDouble(((XYDataPoint) value).getY(), 2) + "]");
+            } else if (value instanceof XYDataPoint[]) {
+                String temp = "";
+
+                XYDataPoint[] tempValues = (XYDataPoint[]) value;
+
+                for (int i = 0; i < tempValues.length; i++) {
+                    temp += "[" + roundDouble(tempValues[i].getX(), 2) + ", " + roundDouble(tempValues[i].getY(), 2) + "] ";
+                }
+
+                valueLabel.setText(temp);
             }
 
             // We have to create a new color object because Nimbus returns
@@ -580,6 +617,24 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             }
 
             dataset = new DefaultIntervalCategoryDataset(lows, highs);
+            
+        } else if (value instanceof XYDataPoint[]) {
+
+            XYDataPoint[] values = (XYDataPoint[]) value;
+
+            double[][] lows = new double[values.length][1];
+            double[][] highs = new double[values.length][1];
+
+            for (int i = 0; i < values.length; i++) {
+                lows[i][0] = values[i].getX();
+                highs[i][0] = values[i].getY();
+
+                if (lows[i][0] >= highs[i][0]) {
+                    throw new IllegalArgumentException("Lower interval range >= upper interval range! " + lows[i][0] + ">=" + highs[i][0]);
+                }
+            }
+
+            dataset = new DefaultIntervalCategoryDataset(lows, highs);
         }
 
         // fine tune the chart properites
@@ -657,6 +712,29 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                     renderer.setSeriesPaint(0, negativeValuesColor);
                 }
             }
+        } else if (value instanceof XYDataPoint[]) {
+            
+            // @TODO: what about different colors for the different bars?
+
+            XYDataPoint[] values = (XYDataPoint[]) value;
+
+            for (int i = 0; i < values.length; i++) {
+
+                // use the center of the interval to decide the color
+                double temp = values[i].getX() + values[i].getY();
+                temp /= 2;
+
+                if (gradientColoring) {
+                    renderer.setSeriesPaint(i, GradientColorCoding.findGradientColor(temp, minValue, maxValue, currentColorGradient));
+                } else {
+
+                    if (temp > 0) {
+                        renderer.setSeriesPaint(i, positiveValuesColor);
+                    } else {
+                        renderer.setSeriesPaint(i, negativeValuesColor);
+                    }
+                }
+            }
         }
 
         // make sure the background is the same as the table row color
@@ -669,7 +747,18 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
 
             // handle the special case with Nimbus LAF and alternating colors
             if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && isSelected) {
-                renderer.setSeriesPaint(0, Color.WHITE);
+                
+                if (value instanceof XYDataPoint[]) {
+                    
+                    int length = ((XYDataPoint[]) value).length;
+                    
+                    for (int i=0; i<length; i++) {
+                        renderer.setSeriesPaint(i, Color.WHITE);
+                    }
+                    
+                } else {
+                    renderer.setSeriesPaint(0, Color.WHITE);
+                } 
             }
 
             // We have to create a new color object because Nimbus returns
