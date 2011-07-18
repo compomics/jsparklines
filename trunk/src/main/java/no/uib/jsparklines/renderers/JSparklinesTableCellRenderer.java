@@ -234,12 +234,14 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
 
-                tooltip += "<font color=rgb("
+                if (sparklineDataSeries.getSeriesLabel() != null) {
+                    tooltip += "<font color=rgb("
                         + sparklineDataSeries.getSeriesColor().getRed() + ","
                         + sparklineDataSeries.getSeriesColor().getGreen() + ","
                         + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
                         + sparklineDataSeries.getSeriesLabel() + "<br>";
-
+                }
+                
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
                     barChartDataset.addValue(sparklineDataSeries.getData().get(j), "1", new Integer(dataCounter++));
                     colors.add(sparklineDataSeries.getSeriesColor());
@@ -320,11 +322,13 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
 
-                tooltip += "<font color=rgb("
-                        + sparklineDataSeries.getSeriesColor().getRed() + ","
-                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                        + sparklineDataSeries.getSeriesLabel() + "<br>";
+                if (sparklineDataSeries.getSeriesLabel() != null) {
+                    tooltip += "<font color=rgb("
+                            + sparklineDataSeries.getSeriesColor().getRed() + ","
+                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                            + sparklineDataSeries.getSeriesLabel() + "<br>";
+                }
 
                 XYSeries tempSeries = new XYSeries(sparklineDataSeries.getSeriesLabel());
 
@@ -424,11 +428,13 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
 
-                tooltip += "<font color=rgb("
-                        + sparklineDataSeries.getSeriesColor().getRed() + ","
-                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                        + sparklineDataSeries.getSeriesLabel() + "<br>";
+                if (sparklineDataSeries.getSeriesLabel() != null) {
+                    tooltip += "<font color=rgb("
+                            + sparklineDataSeries.getSeriesColor().getRed() + ","
+                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                            + sparklineDataSeries.getSeriesLabel() + "<br>";
+                }
 
                 double sumOfValues = 0.0;
 
@@ -469,11 +475,13 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
 
-                tooltip += "<font color=rgb("
-                        + sparklineDataSeries.getSeriesColor().getRed() + ","
-                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                        + sparklineDataSeries.getSeriesLabel() + "<br>";
+                if (sparklineDataSeries.getSeriesLabel() != null) {
+                    tooltip += "<font color=rgb("
+                            + sparklineDataSeries.getSeriesColor().getRed() + ","
+                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                            + sparklineDataSeries.getSeriesLabel() + "<br>";
+                }
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
                     barChartDataset.addValue(sparklineDataSeries.getData().get(j), "" + i, "" + j);
@@ -509,7 +517,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             }
 
             if (plotType == PlotType.stackedPercentBarChart) {
-                renderer.setRenderAsPercentages(true);
+                renderer.setRenderAsPercentages(true);  
             } else {
                 // set the axis range
                 if (maxValue > 0) {
@@ -545,11 +553,13 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 ArrayList<Double> listValues = new ArrayList();
 
-                tooltip += "<font color=rgb("
-                        + sparklineDataSeries.getSeriesColor().getRed() + ","
-                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                        + sparklineDataSeries.getSeriesLabel() + "<br>";
+                if (sparklineDataSeries.getSeriesLabel() != null) {
+                    tooltip += "<font color=rgb("
+                            + sparklineDataSeries.getSeriesColor().getRed() + ","
+                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                            + sparklineDataSeries.getSeriesLabel() + "<br>";
+                }
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
                     listValues.add(sparklineDataSeries.getData().get(j));
@@ -594,11 +604,13 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
 
-                tooltip += "<font color=rgb("
-                        + sparklineDataSeries.getSeriesColor().getRed() + ","
-                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                        + sparklineDataSeries.getSeriesLabel() + "<br>";
+                if (sparklineDataSeries.getSeriesLabel() != null) {
+                    tooltip += "<font color=rgb("
+                            + sparklineDataSeries.getSeriesColor().getRed() + ","
+                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                            + sparklineDataSeries.getSeriesLabel() + "<br>";
+                }
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
 
@@ -638,10 +650,14 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             renderer.setShadowVisible(false);
             plot.setRenderer(renderer);
         }
-
+        
         // set the tooltip
-        setToolTipText(tooltip + "</html>");
-
+        if (!tooltip.equalsIgnoreCase("<html>")) {
+            setToolTipText(tooltip + "</html>");
+        } else {
+            setToolTipText(null);
+        }
+           
         // hide the outline
         chart.getPlot().setOutlineVisible(false);
 
@@ -700,10 +716,11 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * Add a reference area.
      *
-     * @param label the label for the reference area
-     * @param start the start of the reference area
-     * @param end the end of the reference area
-     * @param areaColor the color of the area
+     * @param label         the label for the reference area
+     * @param start         the start of the reference area
+     * @param end           the end of the reference area
+     * @param areaColor     the color of the reference area
+     * @param alpha         the alpha level of the reference area
      */
     public void addReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreas.put(label, new ReferenceArea(label, start, end, areaColor, alpha));
