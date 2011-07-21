@@ -32,6 +32,7 @@ import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
+import org.jfree.chart.renderer.category.LayeredBarRenderer;
 import org.jfree.chart.renderer.category.StackedBarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
@@ -56,7 +57,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     public enum PlotType {
 
-        barChart, lineChart, pieChart, stackedBarChart, stackedPercentBarChart, areaChart, boxPlot, upDownChart
+        barChart, lineChart, pieChart, stackedBarChart, stackedPercentBarChart, areaChart, boxPlot, upDownChart, proteinSequence
     }
 
     /**
@@ -236,12 +237,12 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 if (sparklineDataSeries.getSeriesLabel() != null) {
                     tooltip += "<font color=rgb("
-                        + sparklineDataSeries.getSeriesColor().getRed() + ","
-                        + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                        + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                        + sparklineDataSeries.getSeriesLabel() + "<br>";
+                            + sparklineDataSeries.getSeriesColor().getRed() + ","
+                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                            + sparklineDataSeries.getSeriesLabel() + "<br>";
                 }
-                
+
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
                     barChartDataset.addValue(sparklineDataSeries.getData().get(j), "1", new Integer(dataCounter++));
                     colors.add(sparklineDataSeries.getSeriesColor());
@@ -309,7 +310,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 renderer = new AreaRenderer();
                 ((AreaRenderer) renderer).setOutline(true);
             }
-
+            
             // variables for storing the max and min values
             double plotMaxValue = Double.MIN_VALUE;
             double plotMinValue = Double.MAX_VALUE;
@@ -460,7 +461,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 piePlot.setSectionPaint(sparklineDataset.getData().get(i).getSeriesLabel(), sparklineDataset.getData().get(i).getSeriesColor());
             }
 
-        } else if (plotType == PlotType.stackedBarChart || plotType == PlotType.stackedPercentBarChart) {
+        } else if (plotType == PlotType.stackedBarChart || plotType == PlotType.stackedPercentBarChart || plotType == plotType.proteinSequence) {
 
             /////////////////////
             // STACKED BAR CHART
@@ -470,7 +471,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             StackedBarRenderer renderer = new StackedBarRenderer();
             renderer.setShadowVisible(false);
-
+            
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {
 
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
@@ -498,6 +499,10 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             plot.getDomainAxis().setUpperMargin(0);
             plot.getDomainAxis().setLowerMargin(0);
 
+            // remove space before/after the range axis
+            plot.getRangeAxis().setUpperMargin(0);
+            plot.getRangeAxis().setLowerMargin(0);
+
             // add reference lines, if any
             Iterator<String> allReferencesLines = referenceLines.keySet().iterator();
 
@@ -516,8 +521,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 plot.addRangeMarker(marker);
             }
 
-            if (plotType == PlotType.stackedPercentBarChart) {
-                renderer.setRenderAsPercentages(true);  
+            if (plotType == PlotType.stackedPercentBarChart || plotType == plotType.proteinSequence) {
+                renderer.setRenderAsPercentages(true);
             } else {
                 // set the axis range
                 if (maxValue > 0) {
@@ -534,9 +539,22 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             plot.setRangeGridlinesVisible(false);
             plot.setDomainGridlinesVisible(false);
 
-            // set up the chart renderer
-            plot.setRenderer(renderer);
+            if (plotType == plotType.proteinSequence) {
 
+                // add a reference line in the middle of the dataset
+                DefaultCategoryDataset referenceLineDataset = new DefaultCategoryDataset();
+                referenceLineDataset.addValue(1.0, "A", "B");
+                plot.setDataset(1, referenceLineDataset);
+                LayeredBarRenderer referenceLineRenderer = new LayeredBarRenderer();
+                referenceLineRenderer.setSeriesBarWidth(0, 0.03);
+                referenceLineRenderer.setSeriesFillPaint(0, Color.BLACK);
+                referenceLineRenderer.setSeriesPaint(0, Color.BLACK);
+                plot.setRenderer(1, referenceLineRenderer);
+            }
+
+            // set up the chart renderer
+            plot.setRenderer(0, renderer);
+            
         } else if (plotType == PlotType.boxPlot) {
 
             //////////////
@@ -650,21 +668,21 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             renderer.setShadowVisible(false);
             plot.setRenderer(renderer);
         }
-        
+
         // set the tooltip
         if (!tooltip.equalsIgnoreCase("<html>")) {
             setToolTipText(tooltip + "</html>");
         } else {
             setToolTipText(null);
         }
-           
+
         // hide the outline
         chart.getPlot().setOutlineVisible(false);
 
         // make sure the background is the same as the table row color
         chart.getPlot().setBackgroundPaint(c.getBackground());
         chart.setBackgroundPaint(c.getBackground());
-
+       
         // create the chart panel and add it to the table cell
         chartPanel = new ChartPanel(chart);
         chartPanel.setBackground(c.getBackground());
@@ -878,4 +896,11 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     public ChartPanel getChartPanel() {
         return chartPanel;
     }
+
+    // @TODO: this ought to work but does not...
+    
+//    @Override
+//    public String getToolTipText(MouseEvent event) {
+//        return chartPanel.getToolTipText(event);
+//    }   
 }
