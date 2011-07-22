@@ -36,6 +36,7 @@ import org.jfree.chart.renderer.category.LayeredBarRenderer;
 import org.jfree.chart.renderer.category.StackedBarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
+import org.jfree.chart.renderer.xy.XYDifferenceRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
@@ -57,9 +58,12 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     public enum PlotType {
 
-        barChart, lineChart, pieChart, stackedBarChart, stackedPercentBarChart, areaChart, boxPlot, upDownChart, proteinSequence
+        barChart, lineChart, pieChart, stackedBarChart, stackedPercentBarChart, areaChart, boxPlot, upDownChart, proteinSequence, difference
     }
-
+    /**
+     * The background color, if null the row color is used.
+     */
+    private Color backgroundColor;
     /**
      * Turns of the gradient painting for the bar charts.
      */
@@ -204,7 +208,12 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         // respect focus and hightlighting
         setBorder(c.getBorder());
         setOpaque(c.isOpaque());
-        setBackground(c.getBackground());
+
+        if (backgroundColor != null) {
+            setBackground(backgroundColor);
+        } else {
+            setBackground(c.getBackground());
+        }
 
         // if the cell is empty, simply return
         if (value == null) {
@@ -295,22 +304,24 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             renderer.setShadowVisible(false);
             plot.setRenderer(renderer);
 
-        } else if (plotType == PlotType.lineChart || plotType == PlotType.areaChart) {
+        } else if (plotType == PlotType.lineChart || plotType == PlotType.areaChart || plotType == PlotType.difference) {
 
-            //////////////////////
-            // LINE or AREA CHART
-            //////////////////////
+            //////////////////////////////////
+            // LINE, AREA or DIFFERENCE CHART
+            //////////////////////////////////
 
             AbstractXYItemRenderer renderer;
 
             // set up the chart renderer
             if (plotType == PlotType.lineChart) {
                 renderer = new XYLineAndShapeRenderer(true, false);
-            } else {
+            } else if (plotType == PlotType.areaChart) {
                 renderer = new AreaRenderer();
                 ((AreaRenderer) renderer).setOutline(true);
+            } else { // plotType == PlotType.difference
+                renderer = new XYDifferenceRenderer(downColor, upColor, false);
             }
-            
+
             // variables for storing the max and min values
             double plotMaxValue = Double.MIN_VALUE;
             double plotMinValue = Double.MAX_VALUE;
@@ -331,10 +342,12 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                             + sparklineDataSeries.getSeriesLabel() + "<br>";
                 }
 
-                XYSeries tempSeries = new XYSeries(sparklineDataSeries.getSeriesLabel());
+                XYSeries tempSeries = new XYSeries(i);
+                XYSeries xAxisSeries = new XYSeries("x-axis");
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
                     tempSeries.add(j, sparklineDataSeries.getData().get(j));
+                    xAxisSeries.add(j, 0);
 
                     if (sparklineDataSeries.getData().get(j) > plotMaxValue) {
                         plotMaxValue = sparklineDataSeries.getData().get(j);
@@ -349,14 +362,20 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 lineChartDataset.addSeries(tempSeries);
 
-                if (plotType == PlotType.lineChart) {
-                    renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
-                    renderer.setSeriesStroke(i, sparklineDataSeries.getLineType());
+                if (plotType == PlotType.difference) {
+                    lineChartDataset.addSeries(xAxisSeries);
+                    renderer.setSeriesStroke(0, new BasicStroke(0));
+                    renderer.setSeriesStroke(1, new BasicStroke(0));
                 } else {
-                    renderer.setSeriesFillPaint(i, new GradientPaint(
-                            0f, 0f, sparklineDataSeries.getSeriesColor().brighter().brighter(),
-                            0f, 0f, sparklineDataSeries.getSeriesColor().darker().darker()));
-                    renderer.setSeriesOutlinePaint(i, sparklineDataSeries.getSeriesColor());
+                    if (plotType == PlotType.lineChart) {
+                        renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
+                        renderer.setSeriesStroke(i, sparklineDataSeries.getLineType());
+                    } else {
+                        renderer.setSeriesFillPaint(i, new GradientPaint(
+                                0f, 0f, sparklineDataSeries.getSeriesColor().brighter().brighter(),
+                                0f, 0f, sparklineDataSeries.getSeriesColor().darker().darker()));
+                        renderer.setSeriesOutlinePaint(i, sparklineDataSeries.getSeriesColor());
+                    }
                 }
             }
 
@@ -471,7 +490,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             StackedBarRenderer renderer = new StackedBarRenderer();
             renderer.setShadowVisible(false);
-            
+
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {
 
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
@@ -554,7 +573,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             // set up the chart renderer
             plot.setRenderer(0, renderer);
-            
+
         } else if (plotType == PlotType.boxPlot) {
 
             //////////////
@@ -680,12 +699,23 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         chart.getPlot().setOutlineVisible(false);
 
         // make sure the background is the same as the table row color
-        chart.getPlot().setBackgroundPaint(c.getBackground());
-        chart.setBackgroundPaint(c.getBackground());
-       
+        if (backgroundColor != null) {
+            chart.getPlot().setBackgroundPaint(backgroundColor);
+            chart.setBackgroundPaint(backgroundColor);
+        } else {
+            chart.getPlot().setBackgroundPaint(c.getBackground());
+            chart.setBackgroundPaint(c.getBackground());
+        }
+
         // create the chart panel and add it to the table cell
         chartPanel = new ChartPanel(chart);
-        chartPanel.setBackground(c.getBackground());
+
+        if (backgroundColor != null) {
+            chartPanel.setBackground(backgroundColor);
+        } else {
+            chartPanel.setBackground(c.getBackground());
+        }
+
         this.removeAll();
         this.add(chartPanel);
 
@@ -826,7 +856,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Set the color used to highlight the minimum values in the charts.
+     * Set the color used to highlight the minimum values in the charts and 
+     * the positive values in the difference plots..
      *
      * @param minValueColor the color to set
      */
@@ -835,7 +866,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Get the color used for the 'up values' in the Up/Down charts.
+     * Get the color used for the 'up values' in the Up/Down charts and 
+     * the positive values in the difference plots..
      *
      * @return tthe color used for the 'up values' in the Up/Down charts
      */
@@ -853,7 +885,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Get the color used for the 'down values' in the Up/Down charts.
+     * Get the color used for the 'down values' in the Up/Down charts and 
+     * the negative values in the difference plots..
      *
      * @return tthe color used for the 'down values' in the Up/Down charts
      */
@@ -862,7 +895,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Set the color used for the 'down values' in the Up/Down charts.
+     * Set the color used for the 'down values' in the Up/Down charts and 
+     * the negative values in the difference plots..
      *
      * @param downColor the color for the 'down values' in the Up/Down charts
      */
@@ -895,6 +929,16 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     public ChartPanel getChartPanel() {
         return chartPanel;
+    }
+
+    /**
+     * Set the background color. If not set the background color of the given 
+     * row will be used.
+     * 
+     * @param color the new background color
+     */
+    public void setBackgroundColor(Color color) {
+        backgroundColor = color;
     }
 
     // @TODO: this ought to work but does not...
