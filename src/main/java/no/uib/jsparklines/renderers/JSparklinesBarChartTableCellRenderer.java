@@ -110,6 +110,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     private boolean showNumberAndChart = false;
     /**
+     * The decimal format for use when showing the numbers.
+     */
+    private DecimalFormat numberFormat = new DecimalFormat("0.00");
+    /**
      * The width of the label used to display the value and the chart in the
      * same time.
      */
@@ -370,7 +374,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     public void setBackgroundColor(Color plotBackgroundColor) {
         this.plotBackgroundColor = plotBackgroundColor;
     }
-
+    
     /**
      * If true the number will be shown together with the bar chart in the cell.
      * False only display the bar chart. This method is not to be confused with
@@ -380,8 +384,22 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * @param widthOfLabel          the width used to display the label containing the number
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel) {
+        showNumberAndChart(showNumberAndChart, widthOfLabel, numberFormat);
+    }
+    
+    /**
+     * If true the number will be shown together with the bar chart in the cell.
+     * False only display the bar chart. This method is not to be confused with
+     * the showNumbers-method that only displays the numbers.
+     *
+     * @param showNumberAndChart    if true the number and the chart is shown in the cell
+     * @param widthOfLabel          the width used to display the label containing the number
+     * @param numberFormat          the decimal format to use when showing the numbers 
+     */
+    public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, DecimalFormat numberFormat) {
         this.showNumberAndChart = showNumberAndChart;
         this.widthOfValueLabel = widthOfLabel;
+        this.numberFormat = numberFormat;
     }
 
     /**
@@ -397,10 +415,28 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement) {
+        showNumberAndChart(showNumberAndChart, widthOfLabel, font, horizontalAlignement, numberFormat);
+    }
+    
+    /**
+     * If true the number will be shown together with the bar chart in the cell.
+     * False only display the bar chart. This method is not to be confused with
+     * the showNumbers-method that only displays the numbers.
+     *
+     * @param showNumberAndChart    if true the number and the chart is shown in the cell
+     * @param widthOfLabel          the width used to display the label containing the number
+     * @param font                  the font to use for the label
+     * @param horizontalAlignement  the horizontal alignent of the text in the label:
+     *                              one of the following constants defined in SwingConstants:
+     *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
+     * @param numberFormat          the decimal format to use when showing the numbers 
+     */
+    public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement, DecimalFormat numberFormat) {
         this.showNumberAndChart = showNumberAndChart;
         this.widthOfValueLabel = widthOfLabel;
         labelHorizontalAlignement = horizontalAlignement;
         valueLabel.setFont(font);
+        this.numberFormat = numberFormat;
     }
 
     /**
@@ -538,8 +574,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         // show the number _and_ the chart if option selected
         if (showNumberAndChart) {
 
-            // make sure that floating numbers are always shown using two decimals
-            DecimalFormat numberFormat = new DecimalFormat("0.00");
+            // set the decimal format symbol
             numberFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
 
             if (value instanceof Double || value instanceof Float) {
