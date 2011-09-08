@@ -488,8 +488,15 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             this.setToolTipText("" + value);
 
         } else if (value instanceof XYDataPoint) {
-
-            this.setToolTipText("[" + roundDouble(((XYDataPoint) value).getX(), 2) + ", " + roundDouble(((XYDataPoint) value).getY(), 2) + "]");
+            
+            double x = ((XYDataPoint) value).getX();
+            double y = ((XYDataPoint) value).getY();
+            
+            if (Math.floor(x) == x && Math.floor(y) == y) {
+                this.setToolTipText("[" + (int) x + ", " + (int) y + "]");
+            } else {
+                this.setToolTipText("[" + roundDouble(x, 2) + ", " + roundDouble(y, 2) + "]");
+            }
 
         } else if (value instanceof XYDataPoint[]) {
 
@@ -498,7 +505,15 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             XYDataPoint[] tempValues = (XYDataPoint[]) value;
 
             for (int i = 0; i < tempValues.length; i++) {
-                temp += "[" + roundDouble(tempValues[i].getX(), 2) + ", " + roundDouble(tempValues[i].getY(), 2) + "]<br>";
+                
+                double x = tempValues[i].getX();
+                double y = tempValues[i].getY();
+                
+                if (Math.floor(x) == x && Math.floor(y) == y) {
+                    temp += "[" + (int) x + ", " + (int) y + "]<br>";
+                } else {
+                    temp += "[" + roundDouble(x, 2) + ", " + roundDouble(y, 2) + "]<br>";
+                }  
             }
 
             temp += "</html>";
