@@ -18,7 +18,7 @@ import javax.swing.table.TableCellRenderer;
  * @author Harald Barsnes
  */
 public class HtmlLinksRenderer implements TableCellRenderer {
-    
+
     /**
      * The color to use for the HTML tags for the selected rows, in HTML color 
      * code, i.e., #FFFFFF for white.
@@ -29,7 +29,7 @@ public class HtmlLinksRenderer implements TableCellRenderer {
      * in HTML color code, i.e., #000000 for black.
      */
     private String notSelectedRowFontColor;
-    
+
     /**
      * Default constructor.
      * 
@@ -48,21 +48,24 @@ public class HtmlLinksRenderer implements TableCellRenderer {
                 table, value, isSelected, hasFocus, row, column);
 
         Color bg = label.getBackground();
-        
+
         // We have to create a new color object because Nimbus returns
         // a color of type DerivedColor, which behaves strange, not sure why.
         label.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-        
+
         String link = (String) value;
-        
-        // update the link color depending on if the row is selected or not
-        if (isSelected) {    
-            link = link.replace(notSelectedRowFontColor, selectedRowFontColor);
-        } else {
-            link = link.replace(selectedRowFontColor, notSelectedRowFontColor);
+
+        if (link != null) {
+
+            // update the link color depending on if the row is selected or not
+            if (isSelected) {
+                link = link.replace(notSelectedRowFontColor, selectedRowFontColor);
+            } else {
+                link = link.replace(selectedRowFontColor, notSelectedRowFontColor);
+            }
+
+            label.setText(link);
         }
-        
-        label.setText(link);
 
         return label;
     }
