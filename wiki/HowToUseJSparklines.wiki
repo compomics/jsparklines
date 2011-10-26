@@ -98,10 +98,10 @@ When displaying multiple values in a single plot one has to use the JSparklinesT
 // add the data points to display to an arraylist
 ArrayList<Double> dataA = new ArrayList<Double>();
 
-dataA.add(new Double(2.4);
-dataA.add(new Double(4.1);
+dataA.add(new Double(2.4));
+dataA.add(new Double(4.1));
 ...
-dataA.add(new Double(1.3);
+dataA.add(new Double(1.3));
 
 // create a JSparklineDataSeries 
 JSparklinesDataSeries sparklineDataseriesA = new JSparklinesDataSeries(
@@ -142,10 +142,10 @@ Displaying more than one data series is also very simple with *JSparklines*. Sim
 // add the data points for the first data series
 ArrayList<Double> dataA = new ArrayList<Double>();
 
-dataA.add(new Double(2.4);
-dataA.add(new Double(4.1);
+dataA.add(new Double(2.4));
+dataA.add(new Double(4.1));
 ...
-dataA.add(new Double(1.3);
+dataA.add(new Double(1.3));
 
 // create a JSparklineDataSeries 
 JSparklinesDataSeries sparklineDataseriesA = new JSparklinesDataSeries(dataA, Color.RED, "Dataset A");
@@ -154,10 +154,10 @@ JSparklinesDataSeries sparklineDataseriesA = new JSparklinesDataSeries(dataA, Co
 // add the data points for the second data series
 ArrayList<Double> dataB = new ArrayList<Double>();
 
-dataB.add(new Double(2.4);
-dataB.add(new Double(4.1);
+dataB.add(new Double(2.4));
+dataB.add(new Double(4.1));
 ...
-dataB.add(new Double(1.3);
+dataB.add(new Double(1.3));
 
 // create a JSparklineDataSeries 
 JSparklinesDataSeries sparklineDataseriesB = new JSparklinesDataSeries(dataB, Color.BLUE, "Dataset B");
@@ -201,10 +201,10 @@ When plotting 2D or 3D data use the JSparklines3dTableCellRenderer instead of th
 // add the 2D/3D data points to display to an arraylist
 ArrayList<XYZDataPoint> dataA = new ArrayList<XYZDataPoint>();
 
-dataA.add(new XYZDataPoint(2.4, 3.4, 2.7);
-dataA.add(new XYZDataPoint(5.8, 2.7, 8.2);
+dataA.add(new XYZDataPoint(2.4, 3.4, 2.7));
+dataA.add(new XYZDataPoint(5.8, 2.7, 8.2));
 ...
-dataA.add(new XYZDataPoint(6.2, 6.3, 1.1);
+dataA.add(new XYZDataPoint(6.2, 6.3, 1.1));
 
 // create a JSparkline3dDataSeries
 JSparklines3dDataSeries sparkline3dDataseriesA = new JSparklines3dDataSeries(
