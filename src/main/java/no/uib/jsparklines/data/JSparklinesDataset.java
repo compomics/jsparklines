@@ -41,4 +41,27 @@ public class JSparklinesDataset {
     public void setData(ArrayList<JSparklinesDataSeries> data) {
         this.data = data;
     }
+    
+    /**
+     * Returns the value as a string. Note that the values are rounded
+     * to two decimals.
+     *
+     * @return the values as a string
+     */
+    public String toString() {
+        
+        if (data.isEmpty()) {
+            return "";
+        }
+        
+        String temp = "";
+        
+        temp += "[" + data.get(0).toString() + "]";
+        
+        for (int i=1; i<data.size(); i++) {
+            temp += ",[" + data.get(i).toString() + "]";
+        }
+        
+        return temp;
+    }
 }

@@ -1,5 +1,7 @@
 package no.uib.jsparklines.data;
 
+import no.uib.jsparklines.renderers.util.Util;
+
 /**
  * Object that stores data about one data point in an XYZ plot.
  *
@@ -64,5 +66,15 @@ public class XYZDataPoint {
      */
     public void setZ(double z) {
         this.z = z;
+    }
+    
+    /**
+     * Returns the (x,y,x) value as a string. Note that the values are rounded
+     * to two decimals.
+     *
+     * @return the values as a string
+     */
+    public String toString() {
+        return "(" + Util.roundDouble(x, 2) + "," + Util.roundDouble(y, 2) + "," + Util.roundDouble(z, 2) + ")";
     }
 }
