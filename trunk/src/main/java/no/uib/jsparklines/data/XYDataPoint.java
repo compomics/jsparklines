@@ -1,5 +1,7 @@
 package no.uib.jsparklines.data;
 
+import no.uib.jsparklines.renderers.util.Util;
+
 /**
  * Object that stores data about one data point in an XY plot.
  *
@@ -56,18 +58,7 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
      * @return the xy-values as a string
      */
     public String toString() {
-        return "" + roundDouble(x, 2);
-    }
-
-    /**
-     * Rounds of a double value to the wanted number of decimalplaces
-     *
-     * @param d the double to round of
-     * @param places number of decimal places wanted
-     * @return double - the new double
-     */
-    private static double roundDouble(double d, int places) {
-        return Math.round(d * Math.pow(10, (double) places)) / Math.pow(10, (double) places);
+        return "" + Util.roundDouble(x, 2);
     }
 
     /**
