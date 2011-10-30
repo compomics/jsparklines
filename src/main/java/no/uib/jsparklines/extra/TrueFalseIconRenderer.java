@@ -26,6 +26,10 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
      */
     private ImageIcon falseIcon;
     /**
+     * The icon to use for the null values.
+     */
+    private ImageIcon nullIcon;
+    /**
      * The tooltip to use for the true values.
      */
     private String trueToolTip = null;
@@ -33,6 +37,10 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
      * The tooltip to use for the false values.
      */
     private String falseToolTip = null;
+    /**
+     * The tooltip to use for the null values.
+     */
+    private String nullToolTip = null;
 
     /**
      * Creates a new IconRenderer.
@@ -58,6 +66,26 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
         this.falseIcon = falseIcon;
         this.trueToolTip = trueToolTip;
         this.falseToolTip = falseToolTip;
+    }
+    
+    /**
+     * Creates a new IconRenderer.
+     *
+     * @param trueIcon      the icon to use for cells containing TRUE
+     * @param falseIcon     the icon to use for cells containing FALSE
+     * @param nullIcon      the icon to use for cells containting NULL
+     * @param trueToolTip   the tooltip to use for the true values
+     * @param falseToolTip  the tooltip to use for the false values
+     * @param nullToolTip   the tooltip to use fo the null values 
+     */
+    public TrueFalseIconRenderer(ImageIcon trueIcon, ImageIcon falseIcon, ImageIcon nullIcon,
+            String trueToolTip, String falseToolTip, String nullToolTip) {
+        this.trueIcon = trueIcon;
+        this.falseIcon = falseIcon;
+        this.nullIcon = nullIcon;
+        this.trueToolTip = trueToolTip;
+        this.falseToolTip = falseToolTip;
+        this.nullToolTip = nullToolTip;
     }
 
     /**
@@ -95,6 +123,9 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
                 label.setIcon(falseIcon);
                 label.setToolTipText(falseToolTip);
             }
+        } else if (value == null) {
+            label.setIcon(nullIcon);
+            label.setToolTipText(nullToolTip);
         }
 
         return label;
