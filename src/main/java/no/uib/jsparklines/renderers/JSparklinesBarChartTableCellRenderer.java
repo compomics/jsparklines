@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import no.uib.jsparklines.data.ValueAndBooleanDataPoint;
 import no.uib.jsparklines.data.XYDataPoint;
 import no.uib.jsparklines.renderers.util.GradientColorCoding;
 import no.uib.jsparklines.renderers.util.GradientColorCoding.ColorGradient;
@@ -374,7 +375,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     public void setBackgroundColor(Color plotBackgroundColor) {
         this.plotBackgroundColor = plotBackgroundColor;
     }
-    
+
     /**
      * If true the number will be shown together with the bar chart in the cell.
      * False only display the bar chart. This method is not to be confused with
@@ -386,7 +387,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel) {
         showNumberAndChart(showNumberAndChart, widthOfLabel, numberFormat);
     }
-    
+
     /**
      * If true the number will be shown together with the bar chart in the cell.
      * False only display the bar chart. This method is not to be confused with
@@ -417,7 +418,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement) {
         showNumberAndChart(showNumberAndChart, widthOfLabel, font, horizontalAlignement, numberFormat);
     }
-    
+
     /**
      * If true the number will be shown together with the bar chart in the cell.
      * False only display the bar chart. This method is not to be confused with
@@ -531,6 +532,20 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 if (Math.abs(new Double("" + ((XYDataPoint) value).getX())) < tooltipLowerValue) {
                     c.setToolTipText("" + roundDouble(new Double("" + ((XYDataPoint) value).getX()).doubleValue(), 8));
                 }
+
+            } else if (value instanceof ValueAndBooleanDataPoint) {
+
+                if (Double.isInfinite(((ValueAndBooleanDataPoint) value).getValue())) {
+                    c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, ((ValueAndBooleanDataPoint) value).getValue(),
+                            isSelected, hasFocus, row, column);
+                } else {
+                    c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, ((ValueAndBooleanDataPoint) value).toString(),
+                            isSelected, hasFocus, row, column);
+
+                    if (Math.abs(new Double("" + ((ValueAndBooleanDataPoint) value).getValue())) < tooltipLowerValue) {
+                        c.setToolTipText("" + roundDouble(new Double("" + ((ValueAndBooleanDataPoint) value).getValue()).doubleValue(), 8));
+                    }
+                }
             }
 
             ((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
@@ -569,6 +584,17 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             } else {
                 this.setToolTipText("" + roundDouble(((XYDataPoint) value).getX(), 2));
             }
+        } else if (value instanceof ValueAndBooleanDataPoint) {
+            
+            if (Double.isInfinite(((ValueAndBooleanDataPoint) value).getValue())) {
+                this.setToolTipText("" + ((ValueAndBooleanDataPoint) value).getValue());
+            } else {
+                this.setToolTipText("" + roundDouble(((ValueAndBooleanDataPoint) value).getValue(), 2));
+
+                if (Math.abs(new Double("" + ((ValueAndBooleanDataPoint) value).getValue())) < tooltipLowerValue) {
+                    this.setToolTipText("" + roundDouble(((ValueAndBooleanDataPoint) value).getValue(), 8));
+                }
+            }
         }
 
         // show the number _and_ the chart if option selected
@@ -587,6 +613,9 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 valueLabel.setText("" + Integer.valueOf("" + value).intValue());
             } else if (value instanceof XYDataPoint) {
                 double temp = ((XYDataPoint) value).getX();
+                valueLabel.setText(numberFormat.format(temp));
+            } else if (value instanceof ValueAndBooleanDataPoint) {
+                double temp = ((ValueAndBooleanDataPoint) value).getValue();
                 valueLabel.setText(numberFormat.format(temp));
             }
 
@@ -677,6 +706,21 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             } else {
                 dataset.addValue(tempX, "1", "1");
             }
+
+        } else if (value instanceof ValueAndBooleanDataPoint) {
+
+            double tempX = ((ValueAndBooleanDataPoint) value).getValue();
+
+            if (tempX < minimumChartValue && tempX > 0) {
+                value = minimumChartValue;
+            }
+
+            if (showAsHeatMap) {
+                dataset.addValue(maxValue, "1", "1");
+            } else {
+                dataset.addValue(tempX, "1", "1");
+            }
+
         }
 
         // fine tune the chart properites
@@ -763,6 +807,26 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 }
             } else {
                 if (((XYDataPoint) value).getY() >= significanceLevel) {
+                    currentColor = nonSignificantColor;
+                    renderer = new BarChartColorRenderer(currentColor);
+                } else {
+                    currentColor = negativeValuesColor;
+                    renderer = new BarChartColorRenderer(currentColor);
+                }
+            }
+
+        } else if (value instanceof ValueAndBooleanDataPoint) {
+
+            if (((ValueAndBooleanDataPoint) value).getValue() >= 0) {
+                if (!((ValueAndBooleanDataPoint) value).isSignificant()) {
+                    currentColor = nonSignificantColor;
+                    renderer = new BarChartColorRenderer(currentColor);
+                } else {
+                    currentColor = positiveValuesColor;
+                    renderer = new BarChartColorRenderer(currentColor);
+                }
+            } else {
+                if (!((ValueAndBooleanDataPoint) value).isSignificant()) {
                     currentColor = nonSignificantColor;
                     renderer = new BarChartColorRenderer(currentColor);
                 } else {
