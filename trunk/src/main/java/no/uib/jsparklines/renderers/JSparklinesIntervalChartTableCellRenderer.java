@@ -159,7 +159,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      *                              and the color used for one sided data
      */
     public JSparklinesIntervalChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Double widthOfInterval, Color positiveValuesColor) {
-        this(plotOrientation, 0.0, maxValue, widthOfInterval, null, positiveValuesColor);
+        this(plotOrientation, 0.0, maxValue, widthOfInterval, positiveValuesColor, positiveValuesColor);
     }
 
     /**
@@ -203,7 +203,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
 
         this.positiveValuesColor = positiveValuesColor;
         this.negativeValuesColor = negativeValuesColor;
-
+        
         this.maxValue = maxValue;
         this.minValue = minValue;
         this.widthOfInterval = widthOfInterval;
@@ -681,7 +681,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor((Double) value, minValue, maxValue, currentColorGradient));
             } else {
 
-                if ((Double) value > 0) {
+                if ((Double) value >= 0) {
                     renderer.setSeriesPaint(0, positiveValuesColor);
                 } else {
                     renderer.setSeriesPaint(0, negativeValuesColor);
@@ -705,7 +705,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor((Double) value, minValue, maxValue, currentColorGradient));
             } else {
 
-                if ((Double) value > 0) {
+                if ((Double) value >= 0) {
                     renderer.setSeriesPaint(0, positiveValuesColor);
                 } else {
                     renderer.setSeriesPaint(0, negativeValuesColor);
@@ -721,7 +721,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor(temp, minValue, maxValue, currentColorGradient));
             } else {
 
-                if (temp > 0) {
+                if (temp >= 0) {
                     renderer.setSeriesPaint(0, positiveValuesColor);
                 } else {
                     renderer.setSeriesPaint(0, negativeValuesColor);
@@ -743,7 +743,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                     renderer.setSeriesPaint(i, GradientColorCoding.findGradientColor(temp, minValue, maxValue, currentColorGradient));
                 } else {
 
-                    if (temp > 0) {
+                    if (temp >= 0) {
                         renderer.setSeriesPaint(i, positiveValuesColor);
                     } else {
                         renderer.setSeriesPaint(i, negativeValuesColor);
