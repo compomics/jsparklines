@@ -473,7 +473,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             if (value instanceof Float) {
                 value = ((Float) value).doubleValue();
             }
-
+            
             if (Math.abs(new Double("" + value)) < tooltipLowerValue) {
                 this.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 8));
             } else {
@@ -530,7 +530,14 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
 
             if (value instanceof Double || value instanceof Float) {
                 double temp = Double.valueOf("" + value);
-                valueLabel.setText(numberFormat.format(temp));
+                
+                // if the value equals -1, show N/A instead
+                if (temp == -1) {
+                    valueLabel.setText("N/A");
+                } else {
+                    valueLabel.setText(numberFormat.format(temp));
+                }
+                
             } else if (value instanceof Integer
                     || value instanceof Short
                     || value instanceof Long
@@ -595,10 +602,16 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 value = minimumChartValue;
             }
 
-            double[][] lows = {{((Double) value) - (widthOfInterval / 2)}};
-            double[][] highs = {{((Double) value + (widthOfInterval / 2))}};
-
-            dataset = new DefaultIntervalCategoryDataset(lows, highs);
+            // if the value equals -1, insert an empty chart
+            if (((Double) value).doubleValue() == -1) {
+                double[][] lows = {{0}};
+                double[][] highs = {{0}};
+                dataset = new DefaultIntervalCategoryDataset(lows, highs);
+            } else {
+                double[][] lows = {{((Double) value) - (widthOfInterval / 2)}};
+                double[][] highs = {{((Double) value + (widthOfInterval / 2))}};
+                dataset = new DefaultIntervalCategoryDataset(lows, highs);
+            }
 
         } else if (value instanceof Integer
                 || value instanceof Short
