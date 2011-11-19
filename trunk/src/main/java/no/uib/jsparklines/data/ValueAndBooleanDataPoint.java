@@ -11,17 +11,17 @@ import no.uib.jsparklines.renderers.util.Util;
 public class ValueAndBooleanDataPoint implements Comparable<ValueAndBooleanDataPoint> {
 
     private double value;
-    private boolean signigficant;
+    private boolean significant;
 
     /**
      * Create a new ValueAndBooleanDataPoint object.
      *
      * @param value
-     * @param signigficant
+     * @param significant
      */
-    public ValueAndBooleanDataPoint(double value, boolean signigficant) {
+    public ValueAndBooleanDataPoint(double value, boolean significant) {
         this.value = value;
-        this.signigficant = signigficant;
+        this.significant = significant;
     }
 
     /**
@@ -42,14 +42,14 @@ public class ValueAndBooleanDataPoint implements Comparable<ValueAndBooleanDataP
      * @return the significance
      */
     public boolean isSignificant() {
-        return signigficant;
+        return significant;
     }
 
     /**
      * @param signigficant the signigficant to set
      */
     public void setSignificant(boolean signigficant) {
-        this.signigficant = signigficant;
+        this.significant = signigficant;
     }
 
     /**
