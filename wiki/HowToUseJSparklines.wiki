@@ -289,8 +289,8 @@ Heat map using JSparklinesBarChartTableCellRenderer:
 {{{
 for (int i = 0; i < heatmapJTable.getColumnCount(); i++) {
     heatmapJTable.getColumn(
-        heatmapJTable.getColumnNam(i)).setCellRenderer(
-            new JSparklinesBarChartTableCellRendere(
+        heatmapJTable.getColumnName(i)).setCellRenderer(
+            new JSparklinesBarChartTableCellRenderer(
                 PlotOrientation.HORIZONTAL, 
                 -100d, 100d));
     ((JSparklinesBarChartTableCellRenderer) heatmapJTable.getColumn(
