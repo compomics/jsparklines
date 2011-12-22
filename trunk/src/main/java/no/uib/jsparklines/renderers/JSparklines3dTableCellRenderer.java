@@ -163,7 +163,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
         String tooltip = "<html>";
 
         // create the chart
-        if (plotType == PlotType.scatterPlot || plotType == plotType.bubblePlot) {
+        if (plotType == PlotType.scatterPlot || plotType == PlotType.bubblePlot) {
 
             ///////////////////////////
             // SCATTER and BUBBLE PLOT
@@ -346,10 +346,11 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     /**
      * Add a x-axis reference area.
      *
-     * @param label the label for the reference area
-     * @param start the start of the reference area
-     * @param end the end of the reference area
-     * @param areaColor the color of the area
+     * @param label         the label for the reference area
+     * @param start         the start of the reference area
+     * @param end           the end of the reference area
+     * @param areaColor     the color of the area
+     * @param alpha         the alpha level
      */
     public void addXAxisReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreasXAxis.put(label, new ReferenceArea(label, start, end, areaColor, alpha));
@@ -424,10 +425,11 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     /**
      * Add a y-axis reference area.
      *
-     * @param label the label for the reference area
-     * @param start the start of the reference area
-     * @param end the end of the reference area
-     * @param areaColor the color of the area
+     * @param label         the label for the reference area
+     * @param start         the start of the reference area
+     * @param end           the end of the reference area
+     * @param areaColor     the color of the area
+     * @param alpha         the alpha level 
      */
     public void addYAxisReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreasYAxis.put(label, new ReferenceArea(label, start, end, areaColor, alpha));
