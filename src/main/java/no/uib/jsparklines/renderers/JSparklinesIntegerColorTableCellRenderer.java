@@ -321,12 +321,6 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
             chartPanel.setBackground(plotBackgroundColor);
             chart.setBackgroundPaint(plotBackgroundColor);
         } else {
-
-//            // handle the special case with Nimbus LAF and alternating colors
-//            if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && isSelected) {
-//                renderer = new BarChartColorRenderer(Color.WHITE);
-//            }
-
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
             Color bg = c.getBackground();

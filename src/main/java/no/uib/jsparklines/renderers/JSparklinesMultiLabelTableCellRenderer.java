@@ -167,6 +167,8 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
             chart.setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             this.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
         }
+        
+        // @TODO: perhaps the colors below should not be hardcoded...
 
         if (isSelected) {
             chart.getPlot().setOutlinePaint(Color.WHITE);

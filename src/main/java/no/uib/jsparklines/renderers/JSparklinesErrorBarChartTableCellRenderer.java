@@ -10,7 +10,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import no.uib.jsparklines.renderers.util.StatisticalBarChartColorRenderer;
@@ -85,10 +84,6 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      * same time.
      */
     private int widthOfValueLabel = 40;
-    /**
-     * If true a red/green gradient coloring is used.
-     */
-    private boolean gradientColoring = false;
     /**
      * The background color used for the plots. For plots using light
      * colors, it's recommended to use a dark background color, and for
@@ -316,12 +311,6 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
             chartPanel.setBackground(plotBackgroundColor);
             chart.setBackgroundPaint(plotBackgroundColor);
         } else {
-
-            // handle the special case with Nimbus LAF and alternating colors
-            if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && isSelected) {
-                renderer = new StatisticalBarChartColorRenderer(Color.WHITE);
-            }
-
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
             Color bg = c.getBackground();
