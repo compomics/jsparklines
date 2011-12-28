@@ -62,7 +62,7 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
     }
 
     /**
-     * Compares based in the x-value.
+     * Compares based on the x-value.
      */
     public int compareTo(XYDataPoint o) {
         return Double.compare(this.x, o.x);
