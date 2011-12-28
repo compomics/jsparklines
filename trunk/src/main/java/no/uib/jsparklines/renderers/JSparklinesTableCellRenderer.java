@@ -6,13 +6,20 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GradientPaint;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import no.uib.jsparklines.data.JSparklinesDataSeries;
@@ -58,7 +65,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     public enum PlotType {
 
-        barChart, lineChart, pieChart, stackedBarChart, stackedPercentBarChart, areaChart, boxPlot, upDownChart, proteinSequence, difference
+        barChart, lineChart, pieChart, stackedBarChart, stackedPercentBarChart, areaChart, boxPlot,
+        upDownChart, proteinSequence, difference, stackedBarChartIntegerWithUpperRange
     }
     /**
      * The background color, if null the row color is used.
@@ -136,6 +144,36 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      * the reference area.
      */
     private HashMap<String, ReferenceArea> referenceAreas;
+    /**
+     * The decimal format for use when showing the numbers.
+     */
+    private DecimalFormat numberFormat = new DecimalFormat("0.00");
+    /**
+     * The width of the label used to display the value and the chart in the
+     * same time.
+     */
+    private int widthOfValueLabel = 40;
+    /**
+     * If true the value of the chart is shown next to the bar chart. This  
+     * is currently only supported for the plot type 'stackedBarChartIntegerWithUpperRange' 
+     * and only displayes the first number in the first dataseries.
+     */
+    private boolean showNumberAndChart = false;
+    /**
+     * If true the underlying numbers are shown instead of the charts. This  
+     * is currently only supported for the plot type 'stackedBarChartIntegerWithUpperRange' 
+     * and only displayes the first number in the first dataseries.
+     */
+    private boolean showNumbers = false;
+    /**
+     * The horizontal alignment of the label when showing number and chart.
+     */
+    private int labelHorizontalAlignement = SwingConstants.RIGHT;
+    /**
+     * The label used to display the number and the bar chart at the same
+     * time.
+     */
+    private JLabel valueLabel;
 
     /**
      * Creates a new JSparkLinesTableCellRenderer. Use this constructor when
@@ -180,12 +218,104 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         this.minValue = minValue;
         this.maxValue = maxValue;
 
+        valueLabel = new JLabel("");
+        valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
+        valueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        valueLabel.setFont(valueLabel.getFont().deriveFont(valueLabel.getFont().getSize() - 2f));
+
         referenceLines = new HashMap<String, ReferenceLine>();
         referenceAreas = new HashMap<String, ReferenceArea>();
 
         delegate = new DefaultTableCellRenderer();
         setName("Table.cellRenderer");
         setLayout(new BorderLayout());
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        chart = ChartFactory.createBarChart(null, null, null, dataset, plotOrientation, false, false, false);
+        this.chartPanel = new ChartPanel(chart);
+
+        this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+        this.add(valueLabel);
+        add(chartPanel);
+    }
+
+    /**
+     * If true the number will be shown together with the bar chart in the cell.
+     * False only display the chart. This method is currently only supported for 
+     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displayes 
+     * the first number in the first dataseries.
+     *
+     * @param showNumberAndChart    if true the number and the chart is shown in the cell
+     * @param widthOfLabel          the width used to display the label containing the number
+     */
+    public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel) {
+        showNumberAndChart(showNumberAndChart, widthOfLabel, numberFormat);
+    }
+
+    /**
+     * If true the number will be shown together with the bar chart in the cell.
+     * False only display the chart. This method is currently only supported for 
+     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displayes 
+     * the first number in the first dataseries.
+     *
+     * @param showNumberAndChart    if true the number and the chart is shown in the cell
+     * @param widthOfLabel          the width used to display the label containing the number
+     * @param numberFormat          the decimal format to use when showing the numbers 
+     */
+    public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, DecimalFormat numberFormat) {
+        this.showNumberAndChart = showNumberAndChart;
+        this.widthOfValueLabel = widthOfLabel;
+        this.numberFormat = numberFormat;
+    }
+
+    /**
+     * If true the number will be shown together with the bar chart in the cell.
+     * False only display the chart. This method is currently only supported for 
+     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displayes 
+     * the first number in the first dataseries.
+     *
+     * @param showNumberAndChart    if true the number and the chart is shown in the cell
+     * @param widthOfLabel          the width used to display the label containing the number
+     * @param font                  the font to use for the label
+     * @param horizontalAlignement  the horizontal alignent of the text in the label:
+     *                              one of the following constants defined in SwingConstants:
+     *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
+     */
+    public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement) {
+        showNumberAndChart(showNumberAndChart, widthOfLabel, font, horizontalAlignement, numberFormat);
+    }
+
+    /**
+     * If true the number will be shown together with the bar chart in the cell.
+     * False only display the chart. This method is currently only supported for 
+     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displayes 
+     * the first number in the first dataseries.
+     *
+     * @param showNumberAndChart    if true the number and the chart is shown in the cell
+     * @param widthOfLabel          the width used to display the label containing the number
+     * @param font                  the font to use for the label
+     * @param horizontalAlignement  the horizontal alignent of the text in the label:
+     *                              one of the following constants defined in SwingConstants:
+     *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
+     * @param numberFormat          the decimal format to use when showing the numbers 
+     */
+    public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement, DecimalFormat numberFormat) {
+        this.showNumberAndChart = showNumberAndChart;
+        this.widthOfValueLabel = widthOfLabel;
+        labelHorizontalAlignement = horizontalAlignement;
+        valueLabel.setFont(font);
+        this.numberFormat = numberFormat;
+    }
+
+    /**
+     * Set if the underlying numbers or the bar charts are to be shown. This method is 
+     * currently only supported for the plot type 'stackedBarChartIntegerWithUpperRange' 
+     * and only displayes the first number in the first dataseries.
+     *
+     * @param showNumbers if true the underlying numbers are shown
+     */
+    public void showNumbers(boolean showNumbers) {
+        this.showNumbers = showNumbers;
     }
 
     /**
@@ -230,6 +360,69 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         int dataCounter = 0;
 
         String tooltip = "<html>";
+
+
+        // show the number and/or the chart if option selected
+        if ((showNumberAndChart || showNumbers) && plotType == PlotType.stackedBarChartIntegerWithUpperRange) {
+
+            // set the decimal format symbol
+            numberFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
+
+            double sum = 0.0;
+
+            for (int i = 0; i < sparklineDataset.getData().size(); i++) {
+                JSparklinesDataSeries series = sparklineDataset.getData().get(i);
+
+                for (int j = 0; j < series.getData().size(); j++) {
+                    sum += series.getData().get(j);
+                }
+            }
+
+            if (showNumbers) {
+
+                c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, (int) sum,
+                        isSelected, hasFocus, row, column);
+                ((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
+
+                Color bg = c.getBackground();
+                // We have to create a new color object because Nimbus returns
+                // a color of type DerivedColor, which behaves strange, not sure why.
+                c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+
+                return c;
+            }
+
+            //valueLabel.setText(numberFormat.format(sum));
+            valueLabel.setText("" + (int) sum);
+
+            // We have to create a new color object because Nimbus returns
+            // a color of type DerivedColor, which behaves strange, not sure why.
+            Color bg = c.getBackground();
+            valueLabel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+
+            // add some padding
+            if (labelHorizontalAlignement == SwingConstants.RIGHT) {
+                valueLabel.setText(valueLabel.getText() + "  ");
+            } else if (labelHorizontalAlignement == SwingConstants.LEFT) {
+                valueLabel.setText("  " + valueLabel.getText());
+            }
+
+            valueLabel.setForeground(c.getForeground());
+
+            // set the horizontal text alignment and the label size
+            valueLabel.setHorizontalAlignment(labelHorizontalAlignement);
+            valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
+            valueLabel.setSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
+            valueLabel.setMaximumSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
+            valueLabel.setPreferredSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
+            valueLabel.setVisible(true);
+
+        } else {
+            valueLabel.setMinimumSize(new Dimension(0, 0));
+            valueLabel.setSize(0, 0);
+            valueLabel.setVisible(false);
+        }
+
 
         // create the chart
         if (plotType == PlotType.barChart) {
@@ -480,7 +673,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 piePlot.setSectionPaint(sparklineDataset.getData().get(i).getSeriesLabel(), sparklineDataset.getData().get(i).getSeriesColor());
             }
 
-        } else if (plotType == PlotType.stackedBarChart || plotType == PlotType.stackedPercentBarChart || plotType == plotType.proteinSequence) {
+        } else if (plotType == PlotType.stackedBarChart || plotType == PlotType.stackedPercentBarChart
+                || plotType == PlotType.stackedBarChartIntegerWithUpperRange || plotType == PlotType.proteinSequence) {
 
             /////////////////////
             // STACKED BAR CHART
@@ -490,22 +684,33 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             StackedBarRenderer renderer = new StackedBarRenderer();
             renderer.setShadowVisible(false);
-
+            
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {
 
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
 
-                if (sparklineDataSeries.getSeriesLabel() != null) {
-                    tooltip += "<font color=rgb("
-                            + sparklineDataSeries.getSeriesColor().getRed() + ","
-                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                            + sparklineDataSeries.getSeriesLabel() + "<br>";
+                if (plotType != PlotType.stackedBarChartIntegerWithUpperRange) {
+                    if (sparklineDataSeries.getSeriesLabel() != null) {
+                        tooltip += "<font color=rgb("
+                                + sparklineDataSeries.getSeriesColor().getRed() + ","
+                                + sparklineDataSeries.getSeriesColor().getGreen() + ","
+                                + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
+                                + sparklineDataSeries.getSeriesLabel() + "<br>";
+                    }
                 }
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
+                     
                     barChartDataset.addValue(sparklineDataSeries.getData().get(j), "" + i, "" + j);
                     renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
+
+                    if (sparklineDataSeries.getSeriesLabel() != null && plotType == PlotType.stackedBarChartIntegerWithUpperRange) {
+                        tooltip += sparklineDataSeries.getData().get(j).intValue();
+
+                        if (i < sparklineDataset.getData().size() - 1) {
+                            tooltip += " / ";
+                        }
+                    }
                 }
             }
 
@@ -539,9 +744,11 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 marker.setAlpha(currentReferenceArea.getAlpha());
                 plot.addRangeMarker(marker);
             }
-
-            if (plotType == PlotType.stackedPercentBarChart || plotType == plotType.proteinSequence) {
+            
+            if (plotType == PlotType.stackedPercentBarChart || plotType == PlotType.proteinSequence) {
                 renderer.setRenderAsPercentages(true);
+            } else if (plotType == PlotType.stackedBarChartIntegerWithUpperRange) {
+                plot.getRangeAxis().setRange(0, maxValue);
             } else {
                 // set the axis range
                 if (maxValue > 0) {
@@ -558,7 +765,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             plot.setRangeGridlinesVisible(false);
             plot.setDomainGridlinesVisible(false);
 
-            if (plotType == plotType.proteinSequence) {
+            if (plotType == PlotType.proteinSequence) {
 
                 // add a reference line in the middle of the dataset
                 DefaultCategoryDataset referenceLineDataset = new DefaultCategoryDataset();
@@ -716,7 +923,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             chartPanel.setBackground(c.getBackground());
         }
 
-        this.removeAll();
+        this.remove(1);
         this.add(chartPanel);
 
         return this;

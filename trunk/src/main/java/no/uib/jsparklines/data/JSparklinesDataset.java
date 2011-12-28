@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author Harald Barsnes
  */
-public class JSparklinesDataset {
+public class JSparklinesDataset implements Comparable<JSparklinesDataset> {
 
     /**
      * The list of sparklines data series.
@@ -63,5 +63,32 @@ public class JSparklinesDataset {
         }
         
         return temp;
+    }
+    
+    /**
+     * Compares based on the summed value of each dataset.
+     */
+    public int compareTo(JSparklinesDataset o) {
+        
+        double sumThis = 0.0;
+        double sumOther = 0.0;
+        
+        for (int i=0; i<this.getData().size(); i++) {
+            JSparklinesDataSeries series = this.getData().get(i);
+            
+            for (int j=0;j<series.getData().size(); j++) {
+                sumThis += series.getData().get(j);
+            }
+        }
+        
+        for (int i=0; i<o.getData().size(); i++) {
+            JSparklinesDataSeries series = o.getData().get(i);
+            
+            for (int j=0;j<series.getData().size(); j++) {
+                sumOther += series.getData().get(j);
+            }
+        }
+        
+        return Double.compare(sumThis, sumOther);
     }
 }
