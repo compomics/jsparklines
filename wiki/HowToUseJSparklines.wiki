@@ -82,7 +82,7 @@ Turn off color gradient:
 
 *Notes:*
 
- * *Note* that when using *JSparklines* in this way the underlaying values can be edited as normal by double clicking the cell to edit.
+ * *Note* that when using *JSparklines* in this way the underlying values can be edited as normal by double clicking the cell to edit.
  * *Note* that it is possible to change the maximum and minimum values later by using the setMaxValue(...) and setMinValue(...) methods in the renderer.
  * *Note* that the underlying values can be shown by using the showNumbers(...) method.
 
