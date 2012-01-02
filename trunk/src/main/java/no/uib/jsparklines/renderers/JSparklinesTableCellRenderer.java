@@ -69,6 +69,11 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         upDownChart, proteinSequence, difference, stackedBarChartIntegerWithUpperRange
     }
     /**
+     * If true, a black reference line is added to the protein sequence plots. 
+     * No effect on the other plot types.
+     */
+    private boolean showProteinSequenceReferenceLine = true;
+    /**
      * The background color, if null the row color is used.
      */
     private Color backgroundColor;
@@ -316,6 +321,16 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     public void showNumbers(boolean showNumbers) {
         this.showNumbers = showNumbers;
+    }
+    
+    /**
+     * If true, a black reference line is added to the protein sequence plots. No 
+     * effect on the other plot types.
+     * 
+     * @param showProteinSequenceReferenceLine if true, a black reference line is added to the protein sequence plots
+     */
+    public void showProteinSequenceReferenceLine(boolean showProteinSequenceReferenceLine) {
+        this.showProteinSequenceReferenceLine = showProteinSequenceReferenceLine;
     }
 
     /**
@@ -703,7 +718,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                      
                     barChartDataset.addValue(sparklineDataSeries.getData().get(j), "" + i, "" + j);
                     renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
-
+                    
                     if (sparklineDataSeries.getSeriesLabel() != null && plotType == PlotType.stackedBarChartIntegerWithUpperRange) {
                         tooltip += sparklineDataSeries.getData().get(j).intValue();
 
@@ -765,7 +780,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             plot.setRangeGridlinesVisible(false);
             plot.setDomainGridlinesVisible(false);
 
-            if (plotType == PlotType.proteinSequence) {
+            if (plotType == PlotType.proteinSequence && showProteinSequenceReferenceLine) {
 
                 // add a reference line in the middle of the dataset
                 DefaultCategoryDataset referenceLineDataset = new DefaultCategoryDataset();
@@ -940,6 +955,15 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     public void addReferenceLine(String label, double value, float lineWidth, Color lineColor) {
         referenceLines.put(label, new ReferenceLine(label, value, lineWidth, lineColor));
     }
+    
+    /**
+     * Add a reference line at a given data value.
+     *
+     * @param referenceLine 
+     */
+    public void addReferenceLine(ReferenceLine referenceLine) {
+        referenceLines.put(referenceLine.getLabel(), referenceLine);
+    }
 
     /**
      * Removes the reference line with the given label. Does nothing if no
@@ -979,6 +1003,15 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     public void addReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreas.put(label, new ReferenceArea(label, start, end, areaColor, alpha));
+    }
+    
+    /**
+     * Add a reference area.
+     *
+     * @param referenceArea
+     */
+    public void addReferenceArea(ReferenceArea referenceArea) {
+        referenceAreas.put(referenceArea.getLabel(), referenceArea);
     }
 
     /**
