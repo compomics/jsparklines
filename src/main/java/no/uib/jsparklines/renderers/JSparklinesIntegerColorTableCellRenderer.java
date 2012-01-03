@@ -89,14 +89,9 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
      * @param colors        a HashMap with the integer to color mappings
      */
     public JSparklinesIntegerColorTableCellRenderer(Color defaultColor, HashMap<Integer, Color> colors) {
-
-        this.defaultColor = defaultColor;
-        this.colors = colors;
-        this.tooltips = new HashMap<Integer, String>();
-
-        setUpRendererAndChart();
+        this(defaultColor, colors, new HashMap<Integer, String>());
     }
-    
+
     /**
      * Creates a new JSparklinesIntegerColorTableCellRenderer, where all integer
      * cell values are displayed is equal size bars, but using different colors
@@ -238,7 +233,7 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
 
         // set the tooltip text
         if (value instanceof Integer) {
-            
+
             if (tooltips.get((Integer) value) != null) {
                 this.setToolTipText(tooltips.get((Integer) value));
             } else {
