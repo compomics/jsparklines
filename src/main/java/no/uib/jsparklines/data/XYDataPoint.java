@@ -11,6 +11,11 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
 
     private double x;
     private double y;
+    /**
+     * If true, the compare method will use the first data point. False will 
+     * use the sum. First data point is the default.
+     */
+    private boolean compareBasedOnFirstDataPoint = true;
 
     /**
      * Create a new XYDataPoint.
@@ -22,7 +27,20 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
         this.x = x;
         this.y = y;
     }
-
+    
+    /**
+     * Create a new XYDataPoint.
+     *
+     * @param x
+     * @param y
+     * @param compareBasedOnFirstDataPoint if true, the compare method will use the first data point, false will use the sum
+     */
+    public XYDataPoint(double x, double y, boolean compareBasedOnFirstDataPoint) {
+        this.x = x;
+        this.y = y;
+        this.compareBasedOnFirstDataPoint = compareBasedOnFirstDataPoint;
+    }
+    
     /**
      * @return the x
      */
@@ -62,9 +80,14 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
     }
 
     /**
-     * Compares based on the x-value.
+     * Compares based on the x-value or the sum of the x- and y-value, depending 
+     * on the compareBasedOnFirstDataPoint settings.
      */
     public int compareTo(XYDataPoint o) {
-        return Double.compare(this.x, o.x);
+        if (compareBasedOnFirstDataPoint) {
+            return Double.compare(this.x, o.x);
+        } else {
+            return Double.compare(this.x + this.y, o.x + o.y);
+        }
     }
 }
