@@ -77,6 +77,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      * The background color, if null the row color is used.
      */
     private Color backgroundColor;
+
     /**
      * Turns of the gradient painting for the bar charts.
      */
@@ -322,7 +323,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     public void showNumbers(boolean showNumbers) {
         this.showNumbers = showNumbers;
     }
-    
+
     /**
      * If true, a black reference line is added to the protein sequence plots. No 
      * effect on the other plot types.
@@ -699,7 +700,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
             StackedBarRenderer renderer = new StackedBarRenderer();
             renderer.setShadowVisible(false);
-            
+
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {
 
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
@@ -715,10 +716,10 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 }
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
-                     
+
                     barChartDataset.addValue(sparklineDataSeries.getData().get(j), "" + i, "" + j);
                     renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
-                    
+
                     if (sparklineDataSeries.getSeriesLabel() != null && plotType == PlotType.stackedBarChartIntegerWithUpperRange) {
                         tooltip += sparklineDataSeries.getData().get(j).intValue();
 
@@ -759,7 +760,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 marker.setAlpha(currentReferenceArea.getAlpha());
                 plot.addRangeMarker(marker);
             }
-            
+
             if (plotType == PlotType.stackedPercentBarChart || plotType == PlotType.proteinSequence) {
                 renderer.setRenderAsPercentages(true);
             } else if (plotType == PlotType.stackedBarChartIntegerWithUpperRange) {
@@ -955,7 +956,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     public void addReferenceLine(String label, double value, float lineWidth, Color lineColor) {
         referenceLines.put(label, new ReferenceLine(label, value, lineWidth, lineColor));
     }
-    
+
     /**
      * Add a reference line at a given data value.
      *
@@ -1004,7 +1005,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     public void addReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreas.put(label, new ReferenceArea(label, start, end, areaColor, alpha));
     }
-    
+
     /**
      * Add a reference area.
      *
@@ -1180,9 +1181,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     public void setBackgroundColor(Color color) {
         backgroundColor = color;
     }
-
     // @TODO: this ought to work but does not...
-    
 //    @Override
 //    public String getToolTipText(MouseEvent event) {
 //        return chartPanel.getToolTipText(event);
