@@ -88,6 +88,11 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      */
     private Color secondValueColor = new Color(51, 51, 251);
     /**
+     * The color used to fill the rest of the chart up to the max value. 
+     * Set to null if no filling should be used.
+     */
+    private Color fillColor = null;
+    /**
      * A hashmap of the current reference lines. Key is the name of
      * the reference line.
      */
@@ -134,12 +139,31 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      * @param secondValueColor  the color to use for the second value
      * @param showFirstNumber   if true, the first value is shown when showing the values, false shows the sum 
      */
-    public JSparklinesTwoValueBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Color firstValueColor, Color secondValueColor, boolean showFirstNumber) {
+    public JSparklinesTwoValueBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, 
+            Color firstValueColor, Color secondValueColor, boolean showFirstNumber) {
+        this(plotOrientation, maxValue, firstValueColor, secondValueColor, null, showFirstNumber);
+    }
+    
+    /**
+     * Creates a new JSparkLinesTableCellRenderer.
+     *
+     * @param plotOrientation   the orientation of the plot
+     * @param maxValue          the maximum value to be plotted, used to make sure that all plots
+     *                          in the same column has the same maxium value and are thus comparable
+     * @param firstValueColor   the color to use for the first value
+     * @param secondValueColor  the color to use for the second value
+     * @param fillColor         the color used to fill the rest of the chart up to the max value
+     *                          (set to null if no filling should be used)
+     * @param showFirstNumber   if true, the first value is shown when showing the values, false shows the sum 
+     */
+    public JSparklinesTwoValueBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, 
+            Color firstValueColor, Color secondValueColor, Color fillColor, boolean showFirstNumber) {
 
         this.plotOrientation = plotOrientation;
         this.maxValue = maxValue;
         this.firstValueColor = firstValueColor;
         this.secondValueColor = secondValueColor;
+        this.fillColor = fillColor;
         this.showFirstNumber = showFirstNumber;
 
         valueLabel = new JLabel("");
@@ -353,6 +377,15 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
         barChartDataset.addValue(xyDataPoint.getY(), "" + 1, "" + 0);
         renderer.setSeriesPaint(0, firstValueColor);
         renderer.setSeriesPaint(1, secondValueColor);
+        
+        if (fillColor != null) {
+            double fillValue = maxValue - xyDataPoint.getX() + xyDataPoint.getY();
+            
+            if (fillValue > 0) {
+                barChartDataset.addValue(fillValue, "" + 2, "" + 0);
+                renderer.setSeriesPaint(2, fillColor);
+            }
+        }
 
         tooltip = ((int) xyDataPoint.getX()) + " / " + ((int) (xyDataPoint.getX() + xyDataPoint.getY()));
                 
