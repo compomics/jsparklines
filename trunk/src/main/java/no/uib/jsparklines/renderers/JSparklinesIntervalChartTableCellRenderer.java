@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import no.uib.jsparklines.data.XYDataPoint;
@@ -26,6 +25,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.IntervalBarRenderer;
+import org.jfree.chart.renderer.category.LayeredBarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.category.DefaultIntervalCategoryDataset;
@@ -128,6 +128,18 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * If true XYDataPoint cell value are required, due to the constructor used.
      */
     private boolean xyDataPointRequied = false;
+    /**
+     * If true, a black reference line is added in the center of the plot.
+     */
+    private boolean showReferenceLine = false;
+    /**
+     * The reference line width.
+     */
+    private double referenceLineWidth = 0.03;
+    /**
+     * The reference line color.
+     */
+    private Color referenceLineColor = Color.BLACK;
 
     /**
      * Creates a new JSparklinesIntervalChartTableCellRenderer. Use this constructor when only positive
@@ -262,6 +274,28 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         this.add(valueLabel);
         add(chartPanel);
+    }
+    
+    /**
+     * If true, a black reference line is shown in the middle of the plot.
+     * 
+     * @param showReferenceLine if true, a black reference line is shown in the middle of the plot
+     */
+    public void showReferenceLine(boolean showReferenceLine) {
+        this.showReferenceLine = showReferenceLine;
+    }
+    
+    /**
+     * If true, a black reference line is shown in the middle of the plot.
+     * 
+     * @param showReferenceLine if true, a black reference line is shown in the middle of the plot
+     * @param lineWidth the line width
+     * @param color the color
+     */
+    public void showReferenceLine(boolean showReferenceLine, double lineWidth, Color color) {
+        this.showReferenceLine = showReferenceLine;
+        this.referenceLineWidth = lineWidth;
+        this.referenceLineColor = color;
     }
 
     /**
@@ -618,8 +652,8 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 || value instanceof Long
                 || value instanceof Short) {
 
-            if (value instanceof Short) {
-                value = ((Short) value).intValue();
+            if (value instanceof Integer) {
+                value = ((Integer) value).intValue();
             } else if (value instanceof Long) {
                 value = ((Long) value).intValue();
             } else if (value instanceof Short) {
@@ -630,8 +664,8 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 value = Double.valueOf(minimumChartValue).intValue();
             }
 
-            double[][] lows = {{((Double) value) - (widthOfInterval / 2)}};
-            double[][] highs = {{((Double) value + (widthOfInterval / 2))}};
+            double[][] lows = {{((Integer) value) - (widthOfInterval / 2)}};
+            double[][] highs = {{((Integer) value + (widthOfInterval / 2))}};
 
             dataset = new DefaultIntervalCategoryDataset(lows, highs);
 
@@ -708,8 +742,8 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 || value instanceof Long
                 || value instanceof Short) {
 
-            if (value instanceof Short) {
-                value = ((Short) value).intValue();
+            if (value instanceof Integer) {
+                value = ((Integer) value).intValue();
             } else if (value instanceof Long) {
                 value = ((Long) value).intValue();
             } else if (value instanceof Short) {
@@ -717,10 +751,10 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             }
 
             if (gradientColoring) {
-                renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor((Double) value, minValue, maxValue, currentColorGradient));
+                renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), minValue, maxValue, currentColorGradient));
             } else {
 
-                if ((Double) value >= 0) {
+                if ((Integer) value >= 0) {
                     renderer.setSeriesPaint(0, positiveValuesColor);
                 } else {
                     renderer.setSeriesPaint(0, negativeValuesColor);
@@ -766,6 +800,19 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 }
             }
         }
+        
+        if (showReferenceLine) {
+
+                // add a reference line in the middle of the dataset
+                DefaultCategoryDataset referenceLineDataset = new DefaultCategoryDataset();
+                referenceLineDataset.addValue(maxValue, "A", "B");
+                plot.setDataset(1, referenceLineDataset);
+                LayeredBarRenderer referenceLineRenderer = new LayeredBarRenderer();
+                referenceLineRenderer.setSeriesBarWidth(0, referenceLineWidth);
+                referenceLineRenderer.setSeriesFillPaint(0, referenceLineColor);
+                referenceLineRenderer.setSeriesPaint(0, referenceLineColor);
+                plot.setRenderer(1, referenceLineRenderer);
+            }
 
         // make sure the background is the same as the table row color
 
@@ -774,22 +821,6 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             chartPanel.setBackground(plotBackgroundColor);
             chart.setBackgroundPaint(plotBackgroundColor);
         } else {
-
-            // handle the special case with Nimbus LAF and alternating colors
-            if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("Nimbus") && isSelected) {
-                
-                if (value instanceof XYDataPoint[]) {
-                    
-                    int length = ((XYDataPoint[]) value).length;
-                    
-                    for (int i=0; i<length; i++) {
-                        renderer.setSeriesPaint(i, Color.WHITE);
-                    }
-                    
-                } else {
-                    renderer.setSeriesPaint(0, Color.WHITE);
-                } 
-            }
 
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
