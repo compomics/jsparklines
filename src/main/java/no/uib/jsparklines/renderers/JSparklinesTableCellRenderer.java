@@ -74,6 +74,14 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     private boolean showProteinSequenceReferenceLine = true;
     /**
+     * The reference line width.
+     */
+    private double referenceLineWidth = 0.03;
+    /**
+     * The reference line color.
+     */
+    private Color referenceLineColor = Color.BLACK;
+    /**
      * The background color, if null the row color is used.
      */
     private Color backgroundColor;
@@ -332,6 +340,19 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     public void showProteinSequenceReferenceLine(boolean showProteinSequenceReferenceLine) {
         this.showProteinSequenceReferenceLine = showProteinSequenceReferenceLine;
+    }
+    
+    /**
+     * If true, a black reference line is shown in the middle of the plot.
+     * 
+     * @param showProteinSequenceReferenceLine if true, a black reference line is shown in the middle of the plot
+     * @param lineWidth the line width
+     * @param color the color
+     */
+    public void showProteinSequenceReferenceLine(boolean showProteinSequenceReferenceLine, double lineWidth, Color color) {
+        this.showProteinSequenceReferenceLine = showProteinSequenceReferenceLine;
+        this.referenceLineWidth = lineWidth;
+        this.referenceLineColor = color;
     }
 
     /**
@@ -788,9 +809,9 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 referenceLineDataset.addValue(1.0, "A", "B");
                 plot.setDataset(1, referenceLineDataset);
                 LayeredBarRenderer referenceLineRenderer = new LayeredBarRenderer();
-                referenceLineRenderer.setSeriesBarWidth(0, 0.03);
-                referenceLineRenderer.setSeriesFillPaint(0, Color.BLACK);
-                referenceLineRenderer.setSeriesPaint(0, Color.BLACK);
+                referenceLineRenderer.setSeriesBarWidth(0, referenceLineWidth);
+                referenceLineRenderer.setSeriesFillPaint(0, referenceLineColor);
+                referenceLineRenderer.setSeriesPaint(0, referenceLineColor);
                 plot.setRenderer(1, referenceLineRenderer);
             }
 
