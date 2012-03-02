@@ -65,9 +65,12 @@ public class JSparklinesMultiLabelDemo extends javax.swing.JDialog {
 
 
         // set the cell renderer to JSparklinesMultiLabelTableCellRenderer
-        dataTable.getColumn(" ").setCellRenderer(new JSparklinesMultiLabelTableCellRenderer());
+        JSparklinesMultiLabelTableCellRenderer renderer = new JSparklinesMultiLabelTableCellRenderer();
+        //renderer.setCircle(true); // to display the data as a pie chart, uncomment this line
+        dataTable.getColumn(" ").setCellRenderer(renderer);
 
-        // set the min and max column with for the label column. nb: very important! 
+        // set the min and max column with for the label column
+        // note: very important to set this to the same size as the height of the rows!! 
         dataTable.getColumn(" ").setMinWidth(30);
         dataTable.getColumn(" ").setMaxWidth(30);
 
