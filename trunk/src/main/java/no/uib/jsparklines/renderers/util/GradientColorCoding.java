@@ -1,4 +1,3 @@
-
 package no.uib.jsparklines.renderers.util;
 
 import java.awt.Color;
@@ -11,10 +10,9 @@ import java.awt.Color;
 public class GradientColorCoding {
 
     /**
-     * An enumerator of the supported color gradient types.
-     * <br><br>
-     * Values below zero uses the first color in the gradient name, while values
-     * above zero uses the third color in the gradient.
+     * An enumerator of the supported color gradient types. <br><br> Values
+     * below zero uses the first color in the gradient name, while values above
+     * zero uses the third color in the gradient.
      */
     public enum ColorGradient {
 
@@ -24,14 +22,17 @@ public class GradientColorCoding {
         GreenWhiteBlue, BlueWhiteGreen
     }
 
-     /**
+    /**
      * Returns the gradient color using the currently selected color gradient.
      * Values below zero uses the first color in the gradient, while values
      * above zero uses the second color in the gradient. If the column contains
      * only positive values only the second color will be used.
      *
      * @param value the value to find the gradient color for
-     * @return      the gradient color
+     * @param minValue the min value
+     * @param maxValue the max value
+     * @param colorGradient the color gradient to use
+     * @return the gradient color
      */
     public static Color findGradientColor(Double value, Double minValue, Double maxValue, ColorGradient colorGradient) {
 
