@@ -9,12 +9,7 @@ import java.awt.Font;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import no.uib.jsparklines.data.ValueAndBooleanDataPoint;
@@ -136,6 +131,11 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * If true, the values are shown as a heat map.
      */
     private boolean showAsHeatMap = false;
+    /**
+     * The color to use for the border for the cells when heatmap is used. Makes 
+     * sure that the user can see which cells are selected.
+     */
+    private Color heatMapBorderColor = Color.lightGray;
 
     /**
      * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when only positive
@@ -837,10 +837,20 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
         // make sure the background is the same as the table row color
         if (showAsHeatMap) {
+            
+            if (isSelected) {
+                if (table.getCellSelectionEnabled()) {
+                    this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, heatMapBorderColor));
+                } else {
+                    this.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, heatMapBorderColor)); // row selection, only add border at the top and bottom 
+                }  
+            }
+            
             plot.setBackgroundPaint(currentColor);
             chartPanel.setBackground(currentColor);
             chart.setBackgroundPaint(currentColor);
             this.setBackground(currentColor);
+ 
         } else {
             if (plotBackgroundColor != null && !isSelected) {
                 plot.setBackgroundPaint(plotBackgroundColor);
@@ -965,5 +975,23 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     public void setSignificanceLevel(double significanceLevel) {
         this.significanceLevel = significanceLevel;
+    }
+
+    /**
+     * Returns the heat map cell border color.
+     * 
+     * @return the heat map cell border color
+     */
+    public Color getHeatMapBorderColor() {
+        return heatMapBorderColor;
+    }
+
+    /**
+     * Set the the heat map cell border color.
+     * 
+     * @param heatMapBorderColor the the heat map cell border color
+     */
+    public void setHeatMapBorderColor(Color heatMapBorderColor) {
+        this.heatMapBorderColor = heatMapBorderColor;
     }
 }
