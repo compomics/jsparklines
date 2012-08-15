@@ -16,6 +16,8 @@ import no.uib.jsparklines.data.ValueAndBooleanDataPoint;
 import no.uib.jsparklines.data.XYDataPoint;
 import no.uib.jsparklines.renderers.util.GradientColorCoding;
 import no.uib.jsparklines.renderers.util.GradientColorCoding.ColorGradient;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -26,8 +28,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * A renderer for displaying a JSparklines bar chart inside a table cell.
- * Assumes that the cell values are of type Integer, Short, Byte, Long,
- * Double, Float or XYDataPoint.
+ * Assumes that the cell values are of type Integer, Short, Byte, Long, Double,
+ * Float or XYDataPoint.
  *
  * @author Harald Barsnes
  */
@@ -45,8 +47,8 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     private double minimumChartValue = 0.05;
     /**
      * Used to decide how many decimals to include in the tooltip. If the number
-     * is smaller than the lower limit, 8 decimnals are shown, otherwise only
-     * 2 decimals are used.
+     * is smaller than the lower limit, 8 decimnals are shown, otherwise only 2
+     * decimals are used.
      */
     private double tooltipLowerValue = 0.01;
     /**
@@ -58,8 +60,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     private JFreeChart chart;
     /**
-     * The label used to display the number and the bar chart at the same
-     * time.
+     * The label used to display the number and the bar chart at the same time.
      */
     private JLabel valueLabel;
     /**
@@ -118,9 +119,9 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     private boolean gradientColoring = false;
     /**
-     * The background color used for the plots. For plots using light
-     * colors, it's recommended to use a dark background color, and for
-     * plots using darker colors it is recommended to use a light background.
+     * The background color used for the plots. For plots using light colors,
+     * it's recommended to use a dark background color, and for plots using
+     * darker colors it is recommended to use a light background.
      */
     private Color plotBackgroundColor = null;
     /**
@@ -132,22 +133,23 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     private boolean showAsHeatMap = false;
     /**
-     * The color to use for the border for the cells when heatmap is used. Makes 
+     * The color to use for the border for the cells when heatmap is used. Makes
      * sure that the user can see which cells are selected.
      */
     private Color heatMapBorderColor = Color.lightGray;
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when only positive
-     * values are to be plotted. This constructor uses default colors for the bars. If you want to
-     * set your own colors, use one of the other constructors.
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
+     * when only positive values are to be plotted. This constructor uses
+     * default colors for the bars. If you want to set your own colors, use one
+     * of the other constructors.
      *
-     * @param plotOrientation       the orientation of the plot
-     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
-     *                              in the same column has the same maxium value and are thus comparable
-     *                              (this is the same as setting the minimum value to 0)
-     * @param largeNumbersAreGood   makes sure that different colors are used for bars where large numbers
-     *                              are "good", versus when small numbers are "good"
+     * @param plotOrientation the orientation of the plot
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maxium value and are thus
+     * comparable (this is the same as setting the minimum value to 0)
+     * @param largeNumbersAreGood makes sure that different colors are used for
+     * bars where large numbers are "good", versus when small numbers are "good"
      */
     public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, boolean largeNumbersAreGood) {
 
@@ -163,33 +165,36 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when only positive
-     * values are to be plotted.
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
+     * when only positive values are to be plotted.
      *
-     * @param plotOrientation       the orientation of the plot
-     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
-     *                              in the same column has the same maxium value and are thus comparable
-     *                              (this is the same as setting the minimum value to 0)
-     * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
-     *                              and the color used for one sided data
+     * @param plotOrientation the orientation of the plot
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maxium value and are thus
+     * comparable (this is the same as setting the minimum value to 0)
+     * @param positiveValuesColor the color to use for the positive values if
+     * two sided data is shown, and the color used for one sided data
      */
     public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Color positiveValuesColor) {
         this(plotOrientation, 0.0, maxValue, null, positiveValuesColor);
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when only positive
-     * values are to be plotted. Note that to use the significance color coding the object in the
-     * table cell has to be of type XYDataPoint.
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
+     * when only positive values are to be plotted. Note that to use the
+     * significance color coding the object in the table cell has to be of type
+     * XYDataPoint.
      *
-     * @param plotOrientation       the orientation of the plot
-     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
-     *                              in the same column has the same maxium value and are thus comparable
-     *                              (this is the same as setting the minimum value to 0)
-     * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
-     *                              and the color used for one sided data
-     * @param nonSignificantColor   the color to use for the non-significant values
-     * @param significanceLevel     the upper level for when to use the significant values color
+     * @param plotOrientation the orientation of the plot
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maxium value and are thus
+     * comparable (this is the same as setting the minimum value to 0)
+     * @param positiveValuesColor the color to use for the positive values if
+     * two sided data is shown, and the color used for one sided data
+     * @param nonSignificantColor the color to use for the non-significant
+     * values
+     * @param significanceLevel the upper level for when to use the significant
+     * values color
      */
     public JSparklinesBarChartTableCellRenderer(
             PlotOrientation plotOrientation, Double maxValue, Color positiveValuesColor,
@@ -198,15 +203,18 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when positive
-     * and negative values are to be plotted. This constructor uses default colors for the bars.
-     * If you want to set your own colors, use one of the other constructors.
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
+     * when positive and negative values are to be plotted. This constructor
+     * uses default colors for the bars. If you want to set your own colors, use
+     * one of the other constructors.
      *
-     * @param plotOrientation       the orientation of the plot
-     * @param minValue              the minium value to be plotted, used to make sure that all plots
-     *                              in the same column has the same minmum value and are thus comparable
-     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
-     *                              in the same column has the same maxium value and are thus comparable
+     * @param plotOrientation the orientation of the plot
+     * @param minValue the minium value to be plotted, used to make sure that
+     * all plots in the same column has the same minmum value and are thus
+     * comparable
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maxium value and are thus
+     * comparable
      */
     public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue) {
 
@@ -217,17 +225,20 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when positive
-     * and negative values are to be plotted.
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
+     * when positive and negative values are to be plotted.
      *
-     * @param plotOrientation       the orientation of the plot
-     * @param minValue              the minium value to be plotted, used to make sure that all plots
-     *                              in the same column has the same minmum value and are thus comparable
-     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
-     *                              in the same column has the same maxium value and are thus comparable
-     * @param negativeValuesColor   the color to use for the negative values if two sided data is shown
-     * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
-     *                              and the color used for one sided data
+     * @param plotOrientation the orientation of the plot
+     * @param minValue the minium value to be plotted, used to make sure that
+     * all plots in the same column has the same minmum value and are thus
+     * comparable
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maxium value and are thus
+     * comparable
+     * @param negativeValuesColor the color to use for the negative values if
+     * two sided data is shown
+     * @param positiveValuesColor the color to use for the positive values if
+     * two sided data is shown, and the color used for one sided data
      */
     public JSparklinesBarChartTableCellRenderer(
             PlotOrientation plotOrientation, Double minValue, Double maxValue,
@@ -236,20 +247,26 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when positive
-     * and negative values are to be plotted. Note that to use the significance color coding the 
-     * object in the table cell has to be of type XYDataPoint.
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
+     * when positive and negative values are to be plotted. Note that to use the
+     * significance color coding the object in the table cell has to be of type
+     * XYDataPoint.
      *
-     * @param plotOrientation       the orientation of the plot
-     * @param minValue              the minium value to be plotted, used to make sure that all plots
-     *                              in the same column has the same minmum value and are thus comparable
-     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
-     *                              in the same column has the same maxium value and are thus comparable
-     * @param negativeValuesColor   the color to use for the negative values if two sided data is shown
-     * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
-     *                              and the color used for one sided data
-     * @param nonSignificantColor   the color to use for the non-significant values
-     * @param significanceLevel     the upper level for when to use the significant values color
+     * @param plotOrientation the orientation of the plot
+     * @param minValue the minium value to be plotted, used to make sure that
+     * all plots in the same column has the same minmum value and are thus
+     * comparable
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maxium value and are thus
+     * comparable
+     * @param negativeValuesColor the color to use for the negative values if
+     * two sided data is shown
+     * @param positiveValuesColor the color to use for the positive values if
+     * two sided data is shown, and the color used for one sided data
+     * @param nonSignificantColor the color to use for the non-significant
+     * values
+     * @param significanceLevel the upper level for when to use the significant
+     * values color
      */
     public JSparklinesBarChartTableCellRenderer(
             PlotOrientation plotOrientation, Double minValue, Double maxValue,
@@ -293,21 +310,18 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Displays the values as a heat map using the selected color gradient.
-     * To disable the heat map use null as the paramater.
-     * <br><br>
-     * <b>NB: the programmer has to make sure that the max and min values are
-     * the same for all columns used in a heat map to ensure that the color
-     * coding is comparable accross the columns. This method can not handle
-     * this.</b>
-     * <br><br>
-     * Values below zero uses the first color in the gradient name, while values
-     * above zero uses the third color in the gradient.
-     * <br><br>
+     * Displays the values as a heat map using the selected color gradient. To
+     * disable the heat map use null as the paramater. <br><br> <b>NB: the
+     * programmer has to make sure that the max and min values are the same for
+     * all columns used in a heat map to ensure that the color coding is
+     * comparable accross the columns. This method can not handle this.</b>
+     * <br><br> Values below zero uses the first color in the gradient name,
+     * while values above zero uses the third color in the gradient. <br><br>
      * Note that the max value is set to the maximum absolute value of the max
      * and min values in order to make the color gradient equal on both sides.
      *
-     * @param colorGradient the color gradient to use, null disables the color gradient
+     * @param colorGradient the color gradient to use, null disables the color
+     * gradient
      */
     public void showAsHeatMap(ColorGradient colorGradient) {
 
@@ -324,15 +338,14 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
     /**
      * Set the color gradient to use for the bars. To disable the color gradient
-     * use null as the paramater.
-     * <br><br>
-     * Values below zero uses the first color in the gradient name, while values
-     * above zero uses the third color in the gradient.
-     * <br><br>
-     * Note that the max value is set to the maximum absolute value of the max
-     * and min values in order to make the color gradient equal on both sides.
-     * 
-     * @param colorGradient the color gradient to use, null disables the color gradient
+     * use null as the paramater. <br><br> Values below zero uses the first
+     * color in the gradient name, while values above zero uses the third color
+     * in the gradient. <br><br> Note that the max value is set to the maximum
+     * absolute value of the max and min values in order to make the color
+     * gradient equal on both sides.
+     *
+     * @param colorGradient the color gradient to use, null disables the color
+     * gradient
      */
     public void setGradientColoring(ColorGradient colorGradient) {
         setGradientColoring(colorGradient, null);
@@ -340,18 +353,17 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
     /**
      * Set the color gradient to use for the bars. To disable the color gradient
-     * use null as the paramater.
-     * <br><br>
-     * Values below zero uses the first color in the gradient name, while values
-     * above zero uses the third color in the gradient.
-     * <br><br>
-     * Note that the max value is set to the maximum absolute value of the max
-     * and min values in order to make the color gradient equal on both sides.
+     * use null as the paramater. <br><br> Values below zero uses the first
+     * color in the gradient name, while values above zero uses the third color
+     * in the gradient. <br><br> Note that the max value is set to the maximum
+     * absolute value of the max and min values in order to make the color
+     * gradient equal on both sides.
      *
-     * @param colorGradient         the color gradient to use, null disables the color gradient
-     * @param plotBackgroundColor   the background color to use, for gradients using white
-     *                              as the "middle" color, it's recommended to use a dark
-     *                              background color
+     * @param colorGradient the color gradient to use, null disables the color
+     * gradient
+     * @param plotBackgroundColor the background color to use, for gradients
+     * using white as the "middle" color, it's recommended to use a dark
+     * background color
      */
     public void setGradientColoring(ColorGradient colorGradient, Color plotBackgroundColor) {
 
@@ -380,8 +392,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * False only display the bar chart. This method is not to be confused with
      * the showNumbers-method that only displays the numbers.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel) {
         showNumberAndChart(showNumberAndChart, widthOfLabel, numberFormat);
@@ -392,9 +406,11 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * False only display the bar chart. This method is not to be confused with
      * the showNumbers-method that only displays the numbers.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
-     * @param numberFormat          the decimal format to use when showing the numbers 
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
+     * @param numberFormat the decimal format to use when showing the numbers
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, DecimalFormat numberFormat) {
         this.showNumberAndChart = showNumberAndChart;
@@ -407,12 +423,14 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * False only display the bar chart. This method is not to be confused with
      * the showNumbers-method that only displays the numbers.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
-     * @param font                  the font to use for the label
-     * @param horizontalAlignement  the horizontal alignent of the text in the label:
-     *                              one of the following constants defined in SwingConstants:
-     *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
+     * @param font the font to use for the label
+     * @param horizontalAlignement the horizontal alignent of the text in the
+     * label: one of the following constants defined in SwingConstants: LEFT,
+     * CENTER, RIGHT, LEADING or TRAILING.
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement) {
         showNumberAndChart(showNumberAndChart, widthOfLabel, font, horizontalAlignement, numberFormat);
@@ -423,13 +441,15 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * False only display the bar chart. This method is not to be confused with
      * the showNumbers-method that only displays the numbers.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
-     * @param font                  the font to use for the label
-     * @param horizontalAlignement  the horizontal alignent of the text in the label:
-     *                              one of the following constants defined in SwingConstants:
-     *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
-     * @param numberFormat          the decimal format to use when showing the numbers 
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
+     * @param font the font to use for the label
+     * @param horizontalAlignement the horizontal alignent of the text in the
+     * label: one of the following constants defined in SwingConstants: LEFT,
+     * CENTER, RIGHT, LEADING or TRAILING.
+     * @param numberFormat the decimal format to use when showing the numbers
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement, DecimalFormat numberFormat) {
         this.showNumberAndChart = showNumberAndChart;
@@ -584,7 +604,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 this.setToolTipText("" + roundDouble(((XYDataPoint) value).getX(), 2));
             }
         } else if (value instanceof ValueAndBooleanDataPoint) {
-            
+
             if (Double.isInfinite(((ValueAndBooleanDataPoint) value).getValue())) {
                 this.setToolTipText("" + ((ValueAndBooleanDataPoint) value).getValue());
             } else {
@@ -837,33 +857,95 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
         // make sure the background is the same as the table row color
         if (showAsHeatMap) {
-            
+
             if (isSelected) {
                 if (table.getCellSelectionEnabled()) {
                     this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, heatMapBorderColor));
                 } else {
                     this.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, heatMapBorderColor)); // row selection, only add border at the top and bottom 
-                }  
+                }
             }
-            
+
             plot.setBackgroundPaint(currentColor);
             chartPanel.setBackground(currentColor);
             chart.setBackgroundPaint(currentColor);
             this.setBackground(currentColor);
- 
+
         } else {
             if (plotBackgroundColor != null && !isSelected) {
                 plot.setBackgroundPaint(plotBackgroundColor);
                 chartPanel.setBackground(plotBackgroundColor);
                 chart.setBackgroundPaint(plotBackgroundColor);
             } else {
-                // We have to create a new color object because Nimbus returns
-                // a color of type DerivedColor, which behaves strange, not sure why.
-                Color bg = c.getBackground();
-                plot.setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-                chartPanel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-                chart.setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-                this.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+
+                if (table instanceof JXTable) {
+
+                    ///////////////////////////////////////////////////
+                    // NOTE: the JXTable support is experimental!!! 
+                    ///////////////////////////////////////////////////
+
+                    // @TODO: If you are using JXTables please consider revising/extending the code below...
+                    
+                    // @TODO: this code should be moved and used across all the cell renderers
+
+                    JXTable jxTable = (JXTable) table;
+
+                    boolean useDefaultBackgroundColorApproach = false;
+
+                    if (jxTable.getHighlighters().length > 0) {
+
+                        // we need to figure out the background color resulting from the highlighters
+
+                        if (jxTable.getHighlighters().length == 1) {
+
+                            if (jxTable.getHighlighters()[0] instanceof ColorHighlighter) {
+
+                                Color tempColor = ((ColorHighlighter) jxTable.getHighlighters()[0]).getBackground();
+
+                                // note: alternate row highlighting is here assumed! isHighlighted should rather be used, but could get this to work...
+
+                                if (row % 2 == 0 || isSelected) {
+                                    useDefaultBackgroundColorApproach = true;
+                                } else {
+                                    plot.setBackgroundPaint(tempColor);
+                                    chartPanel.setBackground(tempColor);
+                                    chart.setBackgroundPaint(tempColor);
+                                    this.setBackground(tempColor);
+                                }
+
+                            } else {
+                                // not yet supported...
+                                useDefaultBackgroundColorApproach = true;
+                            }
+                        } else {
+                            // not yet supported...
+                            useDefaultBackgroundColorApproach = true;
+                        }
+                    } else {
+                        // no highlighters, the default approach is fine
+                        useDefaultBackgroundColorApproach = true;
+                    }
+
+                    if (useDefaultBackgroundColorApproach) {
+                        // We have to create a new color object because Nimbus returns
+                        // a color of type DerivedColor, which behaves strange, not sure why.
+                        Color bg = c.getBackground();
+                        plot.setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+                        chartPanel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+                        chart.setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+                        this.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+                    }
+                } else {
+                    // we have a normal JTable
+
+                    // We have to create a new color object because Nimbus returns
+                    // a color of type DerivedColor, which behaves strange, not sure why.
+                    Color bg = c.getBackground();
+                    plot.setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+                    chartPanel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+                    chart.setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+                    this.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+                }
             }
         }
 
@@ -929,7 +1011,8 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Set the lower limit for the values before using 8 decimals for the tooltip.
+     * Set the lower limit for the values before using 8 decimals for the
+     * tooltip.
      *
      * @param tooltipLowerValue the tooltipLowerValue to set
      */
@@ -957,8 +1040,8 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
     /**
      * Returns the lower significance level. Values above this level will be
-     * colored with the positive/negative values colors, while values below
-     * the threshold will be colored with the non-significant color.
+     * colored with the positive/negative values colors, while values below the
+     * threshold will be colored with the non-significant color.
      *
      * @return the lower significance level
      */
@@ -967,9 +1050,9 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Set the lower significance level. Values above this level will be
-     * colored with the positive/negative values colors, while values below
-     * the threshold will be colored with the non-significant color.
+     * Set the lower significance level. Values above this level will be colored
+     * with the positive/negative values colors, while values below the
+     * threshold will be colored with the non-significant color.
      *
      * @param significanceLevel the lower significance level to set
      */
@@ -979,7 +1062,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
     /**
      * Returns the heat map cell border color.
-     * 
+     *
      * @return the heat map cell border color
      */
     public Color getHeatMapBorderColor() {
@@ -988,7 +1071,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
     /**
      * Set the the heat map cell border color.
-     * 
+     *
      * @param heatMapBorderColor the the heat map cell border color
      */
     public void setHeatMapBorderColor(Color heatMapBorderColor) {
