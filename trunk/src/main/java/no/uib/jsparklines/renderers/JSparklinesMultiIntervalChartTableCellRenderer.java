@@ -349,11 +349,15 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
 
             String numbersAsString = "";
 
-            for (int i = 0; i < indexes.size() - 1; i++) {
-                numbersAsString += indexes.get(i) + ",";
-            }
+            if (indexes.isEmpty()) {
+                numbersAsString = null;
+            } else {
+                for (int i = 0; i < indexes.size() - 1; i++) {
+                    numbersAsString += indexes.get(i) + ",";
+                }
 
-            numbersAsString += indexes.get(indexes.size() - 1);
+                numbersAsString += indexes.get(indexes.size() - 1);
+            }
 
             c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, numbersAsString,
                     isSelected, hasFocus, row, column);
@@ -370,14 +374,21 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
         }
 
         // set the tooltip text
-        String numbersAsString = "<html>";
+        String numbersAsString;
 
-        for (int i = 0; i < indexes.size() - 1; i++) {
-            numbersAsString += indexes.get(i) + ",";
+        if (indexes.isEmpty()) {
+            numbersAsString = null;
+        } else {
+            numbersAsString = "<html>";
+
+            for (int i = 0; i < indexes.size() - 1; i++) {
+                numbersAsString += indexes.get(i) + ",";
+            }
+
+            numbersAsString += indexes.get(indexes.size() - 1);
+            numbersAsString += "</html>";
         }
 
-        numbersAsString += indexes.get(indexes.size() - 1);
-        numbersAsString += "</html>";
         this.setToolTipText(numbersAsString);
 
 
@@ -440,10 +451,12 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
             renderer.setSeriesPaint(seriesCounter++, positiveValuesColor);
             indexCounter += widthOfInterval;
         }
-
-        // add filler to the right
-        barChartDataset.addValue(maxValue - indexCounter, "" + seriesCounter, "1");
-        renderer.setSeriesPaint(seriesCounter++, new Color(0, 0, 0, 0));
+        
+        if (!indexes.isEmpty()) {
+            // add filler to the right
+            barChartDataset.addValue(maxValue - indexCounter, "" + seriesCounter, "1");
+            renderer.setSeriesPaint(seriesCounter++, new Color(0, 0, 0, 0));
+        }
 
         chart = ChartFactory.createStackedBarChart(null, null, null, barChartDataset, plotOrientation, false, false, false);
 
@@ -451,7 +464,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
         CategoryPlot plot = chart.getCategoryPlot();
 
         // set the axis range
-        plot.getRangeAxis().setRange(minValue, maxValue*1.02);
+        plot.getRangeAxis().setRange(minValue, maxValue * 1.02);
 
         // remove space before/after the domain axis
         plot.getDomainAxis().setUpperMargin(0);
@@ -470,7 +483,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
 
         // add a reference line in the middle of the dataset
         DefaultCategoryDataset referenceLineDataset = new DefaultCategoryDataset();
-        referenceLineDataset.addValue(maxValue*1.02, "A", "B");
+        referenceLineDataset.addValue(maxValue * 1.02, "A", "B");
         plot.setDataset(1, referenceLineDataset);
         LayeredBarRenderer referenceLineRenderer = new LayeredBarRenderer();
         referenceLineRenderer.setSeriesBarWidth(0, referenceLineWidth);
@@ -520,17 +533,6 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
         this.add(chartPanel);
 
         return this;
-    }
-
-    /**
-     * Rounds of a double value to the wanted number of decimalplaces
-     *
-     * @param d the double to round of
-     * @param places number of decimal places wanted
-     * @return double - the new double
-     */
-    private static double roundDouble(double d, int places) {
-        return Math.round(d * Math.pow(10, (double) places)) / Math.pow(10, (double) places);
     }
 
     /**
