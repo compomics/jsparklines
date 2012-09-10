@@ -5,17 +5,10 @@
     <groupId>no.uib</groupId>
     <artifactId>jsparklines</artifactId>
     <packaging>jar</packaging>
-    <version>${version.number}</version> <!-- version number is set below -->
+    <version>0.5.40</version>
     <name>JSparklines</name>
     <description>sparklines for java tables</description>
     <url>http://jsparklines.googlecode.com</url>
-
-
-    <!-- Set the version number for the whole project -->
-    <properties>
-        <version.number>0.5.40</version.number>
-    </properties>
-
 
     <!-- License -->
     <licenses>
@@ -24,7 +17,6 @@
             <url>LICENSE-2.0.txt</url>
         </license>
     </licenses>
-
 
     <!-- Developers -->
     <developers>
@@ -59,6 +51,7 @@
             <!-- Compiler plugin -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5</version>
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
@@ -71,6 +64,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
                 <configuration>
                     <archive>
                         <manifest>
