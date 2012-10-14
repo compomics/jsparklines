@@ -5,7 +5,7 @@
     <groupId>no.uib</groupId>
     <artifactId>jsparklines</artifactId>
     <packaging>jar</packaging>
-    <version>0.5.40</version>
+    <version>0.5.41</version>
     <name>JSparklines</name>
     <description>sparklines for java tables</description>
     <url>http://jsparklines.googlecode.com</url>
@@ -168,6 +168,16 @@
             <groupId>org.swinglabs</groupId>
             <artifactId>swingx</artifactId>
             <version>1.6.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>swing-worker</artifactId>
+                    <groupId>org.swinglabs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>filters</artifactId>
+                    <groupId>com.jhlabs</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>
