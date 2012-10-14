@@ -925,11 +925,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     }//GEN-LAST:event_showGradientJCheckBoxActionPerformed
 
     /**
-     * Turns the gradient heat map display on or off.
-     * 
-     * @param evt
-     */
-    /**
      * Starts the JSparklines demo.
      *
      * @param args the command line arguments
