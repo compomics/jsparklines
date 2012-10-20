@@ -674,9 +674,9 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             double[][] lows = {{((XYDataPoint) value).getX()}};
             double[][] highs = {{((XYDataPoint) value).getY()}};
 
-            if (((XYDataPoint) value).getX() >= ((XYDataPoint) value).getY()) {
+            if (((XYDataPoint) value).getX() > ((XYDataPoint) value).getY()) {
                 throw new IllegalArgumentException("Lower interval range >= upper interval range! " 
-                        + ((XYDataPoint) value).getX() + ">=" + ((XYDataPoint) value).getY());
+                        + ((XYDataPoint) value).getX() + ">" + ((XYDataPoint) value).getY());
             }
 
             dataset = new DefaultIntervalCategoryDataset(lows, highs);
