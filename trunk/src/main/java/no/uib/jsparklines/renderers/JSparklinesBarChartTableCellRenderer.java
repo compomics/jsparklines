@@ -72,6 +72,16 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     private double minValue = 0;
     /**
+     * The maximum log value (base 10). Used to set the maximum range for the
+     * log chart.
+     */
+    private double maxLogValue = 1;
+    /**
+     * The minimum log value (base 10). Used to set the minmum range for the log
+     * chart.
+     */
+    private double minLogValue = 0;
+    /**
      * If true the underlying numbers are shown instead of the charts.
      */
     private boolean showNumbers = false;
@@ -137,6 +147,12 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * sure that the user can see which cells are selected.
      */
     private Color heatMapBorderColor = Color.lightGray;
+    /**
+     * If true, the values are log scaled before displaying the bar. Note that
+     * the scaling has no effect on the actual value only on the visualization
+     * of the values.
+     */
+    private boolean logScale = false;
 
     /**
      * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
@@ -160,6 +176,9 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         }
 
         this.maxValue = maxValue;
+        if (maxValue != 0) {
+            maxLogValue = Math.log10(maxValue);
+        }
 
         setUpRendererAndChart(plotOrientation);
     }
@@ -683,33 +702,50 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 value = minimumChartValue;
             }
 
+            if (logScale && ((Double) value).doubleValue() != 0) {
+                value = Math.log10((Double) value);
+            }
+
             if (showAsHeatMap) {
-                dataset.addValue(maxValue, "1", "1");
+                if (logScale) {
+                    dataset.addValue(maxValue, "1", "1");
+                } else {
+                    dataset.addValue(maxLogValue, "1", "1");
+                }
             } else {
                 dataset.addValue(((Double) value), "1", "1");
             }
 
         } else if (value instanceof Integer
                 || value instanceof Short
-                || value instanceof Long
-                || value instanceof Short) {
+                || value instanceof Long) {
 
             if (value instanceof Short) {
                 value = ((Short) value).intValue();
             } else if (value instanceof Long) {
                 value = ((Long) value).intValue();
-            } else if (value instanceof Short) {
-                value = ((Short) value).intValue();
             }
 
             if (((Integer) value).intValue() < minimumChartValue && ((Integer) value).intValue() > 0) {
                 value = Double.valueOf(minimumChartValue).intValue();
             }
 
+            if (logScale && ((Integer) value).intValue() != 0) {
+                value = Math.log10(((Integer) value).doubleValue());
+            }
+
             if (showAsHeatMap) {
-                dataset.addValue(maxValue, "1", "1");
+                if (logScale) {
+                    dataset.addValue(maxLogValue, "1", "1");
+                } else {
+                    dataset.addValue(maxValue, "1", "1");
+                }
             } else {
-                dataset.addValue(((Integer) value), "1", "1");
+                if (value instanceof Integer) {
+                    dataset.addValue(((Integer) value), "1", "1");
+                } else {
+                    dataset.addValue(((Double) value), "1", "1");
+                }
             }
 
         } else if (value instanceof XYDataPoint) {
@@ -717,11 +753,19 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             double tempX = ((XYDataPoint) value).getX();
 
             if (tempX < minimumChartValue && tempX > 0) {
-                value = minimumChartValue;
+                tempX = minimumChartValue;
+            }
+
+            if (logScale && ((Double) tempX).doubleValue() != 0) {
+                tempX = Math.log10(tempX);
             }
 
             if (showAsHeatMap) {
-                dataset.addValue(maxValue, "1", "1");
+                if (logScale) {
+                    dataset.addValue(maxLogValue, "1", "1");
+                } else {
+                    dataset.addValue(maxValue, "1", "1");
+                }
             } else {
                 dataset.addValue(tempX, "1", "1");
             }
@@ -731,15 +775,22 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             double tempX = ((ValueAndBooleanDataPoint) value).getValue();
 
             if (tempX < minimumChartValue && tempX > 0) {
-                value = minimumChartValue;
+                tempX = minimumChartValue;
+            }
+
+            if (logScale && ((Double) tempX).doubleValue() != 0) {
+                tempX = Math.log10(tempX);
             }
 
             if (showAsHeatMap) {
-                dataset.addValue(maxValue, "1", "1");
+                if (logScale) {
+                    dataset.addValue(maxLogValue, "1", "1");
+                } else {
+                    dataset.addValue(maxValue, "1", "1");
+                }
             } else {
                 dataset.addValue(tempX, "1", "1");
             }
-
         }
 
         // fine tune the chart properites
@@ -747,9 +798,17 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
         // set the axis range
         if (showAsHeatMap) {
-            plot.getRangeAxis().setRange(0, maxValue);
+            if (logScale) {
+                plot.getRangeAxis().setRange(0, maxLogValue);
+            } else {
+                plot.getRangeAxis().setRange(0, maxValue);
+            }
         } else {
-            plot.getRangeAxis().setRange(minValue, maxValue);
+            if (logScale) {
+                plot.getRangeAxis().setRange(minLogValue, maxLogValue);
+            } else {
+                plot.getRangeAxis().setRange(minValue, maxValue);
+            }
         }
 
 
@@ -774,38 +833,54 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             }
 
             if (gradientColoring) {
-                currentColor = GradientColorCoding.findGradientColor((Double) value, minValue, maxValue, currentColorGradient);
+                if (logScale) {
+                    currentColor = GradientColorCoding.findGradientColor((Double) value, minLogValue, maxLogValue, currentColorGradient);
+                } else {
+                    currentColor = GradientColorCoding.findGradientColor((Double) value, minValue, maxValue, currentColorGradient);
+                }
                 renderer = new BarChartColorRenderer(currentColor);
             } else {
-
                 if (((Double) value).doubleValue() >= 0) {
                     currentColor = positiveValuesColor;
                     renderer = new BarChartColorRenderer(currentColor);
                 } else {
                     currentColor = negativeValuesColor;
-                    renderer = new BarChartColorRenderer(currentColor);
+                    renderer = new BarChartColorRenderer(negativeValuesColor);
                 }
             }
 
         } else if (value instanceof Integer
                 || value instanceof Short
-                || value instanceof Long
-                || value instanceof Short) {
+                || value instanceof Long) {
 
             if (value instanceof Short) {
                 value = ((Short) value).intValue();
             } else if (value instanceof Long) {
                 value = ((Long) value).intValue();
-            } else if (value instanceof Short) {
-                value = ((Short) value).intValue();
             }
 
             if (gradientColoring) {
-                currentColor = GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), minValue, maxValue, currentColorGradient);
+                if (logScale) {
+                    if (value instanceof Integer) {
+                        currentColor = GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), minLogValue, maxLogValue, currentColorGradient);
+                    } else {
+                        currentColor = GradientColorCoding.findGradientColor((Double) value, minLogValue, maxLogValue, currentColorGradient);
+                    }
+                } else {
+                    currentColor = GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), minValue, maxValue, currentColorGradient);
+                }
                 renderer = new BarChartColorRenderer(currentColor);
             } else {
 
-                if (((Integer) value).intValue() >= 0) {
+                boolean positiveValue;
+
+                if (value instanceof Integer) {
+                    positiveValue = ((Integer) value).intValue() >= 0;
+                } else {
+                    positiveValue = ((Double) value).doubleValue() >= 0;
+                }
+
+                if (positiveValue) {
                     currentColor = positiveValuesColor;
                     renderer = new BarChartColorRenderer(currentColor);
                 } else {
@@ -885,7 +960,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                     ///////////////////////////////////////////////////
 
                     // @TODO: If you are using JXTables please consider revising/extending the code below...
-                    
+
                     // @TODO: this code should be moved and used across all the cell renderers
 
                     JXTable jxTable = (JXTable) table;
@@ -1076,5 +1151,31 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     public void setHeatMapBorderColor(Color heatMapBorderColor) {
         this.heatMapBorderColor = heatMapBorderColor;
+    }
+
+    /**
+     * Returns true of log scale is used for the visualizations.
+     *
+     * @return true of log scale is used for the visualizations
+     */
+    public boolean isLogScale() {
+        return logScale;
+    }
+
+    /**
+     * Set if log scale is to be used for the visualizations.
+     *
+     * @param logScale if log scale is to be used for the visualizations
+     */
+    public void setLogScale(boolean logScale) {
+        this.logScale = logScale;
+        if (logScale) {
+            if (maxValue != 0) {
+                maxLogValue = Math.log10(maxValue);
+            }
+            if (minValue != 0) {
+                minLogValue = Math.log10(minValue);
+            }
+        }
     }
 }

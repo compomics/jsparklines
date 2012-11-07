@@ -21,7 +21,7 @@ public class BarChartColorRenderer extends BarRenderer3D {
      */
     private ArrayList<Color> colors;
     /**
-     *  The main bar chart color. Used when only one color is to be used.
+     * The main bar chart color. Used when only one color is to be used.
      */
     private Color mainColor = null;
 
@@ -36,8 +36,8 @@ public class BarChartColorRenderer extends BarRenderer3D {
     }
 
     /**
-     * Creates a new renderer. Use this when all the bars are to have the
-     * same color.
+     * Creates a new renderer. Use this when all the bars are to have the same
+     * color.
      *
      * @param color the color to use.
      */
@@ -47,11 +47,11 @@ public class BarChartColorRenderer extends BarRenderer3D {
     }
 
     /**
-     * Returns the color for an item.  Overrides the default behaviour inherited from
-     * AbstractSeriesRenderer.
+     * Returns the color for an item. Overrides the default behaviour inherited
+     * from AbstractSeriesRenderer.
      *
-     * @param row  the series.
-     * @param column  the category.
+     * @param row the series.
+     * @param column the category.
      *
      * @return the item color.
      */
@@ -69,15 +69,14 @@ public class BarChartColorRenderer extends BarRenderer3D {
     }
 
     /**
-     * Overwritten method in order to not draw the background wall. Note
-     * that the method is thus empty and draws nothing.
+     * Overwritten method in order to not draw the background wall. Note that
+     * the method is thus empty and draws nothing.
      *
-     * @param g2  the graphics device.
-     * @param plot  the plot.
-     * @param dataArea  the area inside the axes.
+     * @param g2 the graphics device.
+     * @param plot the plot.
+     * @param dataArea the area inside the axes.
      */
     public void drawBackground(Graphics2D g2, CategoryPlot plot, Rectangle2D dataArea) {
-
         // Given that the 3D effect is not used, the drawBackground method
         // is overwritten. If this is not done the hardcoded grey corners
         // of the background wall is shown.
