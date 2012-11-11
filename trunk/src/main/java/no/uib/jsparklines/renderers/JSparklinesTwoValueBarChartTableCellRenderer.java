@@ -648,4 +648,13 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
 //    public String getToolTipText(MouseEvent event) {
 //        return chartPanel.getToolTipText(event);
 //    }   
+
+    /**
+     * Returns the maximum value.
+     * 
+     * @return the maxValue
+     */
+    public double getMaxValue() {
+        return maxValue;
+    }
 }
