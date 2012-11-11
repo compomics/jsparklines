@@ -329,4 +329,40 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
 
         return this;
     }
+
+    /**
+     * Return the color map.
+     * 
+     * @return the colors
+     */
+    public HashMap<Integer, Color> getColors() {
+        return colors;
+    }
+
+    /**
+     * Set the color map.
+     * 
+     * @param colors the colors to set
+     */
+    public void setColors(HashMap<Integer, Color> colors) {
+        this.colors = colors;
+    }
+
+    /**
+     * Returns the tooltips map.
+     * 
+     * @return the tooltips
+     */
+    public HashMap<Integer, String> getTooltips() {
+        return tooltips;
+    }
+
+    /**
+     * Set the tooltip map.
+     * 
+     * @param tooltips the tooltips to set
+     */
+    public void setTooltips(HashMap<Integer, String> tooltips) {
+        this.tooltips = tooltips;
+    }
 }

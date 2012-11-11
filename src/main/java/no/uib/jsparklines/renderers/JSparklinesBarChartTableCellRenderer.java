@@ -1178,4 +1178,22 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             }
         }
     }
+
+    /**
+     * Returns the maximum value.
+     * 
+     * @return the maxValue
+     */
+    public double getMaxValue() {
+        return maxValue;
+    }
+
+    /**
+     * Returns the minimum value.
+     * 
+     * @return the minValue
+     */
+    public double getMinValue() {
+        return minValue;
+    }
 }
