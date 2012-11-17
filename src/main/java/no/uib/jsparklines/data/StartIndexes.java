@@ -10,6 +10,9 @@ import java.util.ArrayList;
  */
 public class StartIndexes implements Comparable<StartIndexes> {
 
+    /**
+     * The start indexes.
+     */
     private ArrayList<Integer> startIndexes;
 
     /**
@@ -42,5 +45,21 @@ public class StartIndexes implements Comparable<StartIndexes> {
         }
         
         return -1;
+    }
+
+    @Override
+    public String toString() {
+
+        String tempString = "";
+
+        for (int index : startIndexes) {
+            tempString += index + ",";
+        }
+
+        if (!startIndexes.isEmpty()) {
+            tempString = tempString.substring(0, tempString.length() - 1);
+        }
+
+        return tempString;
     }
 }
