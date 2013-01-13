@@ -34,16 +34,21 @@
         <!-- Copy the resources required during building -->
         <resources>
             <resource>
-                <directory>./</directory>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
                 <includes>
                     <include>jsparklines.properties</include>
                 </includes>
-                <filtering>true</filtering>
             </resource>
             <resource>
-                <directory>src/main/resources/</directory>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>jsparklines.properties</exclude>
+                </excludes>
             </resource>
         </resources>
+
 
         <!-- Extensions -->
         <extensions>
