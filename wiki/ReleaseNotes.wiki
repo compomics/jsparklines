@@ -3,6 +3,15 @@
 
 ----
 
+*Changes in JSparklines 0.5.45 (January 20. 2013):*
+ * NEW FEATURE: Added a log scaling option to the JSparklinesBarChartTableCellRenderer.
+ * FEATURE IMPROVEMENT: Added getter methods for the max/min values for JSparklinesBarChartTableCellRenderer and JSparklinesTwoValueBarChartTableCellRenderer.
+ * FEATURE IMPROVEMENT: Added getter and setter methods for the color and tooltip maps for JSparklinesIntegerColorTableCellRenderer.
+ * FEATURE IMPROVEMENT: Fixed an issue in JSparklinesIntervalChartTableCellRenderer where empty intervals (min = max) resulted in an exception being thrown. Now only intervals where the min value is larger than the max value throw an exception.
+ * FEATURE IMPROVEMENT: Added a toString method to the StartIndexes object listing the indexes.
+
+----
+
 *Changes in JSparklines 0.5.41 (October 14. 2012):*
  * NEW FEATURE: Added a new JSparklinesMultiIntervalChartTableCellRenderer making it possible to show multiple markers in the same interval chart.
  * NEW FEATURE: Added a ChartPanel table cell renderer making it possible to put any chart panel into a cell.
@@ -10,6 +19,8 @@
  * NEW FEATURE: Added experimental JXTable support in JSparklinesBarChartTableCellRenderer.
  * BUG FIX: Fixed an issue in JSparklinesMultiIntervalChartTableCellRenderer that could result in an ArrayOutOfBoundsException if a single value (or no values) were provided instead of the expected multiple values.
  * FEATURE IMPROVEMENT: Maven 3 is now fully supported.
+
+Download Count: 20
 
 ----
 
