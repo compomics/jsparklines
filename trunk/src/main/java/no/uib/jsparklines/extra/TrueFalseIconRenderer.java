@@ -10,8 +10,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * A render that displays icons instead of true or false. Assumes that
- * the cell values are of type Boolean.
+ * A render that displays icons instead of true or false. Assumes that the cell
+ * values are of type Boolean.
  *
  * @author Harald Barsnes
  */
@@ -52,14 +52,14 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
         this.trueIcon = trueIcon;
         this.falseIcon = falseIcon;
     }
-    
+
     /**
      * Creates a new IconRenderer.
      *
-     * @param trueIcon      the icon to use for cells containing TRUE
-     * @param falseIcon     the icon to use for cells containing FALSE
-     * @param trueToolTip   the tooltip to use for the true values
-     * @param falseToolTip  the tooltip to use for the false values
+     * @param trueIcon the icon to use for cells containing TRUE
+     * @param falseIcon the icon to use for cells containing FALSE
+     * @param trueToolTip the tooltip to use for the true values
+     * @param falseToolTip the tooltip to use for the false values
      */
     public TrueFalseIconRenderer(ImageIcon trueIcon, ImageIcon falseIcon, String trueToolTip, String falseToolTip) {
         this.trueIcon = trueIcon;
@@ -67,16 +67,16 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
         this.trueToolTip = trueToolTip;
         this.falseToolTip = falseToolTip;
     }
-    
+
     /**
      * Creates a new IconRenderer.
      *
-     * @param trueIcon      the icon to use for cells containing TRUE
-     * @param falseIcon     the icon to use for cells containing FALSE
-     * @param nullIcon      the icon to use for cells containting NULL
-     * @param trueToolTip   the tooltip to use for the true values
-     * @param falseToolTip  the tooltip to use for the false values
-     * @param nullToolTip   the tooltip to use fo the null values 
+     * @param trueIcon the icon to use for cells containing TRUE
+     * @param falseIcon the icon to use for cells containing FALSE
+     * @param nullIcon the icon to use for cells containing NULL
+     * @param trueToolTip the tooltip to use for the true values
+     * @param falseToolTip the tooltip to use for the false values
+     * @param nullToolTip the tooltip to use for the null values
      */
     public TrueFalseIconRenderer(ImageIcon trueIcon, ImageIcon falseIcon, ImageIcon nullIcon,
             String trueToolTip, String falseToolTip, String nullToolTip) {
@@ -112,10 +112,10 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
 
         // set the icon to use for the boolean values
         if (value instanceof Boolean) {
-            
+
             label.setText(null);
             label.setHorizontalAlignment(SwingConstants.CENTER);
-            
+
             if ((Boolean) value == true) {
                 label.setIcon(trueIcon);
                 label.setToolTipText(trueToolTip);

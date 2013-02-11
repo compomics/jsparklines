@@ -47,7 +47,7 @@ public class BarChartColorRenderer extends BarRenderer3D {
     }
 
     /**
-     * Returns the color for an item. Overrides the default behaviour inherited
+     * Returns the color for an item. Overrides the default behavior inherited
      * from AbstractSeriesRenderer.
      *
      * @param row the series.

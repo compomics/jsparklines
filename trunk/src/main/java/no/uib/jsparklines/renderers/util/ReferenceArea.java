@@ -1,4 +1,3 @@
-
 package no.uib.jsparklines.renderers.util;
 
 import java.awt.Color;
@@ -10,19 +9,29 @@ import java.awt.Color;
  */
 public class ReferenceArea {
 
-    /** the reference label */
+    /**
+     * The reference label.
+     */
     private String label;
-    /** the start of the reference area */
+    /**
+     * The start of the reference area.
+     */
     private double start;
-    /** the end of the reference area */
+    /**
+     * The end of the reference area.
+     */
     private double end;
-    /** the color of the reference area */
+    /**
+     * The color of the reference area.
+     */
     private Color areaColor;
-    /** the alpha level of the reference area */
+    /**
+     * The alpha level of the reference area.
+     */
     private float alpha;
 
     /**
-     * Creates a new ReferenceArea
+     * Creates a new ReferenceArea.
      *
      * @param label the reference label
      * @param start the start of the reference area
@@ -55,7 +64,7 @@ public class ReferenceArea {
     }
 
     /**
-     * Sets the label,
+     * Sets the label.
      *
      * @param label the label to set
      */

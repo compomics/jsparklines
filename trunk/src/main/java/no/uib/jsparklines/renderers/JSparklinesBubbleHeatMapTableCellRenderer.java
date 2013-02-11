@@ -20,8 +20,8 @@ import org.jfree.data.xy.DefaultXYZDataset;
 
 /**
  * A renderer for displaying a JSparklines bubble heat maps inside table cells.
- * Assumes that the cell values are of type Integer, Short, Byte, Long,
- * Double or Float.
+ * Assumes that the cell values are of type Integer, Short, Byte, Long, Double
+ * or Float.
  *
  * @author Harald Barsnes
  */
@@ -35,8 +35,8 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
     private double minimumChartValue = 1;
     /**
      * Used to decide how many decimals to include in the tooltip. If the number
-     * is smaller than the lower limit, 8 decimnals are shown, otherwise only
-     * 2 decimals are used.
+     * is smaller than the lower limit, 8 decimals are shown, otherwise only 2
+     * decimals are used.
      */
     private double tooltipLowerValue = 0.01;
     /**
@@ -59,25 +59,25 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
      * If true the underlying numbers are shown instead of the charts.
      */
     private boolean showNumbers = false;
-
     /**
      * The currently selected color gradient.
      */
     private ColorGradient currentColorGradient = ColorGradient.RedBlackBlue;
 
-
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when positive
-     * and negative values are to be plotted. This constructor uses default colors for the bars.
-     * If you want to set your own colors, use one of the other constructors.
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
+     * when positive and negative values are to be plotted. This constructor
+     * uses default colors for the bars. If you want to set your own colors, use
+     * one of the other constructors.
      *
-     * @param maxValue  the maximum value to be plotted, used to make sure that all plots
-     *                  in the same column has the same maxium value and are thus comparable
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable
+     * @param colorGradient the color gradient to use
      */
     public JSparklinesBubbleHeatMapTableCellRenderer(Double maxValue, ColorGradient colorGradient) {
 
         this.maxValue = maxValue;
-
         this.currentColorGradient = colorGradient;
 
         delegate = new DefaultTableCellRenderer();
@@ -272,8 +272,8 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
         plot.getRangeAxis().setLowerMargin(0);
 
         // set the axis ranges
-        plot.getDomainAxis().setRange(maxValue*0.4, maxValue*0.6);
-        plot.getRangeAxis().setRange(maxValue*0.25, maxValue*0.75);
+        plot.getDomainAxis().setRange(maxValue * 0.4, maxValue * 0.6);
+        plot.getRangeAxis().setRange(maxValue * 0.25, maxValue * 0.75);
 
         // hide unwanted chart details
         plot.getRangeAxis().setVisible(false);
@@ -297,14 +297,14 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
 
         // make sure the background is the same as the table row color
         plot.setBackgroundPaint(c.getBackground());
-                chartPanel.setBackground(c.getBackground());
-                chart.setBackgroundPaint(c.getBackground());
+        chartPanel.setBackground(c.getBackground());
+        chart.setBackgroundPaint(c.getBackground());
 
         return this;
     }
 
     /**
-     * Rounds of a double value to the wanted number of decimalplaces
+     * Rounds of a double value to the wanted number of decimal places
      *
      * @param d the double to round of
      * @param places number of decimal places wanted
@@ -342,7 +342,8 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
     }
 
     /**
-     * Set the lower limit for the values before using 8 decimals for the tooltip.
+     * Set the lower limit for the values before using 8 decimals for the
+     * tooltip.
      *
      * @param tooltipLowerValue the tooltipLowerValue to set
      */

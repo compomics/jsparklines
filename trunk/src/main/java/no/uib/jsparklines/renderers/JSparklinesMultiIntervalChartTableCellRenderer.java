@@ -52,7 +52,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
     private double minimumChartValue = 0.05;
     /**
      * Used to decide how many decimals to include in the tooltip. If the number
-     * is smaller than the lower limit, 8 decimnals are shown, otherwise only 2
+     * is smaller than the lower limit, 8 decimals are shown, otherwise only 2
      * decimals are used.
      */
     private double tooltipLowerValue = 0.01;
@@ -74,7 +74,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
      */
     private double maxValue = 1;
     /**
-     * The minimum value. Used to set the minmum range for the chart.
+     * The minimum value. Used to set the minimum range for the chart.
      */
     private double minValue = 0;
     /**
@@ -131,7 +131,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
      *
      * @param plotOrientation the orientation of the plot
      * @param maxValue the maximum value to be plotted, used to make sure that
-     * all plots in the same column has the same maxium value and are thus
+     * all plots in the same column has the same maximum value and are thus
      * comparable
      * @param widthOfInterval the width of the interval used to highlight the
      * value
@@ -201,7 +201,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
 
     /**
      * Set the color gradient to use for the intervals. To disable the color
-     * gradient use null as the paramater. <br><br> Values below zero uses the
+     * gradient use null as the parameter. <br><br> Values below zero uses the
      * first color in the gradient name, while values above zero uses the third
      * color in the gradient. <br><br> Note that the max value is set to the
      * maximum absolute value of the max and min values in order to make the
@@ -216,7 +216,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
 
     /**
      * Set the color gradient to use for the intervals. To disable the color
-     * gradient use null as the paramater. <br><br> Values below zero uses the
+     * gradient use null as the parameter. <br><br> Values below zero uses the
      * first color in the gradient name, while values above zero uses the third
      * color in the gradient. <br><br> Note that the max value is set to the
      * maximum absolute value of the max and min values in order to make the
@@ -274,7 +274,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
      * @param widthOfLabel the width used to display the label containing the
      * number
      * @param font the font to use for the label
-     * @param horizontalAlignement the horizontal alignent of the text in the
+     * @param horizontalAlignement the horizontal alignment of the text in the
      * label: one of the following constants defined in SwingConstants: LEFT,
      * CENTER, RIGHT, LEADING or TRAILING.
      */
@@ -451,7 +451,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
             renderer.setSeriesPaint(seriesCounter++, positiveValuesColor);
             indexCounter += widthOfInterval;
         }
-        
+
         if (!indexes.isEmpty()) {
             // add filler to the right
             barChartDataset.addValue(maxValue - indexCounter, "" + seriesCounter, "1");

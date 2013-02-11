@@ -4,7 +4,7 @@ import java.awt.Color;
 
 /**
  * Color labels for use with the JSparklinesMultiLabelTableCellRenderer.
- * 
+ *
  * @author Harald Barsnes
  */
 public class JSparklinesMultiLabel {
@@ -17,10 +17,10 @@ public class JSparklinesMultiLabel {
      * The label color.
      */
     private Color color;
-    
+
     /**
      * Creates a new JSparklinesMultiLabel.
-     * 
+     *
      * @param label the label to use as a tooltip
      * @param color the color for the label
      */

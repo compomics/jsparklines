@@ -74,38 +74,42 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
      */
     private double minYValue = 0;
     /**
-     * A hashmap of the current x-axis reference lines. Key is the name of
-     * the reference line.
+     * A hashmap of the current x-axis reference lines. Key is the name of the
+     * reference line.
      */
     private HashMap<String, ReferenceLine> referenceLinesXAxis;
     /**
-     * A hashmap of the current x-axis reference areas. Key is the name of
-     * the reference area.
+     * A hashmap of the current x-axis reference areas. Key is the name of the
+     * reference area.
      */
     private HashMap<String, ReferenceArea> referenceAreasXAxis;
     /**
-     * A hashmap of the current y-axis reference lines. Key is the name of
-     * the reference line.
+     * A hashmap of the current y-axis reference lines. Key is the name of the
+     * reference line.
      */
     private HashMap<String, ReferenceLine> referenceLinesYAxis;
     /**
-     * A hashmap of the current y-axis reference areas. Key is the name of
-     * the reference area.
+     * A hashmap of the current y-axis reference areas. Key is the name of the
+     * reference area.
      */
     private HashMap<String, ReferenceArea> referenceAreasYAxis;
 
     /**
      * Creates a new JSparkLines3dTableCellRenderer.
      *
-     * @param plotType          the plot type
-     * @param minXValue         the minium x value to be plotted, used to make sure that all plots
-     *                          in the same column has the same minmum x value and are thus comparable
-     * @param maxXValue         the maximum x value to be plotted, used to make sure that all plots
-     *                          in the same column has the same maxium x value and are thus comparable
-     * @param minYValue         the minium y value to be plotted, used to make sure that all plots
-     *                          in the same column has the same minmum y value and are thus comparable
-     * @param maxYValue         the maximum y value to be plotted, used to make sure that all plots
-     *                          in the same column has the same maxium y value and are thus comparable
+     * @param plotType the plot type
+     * @param minXValue the minium x value to be plotted, used to make sure that
+     * all plots in the same column has the same minimum x value and are thus
+     * comparable
+     * @param maxXValue the maximum x value to be plotted, used to make sure
+     * that all plots in the same column has the same maximum x value and are
+     * thus comparable
+     * @param minYValue the minium y value to be plotted, used to make sure that
+     * all plots in the same column has the same minimum y value and are thus
+     * comparable
+     * @param maxYValue the maximum y value to be plotted, used to make sure
+     * that all plots in the same column has the same maximum y value and are
+     * thus comparable
      */
     public JSparklines3dTableCellRenderer(PlotType plotType, Double minXValue, Double maxXValue, Double minYValue, Double maxYValue) {
 
@@ -190,7 +194,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
 
                 colors.add(sparkline3dDataSeries.getSeriesColor());
 
-                double[][] data = null;
+                double[][] data;
 
                 if (plotType == PlotType.scatterPlot) {
                     data = new double[2][sparkline3dDataSeries.getData().size()];
@@ -317,8 +321,8 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     }
 
     /**
-     * Removes the x-axis reference line with the given label. Does nothing
-     * if no reference with the given label is found.
+     * Removes the x-axis reference line with the given label. Does nothing if
+     * no reference with the given label is found.
      *
      * @param label the reference to remove
      */
@@ -334,8 +338,8 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     }
 
     /**
-     * Returns all the x-axis references lines as a hashmap,
-     * with the labels as the keys.
+     * Returns all the x-axis references lines as a hashmap, with the labels as
+     * the keys.
      *
      * @return hashmap of all reference lines
      */
@@ -346,19 +350,19 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     /**
      * Add a x-axis reference area.
      *
-     * @param label         the label for the reference area
-     * @param start         the start of the reference area
-     * @param end           the end of the reference area
-     * @param areaColor     the color of the area
-     * @param alpha         the alpha level
+     * @param label the label for the reference area
+     * @param start the start of the reference area
+     * @param end the end of the reference area
+     * @param areaColor the color of the area
+     * @param alpha the alpha level
      */
     public void addXAxisReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreasXAxis.put(label, new ReferenceArea(label, start, end, areaColor, alpha));
     }
 
     /**
-     * Removes the x-axis reference area with the given label. Does nothing
-     * if no reference with the given label is found.
+     * Removes the x-axis reference area with the given label. Does nothing if
+     * no reference with the given label is found.
      *
      * @param label the reference to remove
      */
@@ -374,8 +378,8 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     }
 
     /**
-     * Returns all the x-axis references areas as a hashmap, with the labels
-     * as the keys.
+     * Returns all the x-axis references areas as a hashmap, with the labels as
+     * the keys.
      *
      * @return hashmap of all reference areas
      */
@@ -396,8 +400,8 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     }
 
     /**
-     * Removes the y-axis reference line with the given label. Does nothing
-     * if no reference with the given label is found.
+     * Removes the y-axis reference line with the given label. Does nothing if
+     * no reference with the given label is found.
      *
      * @param label the reference to remove
      */
@@ -413,8 +417,8 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     }
 
     /**
-     * Returns all the y-axis references lines as a hashmap,
-     * with the labels as the keys.
+     * Returns all the y-axis references lines as a hashmap, with the labels as
+     * the keys.
      *
      * @return hashmap of all reference lines
      */
@@ -425,19 +429,19 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     /**
      * Add a y-axis reference area.
      *
-     * @param label         the label for the reference area
-     * @param start         the start of the reference area
-     * @param end           the end of the reference area
-     * @param areaColor     the color of the area
-     * @param alpha         the alpha level 
+     * @param label the label for the reference area
+     * @param start the start of the reference area
+     * @param end the end of the reference area
+     * @param areaColor the color of the area
+     * @param alpha the alpha level
      */
     public void addYAxisReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreasYAxis.put(label, new ReferenceArea(label, start, end, areaColor, alpha));
     }
 
     /**
-     * Removes the y-axis reference area with the given label. Does nothing
-     * if no reference with the given label is found.
+     * Removes the y-axis reference area with the given label. Does nothing if
+     * no reference with the given label is found.
      *
      * @param label the reference to remove
      */
@@ -453,8 +457,8 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     }
 
     /**
-     * Returns all the y-axis references areas as a hashmap, with the labels
-     * as the keys.
+     * Returns all the y-axis references areas as a hashmap, with the labels as
+     * the keys.
      *
      * @return hashmap of all reference areas
      */
@@ -474,7 +478,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     /**
      * Set the minimum x value.
      *
-     * @param minXValue the minumum x value
+     * @param minXValue the minimum x value
      */
     public void setMinXValue(double minXValue) {
         this.minXValue = minXValue;
@@ -492,7 +496,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     /**
      * Set the minimum y value.
      *
-     * @param minYValue the minumum y value
+     * @param minYValue the minimum y value
      */
     public void setMinYValue(double minYValue) {
         this.minYValue = minYValue;

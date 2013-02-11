@@ -146,37 +146,21 @@ public class JSparklinesDemo extends javax.swing.JFrame {
      * Add data to the single values example.
      */
     private void addDataSingleValues() {
-
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein A", new Double(4.44), new Integer(12), new Integer(30)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein B", new Double(-2.19), new Integer(11), new Integer(13)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein C", new Double(1.86), new Integer(2), new Integer(5)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein D", new Double(-2.17), new Integer(17), new Integer(32)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein E", new Double(3.01), new Integer(32), new Integer(57)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein F", new Double(2.62), new Integer(12), new Integer(28)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein G", new Double(5.33), new Integer(16), new Integer(37)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein H", new Double(5.65), new Integer(47), new Integer(61)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein I", new Double(1.81), new Integer(23), new Integer(45)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein J", new Double(-1.91), new Integer(78), new Integer(34)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein K", new Double(2.6), new Integer(15), new Integer(31)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein L", new Double(2.3), new Integer(31), new Integer(44)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein M", new Double(-2.45), new Integer(5), new Integer(14)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein N", new Double(3.59), new Integer(18), new Integer(56)});
-        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{
-                    "Protein O", new Double(2.24), new Integer(25), new Integer(43)});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein A", 4.44, 12, 30});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein B", -2.19, 11, 13});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein C", 1.86, 2, 5});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein D", -2.17, 17, 32});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein E", 3.01, 32, 57});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein F", 2.62, 12, 28});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein G", 5.33, 16, 37});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein H", 5.65, 47, 61});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein I", 1.81, 23, 45});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein J", -1.91, 78, 34});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein K", 2.6, 15, 31});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein L", 2.3, 31, 44});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein M", -2.45, 5, 14});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein N", 3.59, 18, 56});
+        ((DefaultTableModel) singleValuesJTable.getModel()).addRow(new Object[]{"Protein O", 2.24, 25, 43});
     }
 
     /**
@@ -188,7 +172,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
         final int NUMBER_OF_ROWS = 8;
         final int NUMBER_OF_VALUES = 20;
-        final int MAX_VALUE = new Double(maxValue).intValue();
+        final int MAX_VALUE = (int) maxValue;
 
         // ----------------------------------------
         // create the data and add it to the table
@@ -202,7 +186,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
             // create the random data
             for (int i = 0; i < NUMBER_OF_VALUES; i++) {
-                dataA.add(new Double(random.nextInt(MAX_VALUE)));
+                dataA.add(Double.valueOf(random.nextInt(MAX_VALUE)));
             }
 
             // add the random data to the data series
@@ -228,7 +212,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
         final int NUMBER_OF_ROWS = 8;
         final int NUMBER_OF_VALUES = 20;
-        final int MAX_VALUE = new Double(maxValue).intValue();
+        final int MAX_VALUE = (int) maxValue;
 
         // ----------------------------------------
         // create the data and add it to the table
@@ -244,9 +228,9 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
             // create the random data
             for (int i = 0; i < NUMBER_OF_VALUES; i++) {
-                dataA.add(new Double(random.nextInt(MAX_VALUE - 1)));
-                dataB.add(new Double(random.nextInt(MAX_VALUE)));
-                dataC.add(new Double(random.nextInt(MAX_VALUE + 1)));
+                dataA.add(Double.valueOf(random.nextInt(MAX_VALUE - 1)));
+                dataB.add(Double.valueOf(random.nextInt(MAX_VALUE)));
+                dataC.add(Double.valueOf(random.nextInt(MAX_VALUE + 1)));
             }
 
             // add random data to the data series
@@ -314,10 +298,10 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         }
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -728,9 +712,9 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Turns the bar chart renderer on or off. When turned off the underlaying 
+     * Turns the bar chart renderer on or off. When turned off the underlying
      * values are shown.
-     * 
+     *
      * @param evt
      */
     private void showJSparklinesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showJSparklinesJCheckBoxActionPerformed
@@ -831,7 +815,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
     /**
      * Add or remove the reference line from the multiple values plot.
-     * 
+     *
      * @param evt
      */
     private void referenceMultipleValuesJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_referenceMultipleValuesJCheckBoxActionPerformed
@@ -891,7 +875,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     /**
      * Displays the number _and_ the chart or just the chart for the bar chart
      * example.
-     * 
+     *
      * @param evt
      */
     private void showBothJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showBothJCheckBoxActionPerformed
@@ -905,7 +889,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
 
     /**
      * Turns the gradient color coding on or off.
-     * 
+     *
      * @param evt
      */
     private void showGradientJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showGradientJCheckBoxActionPerformed
@@ -931,7 +915,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             public void run() {
                 new JSparklinesDemo().setVisible(true);
             }

@@ -8,8 +8,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * A render that highlights colums ending with a given string, 
- * by using a different background color. Supported input is String.
+ * A render that highlights columns ending with a given string, by using a
+ * different background color. Supported input is String.
  *
  * @author Harald Barsnes
  */
@@ -37,10 +37,11 @@ public class CellHighlighterRenderer implements TableCellRenderer {
     /**
      * Creates a new CellHighlighterRenderer.
      *
-     * @param backgroundColor   default background color
-     * @param highlightColor    highlight background color
-     * @param align             SwingConstant: LEFT, CENTER, RIGHT, LEADING or TRAILING.
-     * @param highlightLabel    the label the strings have to end with in order to be highlighted 
+     * @param backgroundColor default background color
+     * @param highlightColor highlight background color
+     * @param align SwingConstant: LEFT, CENTER, RIGHT, LEADING or TRAILING.
+     * @param highlightLabel the label the strings have to end with in order to
+     * be highlighted
      */
     public CellHighlighterRenderer(Color backgroundColor, Color highlightColor, int align, String highlightLabel) {
         this.backgroundColor = backgroundColor;

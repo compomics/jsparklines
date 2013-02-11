@@ -53,8 +53,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.Layer;
 
 /**
- * A renderer for displaying JSparklines plots consisting of multiple values
- * per data series inside a table cell.
+ * A renderer for displaying JSparklines plots consisting of multiple values per
+ * data series inside a table cell.
  *
  * @author Harald Barsnes
  */
@@ -69,7 +69,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         upDownChart, proteinSequence, difference, stackedBarChartIntegerWithUpperRange
     }
     /**
-     * If true, a black reference line is added to the protein sequence plots. 
+     * If true, a black reference line is added to the protein sequence plots.
      * No effect on the other plot types.
      */
     private boolean showProteinSequenceReferenceLine = true;
@@ -137,25 +137,23 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     private Color downColor = new Color(51, 51, 251);
     /**
-     * If true the max and min values in line and area plots are
-     * highlighted.
+     * If true the max and min values in line and area plots are highlighted.
      *
      * Note: experimental feature, not yet finished.
      */
     private boolean highlightMaxAndMin = false;
     /**
-     * The width of the max and min highlights.
-     * See highlightMaxAndMin above.
+     * The width of the max and min highlights. See highlightMaxAndMin above.
      */
     private double widthOfMaxAndMinHighlight = 0.4;
     /**
-     * A hashmap of the current reference lines. Key is the name of
-     * the reference line.
+     * A hashmap of the current reference lines. Key is the name of the
+     * reference line.
      */
     private HashMap<String, ReferenceLine> referenceLines;
     /**
-     * A hashmap of the current reference areas. Key is the name of 
-     * the reference area.
+     * A hashmap of the current reference areas. Key is the name of the
+     * reference area.
      */
     private HashMap<String, ReferenceArea> referenceAreas;
     /**
@@ -168,15 +166,17 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     private int widthOfValueLabel = 40;
     /**
-     * If true the value of the chart is shown next to the bar chart. This  
-     * is currently only supported for the plot type 'stackedBarChartIntegerWithUpperRange' 
-     * and only displayes the first number in the first dataseries.
+     * If true the value of the chart is shown next to the bar chart. This is
+     * currently only supported for the plot type
+     * 'stackedBarChartIntegerWithUpperRange' and only displays the first
+     * number in the first data series.
      */
     private boolean showNumberAndChart = false;
     /**
-     * If true the underlying numbers are shown instead of the charts. This  
-     * is currently only supported for the plot type 'stackedBarChartIntegerWithUpperRange' 
-     * and only displayes the first number in the first dataseries.
+     * If true the underlying numbers are shown instead of the charts. This is
+     * currently only supported for the plot type
+     * 'stackedBarChartIntegerWithUpperRange' and only displays the first
+     * number in the first data series.
      */
     private boolean showNumbers = false;
     /**
@@ -184,8 +184,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     private int labelHorizontalAlignement = SwingConstants.RIGHT;
     /**
-     * The label used to display the number and the bar chart at the same
-     * time.
+     * The label used to display the number and the bar chart at the same time.
      */
     private JLabel valueLabel;
 
@@ -193,37 +192,39 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      * Creates a new JSparkLinesTableCellRenderer. Use this constructor when
      * creating pie charts where no upper range is used.
      *
-     * @param plotType          the plot type
-     * @param plotOrientation   the orientation of the plot
+     * @param plotType the plot type
+     * @param plotOrientation the orientation of the plot
      */
     public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation) {
         this(plotType, plotOrientation, 0.0, 0.0);
     }
 
     /**
-     * Creates a new JSparkLinesTableCellRenderer. Use this constructor when only positive
-     * values are to be plotted.
+     * Creates a new JSparkLinesTableCellRenderer. Use this constructor when
+     * only positive values are to be plotted.
      *
-     * @param plotType          the plot type
-     * @param plotOrientation   the orientation of the plot
-     * @param maxValue          the maximum value to be plotted, used to make sure that all plots
-     *                          in the same column has the same maxium value and are thus comparable
-     *                          (this is the same as setting the minimum value to 0)
+     * @param plotType the plot type
+     * @param plotOrientation the orientation of the plot
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable (this is the same as setting the minimum value to 0)
      */
     public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double maxValue) {
         this(plotType, plotOrientation, 0.0, maxValue);
     }
 
     /**
-     * Creates a new JSparkLinesTableCellRenderer. Use this constructor when positive
-     * and negative values are to be plotted.
+     * Creates a new JSparkLinesTableCellRenderer. Use this constructor when
+     * positive and negative values are to be plotted.
      *
-     * @param plotType          the plot type
-     * @param plotOrientation   the orientation of the plot
-     * @param minValue          the minium value to be plotted, used to make sure that all plots
-     *                          in the same column has the same minmum value and are thus comparable
-     * @param maxValue          the maximum value to be plotted, used to make sure that all plots
-     *                          in the same column has the same maxium value and are thus comparable
+     * @param plotType the plot type
+     * @param plotOrientation the orientation of the plot
+     * @param minValue the minium value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable
      */
     public JSparklinesTableCellRenderer(PlotType plotType, PlotOrientation plotOrientation, Double minValue, Double maxValue) {
 
@@ -255,12 +256,14 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
     /**
      * If true the number will be shown together with the bar chart in the cell.
-     * False only display the chart. This method is currently only supported for 
-     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displayes 
-     * the first number in the first dataseries.
+     * False only display the chart. This method is currently only supported for
+     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displays
+     * the first number in the first data series.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel) {
         showNumberAndChart(showNumberAndChart, widthOfLabel, numberFormat);
@@ -268,13 +271,15 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
     /**
      * If true the number will be shown together with the bar chart in the cell.
-     * False only display the chart. This method is currently only supported for 
-     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displayes 
-     * the first number in the first dataseries.
+     * False only display the chart. This method is currently only supported for
+     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displays
+     * the first number in the first data series.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
-     * @param numberFormat          the decimal format to use when showing the numbers 
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
+     * @param numberFormat the decimal format to use when showing the numbers
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, DecimalFormat numberFormat) {
         this.showNumberAndChart = showNumberAndChart;
@@ -284,16 +289,18 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
     /**
      * If true the number will be shown together with the bar chart in the cell.
-     * False only display the chart. This method is currently only supported for 
-     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displayes 
-     * the first number in the first dataseries.
+     * False only display the chart. This method is currently only supported for
+     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displays
+     * the first number in the first data series.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
-     * @param font                  the font to use for the label
-     * @param horizontalAlignement  the horizontal alignent of the text in the label:
-     *                              one of the following constants defined in SwingConstants:
-     *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
+     * @param font the font to use for the label
+     * @param horizontalAlignement the horizontal alignment of the text in the
+     * label: one of the following constants defined in SwingConstants: LEFT,
+     * CENTER, RIGHT, LEADING or TRAILING.
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement) {
         showNumberAndChart(showNumberAndChart, widthOfLabel, font, horizontalAlignement, numberFormat);
@@ -301,17 +308,19 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
     /**
      * If true the number will be shown together with the bar chart in the cell.
-     * False only display the chart. This method is currently only supported for 
-     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displayes 
-     * the first number in the first dataseries.
+     * False only display the chart. This method is currently only supported for
+     * the plot type 'stackedBarChartIntegerWithUpperRange' and only displays
+     * the first number in the first data series.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
-     * @param font                  the font to use for the label
-     * @param horizontalAlignement  the horizontal alignent of the text in the label:
-     *                              one of the following constants defined in SwingConstants:
-     *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
-     * @param numberFormat          the decimal format to use when showing the numbers 
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
+     * @param font the font to use for the label
+     * @param horizontalAlignement the horizontal alignment of the text in the
+     * label: one of the following constants defined in SwingConstants: LEFT,
+     * CENTER, RIGHT, LEADING or TRAILING.
+     * @param numberFormat the decimal format to use when showing the numbers
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement, DecimalFormat numberFormat) {
         this.showNumberAndChart = showNumberAndChart;
@@ -322,9 +331,10 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Set if the underlying numbers or the bar charts are to be shown. This method is 
-     * currently only supported for the plot type 'stackedBarChartIntegerWithUpperRange' 
-     * and only displayes the first number in the first dataseries.
+     * Set if the underlying numbers or the bar charts are to be shown. This
+     * method is currently only supported for the plot type
+     * 'stackedBarChartIntegerWithUpperRange' and only displays the first
+     * number in the first data series.
      *
      * @param showNumbers if true the underlying numbers are shown
      */
@@ -333,19 +343,21 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * If true, a black reference line is added to the protein sequence plots. No 
-     * effect on the other plot types.
-     * 
-     * @param showProteinSequenceReferenceLine if true, a black reference line is added to the protein sequence plots
+     * If true, a black reference line is added to the protein sequence plots.
+     * No effect on the other plot types.
+     *
+     * @param showProteinSequenceReferenceLine if true, a black reference line
+     * is added to the protein sequence plots
      */
     public void showProteinSequenceReferenceLine(boolean showProteinSequenceReferenceLine) {
         this.showProteinSequenceReferenceLine = showProteinSequenceReferenceLine;
     }
-    
+
     /**
      * If true, a black reference line is shown in the middle of the plot.
-     * 
-     * @param showProteinSequenceReferenceLine if true, a black reference line is shown in the middle of the plot
+     *
+     * @param showProteinSequenceReferenceLine if true, a black reference line
+     * is shown in the middle of the plot
      * @param lineWidth the line width
      * @param color the color
      */
@@ -396,7 +408,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         ArrayList<Color> colors = new ArrayList<Color>();
         int dataCounter = 0;
 
-        String tooltip = "<html>";
+        StringBuilder tooltip = new StringBuilder();
+        tooltip.append("<html>");
 
 
         // show the number and/or the chart if option selected
@@ -475,15 +488,15 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
 
                 if (sparklineDataSeries.getSeriesLabel() != null) {
-                    tooltip += "<font color=rgb("
-                            + sparklineDataSeries.getSeriesColor().getRed() + ","
-                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                            + sparklineDataSeries.getSeriesLabel() + "<br>";
+                    tooltip.append("<font color=rgb(");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getRed()).append(",");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getGreen()).append(",");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getBlue()).append(")>");
+                    tooltip.append(sparklineDataSeries.getSeriesLabel()).append("<br>");
                 }
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
-                    barChartDataset.addValue(sparklineDataSeries.getData().get(j), "1", new Integer(dataCounter++));
+                    barChartDataset.addValue(sparklineDataSeries.getData().get(j), "1", Integer.valueOf(dataCounter++));
                     colors.add(sparklineDataSeries.getSeriesColor());
                 }
             }
@@ -565,11 +578,11 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
 
                 if (sparklineDataSeries.getSeriesLabel() != null) {
-                    tooltip += "<font color=rgb("
-                            + sparklineDataSeries.getSeriesColor().getRed() + ","
-                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                            + sparklineDataSeries.getSeriesLabel() + "<br>";
+                    tooltip.append("<font color=rgb(");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getRed()).append(",");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getGreen()).append(",");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getBlue()).append(")>");
+                    tooltip.append(sparklineDataSeries.getSeriesLabel()).append("<br>");
                 }
 
                 XYSeries tempSeries = new XYSeries(i);
@@ -679,11 +692,11 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
 
                 if (sparklineDataSeries.getSeriesLabel() != null) {
-                    tooltip += "<font color=rgb("
-                            + sparklineDataSeries.getSeriesColor().getRed() + ","
-                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                            + sparklineDataSeries.getSeriesLabel() + "<br>";
+                    tooltip.append("<font color=rgb(");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getRed()).append(",");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getGreen()).append(",");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getBlue()).append(")>");
+                    tooltip.append(sparklineDataSeries.getSeriesLabel()).append("<br>");
                 }
 
                 double sumOfValues = 0.0;
@@ -728,11 +741,11 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
                 if (plotType != PlotType.stackedBarChartIntegerWithUpperRange) {
                     if (sparklineDataSeries.getSeriesLabel() != null) {
-                        tooltip += "<font color=rgb("
-                                + sparklineDataSeries.getSeriesColor().getRed() + ","
-                                + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                                + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                                + sparklineDataSeries.getSeriesLabel() + "<br>";
+                        tooltip.append("<font color=rgb(");
+                        tooltip.append(sparklineDataSeries.getSeriesColor().getRed()).append(",");
+                        tooltip.append(sparklineDataSeries.getSeriesColor().getGreen()).append(",");
+                        tooltip.append(sparklineDataSeries.getSeriesColor().getBlue()).append(")>");
+                        tooltip.append(sparklineDataSeries.getSeriesLabel()).append("<br>");
                     }
                 }
 
@@ -742,10 +755,10 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                     renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
 
                     if (sparklineDataSeries.getSeriesLabel() != null && plotType == PlotType.stackedBarChartIntegerWithUpperRange) {
-                        tooltip += sparklineDataSeries.getData().get(j).intValue();
+                        tooltip.append(sparklineDataSeries.getData().get(j).intValue());
 
                         if (i < sparklineDataset.getData().size() - 1) {
-                            tooltip += " / ";
+                            tooltip.append(" / ");
                         }
                     }
                 }
@@ -835,11 +848,11 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 ArrayList<Double> listValues = new ArrayList();
 
                 if (sparklineDataSeries.getSeriesLabel() != null) {
-                    tooltip += "<font color=rgb("
-                            + sparklineDataSeries.getSeriesColor().getRed() + ","
-                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                            + sparklineDataSeries.getSeriesLabel() + "<br>";
+                    tooltip.append("<font color=rgb(");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getRed()).append(",");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getGreen()).append(",");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getBlue()).append(")>");
+                    tooltip.append(sparklineDataSeries.getSeriesLabel()).append("<br>");
                 }
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
@@ -886,20 +899,20 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 JSparklinesDataSeries sparklineDataSeries = sparklineDataset.getData().get(i);
 
                 if (sparklineDataSeries.getSeriesLabel() != null) {
-                    tooltip += "<font color=rgb("
-                            + sparklineDataSeries.getSeriesColor().getRed() + ","
-                            + sparklineDataSeries.getSeriesColor().getGreen() + ","
-                            + sparklineDataSeries.getSeriesColor().getBlue() + ")>"
-                            + sparklineDataSeries.getSeriesLabel() + "<br>";
+                    tooltip.append("<font color=rgb(");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getRed()).append(",");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getGreen()).append(",");
+                    tooltip.append(sparklineDataSeries.getSeriesColor().getBlue()).append(")>");
+                    tooltip.append(sparklineDataSeries.getSeriesLabel()).append("<br>");
                 }
 
                 for (int j = 0; j < sparklineDataSeries.getData().size(); j++) {
 
                     if (sparklineDataSeries.getData().get(j) > 0) {
-                        barChartDataset.addValue(1, "1", new Integer(dataCounter++));
+                        barChartDataset.addValue(1, "1", Integer.valueOf(dataCounter++));
                         colors.add(upColor);
                     } else {
-                        barChartDataset.addValue(-1, "1", new Integer(dataCounter++));
+                        barChartDataset.addValue(-1, "1", Integer.valueOf(dataCounter++));
                         colors.add(downColor);
                     }
                 }
@@ -933,8 +946,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         }
 
         // set the tooltip
-        if (!tooltip.equalsIgnoreCase("<html>")) {
-            setToolTipText(tooltip + "</html>");
+        if (!tooltip.toString().equalsIgnoreCase("<html>")) {
+            setToolTipText(tooltip.append("</html>").toString());
         } else {
             setToolTipText(null);
         }
@@ -981,7 +994,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * Add a reference line at a given data value.
      *
-     * @param referenceLine 
+     * @param referenceLine
      */
     public void addReferenceLine(ReferenceLine referenceLine) {
         referenceLines.put(referenceLine.getLabel(), referenceLine);
@@ -1005,8 +1018,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Returns all the references lines as a hashmap, with the labels
-     * as the keys.
+     * Returns all the references lines as a hashmap, with the labels as the
+     * keys.
      *
      * @return hashmap of all reference lines
      */
@@ -1017,11 +1030,11 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * Add a reference area.
      *
-     * @param label         the label for the reference area
-     * @param start         the start of the reference area
-     * @param end           the end of the reference area
-     * @param areaColor     the color of the reference area
-     * @param alpha         the alpha level of the reference area
+     * @param label the label for the reference area
+     * @param start the start of the reference area
+     * @param end the end of the reference area
+     * @param areaColor the color of the reference area
+     * @param alpha the alpha level of the reference area
      */
     public void addReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreas.put(label, new ReferenceArea(label, start, end, areaColor, alpha));
@@ -1054,8 +1067,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Returns all the references areas as a hashmap, with the labels
-     * as the keys.
+     * Returns all the references areas as a hashmap, with the labels as the
+     * keys.
      *
      * @return hashmap of all reference areas
      */
@@ -1118,8 +1131,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Set the color used to highlight the minimum values in the charts and 
-     * the positive values in the difference plots..
+     * Set the color used to highlight the minimum values in the charts and the
+     * positive values in the difference plots..
      *
      * @param minValueColor the color to set
      */
@@ -1128,10 +1141,10 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Get the color used for the 'up values' in the Up/Down charts and 
-     * the positive values in the difference plots..
+     * Get the color used for the 'up values' in the Up/Down charts and the
+     * positive values in the difference plots..
      *
-     * @return tthe color used for the 'up values' in the Up/Down charts
+     * @return the color used for the 'up values' in the Up/Down charts
      */
     public Color getUpColor() {
         return upColor;
@@ -1147,18 +1160,18 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Get the color used for the 'down values' in the Up/Down charts and 
-     * the negative values in the difference plots..
+     * Get the color used for the 'down values' in the Up/Down charts and the
+     * negative values in the difference plots..
      *
-     * @return tthe color used for the 'down values' in the Up/Down charts
+     * @return the color used for the 'down values' in the Up/Down charts
      */
     public Color getDownColor() {
         return downColor;
     }
 
     /**
-     * Set the color used for the 'down values' in the Up/Down charts and 
-     * the negative values in the difference plots..
+     * Set the color used for the 'down values' in the Up/Down charts and the
+     * negative values in the difference plots..
      *
      * @param downColor the color for the 'down values' in the Up/Down charts
      */
@@ -1194,9 +1207,9 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     }
 
     /**
-     * Set the background color. If not set the background color of the given 
+     * Set the background color. If not set the background color of the given
      * row will be used.
-     * 
+     *
      * @param color the new background color
      */
     public void setBackgroundColor(Color color) {

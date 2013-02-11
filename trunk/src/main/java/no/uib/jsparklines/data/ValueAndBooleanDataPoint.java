@@ -3,14 +3,20 @@ package no.uib.jsparklines.data;
 import no.uib.jsparklines.renderers.util.Util;
 
 /**
- * Object that stores data about one data point and a correspoding signficance 
+ * Object that stores data about one data point and a corresponding significance
  * value.
  *
  * @author Harald Barsnes
  */
 public class ValueAndBooleanDataPoint implements Comparable<ValueAndBooleanDataPoint> {
 
+    /**
+     * The value.
+     */
     private double value;
+    /**
+     * Is the value significant?
+     */
     private boolean significant;
 
     /**
@@ -46,15 +52,15 @@ public class ValueAndBooleanDataPoint implements Comparable<ValueAndBooleanDataP
     }
 
     /**
-     * @param signigficant the signigficant to set
+     * @param signigficant the significance to set
      */
     public void setSignificant(boolean signigficant) {
         this.significant = signigficant;
     }
 
     /**
-     * Returns the value as a string. Note that the value is rounded
-     * to two decimals.
+     * Returns the value as a string. Note that the value is rounded to two
+     * decimals.
      *
      * @return the values as a string
      */

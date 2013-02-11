@@ -18,7 +18,7 @@ public class StartIndexes implements Comparable<StartIndexes> {
     /**
      * Create a new StartIndexes.
      *
-     * @param indexes 
+     * @param indexes
      */
     public StartIndexes(ArrayList<Integer> indexes) {
         this.startIndexes = indexes;
@@ -35,15 +35,15 @@ public class StartIndexes implements Comparable<StartIndexes> {
      * Compares based on the first value in the list.
      */
     public int compareTo(StartIndexes o) {
-        
+
         if (this.getIndexes().get(0) == o.getIndexes().get(0)) {
             return 0;
         }
-        
+
         if (this.getIndexes().get(0) > o.getIndexes().get(0)) {
             return 1;
         }
-        
+
         return -1;
     }
 

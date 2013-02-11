@@ -20,7 +20,7 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * A renderer for displaying colored equal size bar charts inside a table cell. 
+ * A renderer for displaying colored equal size bar charts inside a table cell.
  * Assumes that the cell values are of type Color.
  *
  * @author Harald Barsnes
@@ -36,9 +36,9 @@ public class JSparklinesColorTableCellRenderer extends JPanel implements TableCe
      */
     private JFreeChart chart;
     /**
-     * The background color used for the plots. For plots using light
-     * colors, it's recommended to use a dark background color, and for
-     * plots using darker colors it is recommended to use a light background.
+     * The background color used for the plots. For plots using light colors,
+     * it's recommended to use a dark background color, and for plots using
+     * darker colors it is recommended to use a light background.
      */
     private Color plotBackgroundColor = null;
     /**
@@ -53,11 +53,11 @@ public class JSparklinesColorTableCellRenderer extends JPanel implements TableCe
         this.tooltips = new HashMap<Color, String>();
         setUpRendererAndChart();
     }
-    
+
     /**
      * Creates a new JSparklinesColorTableCellRenderer.
      *
-     * @param tooltips      a HashMap with the integer to tooltip mappings 
+     * @param tooltips a HashMap with the integer to tooltip mappings
      */
     public JSparklinesColorTableCellRenderer(HashMap<Color, String> tooltips) {
         this.tooltips = tooltips;
@@ -135,8 +135,8 @@ public class JSparklinesColorTableCellRenderer extends JPanel implements TableCe
         // create the bar chart
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        dataset.addValue(new Integer(1), "1", "1");
-        
+        dataset.addValue(Integer.valueOf(1), "1", "1");
+
         // fine tune the chart properites
         CategoryPlot plot = chart.getCategoryPlot();
 
