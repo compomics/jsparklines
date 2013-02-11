@@ -35,7 +35,7 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * A renderer for displaying JSparklines plots consisting of two values as a 
+ * A renderer for displaying JSparklines plots consisting of two values as a
  * stacked bar chart inside a table cell. Supported datatype: XYDataPoint.
  *
  * @author Harald Barsnes
@@ -43,9 +43,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel implements TableCellRenderer {
 
     /**
-     * If true, the first number is shown as the value for plots of type 
-     * stackedBarChartIntegerWithUpperRange. Otherwise the total value 
-     * is shown. No effect on the other plot types.
+     * If true, the first number is shown as the value for plots of type
+     * stackedBarChartIntegerWithUpperRange. Otherwise the total value is shown.
+     * No effect on the other plot types.
      */
     private boolean showFirstNumber = false;
     /**
@@ -88,18 +88,18 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      */
     private Color secondValueColor = new Color(51, 51, 251);
     /**
-     * The color used to fill the rest of the chart up to the max value. 
-     * Set to null if no filling should be used.
+     * The color used to fill the rest of the chart up to the max value. Set to
+     * null if no filling should be used.
      */
     private Color fillColor = null;
     /**
-     * A hashmap of the current reference lines. Key is the name of
-     * the reference line.
+     * A hashmap of the current reference lines. Key is the name of the
+     * reference line.
      */
     private HashMap<String, ReferenceLine> referenceLines;
     /**
-     * A hashmap of the current reference areas. Key is the name of 
-     * the reference area.
+     * A hashmap of the current reference areas. Key is the name of the
+     * reference area.
      */
     private HashMap<String, ReferenceArea> referenceAreas;
     /**
@@ -124,39 +124,42 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      */
     private int labelHorizontalAlignement = SwingConstants.RIGHT;
     /**
-     * The label used to display the number and the bar chart at the same
-     * time.
+     * The label used to display the number and the bar chart at the same time.
      */
     private JLabel valueLabel;
 
     /**
      * Creates a new JSparkLinesTableCellRenderer.
      *
-     * @param plotOrientation   the orientation of the plot
-     * @param maxValue          the maximum value to be plotted, used to make sure that all plots
-     *                          in the same column has the same maxium value and are thus comparable
-     * @param firstValueColor   the color to use for the first value
-     * @param secondValueColor  the color to use for the second value
-     * @param showFirstNumber   if true, the first value is shown when showing the values, false shows the sum 
+     * @param plotOrientation the orientation of the plot
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable
+     * @param firstValueColor the color to use for the first value
+     * @param secondValueColor the color to use for the second value
+     * @param showFirstNumber if true, the first value is shown when showing the
+     * values, false shows the sum
      */
-    public JSparklinesTwoValueBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, 
+    public JSparklinesTwoValueBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
             Color firstValueColor, Color secondValueColor, boolean showFirstNumber) {
         this(plotOrientation, maxValue, firstValueColor, secondValueColor, null, showFirstNumber);
     }
-    
+
     /**
      * Creates a new JSparkLinesTableCellRenderer.
      *
-     * @param plotOrientation   the orientation of the plot
-     * @param maxValue          the maximum value to be plotted, used to make sure that all plots
-     *                          in the same column has the same maxium value and are thus comparable
-     * @param firstValueColor   the color to use for the first value
-     * @param secondValueColor  the color to use for the second value
-     * @param fillColor         the color used to fill the rest of the chart up to the max value
-     *                          (set to null if no filling should be used)
-     * @param showFirstNumber   if true, the first value is shown when showing the values, false shows the sum 
+     * @param plotOrientation the orientation of the plot
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable
+     * @param firstValueColor the color to use for the first value
+     * @param secondValueColor the color to use for the second value
+     * @param fillColor the color used to fill the rest of the chart up to the
+     * max value (set to null if no filling should be used)
+     * @param showFirstNumber if true, the first value is shown when showing the
+     * values, false shows the sum
      */
-    public JSparklinesTwoValueBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, 
+    public JSparklinesTwoValueBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
             Color firstValueColor, Color secondValueColor, Color fillColor, boolean showFirstNumber) {
 
         this.plotOrientation = plotOrientation;
@@ -191,8 +194,10 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      * If true the number will be shown together with the bar chart in the cell.
      * False only display the chart.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel) {
         showNumberAndChart(showNumberAndChart, widthOfLabel, numberFormat);
@@ -202,9 +207,11 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      * If true the number will be shown together with the bar chart in the cell.
      * False only display the chart.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
-     * @param numberFormat          the decimal format to use when showing the numbers 
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
+     * @param numberFormat the decimal format to use when showing the numbers
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, DecimalFormat numberFormat) {
         this.showNumberAndChart = showNumberAndChart;
@@ -216,12 +223,14 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      * If true the number will be shown together with the bar chart in the cell.
      * False only display the chart.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
-     * @param font                  the font to use for the label
-     * @param horizontalAlignement  the horizontal alignent of the text in the label:
-     *                              one of the following constants defined in SwingConstants:
-     *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
+     * @param font the font to use for the label
+     * @param horizontalAlignement the horizontal alignment of the text in the
+     * label: one of the following constants defined in SwingConstants: LEFT,
+     * CENTER, RIGHT, LEADING or TRAILING.
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement) {
         showNumberAndChart(showNumberAndChart, widthOfLabel, font, horizontalAlignement, numberFormat);
@@ -231,13 +240,15 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      * If true the number will be shown together with the bar chart in the cell.
      * False only display the chart.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
-     * @param font                  the font to use for the label
-     * @param horizontalAlignement  the horizontal alignent of the text in the label:
-     *                              one of the following constants defined in SwingConstants:
-     *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
-     * @param numberFormat          the decimal format to use when showing the numbers 
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
+     * @param font the font to use for the label
+     * @param horizontalAlignement the horizontal alignment of the text in the
+     * label: one of the following constants defined in SwingConstants: LEFT,
+     * CENTER, RIGHT, LEADING or TRAILING.
+     * @param numberFormat the decimal format to use when showing the numbers
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement, DecimalFormat numberFormat) {
         this.showNumberAndChart = showNumberAndChart;
@@ -257,10 +268,10 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
     }
 
     /**
-     * If true, the first number is shown as the value. Otherwise the total value 
-     * is shown.
-     * 
-     * @param showFirstNumber 
+     * If true, the first number is shown as the value. Otherwise the total
+     * value is shown.
+     *
+     * @param showFirstNumber
      */
     public void showFirstNumber(boolean showFirstNumber) {
         this.showFirstNumber = showFirstNumber;
@@ -307,8 +318,6 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
         ArrayList<Color> colors = new ArrayList<Color>();
         colors.add(firstValueColor);
         colors.add(secondValueColor);
-
-        String tooltip = "";
 
         // show the number and/or the chart if option selected
         if (showNumberAndChart || showNumbers) {
@@ -377,18 +386,18 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
         barChartDataset.addValue(xyDataPoint.getY(), "" + 1, "" + 0);
         renderer.setSeriesPaint(0, firstValueColor);
         renderer.setSeriesPaint(1, secondValueColor);
-        
+
         if (fillColor != null) {
             double fillValue = maxValue - xyDataPoint.getX() + xyDataPoint.getY();
-            
+
             if (fillValue > 0) {
                 barChartDataset.addValue(fillValue, "" + 2, "" + 0);
                 renderer.setSeriesPaint(2, fillColor);
             }
         }
 
-        tooltip = ((int) xyDataPoint.getX()) + " / " + ((int) (xyDataPoint.getX() + xyDataPoint.getY()));
-                
+        String tooltip = ((int) xyDataPoint.getX()) + " / " + ((int) (xyDataPoint.getX() + xyDataPoint.getY()));
+
         chart = ChartFactory.createStackedBarChart(null, null, null, barChartDataset, plotOrientation, false, false, false);
 
         // fine tune the chart properites
@@ -480,7 +489,7 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
     /**
      * Add a reference line at a given data value.
      *
-     * @param referenceLine 
+     * @param referenceLine
      */
     public void addReferenceLine(ReferenceLine referenceLine) {
         referenceLines.put(referenceLine.getLabel(), referenceLine);
@@ -504,8 +513,8 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
     }
 
     /**
-     * Returns all the references lines as a hashmap, with the labels
-     * as the keys.
+     * Returns all the references lines as a hashmap, with the labels as the
+     * keys.
      *
      * @return hashmap of all reference lines
      */
@@ -516,11 +525,11 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
     /**
      * Add a reference area.
      *
-     * @param label         the label for the reference area
-     * @param start         the start of the reference area
-     * @param end           the end of the reference area
-     * @param areaColor     the color of the reference area
-     * @param alpha         the alpha level of the reference area
+     * @param label the label for the reference area
+     * @param start the start of the reference area
+     * @param end the end of the reference area
+     * @param areaColor the color of the reference area
+     * @param alpha the alpha level of the reference area
      */
     public void addReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreas.put(label, new ReferenceArea(label, start, end, areaColor, alpha));
@@ -553,8 +562,8 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
     }
 
     /**
-     * Returns all the references areas as a hashmap, with the labels
-     * as the keys.
+     * Returns all the references areas as a hashmap, with the labels as the
+     * keys.
      *
      * @return hashmap of all reference areas
      */
@@ -635,9 +644,9 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
     }
 
     /**
-     * Set the background color. If not set the background color of the given 
+     * Set the background color. If not set the background color of the given
      * row will be used.
-     * 
+     *
      * @param color the new background color
      */
     public void setBackgroundColor(Color color) {
@@ -651,7 +660,7 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
 
     /**
      * Returns the maximum value.
-     * 
+     *
      * @return the maxValue
      */
     public double getMaxValue() {

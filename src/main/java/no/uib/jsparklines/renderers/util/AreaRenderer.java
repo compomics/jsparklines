@@ -1,4 +1,3 @@
-
 package no.uib.jsparklines.renderers.util;
 
 import java.awt.GradientPaint;
@@ -28,11 +27,11 @@ import org.jfree.ui.StandardGradientPaintTransformer;
 import org.jfree.util.ShapeUtilities;
 
 /**
- * Custom renderer displaying line charts with the area under the line
- * is filled.
+ * Custom renderer displaying line charts with the area under the line is
+ * filled.
  *
- * From an example found at www.jfree.org.
- * Complete link: www.jfree.org/phpBB2/viewtopic.php?f=10&t=15596
+ * From an example found at www.jfree.org. Complete link:
+ * www.jfree.org/phpBB2/viewtopic.php?f=10&t=15596
  */
 public class AreaRenderer extends XYAreaRenderer {
 
@@ -41,9 +40,13 @@ public class AreaRenderer extends XYAreaRenderer {
      */
     static class AreaRendererState extends XYItemRendererState {
 
-        /** Working storage for the area under one series. */
+        /**
+         * Working storage for the area under one series.
+         */
         public Polygon area;
-        /** Working line that can be recycled. */
+        /**
+         * Working line that can be recycled.
+         */
         public Line2D line;
 
         /**
@@ -75,14 +78,13 @@ public class AreaRenderer extends XYAreaRenderer {
     }
 
     /**
-     * Constructs a new renderer.
-     * <p>
-     * To specify the type of renderer, use one of the constants: SHAPES, LINES,
-     * SHAPES_AND_LINES, AREA or AREA_AND_SHAPES.
+     * Constructs a new renderer. <p> To specify the type of renderer, use one
+     * of the constants: SHAPES, LINES, SHAPES_AND_LINES, AREA or
+     * AREA_AND_SHAPES.
      *
      * @param type the type of renderer.
-     * @param toolTipGenerator the tool tip generator to use
-     * (<code>null</code> permitted).
+     * @param toolTipGenerator the tool tip generator to use (<code>null</code>
+     * permitted).
      * @param urlGenerator the URL generator (<code>null</code> permitted).
      */
     public AreaRenderer(int type, XYToolTipGenerator toolTipGenerator, XYURLGenerator urlGenerator) {
@@ -90,15 +92,15 @@ public class AreaRenderer extends XYAreaRenderer {
     }
 
     /**
-     * Initialises the renderer and returns a state object that should be
-     * passed to all subsequent calls to the drawItem() method.
+     * Initialises the renderer and returns a state object that should be passed
+     * to all subsequent calls to the drawItem() method.
      *
      * @param g2 the graphics device.
      * @param dataArea the area inside the axes.
      * @param plot the plot.
      * @param data the data.
-     * @param info an optional info collection object to return data back to
-     * the caller.
+     * @param info an optional info collection object to return data back to the
+     * caller.
      *
      * @return A state object for use by the renderer.
      */
@@ -172,7 +174,7 @@ public class AreaRenderer extends XYAreaRenderer {
 
         double transZero = rangeAxis.valueToJava2D(0.0, dataArea, plot.getRangeAxisEdge());
 
-        Polygon hotspot = null;
+        Polygon hotspot;
 
         if (plot.getOrientation() == PlotOrientation.HORIZONTAL) {
 
@@ -220,10 +222,8 @@ public class AreaRenderer extends XYAreaRenderer {
         g2.setPaint(paint);
         g2.setStroke(stroke);
 
-        Shape shape = null;
-
         if (getPlotShapes()) {
-            shape = getItemShape(series, item);
+            Shape shape = getItemShape(series, item);
             if (orientation == PlotOrientation.VERTICAL) {
                 shape = ShapeUtilities.createTranslatedShape(shape, transX1,
                         transY1);

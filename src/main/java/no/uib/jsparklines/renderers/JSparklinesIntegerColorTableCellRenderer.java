@@ -24,8 +24,8 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * A renderer for displaying integers as colored equal size bar charts
- * inside a table cell. Assumes that the cell values are of type Integer.
+ * A renderer for displaying integers as colored equal size bar charts inside a
+ * table cell. Assumes that the cell values are of type Integer.
  *
  * @author Harald Barsnes
  */
@@ -44,8 +44,7 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
      */
     private JFreeChart chart;
     /**
-     * The label used to display the number and the bar chart at the same
-     * time.
+     * The label used to display the number and the bar chart at the same time.
      */
     private JLabel valueLabel;
     /**
@@ -62,9 +61,9 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
      */
     private int widthOfValueLabel = 40;
     /**
-     * The background color used for the plots. For plots using light
-     * colors, it's recommended to use a dark background color, and for
-     * plots using darker colors it is recommended to use a light background.
+     * The background color used for the plots. For plots using light colors,
+     * it's recommended to use a dark background color, and for plots using
+     * darker colors it is recommended to use a light background.
      */
     private Color plotBackgroundColor = null;
     /**
@@ -85,8 +84,9 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
      * cell values are displayed is equal size bars, but using different colors
      * as defined by the colors hash map.
      *
-     * @param defaultColor  the color to use for the bars if an integer without a mapped color is found
-     * @param colors        a HashMap with the integer to color mappings
+     * @param defaultColor the color to use for the bars if an integer without a
+     * mapped color is found
+     * @param colors a HashMap with the integer to color mappings
      */
     public JSparklinesIntegerColorTableCellRenderer(Color defaultColor, HashMap<Integer, Color> colors) {
         this(defaultColor, colors, new HashMap<Integer, String>());
@@ -97,9 +97,10 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
      * cell values are displayed is equal size bars, but using different colors
      * as defined by the colors hash map.
      *
-     * @param defaultColor  the color to use for the bars if an integer without a mapped color is found
-     * @param colors        a HashMap with the integer to color mappings
-     * @param tooltips      a HashMap with the integer to tooltip mappings 
+     * @param defaultColor the color to use for the bars if an integer without a
+     * mapped color is found
+     * @param colors a HashMap with the integer to color mappings
+     * @param tooltips a HashMap with the integer to tooltip mappings
      */
     public JSparklinesIntegerColorTableCellRenderer(Color defaultColor, HashMap<Integer, Color> colors, HashMap<Integer, String> tooltips) {
 
@@ -148,8 +149,10 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
      * False only display the bar chart. This method is not to be confused with
      * the showNumbers-method that only displays the numbers.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel) {
         this.showNumberAndChart = showNumberAndChart;
@@ -161,12 +164,14 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
      * False only display the bar chart. This method is not to be confused with
      * the showNumbers-method that only displays the numbers.
      *
-     * @param showNumberAndChart    if true the number and the chart is shown in the cell
-     * @param widthOfLabel          the width used to display the label containing the number
-     * @param font                  the font to use for the label
-     * @param horizontalAlignement  the horizontal alignent of the text in the label:
-     *                              one of the following constants defined in SwingConstants:
-     *                              LEFT, CENTER, RIGHT, LEADING or TRAILING.
+     * @param showNumberAndChart if true the number and the chart is shown in
+     * the cell
+     * @param widthOfLabel the width used to display the label containing the
+     * number
+     * @param font the font to use for the label
+     * @param horizontalAlignement the horizontal alignment of the text in the
+     * label: one of the following constants defined in SwingConstants: LEFT,
+     * CENTER, RIGHT, LEADING or TRAILING.
      */
     public void showNumberAndChart(boolean showNumberAndChart, int widthOfLabel, Font font, int horizontalAlignement) {
         this.showNumberAndChart = showNumberAndChart;
@@ -216,10 +221,8 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
         // if show numbers, format as number and return
         if (showNumbers) {
 
-            if (value instanceof Integer) {
-                c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, (Integer) value,
-                        isSelected, hasFocus, row, column);
-            }
+            c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, (Integer) value,
+                    isSelected, hasFocus, row, column);
 
             ((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
 
@@ -232,21 +235,16 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
         }
 
         // set the tooltip text
-        if (value instanceof Integer) {
-
-            if (tooltips.get((Integer) value) != null) {
-                this.setToolTipText(tooltips.get((Integer) value));
-            } else {
-                this.setToolTipText("" + value);
-            }
+        if (tooltips.get((Integer) value) != null) {
+            this.setToolTipText(tooltips.get((Integer) value));
+        } else {
+            this.setToolTipText("" + value);
         }
 
         // show the number _and_ the chart if option selected
         if (showNumberAndChart) {
 
-            if (value instanceof Integer) {
-                valueLabel.setText("" + Integer.valueOf("" + value).intValue());
-            }
+            valueLabel.setText("" + Integer.valueOf("" + value).intValue());
 
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
@@ -282,10 +280,7 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
 
         // create the bar chart
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-        if (value instanceof Integer) {
-            dataset.addValue(new Integer(1), "1", "1");
-        }
+        dataset.addValue(Integer.valueOf(1), "1", "1");
 
         // fine tune the chart properites
         CategoryPlot plot = chart.getCategoryPlot();
@@ -300,14 +295,12 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
         plot.setRangeGridlinesVisible(false);
 
         // set up the chart renderer
-        CategoryItemRenderer renderer = null;
+        CategoryItemRenderer renderer;
 
-        if (value instanceof Integer) {
-            if (colors.get((Integer) value) == null) {
-                renderer = new BarChartColorRenderer(defaultColor);
-            } else {
-                renderer = new BarChartColorRenderer(colors.get((Integer) value));
-            }
+        if (colors.get((Integer) value) == null) {
+            renderer = new BarChartColorRenderer(defaultColor);
+        } else {
+            renderer = new BarChartColorRenderer(colors.get((Integer) value));
         }
 
         // make sure the background is the same as the table row color
@@ -332,7 +325,7 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
 
     /**
      * Return the color map.
-     * 
+     *
      * @return the colors
      */
     public HashMap<Integer, Color> getColors() {
@@ -341,7 +334,7 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
 
     /**
      * Set the color map.
-     * 
+     *
      * @param colors the colors to set
      */
     public void setColors(HashMap<Integer, Color> colors) {
@@ -350,7 +343,7 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
 
     /**
      * Returns the tooltips map.
-     * 
+     *
      * @return the tooltips
      */
     public HashMap<Integer, String> getTooltips() {
@@ -359,7 +352,7 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
 
     /**
      * Set the tooltip map.
-     * 
+     *
      * @param tooltips the tooltips to set
      */
     public void setTooltips(HashMap<Integer, String> tooltips) {

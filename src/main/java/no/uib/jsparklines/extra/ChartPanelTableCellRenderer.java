@@ -10,7 +10,7 @@ import javax.swing.table.TableCellRenderer;
 import org.jfree.chart.ChartPanel;
 
 /**
- * A table cell renderer for a ChartPanel. 
+ * A table cell renderer for a ChartPanel.
  *
  * @author Harald Barsnes
  */

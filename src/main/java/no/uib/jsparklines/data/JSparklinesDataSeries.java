@@ -1,4 +1,3 @@
-
 package no.uib.jsparklines.data;
 
 import java.awt.BasicStroke;
@@ -7,7 +6,8 @@ import java.util.ArrayList;
 import no.uib.jsparklines.renderers.util.Util;
 
 /**
- * Object containing a sparkline data series to be added to a JSparklinesDataset.
+ * Object containing a sparkline data series to be added to a
+ * JSparklinesDataset.
  *
  * @author Harald Barsnes
  */
@@ -37,9 +37,9 @@ public class JSparklinesDataSeries {
     /**
      * Creates a new JSparklinesDataSeries.
      *
-     * @param data          the data to plot
-     * @param seriesColor   the color to use for the series
-     * @param seriesLabel   the data series label
+     * @param data the data to plot
+     * @param seriesColor the color to use for the series
+     * @param seriesLabel the data series label
      */
     public JSparklinesDataSeries(ArrayList<Double> data, Color seriesColor, String seriesLabel) {
         this.data = data;
@@ -52,10 +52,10 @@ public class JSparklinesDataSeries {
     /**
      * Creates a new JSparklinesDataSeries.
      *
-     * @param data          the data to plot
-     * @param seriesColor   the color to use for the series
-     * @param seriesLabel   the data series label
-     * @param lineType the  properties of the line when displayed as a line chart
+     * @param data the data to plot
+     * @param seriesColor the color to use for the series
+     * @param seriesLabel the data series label
+     * @param lineType the properties of the line when displayed as a line chart
      */
     public JSparklinesDataSeries(ArrayList<Double> data, Color seriesColor, String seriesLabel, BasicStroke lineType) {
         this.data = data;
@@ -129,35 +129,34 @@ public class JSparklinesDataSeries {
     }
 
     /**
-     * Set the propeties of the line. Only used when the chart is displayed
-     * as a line chart.
+     * Set the properties of the line. Only used when the chart is displayed as
+     * a line chart.
      *
      * @param lineType the lineType to set
      */
     public void setLineType(BasicStroke lineType) {
         this.lineType = lineType;
     }
-    
+
     /**
-     * Returns the value as a string. Note that the values are rounded
-     * to two decimals.
+     * Returns the value as a string. Note that the values are rounded to two
+     * decimals.
      *
      * @return the values as a string
      */
     public String toString() {
-        
+
         if (data.isEmpty()) {
             return "";
         }
-        
-        String temp = "";
-        
-        temp += Util.roundDouble(data.get(0), 2);
-        
-        for (int i=1; i<data.size(); i++) {
-            temp += "," + Util.roundDouble(data.get(i), 2);
+
+        StringBuilder temp = new StringBuilder();
+        temp.append(Util.roundDouble(data.get(0), 2));
+
+        for (int i = 1; i < data.size(); i++) {
+            temp.append(",").append(Util.roundDouble(data.get(i), 2));
         }
-        
-        return temp;
+
+        return temp.toString();
     }
 }

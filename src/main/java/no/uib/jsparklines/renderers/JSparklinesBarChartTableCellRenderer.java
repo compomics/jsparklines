@@ -47,7 +47,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     private double minimumChartValue = 0.05;
     /**
      * Used to decide how many decimals to include in the tooltip. If the number
-     * is smaller than the lower limit, 8 decimnals are shown, otherwise only 2
+     * is smaller than the lower limit, 8 decimals are shown, otherwise only 2
      * decimals are used.
      */
     private double tooltipLowerValue = 0.01;
@@ -68,7 +68,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     private double maxValue = 1;
     /**
-     * The minimum value. Used to set the minmum range for the chart.
+     * The minimum value. Used to set the minimum range for the chart.
      */
     private double minValue = 0;
     /**
@@ -77,8 +77,8 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     private double maxLogValue = 1;
     /**
-     * The minimum log value (base 10). Used to set the minmum range for the log
-     * chart.
+     * The minimum log value (base 10). Used to set the minimum range for the
+     * log chart.
      */
     private double minLogValue = 0;
     /**
@@ -143,8 +143,8 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     private boolean showAsHeatMap = false;
     /**
-     * The color to use for the border for the cells when heatmap is used. Makes
-     * sure that the user can see which cells are selected.
+     * The color to use for the border for the cells when heat map is used.
+     * Makes sure that the user can see which cells are selected.
      */
     private Color heatMapBorderColor = Color.lightGray;
     /**
@@ -162,7 +162,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      *
      * @param plotOrientation the orientation of the plot
      * @param maxValue the maximum value to be plotted, used to make sure that
-     * all plots in the same column has the same maxium value and are thus
+     * all plots in the same column has the same maximum value and are thus
      * comparable (this is the same as setting the minimum value to 0)
      * @param largeNumbersAreGood makes sure that different colors are used for
      * bars where large numbers are "good", versus when small numbers are "good"
@@ -189,7 +189,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      *
      * @param plotOrientation the orientation of the plot
      * @param maxValue the maximum value to be plotted, used to make sure that
-     * all plots in the same column has the same maxium value and are thus
+     * all plots in the same column has the same maximum value and are thus
      * comparable (this is the same as setting the minimum value to 0)
      * @param positiveValuesColor the color to use for the positive values if
      * two sided data is shown, and the color used for one sided data
@@ -206,7 +206,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      *
      * @param plotOrientation the orientation of the plot
      * @param maxValue the maximum value to be plotted, used to make sure that
-     * all plots in the same column has the same maxium value and are thus
+     * all plots in the same column has the same maximum value and are thus
      * comparable (this is the same as setting the minimum value to 0)
      * @param positiveValuesColor the color to use for the positive values if
      * two sided data is shown, and the color used for one sided data
@@ -229,10 +229,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      *
      * @param plotOrientation the orientation of the plot
      * @param minValue the minium value to be plotted, used to make sure that
-     * all plots in the same column has the same minmum value and are thus
+     * all plots in the same column has the same minimum value and are thus
      * comparable
      * @param maxValue the maximum value to be plotted, used to make sure that
-     * all plots in the same column has the same maxium value and are thus
+     * all plots in the same column has the same maximum value and are thus
      * comparable
      */
     public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue) {
@@ -249,10 +249,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      *
      * @param plotOrientation the orientation of the plot
      * @param minValue the minium value to be plotted, used to make sure that
-     * all plots in the same column has the same minmum value and are thus
+     * all plots in the same column has the same minimum value and are thus
      * comparable
      * @param maxValue the maximum value to be plotted, used to make sure that
-     * all plots in the same column has the same maxium value and are thus
+     * all plots in the same column has the same maximum value and are thus
      * comparable
      * @param negativeValuesColor the color to use for the negative values if
      * two sided data is shown
@@ -273,10 +273,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      *
      * @param plotOrientation the orientation of the plot
      * @param minValue the minium value to be plotted, used to make sure that
-     * all plots in the same column has the same minmum value and are thus
+     * all plots in the same column has the same minimum value and are thus
      * comparable
      * @param maxValue the maximum value to be plotted, used to make sure that
-     * all plots in the same column has the same maxium value and are thus
+     * all plots in the same column has the same maximum value and are thus
      * comparable
      * @param negativeValuesColor the color to use for the negative values if
      * two sided data is shown
@@ -330,10 +330,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
     /**
      * Displays the values as a heat map using the selected color gradient. To
-     * disable the heat map use null as the paramater. <br><br> <b>NB: the
+     * disable the heat map use null as the parameter. <br><br> <b>NB: the
      * programmer has to make sure that the max and min values are the same for
      * all columns used in a heat map to ensure that the color coding is
-     * comparable accross the columns. This method can not handle this.</b>
+     * comparable across the columns. This method can not handle this.</b>
      * <br><br> Values below zero uses the first color in the gradient name,
      * while values above zero uses the third color in the gradient. <br><br>
      * Note that the max value is set to the maximum absolute value of the max
@@ -357,7 +357,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
     /**
      * Set the color gradient to use for the bars. To disable the color gradient
-     * use null as the paramater. <br><br> Values below zero uses the first
+     * use null as the parameter. <br><br> Values below zero uses the first
      * color in the gradient name, while values above zero uses the third color
      * in the gradient. <br><br> Note that the max value is set to the maximum
      * absolute value of the max and min values in order to make the color
@@ -372,7 +372,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
     /**
      * Set the color gradient to use for the bars. To disable the color gradient
-     * use null as the paramater. <br><br> Values below zero uses the first
+     * use null as the parameter. <br><br> Values below zero uses the first
      * color in the gradient name, while values above zero uses the third color
      * in the gradient. <br><br> Note that the max value is set to the maximum
      * absolute value of the max and min values in order to make the color
@@ -447,7 +447,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * @param widthOfLabel the width used to display the label containing the
      * number
      * @param font the font to use for the label
-     * @param horizontalAlignement the horizontal alignent of the text in the
+     * @param horizontalAlignement the horizontal alignment of the text in the
      * label: one of the following constants defined in SwingConstants: LEFT,
      * CENTER, RIGHT, LEADING or TRAILING.
      */
@@ -465,7 +465,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * @param widthOfLabel the width used to display the label containing the
      * number
      * @param font the font to use for the label
-     * @param horizontalAlignement the horizontal alignent of the text in the
+     * @param horizontalAlignement the horizontal alignment of the text in the
      * label: one of the following constants defined in SwingConstants: LEFT,
      * CENTER, RIGHT, LEADING or TRAILING.
      * @param numberFormat the decimal format to use when showing the numbers
@@ -1048,7 +1048,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     }
 
     /**
-     * Rounds of a double value to the wanted number of decimalplaces
+     * Rounds of a double value to the wanted number of decimal places
      *
      * @param d the double to round of
      * @param places number of decimal places wanted
@@ -1181,7 +1181,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
     /**
      * Returns the maximum value.
-     * 
+     *
      * @return the maxValue
      */
     public double getMaxValue() {
@@ -1190,7 +1190,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
     /**
      * Returns the minimum value.
-     * 
+     *
      * @return the minValue
      */
     public double getMinValue() {

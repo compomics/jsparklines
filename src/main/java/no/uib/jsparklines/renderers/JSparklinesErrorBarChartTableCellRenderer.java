@@ -21,8 +21,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 /**
- * A renderer for displaying a JSparklines bar charts with error bars inside a table 
- * cell. Assumes that the cell values are of type DefaultStatisticalCategoryDataset.
+ * A renderer for displaying a JSparklines bar charts with error bars inside a
+ * table cell. Assumes that the cell values are of type
+ * DefaultStatisticalCategoryDataset.
  *
  * @author Harald Barsnes
  */
@@ -36,8 +37,8 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
     private double minimumChartValue = 0.05;
     /**
      * Used to decide how many decimals to include in the tooltip. If the number
-     * is smaller than the lower limit, 8 decimnals are shown, otherwise only
-     * 2 decimals are used.
+     * is smaller than the lower limit, 8 decimals are shown, otherwise only 2
+     * decimals are used.
      */
     private double tooltipLowerValue = 0.01;
     /**
@@ -49,8 +50,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      */
     private JFreeChart chart;
     /**
-     * The label used to display the number and the bar chart at the same
-     * time.
+     * The label used to display the number and the bar chart at the same time.
      */
     private JLabel valueLabel;
     /**
@@ -58,7 +58,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      */
     private double maxValue = 1;
     /**
-     * The minimum value. Used to set the minmum range for the chart.
+     * The minimum value. Used to set the minimum range for the chart.
      */
     private double minValue = 0;
     /**
@@ -85,23 +85,24 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      */
     private int widthOfValueLabel = 40;
     /**
-     * The background color used for the plots. For plots using light
-     * colors, it's recommended to use a dark background color, and for
-     * plots using darker colors it is recommended to use a light background.
+     * The background color used for the plots. For plots using light colors,
+     * it's recommended to use a dark background color, and for plots using
+     * darker colors it is recommended to use a light background.
      */
     private Color plotBackgroundColor = null;
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when only positive
-     * values are to be plotted. This constructor uses default colors for the bars. If you want to
-     * set your own colors, use one of the other constructors.
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
+     * when only positive values are to be plotted. This constructor uses
+     * default colors for the bars. If you want to set your own colors, use one
+     * of the other constructors.
      *
-     * @param plotOrientation       the orientation of the plot
-     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
-     *                              in the same column has the same maxium value and are thus comparable
-     *                              (this is the same as setting the minimum value to 0)
-     * @param largeNumbersAreGood   makes sure that different colors are used for bars where large numbers
-     *                              are "good", versus when small numbers are "good"
+     * @param plotOrientation the orientation of the plot
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable (this is the same as setting the minimum value to 0)
+     * @param largeNumbersAreGood makes sure that different colors are used for
+     * bars where large numbers are "good", versus when small numbers are "good"
      */
     public JSparklinesErrorBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, boolean largeNumbersAreGood) {
 
@@ -117,30 +118,33 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when only positive
-     * values are to be plotted.
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
+     * when only positive values are to be plotted.
      *
-     * @param plotOrientation       the orientation of the plot
-     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
-     *                              in the same column has the same maxium value and are thus comparable
-     *                              (this is the same as setting the minimum value to 0)
-     * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
-     *                              and the color used for one sided data
+     * @param plotOrientation the orientation of the plot
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable (this is the same as setting the minimum value to 0)
+     * @param positiveValuesColor the color to use for the positive values if
+     * two sided data is shown, and the color used for one sided data
      */
     public JSparklinesErrorBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Color positiveValuesColor) {
         this(plotOrientation, 0.0, maxValue, null, positiveValuesColor);
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when positive
-     * and negative values are to be plotted. This constructor uses default colors for the bars.
-     * If you want to set your own colors, use one of the other constructors.
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
+     * when positive and negative values are to be plotted. This constructor
+     * uses default colors for the bars. If you want to set your own colors, use
+     * one of the other constructors.
      *
-     * @param plotOrientation       the orientation of the plot
-     * @param minValue              the minium value to be plotted, used to make sure that all plots
-     *                              in the same column has the same minmum value and are thus comparable
-     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
-     *                              in the same column has the same maxium value and are thus comparable
+     * @param plotOrientation the orientation of the plot
+     * @param minValue the minium value to be plotted, used to make sure that
+     * all plots in the same column has the same minimum value and are thus
+     * comparable
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable
      */
     public JSparklinesErrorBarChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue) {
 
@@ -151,18 +155,22 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
     }
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor when positive
-     * and negative values are to be plotted. Note that to use the significance color coding the 
-     * object in the table cell has to be of type XYDataPoint.
+     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
+     * when positive and negative values are to be plotted. Note that to use the
+     * significance color coding the object in the table cell has to be of type
+     * XYDataPoint.
      *
-     * @param plotOrientation       the orientation of the plot
-     * @param minValue              the minium value to be plotted, used to make sure that all plots
-     *                              in the same column has the same minmum value and are thus comparable
-     * @param maxValue              the maximum value to be plotted, used to make sure that all plots
-     *                              in the same column has the same maxium value and are thus comparable
-     * @param negativeValuesColor   the color to use for the negative values if two sided data is shown
-     * @param positiveValuesColor   the color to use for the positive values if two sided data is shown,
-     *                              and the color used for one sided data
+     * @param plotOrientation the orientation of the plot
+     * @param minValue the minium value to be plotted, used to make sure that
+     * all plots in the same column has the same minimum value and are thus
+     * comparable
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable
+     * @param negativeValuesColor the color to use for the negative values if
+     * two sided data is shown
+     * @param positiveValuesColor the color to use for the positive values if
+     * two sided data is shown, and the color used for one sided data
      */
     public JSparklinesErrorBarChartTableCellRenderer(
             PlotOrientation plotOrientation, Double minValue, Double maxValue,
@@ -255,7 +263,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         // set the tooltip text
         if (value instanceof DefaultStatisticalCategoryDataset) {
             DefaultStatisticalCategoryDataset tempSet = (DefaultStatisticalCategoryDataset) value;
-            this.setToolTipText("<html>Intensity: " + roundDouble((Double) tempSet.getMeanValue(0, 0), 4) + "<br>" 
+            this.setToolTipText("<html>Intensity: " + roundDouble((Double) tempSet.getMeanValue(0, 0), 4) + "<br>"
                     + "STDEV: " + roundDouble((Double) tempSet.getStdDevValue(0, 0), 4) + "</html>");
         }
 
@@ -288,18 +296,14 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         // set up the chart renderer
         StatisticalBarChartColorRenderer renderer = null;
 
-        Color currentColor = c.getBackground();
-
         if (value instanceof DefaultStatisticalCategoryDataset) {
 
             DefaultStatisticalCategoryDataset tempSet = (DefaultStatisticalCategoryDataset) value;
 
             if ((Double) tempSet.getMeanValue(0, 0) >= 0) {
-                currentColor = positiveValuesColor;
-                renderer = new StatisticalBarChartColorRenderer(currentColor);
+                renderer = new StatisticalBarChartColorRenderer(positiveValuesColor);
             } else {
-                currentColor = negativeValuesColor;
-                renderer = new StatisticalBarChartColorRenderer(currentColor);
+                renderer = new StatisticalBarChartColorRenderer(negativeValuesColor);
             }
         }
 
@@ -319,7 +323,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
             chart.setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             this.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
         }
-        
+
         renderer.setErrorIndicatorStroke(new BasicStroke(4)); // @TODO: this should not be hardcoded!!
 
         plot.setRenderer(renderer);
@@ -346,7 +350,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
     }
 
     /**
-     * Rounds of a double value to the wanted number of decimalplaces
+     * Rounds of a double value to the wanted number of decimal places
      *
      * @param d the double to round of
      * @param places number of decimal places wanted
@@ -384,7 +388,8 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
     }
 
     /**
-     * Set the lower limit for the values before using 8 decimals for the tooltip.
+     * Set the lower limit for the values before using 8 decimals for the
+     * tooltip.
      *
      * @param tooltipLowerValue the tooltipLowerValue to set
      */

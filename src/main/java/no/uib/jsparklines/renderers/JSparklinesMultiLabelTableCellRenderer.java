@@ -24,7 +24,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.DefaultXYZDataset;
 
 /**
- * A renderer for 1-4 color labels displayed either a pie chart or as equal 
+ * A renderer for 1-4 color labels displayed either a pie chart or as equal
  * parts of a square, both inside a table cell.
  *
  * @author Harald Barsnes

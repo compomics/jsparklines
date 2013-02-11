@@ -9,11 +9,17 @@ import no.uib.jsparklines.renderers.util.Util;
  */
 public class XYDataPoint implements Comparable<XYDataPoint> {
 
+    /**
+     * The x value.
+     */
     private double x;
+    /**
+     * The y value.
+     */
     private double y;
     /**
-     * If true, the compare method will use the first data point. False will 
-     * use the sum. First data point is the default.
+     * If true, the compare method will use the first data point. False will use
+     * the sum. First data point is the default.
      */
     private boolean compareBasedOnFirstDataPoint = true;
 
@@ -27,20 +33,21 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
         this.x = x;
         this.y = y;
     }
-    
+
     /**
      * Create a new XYDataPoint.
      *
      * @param x
      * @param y
-     * @param compareBasedOnFirstDataPoint if true, the compare method will use the first data point, false will use the sum
+     * @param compareBasedOnFirstDataPoint if true, the compare method will use
+     * the first data point, false will use the sum
      */
     public XYDataPoint(double x, double y, boolean compareBasedOnFirstDataPoint) {
         this.x = x;
         this.y = y;
         this.compareBasedOnFirstDataPoint = compareBasedOnFirstDataPoint;
     }
-    
+
     /**
      * @return the x
      */
@@ -70,8 +77,8 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
     }
 
     /**
-     * Returns the x-value as a string. Note that the values are rounded
-     * to two decimals.
+     * Returns the x-value as a string. Note that the values are rounded to two
+     * decimals.
      *
      * @return the xy-values as a string
      */
@@ -80,7 +87,7 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
     }
 
     /**
-     * Compares based on the x-value or the sum of the x- and y-value, depending 
+     * Compares based on the x-value or the sum of the x- and y-value, depending
      * on the compareBasedOnFirstDataPoint settings.
      */
     public int compareTo(XYDataPoint o) {

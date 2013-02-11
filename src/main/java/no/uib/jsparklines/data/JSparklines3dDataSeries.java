@@ -1,11 +1,11 @@
-
 package no.uib.jsparklines.data;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
 /**
- * Object containing a 3D sparkline data series to be added to a JSparklines3dDataset.
+ * Object containing a 3D sparkline data series to be added to a
+ * JSparklines3dDataset.
  *
  * @author Harald Barsnes
  */
@@ -27,9 +27,9 @@ public class JSparklines3dDataSeries {
     /**
      * Creates a new JSparklines3dDataSeries.
      *
-     * @param data          the data to plot
-     * @param seriesColor   the color to use for the series
-     * @param seriesLabel   the data series label
+     * @param data the data to plot
+     * @param seriesColor the color to use for the series
+     * @param seriesLabel the data series label
      */
     public JSparklines3dDataSeries(ArrayList<XYZDataPoint> data, Color seriesColor, String seriesLabel) {
         this.data = data;
@@ -90,27 +90,27 @@ public class JSparklines3dDataSeries {
     public void setSeriesLabel(String seriesLabel) {
         this.seriesLabel = seriesLabel;
     }
-    
+
     /**
-     * Returns the value as a string. Note that the values are rounded
-     * to two decimals.
+     * Returns the value as a string. Note that the values are rounded to two
+     * decimals.
      *
      * @return the values as a string
      */
     public String toString() {
-        
+
         if (data.isEmpty()) {
             return "";
         }
-        
+
         String temp = "";
-        
+
         temp += data.get(0).toString();
-        
-        for (int i=1; i<data.size(); i++) {
+
+        for (int i = 1; i < data.size(); i++) {
             temp += "," + data.get(i).toString();
         }
-        
+
         return temp;
     }
 }

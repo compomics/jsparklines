@@ -1,4 +1,3 @@
-
 package no.uib.jsparklines.renderers.util;
 
 import java.awt.Color;
@@ -10,13 +9,21 @@ import java.awt.Color;
  */
 public class ReferenceLine {
 
-    /** the label of the reference line */
+    /**
+     * The label of the reference line.
+     */
     private String label;
-    /** the value of the reference line */
+    /**
+     * The value of the reference line.
+     */
     private double value;
-    /** the width of the line */
+    /**
+     * The width of the line.
+     */
     private float lineWidth;
-    /** the color of the line */
+    /**
+     * The color of the line.
+     */
     private Color lineColor;
 
     /**
