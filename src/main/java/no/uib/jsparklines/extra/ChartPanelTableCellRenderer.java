@@ -48,22 +48,27 @@ public class ChartPanelTableCellRenderer extends JLabel implements TableCellRend
         setOpaque(c.isOpaque());
         setBackground(c.getBackground());
 
-        ChartPanel chartPanel = (ChartPanel) value;
+        if (value != null && value instanceof ChartPanel) {
 
-        // respect cell highlighting
-        Color bg = c.getBackground();
-        chartPanel.getChart().getPlot().setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-        chartPanel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-        chartPanel.getChart().setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+            ChartPanel chartPanel = (ChartPanel) value;
+
+            // respect cell highlighting
+            Color bg = c.getBackground();
+            chartPanel.getChart().getPlot().setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+            chartPanel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+            chartPanel.getChart().setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
 
 
-        // add border when cell is selected
-//        if (hasFocus) {
-//            chartPanel.setBorder(c.getBorder());
-//        } else {
-//            chartPanel.setBorder(null);
-//        }
+            // add border when cell is selected
+            //        if (hasFocus) {
+            //            chartPanel.setBorder(c.getBorder());
+            //        } else {
+            //            chartPanel.setBorder(null);
+            //        }
 
-        return chartPanel;
+            return chartPanel;
+        } else {
+            return c;
+        }
     }
 }
