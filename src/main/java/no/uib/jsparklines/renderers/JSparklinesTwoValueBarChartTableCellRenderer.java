@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -59,10 +58,6 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
     static {
         BarRenderer.setDefaultBarPainter(new StandardBarPainter());
     }
-    /**
-     * A reference to a standard table cell renderer.
-     */
-    private TableCellRenderer delegate;
     /**
      * The chart panel to be displayed.
      */
@@ -177,7 +172,6 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
         referenceLines = new HashMap<String, ReferenceLine>();
         referenceAreas = new HashMap<String, ReferenceArea>();
 
-        delegate = new DefaultTableCellRenderer();
         setName("Table.cellRenderer");
         setLayout(new BorderLayout());
 
@@ -291,7 +285,7 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
-        JComponent c = (JComponent) delegate.getTableCellRendererComponent(table, value,
+        JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
         // respect focus and hightlighting
@@ -312,9 +306,8 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
-        
+
         if (value instanceof String) {
-            //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
@@ -328,9 +321,6 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
 
         // get the dataset
         XYDataPoint xyDataPoint = (XYDataPoint) value;
-        ArrayList<Color> colors = new ArrayList<Color>();
-        colors.add(firstValueColor);
-        colors.add(secondValueColor);
 
         // show the number and/or the chart if option selected
         if (showNumberAndChart || showNumbers) {

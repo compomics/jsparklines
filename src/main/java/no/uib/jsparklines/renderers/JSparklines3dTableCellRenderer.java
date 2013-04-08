@@ -46,10 +46,6 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
      */
     private PlotType plotType;
     /**
-     * A reference to a standard table cell renderer.
-     */
-    private TableCellRenderer delegate;
-    /**
      * The chart panel to be displayed.
      */
     private ChartPanel chartPanel;
@@ -124,7 +120,6 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
         referenceLinesYAxis = new HashMap<String, ReferenceLine>();
         referenceAreasYAxis = new HashMap<String, ReferenceArea>();
 
-        delegate = new DefaultTableCellRenderer();
         setName("Table.cellRenderer");
         setLayout(new BorderLayout());
     }
@@ -143,7 +138,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
-        JComponent c = (JComponent) delegate.getTableCellRendererComponent(table, value,
+        JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
         // respect focus and hightlighting

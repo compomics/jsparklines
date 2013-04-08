@@ -17,11 +17,6 @@ import org.jfree.chart.ChartPanel;
 public class ChartPanelTableCellRenderer extends JLabel implements TableCellRenderer {
 
     /**
-     * A reference to a standard table cell renderer.
-     */
-    private TableCellRenderer delegate = new DefaultTableCellRenderer();
-
-    /**
      * Create a new ChartPanelTableCellRenderer.
      */
     public ChartPanelTableCellRenderer() {
@@ -40,7 +35,7 @@ public class ChartPanelTableCellRenderer extends JLabel implements TableCellRend
      */
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
-        JComponent c = (JComponent) delegate.getTableCellRendererComponent(table, value,
+        JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
         // respect focus and hightlighting
