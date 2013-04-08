@@ -97,10 +97,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      */
     private PlotType plotType;
     /**
-     * A reference to a standard table cell renderer.
-     */
-    private TableCellRenderer delegate;
-    /**
      * The chart panel to be displayed.
      */
     private ChartPanel chartPanel;
@@ -241,7 +237,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         referenceLines = new HashMap<String, ReferenceLine>();
         referenceAreas = new HashMap<String, ReferenceArea>();
 
-        delegate = new DefaultTableCellRenderer();
         setName("Table.cellRenderer");
         setLayout(new BorderLayout());
 
@@ -381,7 +376,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
-        JComponent c = (JComponent) delegate.getTableCellRendererComponent(table, value,
+        JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
         // respect focus and hightlighting

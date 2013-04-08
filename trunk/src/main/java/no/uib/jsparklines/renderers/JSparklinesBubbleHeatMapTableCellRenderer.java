@@ -40,10 +40,6 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
      */
     private double tooltipLowerValue = 0.01;
     /**
-     * A reference to a standard table cell renderer.
-     */
-    private TableCellRenderer delegate;
-    /**
      * The chart panel to be displayed.
      */
     private ChartPanel chartPanel;
@@ -80,7 +76,6 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
         this.maxValue = maxValue;
         this.currentColorGradient = colorGradient;
 
-        delegate = new DefaultTableCellRenderer();
         setName("Table.cellRenderer");
         setLayout(new BorderLayout());
     }
@@ -126,7 +121,7 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
-        JComponent c = (JComponent) delegate.getTableCellRendererComponent(table, value,
+        JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
         if (value == null) {
