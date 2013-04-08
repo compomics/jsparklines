@@ -54,9 +54,9 @@ public class HtmlLinksRenderer implements TableCellRenderer {
         // a color of type DerivedColor, which behaves strange, not sure why.
         label.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
 
-        String link = (String) value;
-
-        if (link != null) {
+        if (value != null && value instanceof String) {
+        
+            String link = (String) value;
 
             // update the link color depending on if the row is selected or not
             if (isSelected) {

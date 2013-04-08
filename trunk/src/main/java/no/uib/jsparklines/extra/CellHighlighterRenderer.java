@@ -71,7 +71,7 @@ public class CellHighlighterRenderer implements TableCellRenderer {
         label.setBackground(backgroundColor);
 
         // set the highlight background color
-        if (value instanceof String) {
+        if (value != null && value instanceof String) {
             if (((String) value).endsWith(highlightLabel) && !isSelected) {
                 label.setBackground(highlightColor);
             }

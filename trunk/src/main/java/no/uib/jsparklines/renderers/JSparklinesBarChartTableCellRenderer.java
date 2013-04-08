@@ -529,6 +529,15 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
+        
+        if (value instanceof String) {
+            //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
+            Color bg = c.getBackground();
+            // We have to create a new color object because Nimbus returns
+            // a color of type DerivedColor, which behaves strange, not sure why.
+            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+            return c;
+        }
 
         // if show numbers, format as number and return
         if (showNumbers) {
