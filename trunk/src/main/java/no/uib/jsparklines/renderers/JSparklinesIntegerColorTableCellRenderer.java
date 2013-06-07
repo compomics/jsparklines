@@ -81,7 +81,7 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
 
     /**
      * Creates a new JSparklinesIntegerColorTableCellRenderer, where all integer
-     * cell values are displayed is equal size bars, but using different colors
+     * cell values are displayed as equal size bars, but using different colors
      * as defined by the colors hash map.
      *
      * @param defaultColor the color to use for the bars if an integer without a
@@ -94,7 +94,7 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
 
     /**
      * Creates a new JSparklinesIntegerColorTableCellRenderer, where all integer
-     * cell values are displayed is equal size bars, but using different colors
+     * cell values are displayed as equal size bars, but using different colors
      * as defined by the colors hash map.
      *
      * @param defaultColor the color to use for the bars if an integer without a

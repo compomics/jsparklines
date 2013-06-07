@@ -5,7 +5,7 @@
     <groupId>no.uib</groupId>
     <artifactId>jsparklines</artifactId>
     <packaging>jar</packaging>
-    <version>0.6.1</version>
+    <version>0.6.2</version>
     <name>JSparklines</name>
     <description>sparklines for java tables</description>
     <url>http://jsparklines.googlecode.com</url>
