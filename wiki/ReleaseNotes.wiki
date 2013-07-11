@@ -3,12 +3,22 @@
 
 ----
 
+*Changes in JSparklines 0.6.2 (July 11. 2013):*
+ * NEW FEATURE: Added a new integer to icon table cell renderer.
+ * NEW FEATURE: Added a first draft of a ChromosomeTableCellRenderer.
+ * FEATURE IMPROVEMENT: The cell renderers now support string objects.
+ * BUG FIX: Fixed issues detected using FindBugs, plus corrected JavaDoc typos.
+
+----
+
 *Changes in JSparklines 0.5.45 (January 20. 2013):*
  * NEW FEATURE: Added a log scaling option to the JSparklinesBarChartTableCellRenderer.
  * FEATURE IMPROVEMENT: Added getter methods for the max/min values for JSparklinesBarChartTableCellRenderer and JSparklinesTwoValueBarChartTableCellRenderer.
  * FEATURE IMPROVEMENT: Added getter and setter methods for the color and tooltip maps for JSparklinesIntegerColorTableCellRenderer.
  * FEATURE IMPROVEMENT: Fixed an issue in JSparklinesIntervalChartTableCellRenderer where empty intervals (min = max) resulted in an exception being thrown. Now only intervals where the min value is larger than the max value throw an exception.
  * FEATURE IMPROVEMENT: Added a toString method to the StartIndexes object listing the indexes.
+
+Download Count: 73
 
 ----
 
