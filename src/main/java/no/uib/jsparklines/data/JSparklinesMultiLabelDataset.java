@@ -1,5 +1,6 @@
 package no.uib.jsparklines.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,8 +9,12 @@ import java.util.ArrayList;
  *
  * @author Harald Barsnes
  */
-public class JSparklinesMultiLabelDataset {
+public class JSparklinesMultiLabelDataset implements Serializable {
 
+    /**
+     * The version UID for Serialization/Deserialization compatibility.
+     */
+    static final long serialVersionUID = 4237964624474414243L;
     /**
      * The arraylist of labels.
      */

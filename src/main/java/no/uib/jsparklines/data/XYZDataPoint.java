@@ -1,5 +1,6 @@
 package no.uib.jsparklines.data;
 
+import java.io.Serializable;
 import no.uib.jsparklines.renderers.util.Util;
 
 /**
@@ -7,10 +8,23 @@ import no.uib.jsparklines.renderers.util.Util;
  *
  * @author Harald Barsnes
  */
-public class XYZDataPoint {
+public class XYZDataPoint implements Serializable {
 
+    /**
+     * The version UID for Serialization/Deserialization compatibility.
+     */
+    static final long serialVersionUID = -5876541315146855069L;
+    /**
+     * The x value.
+     */
     private double x;
+    /**
+     * The y value.
+     */
     private double y;
+    /**
+     * The z value.
+     */
     private double z;
 
     /**
@@ -27,6 +41,8 @@ public class XYZDataPoint {
     }
 
     /**
+     * Returns the x value.
+     *
      * @return the x
      */
     public double getX() {
@@ -34,6 +50,8 @@ public class XYZDataPoint {
     }
 
     /**
+     * Set the x value.
+     *
      * @param x the x to set
      */
     public void setX(double x) {
@@ -41,6 +59,8 @@ public class XYZDataPoint {
     }
 
     /**
+     * Returns the y value.
+     *
      * @return the y
      */
     public double getY() {
@@ -48,6 +68,8 @@ public class XYZDataPoint {
     }
 
     /**
+     * Set the y value.
+     *
      * @param y the y to set
      */
     public void setY(double y) {
@@ -55,6 +77,8 @@ public class XYZDataPoint {
     }
 
     /**
+     * Returns the z value.
+     *
      * @return the z
      */
     public double getZ() {
@@ -62,12 +86,14 @@ public class XYZDataPoint {
     }
 
     /**
+     * Set the z value.
+     *
      * @param z the z to set
      */
     public void setZ(double z) {
         this.z = z;
     }
-    
+
     /**
      * Returns the (x,y,x) value as a string. Note that the values are rounded
      * to two decimals.

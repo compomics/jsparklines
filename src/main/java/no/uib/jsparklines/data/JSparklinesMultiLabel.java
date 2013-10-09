@@ -1,14 +1,19 @@
 package no.uib.jsparklines.data;
 
 import java.awt.Color;
+import java.io.Serializable;
 
 /**
  * Color labels for use with the JSparklinesMultiLabelTableCellRenderer.
  *
  * @author Harald Barsnes
  */
-public class JSparklinesMultiLabel {
+public class JSparklinesMultiLabel implements Serializable {
 
+    /**
+     * The version UID for Serialization/Deserialization compatibility.
+     */
+    static final long serialVersionUID = -8630809835909760166L;
     /**
      * The label, used as tooltip.
      */
@@ -30,6 +35,8 @@ public class JSparklinesMultiLabel {
     }
 
     /**
+     * Returns the label.
+     *
      * @return the label
      */
     public String getLabel() {
@@ -37,6 +44,8 @@ public class JSparklinesMultiLabel {
     }
 
     /**
+     * The label to set.
+     *
      * @param label the label to set
      */
     public void setLabel(String label) {
@@ -44,6 +53,8 @@ public class JSparklinesMultiLabel {
     }
 
     /**
+     * Returns the color.
+     *
      * @return the color
      */
     public Color getColor() {
@@ -51,6 +62,8 @@ public class JSparklinesMultiLabel {
     }
 
     /**
+     * The color to set.
+     *
      * @param color the color to set
      */
     public void setColor(Color color) {

@@ -1,5 +1,6 @@
 package no.uib.jsparklines.data;
 
+import java.io.Serializable;
 import no.uib.jsparklines.renderers.util.Util;
 
 /**
@@ -7,8 +8,12 @@ import no.uib.jsparklines.renderers.util.Util;
  *
  * @author Harald Barsnes
  */
-public class XYDataPoint implements Comparable<XYDataPoint> {
+public class XYDataPoint implements Comparable<XYDataPoint>, Serializable {
 
+    /**
+     * The version UID for Serialization/Deserialization compatibility.
+     */
+    static final long serialVersionUID = 8439427205918618172L;
     /**
      * The x value.
      */
@@ -49,6 +54,8 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
     }
 
     /**
+     * Returns the x value.
+     *
      * @return the x
      */
     public double getX() {
@@ -56,6 +63,8 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
     }
 
     /**
+     * Set the x value.
+     *
      * @param x the x to set
      */
     public void setX(double x) {
@@ -63,6 +72,8 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
     }
 
     /**
+     * Returns the y value.
+     *
      * @return the y
      */
     public double getY() {
@@ -70,6 +81,8 @@ public class XYDataPoint implements Comparable<XYDataPoint> {
     }
 
     /**
+     * Set the y value.
+     *
      * @param y the y to set
      */
     public void setY(double y) {

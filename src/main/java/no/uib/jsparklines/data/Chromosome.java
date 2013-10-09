@@ -1,12 +1,18 @@
 package no.uib.jsparklines.data;
 
+import java.io.Serializable;
+
 /**
  * Object that stores data about one data point in an XY plot.
  *
  * @author Harald Barsnes
  */
-public class Chromosome implements Comparable<Chromosome> {
+public class Chromosome implements Comparable<Chromosome>, Serializable {
 
+    /**
+     * The version UID for Serialization/Deserialization compatibility.
+     */
+    static final long serialVersionUID = 2505328876343336528L;
     /**
      * The chromosome number or X, Y, Z or W.
      */
@@ -92,7 +98,7 @@ public class Chromosome implements Comparable<Chromosome> {
         if (o == null) {
             return 1;
         }
-        
+
         if (this.chromosomeNumber == null) {
             return -1;
         }
@@ -100,7 +106,7 @@ public class Chromosome implements Comparable<Chromosome> {
         if (o.chromosomeNumber == null) {
             return 1;
         }
-        
+
         return Double.compare(this.chromosomeNumber, o.chromosomeNumber);
     }
 }
