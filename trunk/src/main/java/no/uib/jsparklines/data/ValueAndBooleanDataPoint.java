@@ -1,5 +1,6 @@
 package no.uib.jsparklines.data;
 
+import java.io.Serializable;
 import no.uib.jsparklines.renderers.util.Util;
 
 /**
@@ -8,8 +9,12 @@ import no.uib.jsparklines.renderers.util.Util;
  *
  * @author Harald Barsnes
  */
-public class ValueAndBooleanDataPoint implements Comparable<ValueAndBooleanDataPoint> {
+public class ValueAndBooleanDataPoint implements Comparable<ValueAndBooleanDataPoint>, Serializable {
 
+    /**
+     * The version UID for Serialization/Deserialization compatibility.
+     */
+    static final long serialVersionUID = -2630056389073106208L;
     /**
      * The value.
      */
@@ -31,6 +36,8 @@ public class ValueAndBooleanDataPoint implements Comparable<ValueAndBooleanDataP
     }
 
     /**
+     * Returns the value.
+     * 
      * @return the value
      */
     public double getValue() {
@@ -38,6 +45,8 @@ public class ValueAndBooleanDataPoint implements Comparable<ValueAndBooleanDataP
     }
 
     /**
+     * Set the value.
+     * 
      * @param value the value to set
      */
     public void setValue(double value) {
@@ -45,6 +54,8 @@ public class ValueAndBooleanDataPoint implements Comparable<ValueAndBooleanDataP
     }
 
     /**
+     * Returns the significance.
+     * 
      * @return the significance
      */
     public boolean isSignificant() {
@@ -52,6 +63,8 @@ public class ValueAndBooleanDataPoint implements Comparable<ValueAndBooleanDataP
     }
 
     /**
+     * Set the significance.
+     * 
      * @param signigficant the significance to set
      */
     public void setSignificant(boolean signigficant) {

@@ -1,5 +1,6 @@
 package no.uib.jsparklines.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,8 +9,12 @@ import java.util.ArrayList;
  *
  * @author Harald Barsnes
  */
-public class StartIndexes implements Comparable<StartIndexes> {
+public class StartIndexes implements Comparable<StartIndexes>, Serializable {
 
+    /**
+     * The version UID for Serialization/Deserialization compatibility.
+     */
+    static final long serialVersionUID = 3564559645965619316L;
     /**
      * The start indexes.
      */
