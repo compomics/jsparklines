@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -18,7 +19,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-import no.uib.jsparklines.data.XYDataPoint;
 import no.uib.jsparklines.renderers.util.ReferenceArea;
 import no.uib.jsparklines.renderers.util.ReferenceLine;
 import org.jfree.chart.ChartFactory;
@@ -34,12 +34,13 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * A renderer for displaying JSparklines plots consisting of two values as a
- * stacked bar chart inside a table cell. Supported datatype: XYDataPoint.
+ * A renderer for displaying JSparklines plots consisting of numbers as a
+ * stacked bar chart inside a table cell. Supported datatype: ArrayList of
+ * doubles.
  *
  * @author Harald Barsnes
  */
-public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel implements TableCellRenderer {
+public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implements TableCellRenderer {
 
     /**
      * If true, the first number is shown as the value for plot. Otherwise the
@@ -74,13 +75,9 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      */
     private PlotOrientation plotOrientation;
     /**
-     * The color used for the first value in the chart.
+     * The colors to use for the plot.
      */
-    private Color firstValueColor = new Color(251, 51, 51);
-    /**
-     * The color used for the second value in the chart.
-     */
-    private Color secondValueColor = new Color(51, 51, 251);
+    private ArrayList<Color> colors;
     /**
      * The color used to fill the rest of the chart up to the max value. Set to
      * null if no filling should be used.
@@ -129,14 +126,13 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      * @param maxValue the maximum value to be plotted, used to make sure that
      * all plots in the same column has the same maximum value and are thus
      * comparable
-     * @param firstValueColor the color to use for the first value
-     * @param secondValueColor the color to use for the second value
+     * @param colors the colors to use for the plot
      * @param showFirstNumber if true, the first value is shown when showing the
      * values, false shows the sum
      */
-    public JSparklinesTwoValueBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
-            Color firstValueColor, Color secondValueColor, boolean showFirstNumber) {
-        this(plotOrientation, maxValue, firstValueColor, secondValueColor, null, showFirstNumber);
+    public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
+            ArrayList<Color> colors, boolean showFirstNumber) {
+        this(plotOrientation, maxValue, colors, null, showFirstNumber);
     }
 
     /**
@@ -146,20 +142,18 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      * @param maxValue the maximum value to be plotted, used to make sure that
      * all plots in the same column has the same maximum value and are thus
      * comparable
-     * @param firstValueColor the color to use for the first value
-     * @param secondValueColor the color to use for the second value
+     * @param colors the colors to use for the plot
      * @param fillColor the color used to fill the rest of the chart up to the
      * max value (set to null if no filling should be used)
      * @param showFirstNumber if true, the first value is shown when showing the
      * values, false shows the sum
      */
-    public JSparklinesTwoValueBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
-            Color firstValueColor, Color secondValueColor, Color fillColor, boolean showFirstNumber) {
+    public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
+            ArrayList<Color> colors, Color fillColor, boolean showFirstNumber) {
 
         this.plotOrientation = plotOrientation;
         this.maxValue = maxValue;
-        this.firstValueColor = firstValueColor;
-        this.secondValueColor = secondValueColor;
+        this.colors = colors;
         this.fillColor = fillColor;
         this.showFirstNumber = showFirstNumber;
 
@@ -314,12 +308,23 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
             return c;
         }
 
-        if (!(value instanceof XYDataPoint)) {
+        if (!(value instanceof ArrayList)) {
             return c;
+        } else {
+            try {
+                ArrayList<Double> temp = (ArrayList<Double>) value;
+            } catch (ClassCastException e) {
+                return c;
+            }
         }
 
         // get the dataset
-        XYDataPoint xyDataPoint = (XYDataPoint) value;
+        ArrayList<Double> values = (ArrayList<Double>) value;
+
+        double sumValues = 0;
+        for (int i = 0; i < values.size(); i++) {
+            sumValues += values.get(i);
+        }
 
         // show the number and/or the chart if option selected
         if (showNumberAndChart || showNumbers) {
@@ -327,10 +332,12 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
             // set the decimal format symbol
             numberFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
 
-            double tempValue = ((XYDataPoint) value).getX() + ((XYDataPoint) value).getY();
+            double tempValue = sumValues;
 
             if (showFirstNumber) {
-                tempValue = ((XYDataPoint) value).getX();
+                if (!values.isEmpty()) {
+                    tempValue = values.get(0);
+                }
             }
 
             if (showNumbers) {
@@ -383,21 +390,24 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
         StackedBarRenderer renderer = new StackedBarRenderer();
         renderer.setShadowVisible(false);
 
-        barChartDataset.addValue(xyDataPoint.getX(), "" + 0, "" + 0);
-        barChartDataset.addValue(xyDataPoint.getY(), "" + 1, "" + 0);
-        renderer.setSeriesPaint(0, firstValueColor);
-        renderer.setSeriesPaint(1, secondValueColor);
-
-        if (fillColor != null) {
-            double fillValue = maxValue - xyDataPoint.getX() + xyDataPoint.getY();
-
-            if (fillValue > 0) {
-                barChartDataset.addValue(fillValue, "" + 2, "" + 0);
-                renderer.setSeriesPaint(2, fillColor);
+        String tooltip = "";
+        for (int i = 0; i < values.size(); i++) {
+            barChartDataset.addValue(values.get(i), "" + i, "" + 0);
+            renderer.setSeriesPaint(i, colors.get(i));
+            tooltip += values.get(i).intValue();
+            if (i < values.size() - 1) {
+                tooltip += " / ";
             }
         }
 
-        String tooltip = ((int) xyDataPoint.getX()) + " / " + ((int) (xyDataPoint.getX() + xyDataPoint.getY()));
+        if (fillColor != null) {
+            double fillValue = maxValue - sumValues;
+
+            if (fillValue > 0) {
+                barChartDataset.addValue(fillValue, "" + values.size(), "" + 0);
+                renderer.setSeriesPaint(values.size(), fillColor);
+            }
+        }
 
         chart = ChartFactory.createStackedBarChart(null, null, null, barChartDataset, plotOrientation, false, false, false);
 
@@ -581,39 +591,21 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
     }
 
     /**
-     * Get the color used for the first value in the charts.
+     * Get the colors used for the chart.
      *
-     * @return the color used for the first value in the charts
+     * @return the color used for the chart
      */
-    public Color getFirstValueColor() {
-        return firstValueColor;
+    public ArrayList<Color> getColors() {
+        return colors;
     }
 
     /**
-     * Set the color used for the first value in the charts.
+     * Set the colors used for the chart.
      *
-     * @param firstValueColor the color to set
+     * @param colors the colors to set
      */
-    public void setFirstValueColor(Color firstValueColor) {
-        this.firstValueColor = firstValueColor;
-    }
-
-    /**
-     * Get the color used for the second value in the charts.
-     *
-     * @return the color used for the second value in the charts
-     */
-    public Color getSecondValueColor() {
-        return secondValueColor;
-    }
-
-    /**
-     * Set the color used for the second value in the charts.
-     *
-     * @param secondValueColor the color to set
-     */
-    public void setSecondValueColor(Color secondValueColor) {
-        this.secondValueColor = secondValueColor;
+    public void setColors(ArrayList<Color> colors) {
+        this.colors = colors;
     }
 
     /**
