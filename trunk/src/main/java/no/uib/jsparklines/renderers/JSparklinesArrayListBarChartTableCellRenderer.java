@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import no.uib.jsparklines.data.ArrrayListDataPoints;
 import no.uib.jsparklines.renderers.util.ReferenceArea;
 import no.uib.jsparklines.renderers.util.ReferenceLine;
 import org.jfree.chart.ChartFactory;
@@ -35,8 +36,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * A renderer for displaying JSparklines plots consisting of numbers as a
- * stacked bar chart inside a table cell. Supported datatype: ArrayList of
- * doubles.
+ * stacked bar chart inside a table cell. Supported datatype:
+ * ArrrayListDataPoints.
  *
  * @author Harald Barsnes
  */
@@ -44,7 +45,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
 
     /**
      * If true, the first number is shown as the value for plot. Otherwise the
-     * total value is shown. No effect on the other plot types.
+     * total value is shown.
      */
     private boolean showFirstNumber = false;
     /**
@@ -308,23 +309,14 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
             return c;
         }
 
-        if (!(value instanceof ArrayList)) {
+        if (!(value instanceof ArrrayListDataPoints)) {
             return c;
-        } else {
-            try {
-                ArrayList<Double> temp = (ArrayList<Double>) value;
-            } catch (ClassCastException e) {
-                return c;
-            }
         }
 
         // get the dataset
-        ArrayList<Double> values = (ArrayList<Double>) value;
+        ArrrayListDataPoints values = (ArrrayListDataPoints) value;
 
-        double sumValues = 0;
-        for (int i = 0; i < values.size(); i++) {
-            sumValues += values.get(i);
-        }
+        double sumValues = values.getSum();
 
         // show the number and/or the chart if option selected
         if (showNumberAndChart || showNumbers) {
@@ -335,8 +327,8 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
             double tempValue = sumValues;
 
             if (showFirstNumber) {
-                if (!values.isEmpty()) {
-                    tempValue = values.get(0);
+                if (!values.getData().isEmpty()) {
+                    tempValue = values.getData().get(0);
                 }
             }
 
@@ -391,11 +383,11 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
         renderer.setShadowVisible(false);
 
         String tooltip = "";
-        for (int i = 0; i < values.size(); i++) {
-            barChartDataset.addValue(values.get(i), "" + i, "" + 0);
+        for (int i = 0; i < values.getData().size(); i++) {
+            barChartDataset.addValue(values.getData().get(i), "" + i, "" + 0);
             renderer.setSeriesPaint(i, colors.get(i));
-            tooltip += values.get(i).intValue();
-            if (i < values.size() - 1) {
+            tooltip += values.getData().get(i).intValue();
+            if (i < values.getData().size() - 1) {
                 tooltip += " / ";
             }
         }
@@ -404,8 +396,8 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
             double fillValue = maxValue - sumValues;
 
             if (fillValue > 0) {
-                barChartDataset.addValue(fillValue, "" + values.size(), "" + 0);
-                renderer.setSeriesPaint(values.size(), fillColor);
+                barChartDataset.addValue(fillValue, "" + values.getData().size(), "" + 0);
+                renderer.setSeriesPaint(values.getData().size(), fillColor);
             }
         }
 
