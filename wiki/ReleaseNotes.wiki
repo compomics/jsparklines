@@ -3,6 +3,22 @@
 
 ----
 
+*Changes in JSparklines 0.6.5 (February 1. 2014):*
+ * FEATURE IMPROVEMENT: Added a new ArrrayListDataPoints object for use in the JSparklinesArrayListBarChartTableCellRenderer, such that the array list can now be sorted based on the sum of the values in the lists. Note that ArrrayListDataPoints is now the only supported type for JSparklinesArrayListBarChartTableCellRenderer.
+
+----
+
+*Changes in JSparklines 0.6.4 (December 11. 2013):*
+ * NEW FEATURE: Added a new JSparklinesArrayListBarChartTableCellRenderer, identical to JSparklinesTwoValueBarChartTableCellRenderer but supporting more than just two values.
+ * BUG FIX: Fixed typos in some method names in JSparklinesTwoValueBarChartTableCellRenderer.
+
+----
+
+*Changes in JSparklines 0.6.3 (October 9. 2013):*
+ * FEATURE IMPROVEMENT: Made many of the classes in the no.uib.jsparklines.data package serializable.
+
+----
+
 *Changes in JSparklines 0.6.2 (July 11. 2013):*
  * NEW FEATURE: Added a new integer to icon table cell renderer.
  * NEW FEATURE: Added a first draft of a ChromosomeTableCellRenderer.
