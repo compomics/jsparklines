@@ -44,10 +44,16 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implements TableCellRenderer {
 
     /**
-     * If true, the first number is shown as the value for plot. Otherwise the
-     * total value is shown.
+     * An enumerator of the supported value displays.
      */
-    private boolean showFirstNumber = false;
+    public enum ValueDisplayType {
+
+        firstNumberOnly, sumOfNumbers, sumExceptLastNumber
+    }
+    /**
+     * The current value display type.
+     */
+    private ValueDisplayType currentValueDisplayType;
     /**
      * The background color, if null the row color is used.
      */
@@ -128,8 +134,66 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      * all plots in the same column has the same maximum value and are thus
      * comparable
      * @param colors the colors to use for the plot
+     * @param valueDisplayType the value to display in the table
+     */
+    public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
+            ArrayList<Color> colors, ValueDisplayType valueDisplayType) {
+        this(plotOrientation, maxValue, colors, null, valueDisplayType);
+    }
+
+    /**
+     * Creates a new JSparkLinesTableCellRenderer.
+     *
+     * @param plotOrientation the orientation of the plot
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable
+     * @param colors the colors to use for the plot
+     * @param fillColor the color used to fill the rest of the chart up to the
+     * max value (set to null if no filling should be used)
+     * @param valueDisplayType the value to display in the table
+     */
+    public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
+            ArrayList<Color> colors, Color fillColor, ValueDisplayType valueDisplayType) {
+
+        this.plotOrientation = plotOrientation;
+        this.maxValue = maxValue;
+        this.colors = colors;
+        this.fillColor = fillColor;
+        this.currentValueDisplayType = valueDisplayType;
+
+        valueLabel = new JLabel("");
+        valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
+        valueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        valueLabel.setFont(valueLabel.getFont().deriveFont(valueLabel.getFont().getSize() - 2f));
+
+        referenceLines = new HashMap<String, ReferenceLine>();
+        referenceAreas = new HashMap<String, ReferenceArea>();
+
+        setName("Table.cellRenderer");
+        setLayout(new BorderLayout());
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        chart = ChartFactory.createBarChart(null, null, null, dataset, plotOrientation, false, false, false);
+        this.chartPanel = new ChartPanel(chart);
+
+        this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+        this.add(valueLabel);
+        add(chartPanel);
+    }
+    
+    /**
+     * Creates a new JSparkLinesTableCellRenderer.
+     *
+     * @param plotOrientation the orientation of the plot
+     * @param maxValue the maximum value to be plotted, used to make sure that
+     * all plots in the same column has the same maximum value and are thus
+     * comparable
+     * @param colors the colors to use for the plot
      * @param showFirstNumber if true, the first value is shown when showing the
      * values, false shows the sum
+     * 
+     * @deprecated use the constructor with the ValueDisplayType instead
      */
     public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
             ArrayList<Color> colors, boolean showFirstNumber) {
@@ -148,6 +212,8 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      * max value (set to null if no filling should be used)
      * @param showFirstNumber if true, the first value is shown when showing the
      * values, false shows the sum
+     * 
+     * @deprecated use the constructor with the ValueDisplayType instead
      */
     public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
             ArrayList<Color> colors, Color fillColor, boolean showFirstNumber) {
@@ -156,7 +222,11 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
         this.maxValue = maxValue;
         this.colors = colors;
         this.fillColor = fillColor;
-        this.showFirstNumber = showFirstNumber;
+        if (showFirstNumber) {
+           this.currentValueDisplayType = ValueDisplayType.firstNumberOnly;
+        } else {
+            this.currentValueDisplayType = ValueDisplayType.sumOfNumbers;
+        }
 
         valueLabel = new JLabel("");
         valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
@@ -260,9 +330,24 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      * value is shown.
      *
      * @param showFirstNumber
+     * 
+     * @deprecated use the ValueDisplayType enum instead
      */
     public void showFirstNumber(boolean showFirstNumber) {
-        this.showFirstNumber = showFirstNumber;
+        if (showFirstNumber) {
+           this.currentValueDisplayType = ValueDisplayType.firstNumberOnly;
+        } else {
+            this.currentValueDisplayType = ValueDisplayType.sumOfNumbers;
+        }
+    }
+    
+    /**
+     * Set the current value display type.
+     * 
+     * @param valueDisplayType the value display type
+     */
+    public void setValueDisplayType(ValueDisplayType valueDisplayType) {
+        this.currentValueDisplayType = valueDisplayType;
     }
 
     /**
@@ -326,10 +411,14 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
 
             double tempValue = sumValues;
 
-            if (showFirstNumber) {
+            if (currentValueDisplayType == ValueDisplayType.firstNumberOnly) {
                 if (!values.getData().isEmpty()) {
                     tempValue = values.getData().get(0);
                 }
+            } else if (currentValueDisplayType == ValueDisplayType.sumOfNumbers) {
+                tempValue = sumValues;
+            } else if (currentValueDisplayType == ValueDisplayType.sumExceptLastNumber) {
+                tempValue = sumValues - values.getData().get(values.getData().size() - 1);
             }
 
             if (showNumbers) {
@@ -386,7 +475,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
         for (int i = 0; i < values.getData().size(); i++) {
             barChartDataset.addValue(values.getData().get(i), "" + i, "" + 0);
             renderer.setSeriesPaint(i, colors.get(i));
-            tooltip += values.getData().get(i).intValue();
+            tooltip += numberFormat.format(values.getData().get(i));
             if (i < values.getData().size() - 1) {
                 tooltip += " / ";
             }
