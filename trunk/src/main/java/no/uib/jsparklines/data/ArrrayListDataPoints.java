@@ -2,6 +2,7 @@ package no.uib.jsparklines.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import no.uib.jsparklines.renderers.JSparklinesArrayListBarChartTableCellRenderer.ValueDisplayType;
 import no.uib.jsparklines.renderers.util.Util;
 
 /**
@@ -24,14 +25,33 @@ public class ArrrayListDataPoints implements Comparable<ArrrayListDataPoints>, S
      * The sum of the values in the list. Null if not set.
      */
     private Double sum = null;
+    /**
+     * The sum of the value in the list except the last one. Null if not set.
+     */
+    private Double sumExceptLast = null;
+    /**
+     * The value used to sort (and display) the data.
+     */
+    private ValueDisplayType valueDisplayType;
 
     /**
      * Create a new ArrrayListDataPoints.
      *
-     * @param data
+     * @param data the data
+     * @param valueDisplayType the way to sort (and display) the data
      */
-    public ArrrayListDataPoints(ArrayList<Double> data) {
+    public ArrrayListDataPoints(ArrayList<Double> data, ValueDisplayType valueDisplayType) {
         this.data = data;
+        this.valueDisplayType = valueDisplayType;
+    }
+
+    /**
+     * Set the value sort (and display) type.
+     *
+     * @param valueDisplayType the way to sort (and display) the data
+     */
+    public void setDataSortingType(ValueDisplayType valueDisplayType) {
+        this.valueDisplayType = valueDisplayType;
     }
 
     /**
@@ -59,14 +79,41 @@ public class ArrrayListDataPoints implements Comparable<ArrrayListDataPoints>, S
      * @return the sum of the values in the list
      */
     public double getSum() {
-        if (sum != null) {
+        if (sum != null && sumExceptLast != null) {
             return sum;
         } else {
             sum = 0.0;
-            for (Double temp : data) {
+            sumExceptLast = 0.0;
+            for (int i = 0; i < data.size(); i++) {
+                Double temp = data.get(i);
                 sum += temp;
+                if (i < data.size() - 1) {
+                    sumExceptLast += temp;
+                }
             }
             return sum;
+        }
+    }
+
+    /**
+     * Return the sum of the values in the list.
+     *
+     * @return the sum of the values in the list
+     */
+    public double getSumExceptLast() {
+        if (sum != null && sumExceptLast != null) {
+            return sumExceptLast;
+        } else {
+            sum = 0.0;
+            sumExceptLast = 0.0;
+            for (int i = 0; i < data.size(); i++) {
+                Double temp = data.get(i);
+                sum += temp;
+                if (i < data.size() - 1) {
+                    sumExceptLast += temp;
+                }
+            }
+            return sumExceptLast;
         }
     }
 
@@ -88,6 +135,24 @@ public class ArrrayListDataPoints implements Comparable<ArrrayListDataPoints>, S
      * Compares based on the sum of the values in the data arrays.
      */
     public int compareTo(ArrrayListDataPoints o) {
-        return Double.compare(this.getSum(), o.getSum());
+
+        if (valueDisplayType == null || valueDisplayType == ValueDisplayType.sumOfNumbers) {
+            return Double.compare(this.getSum(), o.getSum());
+        } else if (valueDisplayType == ValueDisplayType.sumExceptLastNumber) {
+            return Double.compare(this.getSumExceptLast(), o.getSumExceptLast());
+        } else {
+
+            if (this.getData().isEmpty() && o.getData().isEmpty()) {
+                return 0;
+            }
+            if (this.getData().isEmpty() && !o.getData().isEmpty()) {
+                return 1;
+            }
+            if (!this.getData().isEmpty() && o.getData().isEmpty()) {
+                return -1;
+            }
+
+            return Double.compare(this.getData().get(0), o.getData().get(0));
+        }
     }
 }
