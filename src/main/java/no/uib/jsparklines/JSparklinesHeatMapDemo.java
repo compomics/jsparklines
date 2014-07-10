@@ -50,7 +50,7 @@ public class JSparklinesHeatMapDemo extends javax.swing.JFrame {
         // set the JSparklines renderer for the columns
         for (int i = 0; i < heatmapJTable.getColumnCount(); i++) {
             heatmapJTable.getColumn(heatmapJTable.getColumnName(i)).setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, -100d, 100d));
-            ((JSparklinesBarChartTableCellRenderer) heatmapJTable.getColumn(heatmapJTable.getColumnName(i)).getCellRenderer()).showAsHeatMap(ColorGradient.RedBlackGreen);
+            ((JSparklinesBarChartTableCellRenderer) heatmapJTable.getColumn(heatmapJTable.getColumnName(i)).getCellRenderer()).showAsHeatMap(ColorGradient.RedBlackGreen, false);
         }
 
         // make sure that the selected background color is used
@@ -334,12 +334,12 @@ public class JSparklinesHeatMapDemo extends javax.swing.JFrame {
         if (heatmapTypeJComboBox.getSelectedIndex() == 0) {
             for (int i = 0; i < heatmapJTable.getColumnCount(); i++) {
                 ((JSparklinesBubbleHeatMapTableCellRenderer) heatmapJTable.getColumn(
-                        heatmapJTable.getColumnName(i)).getCellRenderer()).setGradientColoring(colorGradient);
+                        heatmapJTable.getColumnName(i)).getCellRenderer()).setGradientColoring(colorGradient, false);
             }
         } else {
             for (int i = 0; i < heatmapJTable.getColumnCount(); i++) {
                 ((JSparklinesBarChartTableCellRenderer) heatmapJTable.getColumn(
-                        heatmapJTable.getColumnName(i)).getCellRenderer()).setGradientColoring(colorGradient);
+                        heatmapJTable.getColumnName(i)).getCellRenderer()).setGradientColoring(colorGradient, false);
             }
         }
 
@@ -384,12 +384,12 @@ public class JSparklinesHeatMapDemo extends javax.swing.JFrame {
 
         if (heatmapTypeJComboBox.getSelectedIndex() == 0) {
             for (int i = 0; i < heatmapJTable.getColumnCount(); i++) {
-                heatmapJTable.getColumn(heatmapJTable.getColumnName(i)).setCellRenderer(new JSparklinesBubbleHeatMapTableCellRenderer(100d, colorGradient));
+                heatmapJTable.getColumn(heatmapJTable.getColumnName(i)).setCellRenderer(new JSparklinesBubbleHeatMapTableCellRenderer(100d, colorGradient, false));
             }
         } else {
             for (int i = 0; i < heatmapJTable.getColumnCount(); i++) {
                 heatmapJTable.getColumn(heatmapJTable.getColumnName(i)).setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, -100d, 100d));
-                ((JSparklinesBarChartTableCellRenderer) heatmapJTable.getColumn(heatmapJTable.getColumnName(i)).getCellRenderer()).showAsHeatMap(colorGradient);
+                ((JSparklinesBarChartTableCellRenderer) heatmapJTable.getColumn(heatmapJTable.getColumnName(i)).getCellRenderer()).showAsHeatMap(colorGradient, false);
             }
         }
 

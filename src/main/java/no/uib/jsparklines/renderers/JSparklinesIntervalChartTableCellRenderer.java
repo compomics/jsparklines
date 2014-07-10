@@ -121,6 +121,16 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      */
     private ColorGradient currentColorGradient = ColorGradient.RedBlackBlue;
     /**
+     * The first color of the gradient is used for values close to the min
+     * value, while the third color of the gradient is used for values close to
+     * the max value. If only positive values are expected
+     * (positiveColorGradient is true) the gradient color is used for the
+     * halfway point between the min and max values. If both positive and
+     * negative values are expected (positiveColorGradient is false) the middle
+     * gradient color is used for values around zero.
+     */
+    private boolean positiveColorGradient = false;
+    /**
      * The width of the interval used to highlight the value.
      */
     private double widthOfInterval;
@@ -324,28 +334,18 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      *
      * @param colorGradient the color gradient to use, null disables the color
      * gradient
-     */
-    public void setGradientColoring(ColorGradient colorGradient) {
-        setGradientColoring(colorGradient, null);
-    }
-
-    /**
-     * Set the color gradient to use for the intervals. To disable the color
-     * gradient use null as the parameter. <br><br> Values below zero uses the
-     * first color in the gradient name, while values above zero uses the third
-     * color in the gradient. <br><br> Note that the max value is set to the
-     * maximum absolute value of the max and min values in order to make the
-     * color gradient equal on both sides.
-     *
-     * @param colorGradient the color gradient to use, null disables the color
-     * gradient
+     * @param positiveColorGradient if true only positive values are expected
+     * and the middle gradient color is used for the halfway point between the
+     * min and max values, if false the middle gradient color is used for values
+     * around zero
      * @param plotBackgroundColor the background color to use, for gradients
      * using white as the "middle" color, it's recommended to use a dark
      * background color
      */
-    public void setGradientColoring(ColorGradient colorGradient, Color plotBackgroundColor) {
+    public void setGradientColoring(ColorGradient colorGradient, Color plotBackgroundColor, boolean positiveColorGradient) {
 
         this.gradientColoring = (colorGradient != null);
+        this.positiveColorGradient = positiveColorGradient;
         this.plotBackgroundColor = plotBackgroundColor;
         this.currentColorGradient = colorGradient;
 
@@ -453,7 +453,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
-        
+
         if (value instanceof String) {
             //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
@@ -509,11 +509,10 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             } else if (value instanceof XYDataPoint[]) {
 
                 String temp = "";
-
                 XYDataPoint[] tempValues = (XYDataPoint[]) value;
 
-                for (int i = 0; i < tempValues.length; i++) {
-                    temp += "[" + roundDouble(tempValues[i].getX(), 2) + ", " + roundDouble(tempValues[i].getY(), 2) + "] ";
+                for (XYDataPoint tempValue : tempValues) {
+                    temp += "[" + roundDouble(tempValue.getX(), 2) + ", " + roundDouble(tempValue.getY(), 2) + "] ";
                 }
 
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, temp, isSelected, hasFocus, row, column);
@@ -563,14 +562,11 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         } else if (value instanceof XYDataPoint[]) {
 
             String temp = "<html>";
-
             XYDataPoint[] tempValues = (XYDataPoint[]) value;
 
-            for (int i = 0; i < tempValues.length; i++) {
-
-                double x = tempValues[i].getX();
-                double y = tempValues[i].getY();
-
+            for (XYDataPoint tempValue : tempValues) {
+                double x = tempValue.getX();
+                double y = tempValue.getY();
                 if (Math.floor(x) == x && Math.floor(y) == y) {
                     temp += "[" + (int) x + ", " + (int) y + "]<br>";
                 } else {
@@ -608,12 +604,12 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             } else if (value instanceof XYDataPoint) {
                 valueLabel.setText("[" + roundDouble(((XYDataPoint) value).getX(), 2) + ", " + roundDouble(((XYDataPoint) value).getY(), 2) + "]");
             } else if (value instanceof XYDataPoint[]) {
-                String temp = "";
 
+                String temp = "";
                 XYDataPoint[] tempValues = (XYDataPoint[]) value;
 
-                for (int i = 0; i < tempValues.length; i++) {
-                    temp += "[" + roundDouble(tempValues[i].getX(), 2) + ", " + roundDouble(tempValues[i].getY(), 2) + "] ";
+                for (XYDataPoint tempValue : tempValues) {
+                    temp += "[" + roundDouble(tempValue.getX(), 2) + ", " + roundDouble(tempValue.getY(), 2) + "] ";
                 }
 
                 valueLabel.setText(temp);
@@ -755,7 +751,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             }
 
             if (gradientColoring) {
-                renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor((Double) value, minValue, maxValue, currentColorGradient));
+                renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor((Double) value, minValue, maxValue, currentColorGradient, positiveColorGradient));
             } else {
 
                 if ((Double) value >= 0) {
@@ -779,7 +775,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             }
 
             if (gradientColoring) {
-                renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), minValue, maxValue, currentColorGradient));
+                renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), minValue, maxValue, currentColorGradient, positiveColorGradient));
             } else {
 
                 if ((Integer) value >= 0) {
@@ -795,7 +791,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             temp /= 2;
 
             if (gradientColoring) {
-                renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor(temp, minValue, maxValue, currentColorGradient));
+                renderer.setSeriesPaint(0, GradientColorCoding.findGradientColor(temp, minValue, maxValue, currentColorGradient, positiveColorGradient));
             } else {
 
                 if (temp >= 0) {
@@ -807,7 +803,6 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         } else if (value instanceof XYDataPoint[]) {
 
             // @TODO: what about different colors for the different bars?
-
             XYDataPoint[] values = (XYDataPoint[]) value;
 
             for (int i = 0; i < values.length; i++) {
@@ -817,7 +812,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
                 temp /= 2;
 
                 if (gradientColoring) {
-                    renderer.setSeriesPaint(i, GradientColorCoding.findGradientColor(temp, minValue, maxValue, currentColorGradient));
+                    renderer.setSeriesPaint(i, GradientColorCoding.findGradientColor(temp, minValue, maxValue, currentColorGradient, positiveColorGradient));
                 } else {
 
                     if (temp >= 0) {
@@ -843,7 +838,6 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         }
 
         // make sure the background is the same as the table row color
-
         if (plotBackgroundColor != null && !isSelected) {
             plot.setBackgroundPaint(plotBackgroundColor);
             chartPanel.setBackground(plotBackgroundColor);
