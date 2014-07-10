@@ -139,6 +139,16 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      */
     private ColorGradient currentColorGradient = ColorGradient.RedBlackBlue;
     /**
+     * The first color of the gradient is used for values close to the min
+     * value, while the third color of the gradient is used for values close to
+     * the max value. If only positive values are expected
+     * (positiveColorGradient is true) the gradient color is used for the
+     * halfway point between the min and max values. If both positive and
+     * negative values are expected (positiveColorGradient is false) the middle
+     * gradient color is used for values around zero.
+     */
+    private boolean positiveColorGradient = false;
+    /**
      * If true, the values are shown as a heat map.
      */
     private boolean showAsHeatMap = false;
@@ -334,19 +344,29 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * programmer has to make sure that the max and min values are the same for
      * all columns used in a heat map to ensure that the color coding is
      * comparable across the columns. This method can not handle this.</b>
-     * <br><br> Values below zero uses the first color in the gradient name,
-     * while values above zero uses the third color in the gradient. <br><br>
+     * <br><br> The first color of the gradient is used for values close to the
+     * min value, while the third color of the gradient is used for values close
+     * to the max value. If only positive values are expected
+     * (positiveColorGradient is true) the middle gradient color is used for the
+     * halfway point between the min and max values. If both positive and
+     * negative values are expected (positiveColorGradient is false) the middle
+     * gradient color is used for values around zero. <br><br>
      * Note that the max value is set to the maximum absolute value of the max
      * and min values in order to make the color gradient equal on both sides.
      *
      * @param colorGradient the color gradient to use, null disables the color
      * gradient
+     * @param positiveColorGradient if true only positive values are expected
+     * and the middle gradient color is used for the halfway point between the
+     * min and max values, if false the middle gradient color is used for values
+     * around zero
      */
-    public void showAsHeatMap(ColorGradient colorGradient) {
+    public void showAsHeatMap(ColorGradient colorGradient, boolean positiveColorGradient) {
 
         this.showAsHeatMap = (colorGradient != null);
         gradientColoring = (colorGradient != null);
         this.currentColorGradient = colorGradient;
+        this.positiveColorGradient = positiveColorGradient;
 
         if (showAsHeatMap) {
             if (Math.abs(minValue) > maxValue) {
@@ -357,37 +377,56 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
     /**
      * Set the color gradient to use for the bars. To disable the color gradient
-     * use null as the parameter. <br><br> Values below zero uses the first
-     * color in the gradient name, while values above zero uses the third color
-     * in the gradient. <br><br> Note that the max value is set to the maximum
-     * absolute value of the max and min values in order to make the color
-     * gradient equal on both sides.
+     * use null as the parameter. <br><br> The first color of the gradient is
+     * used for values close to the min value, while the third color of the
+     * gradient is used for values close to the max value. If only positive
+     * values are expected (positiveColorGradient is true) the middle gradient
+     * color is used for the halfway point between the min and max values. If
+     * both positive and negative values are expected (positiveColorGradient is
+     * false) the middle gradient color is used for values around zero. <br><br>
+     * Note that the max value is set to the maximum absolute value of the max
+     * and min values in order to make the color gradient equal on both sides.
      *
      * @param colorGradient the color gradient to use, null disables the color
      * gradient
+     * @param positiveColorGradient if true only positive values are expected
+     * and the middle gradient color is used for the halfway point between the
+     * min and max values, if false the middle gradient color is used for values
+     * around zero
      */
-    public void setGradientColoring(ColorGradient colorGradient) {
-        setGradientColoring(colorGradient, null);
+    public void setGradientColoring(ColorGradient colorGradient, boolean positiveColorGradient) {
+        setGradientColoring(colorGradient, positiveColorGradient, null);
     }
 
     /**
      * Set the color gradient to use for the bars. To disable the color gradient
-     * use null as the parameter. <br><br> Values below zero uses the first
-     * color in the gradient name, while values above zero uses the third color
-     * in the gradient. <br><br> Note that the max value is set to the maximum
-     * absolute value of the max and min values in order to make the color
-     * gradient equal on both sides.
+     * use null as the parameter. <br><br> The first color of the gradient is
+     * used for values close to the min value, while the third color of the
+     * gradient is used for values close to the max value. If only positive
+     * values are expected (positiveColorGradient is true) the middle gradient
+     * color is used for the halfway point between the min and max values. If
+     * both positive and negative values are expected (positiveColorGradient is
+     * false) the middle gradient color is used for values around zero. <br><br>
+     * Note that the max value is set to the maximum absolute value of the max
+     * and min values in order to make the color gradient equal on both sides.
      *
      * @param colorGradient the color gradient to use, null disables the color
      * gradient
+     * @param positiveColorGradient if true only positive values are expected
+     * and the middle gradient color is used for the halfway point between the
+     * min and max values, if false the middle gradient color is used for values
+     * around zero
      * @param plotBackgroundColor the background color to use, for gradients
      * using white as the "middle" color, it's recommended to use a dark
      * background color
      */
-    public void setGradientColoring(ColorGradient colorGradient, Color plotBackgroundColor) {
+    public void setGradientColoring(ColorGradient colorGradient, boolean positiveColorGradient, Color plotBackgroundColor) {
 
         this.gradientColoring = (colorGradient != null);
-        this.plotBackgroundColor = plotBackgroundColor;
+        this.positiveColorGradient = positiveColorGradient;
+        if (plotBackgroundColor != null) {
+            this.plotBackgroundColor = plotBackgroundColor;
+        }
         this.currentColorGradient = colorGradient;
 
         if (gradientColoring) {
@@ -529,7 +568,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
-        
+
         if (value instanceof String) {
             //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
@@ -820,7 +859,6 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             }
         }
 
-
         // add the dataset
         plot.setDataset(dataset);
 
@@ -843,9 +881,9 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
             if (gradientColoring) {
                 if (logScale) {
-                    currentColor = GradientColorCoding.findGradientColor((Double) value, minLogValue, maxLogValue, currentColorGradient);
+                    currentColor = GradientColorCoding.findGradientColor((Double) value, minLogValue, maxLogValue, currentColorGradient, positiveColorGradient);
                 } else {
-                    currentColor = GradientColorCoding.findGradientColor((Double) value, minValue, maxValue, currentColorGradient);
+                    currentColor = GradientColorCoding.findGradientColor((Double) value, minValue, maxValue, currentColorGradient, positiveColorGradient);
                 }
                 renderer = new BarChartColorRenderer(currentColor);
             } else {
@@ -871,12 +909,12 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             if (gradientColoring) {
                 if (logScale) {
                     if (value instanceof Integer) {
-                        currentColor = GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), minLogValue, maxLogValue, currentColorGradient);
+                        currentColor = GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), minLogValue, maxLogValue, currentColorGradient, positiveColorGradient);
                     } else {
-                        currentColor = GradientColorCoding.findGradientColor((Double) value, minLogValue, maxLogValue, currentColorGradient);
+                        currentColor = GradientColorCoding.findGradientColor((Double) value, minLogValue, maxLogValue, currentColorGradient, positiveColorGradient);
                     }
                 } else {
-                    currentColor = GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), minValue, maxValue, currentColorGradient);
+                    currentColor = GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), minValue, maxValue, currentColorGradient, positiveColorGradient);
                 }
                 renderer = new BarChartColorRenderer(currentColor);
             } else {
@@ -967,11 +1005,8 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                     ///////////////////////////////////////////////////
                     // NOTE: the JXTable support is experimental!!! 
                     ///////////////////////////////////////////////////
-
                     // @TODO: If you are using JXTables please consider revising/extending the code below...
-
                     // @TODO: this code should be moved and used across all the cell renderers
-
                     JXTable jxTable = (JXTable) table;
 
                     boolean useDefaultBackgroundColorApproach = false;
@@ -979,7 +1014,6 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                     if (jxTable.getHighlighters().length > 0) {
 
                         // we need to figure out the background color resulting from the highlighters
-
                         if (jxTable.getHighlighters().length == 1) {
 
                             if (jxTable.getHighlighters()[0] instanceof ColorHighlighter) {
@@ -987,7 +1021,6 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                                 Color tempColor = ((ColorHighlighter) jxTable.getHighlighters()[0]).getBackground();
 
                                 // note: alternate row highlighting is here assumed! isHighlighted should rather be used, but could get this to work...
-
                                 if (row % 2 == 0 || isSelected) {
                                     useDefaultBackgroundColorApproach = true;
                                 } else {

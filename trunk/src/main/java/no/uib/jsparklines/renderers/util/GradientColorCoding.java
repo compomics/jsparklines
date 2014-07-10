@@ -6,6 +6,7 @@ import java.awt.Color;
  * Contains methods related to calculating color gradients.
  *
  * @author Harald Barsnes
+ * @author Lennart Martens
  */
 public class GradientColorCoding {
 
@@ -24,17 +25,41 @@ public class GradientColorCoding {
 
     /**
      * Returns the gradient color using the currently selected color gradient.
-     * Values below zero uses the first color in the gradient, while values
-     * above zero uses the second color in the gradient. If the column contains
-     * only positive values only the second color will be used.
+     * The first color of the gradient is used for values close to the min
+     * value, while the third color of the gradient is used for values close to
+     * the max value. If only positive values are expected (positiveValuesOnly
+     * is true) the middle gradient color is used for the halfway point between
+     * the min and max values. If both positive and negative values are expected
+     * (positiveValuesOnmiddlely is false) the middle gradient color is used for
+     * values around zero.
      *
-     * @param value the value to find the gradient color for
-     * @param minValue the min value
-     * @param maxValue the max value
+     * @param aValue the value to find the gradient color for
+     * @param aMinValue the min value
+     * @param aMaxValue the max value
      * @param colorGradient the color gradient to use
+     * @param positiveValuesOnly if true only positive values are expected and
+     * the middle gradient color is used for the halfway point between the min
+     * and max values, if false the middle gradient color is used for values
+     * around zero
      * @return the gradient color
      */
-    public static Color findGradientColor(Double value, Double minValue, Double maxValue, ColorGradient colorGradient) {
+    public static Color findGradientColor(Double aValue, Double aMinValue, Double aMaxValue, ColorGradient colorGradient, boolean positiveValuesOnly) {
+
+        Double minValue, maxValue, value;
+
+        // check whether the current color gradient should only take into account positive values
+        if (positiveValuesOnly) {
+            double range = aMaxValue - aMinValue;
+            double half = (range / 2) + aMinValue;
+            minValue = aMinValue - half;
+            maxValue = aMaxValue - half;
+            value = aValue - half;
+            colorGradient = ColorGradient.BlueWhiteRed;
+        } else {
+            minValue = aMinValue;
+            maxValue = aMaxValue;
+            value = aValue;
+        }
 
         int numberOfColorLevels = 50;
         double distanceBetweenCorrelationLevels = maxValue / (((double) numberOfColorLevels) / 2);
@@ -46,7 +71,7 @@ public class GradientColorCoding {
 
             // find the lower and upper range for the current color
             Double lowerRange = new Double(-maxValue + (i * distanceBetweenCorrelationLevels));
-            Double upperRange = new Double(-maxValue + ((i + maxValue) * distanceBetweenCorrelationLevels));
+            Double upperRange = new Double(-maxValue + ((i + 1) * distanceBetweenCorrelationLevels));
 
             Color tempColor = null;
 
@@ -100,7 +125,7 @@ public class GradientColorCoding {
 
             // find the lower and upper range for the current color
             Double lowerRange = new Double(0.0 + distanceBetweenCorrelationLevels * i);
-            Double upperRange = new Double(0.0 + distanceBetweenCorrelationLevels * (i + maxValue));
+            Double upperRange = new Double(0.0 + distanceBetweenCorrelationLevels * (i + 1));
 
             Color tempColor = null;
 

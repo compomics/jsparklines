@@ -895,13 +895,13 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     private void showGradientJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showGradientJCheckBoxActionPerformed
 
         if (showGradientJCheckBox.isSelected()) {
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueBlackGreen);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(ColorGradient.BlueBlackGreen);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).setGradientColoring(ColorGradient.BlueBlackRed);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteRed, false);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteRed, false);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteRed, false);
         } else {
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(null);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(null);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).setGradientColoring(null);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(null, false);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(null, false);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).setGradientColoring(null, false);
         }
 
         singleValuesJTable.revalidate();

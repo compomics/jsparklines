@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import no.uib.jsparklines.renderers.util.GradientColorCoding;
 import no.uib.jsparklines.renderers.util.StatisticalBarChartColorRenderer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -90,6 +91,28 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      * darker colors it is recommended to use a light background.
      */
     private Color plotBackgroundColor = null;
+    /**
+     * The currently selected color gradient.
+     */
+    private GradientColorCoding.ColorGradient currentColorGradient = GradientColorCoding.ColorGradient.RedBlackBlue;
+    /**
+     * The first color of the gradient is used for values close to the min
+     * value, while the third color of the gradient is used for values close to
+     * the max value. If only positive values are expected
+     * (positiveColorGradient is true) the middle gradient color is used for the
+     * halfway point between the min and max values. If both positive and
+     * negative values are expected (positiveColorGradient is false) the middle
+     * gradient color is used for values around zero.
+     */
+    private boolean positiveColorGradient = false;
+    /**
+     * If true a red/green gradient coloring is used.
+     */
+    private boolean gradientColoring = false;
+    /**
+     * The width of the error stroke bars.
+     */
+    private float errorBarWidth = 4;
 
     /**
      * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
@@ -209,6 +232,67 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
     }
 
     /**
+     * Set the color gradient to use for the bars. To disable the color gradient
+     * use null as the parameter. <br><br> The first color of the gradient is
+     * used for values close to the min value, while the third color of the
+     * gradient is used for values close to the max value. If only positive
+     * values are expected (positiveColorGradient is true) the middle gradient
+     * color is used for the halfway point between the min and max values. If
+     * both positive and negative values are expected (positiveColorGradient is
+     * false) the middle gradient color is used for values around zero. <br><br>
+     * Note that the max value is set to the maximum absolute value of the max
+     * and min values in order to make the color gradient equal on both sides.
+     *
+     * @param colorGradient the color gradient to use, null disables the color
+     * gradient
+     * @param positiveColorGradient if true only positive values are expected
+     * and the middle gradient color is used for the halfway point between the
+     * min and max values, if false the middle gradient color is used for values
+     * around zero
+     */
+    public void setGradientColoring(GradientColorCoding.ColorGradient colorGradient, boolean positiveColorGradient) {
+        setGradientColoring(colorGradient, positiveColorGradient, null);
+    }
+
+    /**
+     * Set the color gradient to use for the bars. To disable the color gradient
+     * use null as the parameter. <br><br> The first color of the gradient is
+     * used for values close to the min value, while the third color of the
+     * gradient is used for values close to the max value. If only positive
+     * values are expected (positiveColorGradient is true) the middle gradient
+     * color is used for the halfway point between the min and max values. If
+     * both positive and negative values are expected (positiveColorGradient is
+     * false) the middle gradient color is used for values around zero. <br><br>
+     * Note that the max value is set to the maximum absolute value of the max
+     * and min values in order to make the color gradient equal on both sides.
+     *
+     * @param colorGradient the color gradient to use, null disables the color
+     * gradient
+     * @param positiveColorGradient if true only positive values are expected
+     * and the middle gradient color is used for the halfway point between the
+     * min and max values, if false the middle gradient color is used for values
+     * around zero
+     * @param plotBackgroundColor the background color to use, for gradients
+     * using white as the "middle" color, it's recommended to use a dark
+     * background color
+     */
+    public void setGradientColoring(GradientColorCoding.ColorGradient colorGradient, boolean positiveColorGradient, Color plotBackgroundColor) {
+
+        this.gradientColoring = (colorGradient != null);
+        this.positiveColorGradient = positiveColorGradient;
+        if (plotBackgroundColor != null) {
+            this.plotBackgroundColor = plotBackgroundColor;
+        }
+        this.currentColorGradient = colorGradient;
+
+        if (gradientColoring) {
+            if (Math.abs(minValue) > maxValue) {
+                maxValue = Math.abs(minValue);
+            }
+        }
+    }
+
+    /**
      * Set the plot background color.
      *
      * @param plotBackgroundColor
@@ -236,6 +320,15 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
     }
 
     /**
+     * Set the width of the error bars.
+     *
+     * @param errorBarWidth the width of the error bars
+     */
+    public void setErrorBarWidth(float errorBarWidth) {
+        this.errorBarWidth = errorBarWidth;
+    }
+
+    /**
      * Sets up the cell renderer for the given component.
      *
      * @param table
@@ -260,7 +353,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
-        
+
         if (value instanceof String) {
             //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
@@ -287,7 +380,6 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         setBackground(c.getBackground());
 
         // create the bar chart
-
         // fine tune the chart properites
         CategoryPlot plot = chart.getCategoryPlot();
 
@@ -304,22 +396,27 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         plot.setRangeGridlinesVisible(false);
 
         // set up the chart renderer
-        StatisticalBarChartColorRenderer renderer = null;
-
         if (value instanceof DefaultStatisticalCategoryDataset) {
 
+            StatisticalBarChartColorRenderer renderer = null;
             DefaultStatisticalCategoryDataset tempSet = (DefaultStatisticalCategoryDataset) value;
 
-            if ((Double) tempSet.getMeanValue(0, 0) >= 0) {
-                renderer = new StatisticalBarChartColorRenderer(positiveValuesColor);
+            if (gradientColoring) {
+                Color currentColor = GradientColorCoding.findGradientColor((Double) tempSet.getMeanValue(0, 0), minValue, maxValue, currentColorGradient, positiveColorGradient);
+                renderer = new StatisticalBarChartColorRenderer(currentColor);
             } else {
-                renderer = new StatisticalBarChartColorRenderer(negativeValuesColor);
+                if ((Double) tempSet.getMeanValue(0, 0) >= 0) {
+                    renderer = new StatisticalBarChartColorRenderer(positiveValuesColor);
+                } else {
+                    renderer = new StatisticalBarChartColorRenderer(negativeValuesColor);
+                }
             }
+
+            renderer.setErrorIndicatorStroke(new BasicStroke(errorBarWidth));
+            plot.setRenderer(renderer);
         }
 
-
         // make sure the background is the same as the table row color
-
         if (plotBackgroundColor != null && !isSelected) {
             plot.setBackgroundPaint(plotBackgroundColor);
             chartPanel.setBackground(plotBackgroundColor);
@@ -333,10 +430,6 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
             chart.setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             this.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
         }
-
-        renderer.setErrorIndicatorStroke(new BasicStroke(4)); // @TODO: this should not be hardcoded!!
-
-        plot.setRenderer(renderer);
 
         return this;
     }

@@ -48,9 +48,9 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
      */
     private JFreeChart chart;
     /**
-     * The maximum value. Used to set the maximum range for the chart.
+     * The maximum absolute value. Used to set the maximum range for the chart.
      */
-    private double maxValue = 1;
+    private double maxAbsValue = 1;
     /**
      * If true the underlying numbers are shown instead of the charts.
      */
@@ -59,22 +59,34 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
      * The currently selected color gradient.
      */
     private ColorGradient currentColorGradient = ColorGradient.RedBlackBlue;
+    /**
+     * The first color of the gradient is used for values close to the min
+     * value, while the third color of the gradient is used for values close to
+     * the max value. If only positive values are expected
+     * (positiveColorGradient is true) the gradient color is used for the
+     * halfway point between the min and max values. If both positive and
+     * negative values are expected (positiveColorGradient is false) the middle
+     * gradient color is used for values around zero.
+     */
+    private boolean positiveColorGradient = false;
 
     /**
-     * Creates a new JSparklinesBarChartTableCellRenderer. Use this constructor
-     * when positive and negative values are to be plotted. This constructor
-     * uses default colors for the bars. If you want to set your own colors, use
-     * one of the other constructors.
+     * Creates a new JSparklinesBubbleHeatMapTableCellRenderer.
      *
-     * @param maxValue the maximum value to be plotted, used to make sure that
-     * all plots in the same column has the same maximum value and are thus
-     * comparable
+     * @param maxAbsValue the maximum absolute value to be plotted, used to make
+     * sure that all plots in the same column has the same maximum value and are
+     * thus comparable
      * @param colorGradient the color gradient to use
+     * @param positiveColorGradient if true only positive values are expected
+     * and the middle gradient color is used for the halfway point between the
+     * min and max values, if false the middle gradient color is used for values
+     * around zero
      */
-    public JSparklinesBubbleHeatMapTableCellRenderer(Double maxValue, ColorGradient colorGradient) {
+    public JSparklinesBubbleHeatMapTableCellRenderer(Double maxAbsValue, ColorGradient colorGradient, boolean positiveColorGradient) {
 
-        this.maxValue = maxValue;
+        this.maxAbsValue = maxAbsValue;
         this.currentColorGradient = colorGradient;
+        this.positiveColorGradient = positiveColorGradient;
 
         setName("Table.cellRenderer");
         setLayout(new BorderLayout());
@@ -83,19 +95,25 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
     /**
      * Set the color gradient.
      *
-     * @param colorGradient
+     * @param colorGradient the color gradient to use, null disables the color
+     * gradient
+     * @param positiveColorGradient if true only positive values are expected
+     * and the middle gradient color is used for the halfway point between the
+     * min and max values, if false the middle gradient color is used for values
+     * around zero
      */
-    public void setGradientColoring(ColorGradient colorGradient) {
+    public void setGradientColoring(ColorGradient colorGradient, boolean positiveColorGradient) {
         this.currentColorGradient = colorGradient;
+        this.positiveColorGradient = positiveColorGradient;
     }
 
     /**
-     * Set the maximum value.
+     * Set the maximum absolute value.
      *
-     * @param maxValue the maximum value
+     * @param maxAbsValue the maximum absolute value
      */
-    public void setMaxValue(double maxValue) {
-        this.maxValue = maxValue;
+    public void setMaxValue(double maxAbsValue) {
+        this.maxAbsValue = maxAbsValue;
     }
 
     /**
@@ -131,7 +149,7 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
-        
+
         if (value instanceof String) {
             //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
@@ -222,8 +240,8 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
             }
 
             double[][] data = new double[3][1];
-            data[0][0] = maxValue / 2;
-            data[1][0] = maxValue / 2;
+            data[0][0] = maxAbsValue / 2;
+            data[1][0] = maxAbsValue / 2;
 
             if (((Double) value).doubleValue() < 0) {
                 data[2][0] = Math.abs(((Double) value).doubleValue());
@@ -232,7 +250,7 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
             }
 
             xyzDataset.addSeries("1", data);
-            bubbleColor = GradientColorCoding.findGradientColor(((Double) value).doubleValue(), -maxValue, maxValue, currentColorGradient);
+            bubbleColor = GradientColorCoding.findGradientColor(((Double) value).doubleValue(), -maxAbsValue, maxAbsValue, currentColorGradient, positiveColorGradient);
 
         } else if (value instanceof Integer
                 || value instanceof Short
@@ -252,8 +270,8 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
             }
 
             double[][] data = new double[3][1];
-            data[0][0] = maxValue / 2;
-            data[1][0] = maxValue / 2;
+            data[0][0] = maxAbsValue / 2;
+            data[1][0] = maxAbsValue / 2;
             data[2][0] = ((Integer) value).doubleValue();
 
             if (((Integer) value).doubleValue() < 0) {
@@ -263,8 +281,7 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
             }
 
             xyzDataset.addSeries("1", data);
-            bubbleColor = GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), -maxValue, maxValue, currentColorGradient);
-
+            bubbleColor = GradientColorCoding.findGradientColor(((Integer) value).doubleValue(), -maxAbsValue, maxAbsValue, currentColorGradient, positiveColorGradient);
         }
 
         chart = ChartFactory.createBubbleChart(null, null, null, xyzDataset, PlotOrientation.VERTICAL, false, false, false);
@@ -280,8 +297,8 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
         plot.getRangeAxis().setLowerMargin(0);
 
         // set the axis ranges
-        plot.getDomainAxis().setRange(maxValue * 0.4, maxValue * 0.6);
-        plot.getRangeAxis().setRange(maxValue * 0.25, maxValue * 0.75);
+        plot.getDomainAxis().setRange(maxAbsValue * 0.4, maxAbsValue * 0.6);
+        plot.getRangeAxis().setRange(maxAbsValue * 0.25, maxAbsValue * 0.75);
 
         // hide unwanted chart details
         plot.getRangeAxis().setVisible(false);
@@ -289,10 +306,8 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
         plot.setRangeGridlinesVisible(false);
         plot.setDomainGridlinesVisible(false);
 
-
         // set the bubble color
         plot.getRenderer().setSeriesPaint(0, bubbleColor);
-
 
         // create the chart
         chartPanel = new ChartPanel(chart);
