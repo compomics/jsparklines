@@ -2,10 +2,6 @@ package no.uib.jsparklines;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,9 +11,9 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import no.uib.jsparklines.data.JSparklines3dDataSeries;
@@ -62,7 +58,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         // set additional GUI properties
         setAdditionalGuiProperties();
 
-
         // add data to the single values example
         addDataSingleValues();
 
@@ -71,7 +66,12 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJTable.getColumn("Fold Change").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, -5.0, 5.0, colorB, colorA));
         singleValuesJTable.getColumn("Peptides").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, 80.0, colorC));
         singleValuesJTable.getColumn("Coverage").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, 100.0, colorC));
-
+        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteGreen, false);
+        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteGreen, false);
+        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteRed, false);
+        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showNumberAndChart(showBothJCheckBox.isSelected(), 40);
+        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showNumberAndChart(showBothJCheckBox.isSelected(), 40);
+        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showNumberAndChart(showBothJCheckBox.isSelected(), 40);
 
         // add data to the multiple values example
         double maxValue = 10;
@@ -81,14 +81,12 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         // note: JSparklines with multiple values are NOT editable, so remember to set the columns as 'not editable' in the JTable
         multipleValuesJTable.getColumn("Change").setCellRenderer(new JSparklinesTableCellRenderer(JSparklinesTableCellRenderer.PlotType.lineChart, PlotOrientation.VERTICAL, 0.0, maxValue));
 
-
         // add data to the multiple data series example
         addDataMultipleDataSeries(maxValue);
 
         // set the JSparklines renderer
         // note: JSparklines with multiple values are NOT editable, so remember to set the columns as 'not editable' in the JTable
         multipleDataSeriesJTable.getColumn("Change").setCellRenderer(new JSparklinesTableCellRenderer(JSparklinesTableCellRenderer.PlotType.areaChart, PlotOrientation.VERTICAL, 0.0, maxValue));
-
 
         // add data to the 3D dataset example
         int maxYValue = 100;
@@ -177,7 +175,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         // ----------------------------------------
         // create the data and add it to the table
         // ----------------------------------------
-
         Random random = new Random();
 
         for (int j = 0; j < NUMBER_OF_ROWS; j++) {
@@ -217,7 +214,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         // ----------------------------------------
         // create the data and add it to the table
         // ----------------------------------------
-
         Random random = new Random();
 
         for (int j = 0; j < NUMBER_OF_ROWS; j++) {
@@ -264,7 +260,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         // ----------------------------------------
         // create the data and add it to the table
         // ----------------------------------------
-
         Random random = new Random();
 
         for (int j = 0; j < NUMBER_OF_ROWS; j++) {
@@ -307,24 +302,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        gradientPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics grphcs) {
-                Graphics2D g2d = (Graphics2D) grphcs;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-
-                GradientPaint gp = new GradientPaint(0, 0, 
-                    getBackground().brighter().brighter(), 0, getHeight(),
-                    getBackground().darker());
-
-                g2d.setPaint(gp);
-                g2d.fillRect(0, 0, getWidth(), getHeight());
-
-                super.paintComponent(grphcs);
-            }            
-        }
-        ;
+        backgroundPanel = new javax.swing.JPanel();
         singleValuesJPanel = new javax.swing.JPanel();
         showJSparklinesJCheckBox = new javax.swing.JCheckBox();
         singleValuesJScrollPane = new javax.swing.JScrollPane();
@@ -355,7 +333,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         setTitle("JSparklines Demo");
         setResizable(false);
 
-        gradientPanel.setOpaque(false);
+        backgroundPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         singleValuesJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Single Values"));
         singleValuesJPanel.setOpaque(false);
@@ -382,7 +360,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -394,6 +372,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJTable.setSelectionBackground(new java.awt.Color(204, 204, 204));
         singleValuesJScrollPane.setViewportView(singleValuesJTable);
 
+        showBothJCheckBox.setSelected(true);
         showBothJCheckBox.setText("Lines & Values");
         showBothJCheckBox.setToolTipText("<html>\nDisplay the chart <u>and</u> the number\n</html>");
         showBothJCheckBox.setIconTextGap(8);
@@ -404,6 +383,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             }
         });
 
+        showGradientJCheckBox.setSelected(true);
         showGradientJCheckBox.setText("Gradient");
         showGradientJCheckBox.setToolTipText("Turn the gradient color coding on or off");
         showGradientJCheckBox.setIconTextGap(8);
@@ -420,26 +400,28 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, singleValuesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                .addGroup(singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
                     .addGroup(singleValuesJPanelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addComponent(showJSparklinesJCheckBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(showBothJCheckBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(showGradientJCheckBox)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(showGradientJCheckBox)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         singleValuesJPanelLayout.setVerticalGroup(
             singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, singleValuesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addComponent(singleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(singleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(showGradientJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(showBothJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showJSparklinesJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(showJSparklinesJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showGradientJCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -494,17 +476,20 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             .addGroup(multipleDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
+                    .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                    .addGroup(multipleDataSeriesJPanelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         multipleDataSeriesJPanelLayout.setVerticalGroup(
             multipleDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addComponent(multipleDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(multipleDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -569,21 +554,24 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             .addGroup(treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(treeDimensionalDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
+                    .addGroup(treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(treeDimensionalDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(reference3dValuesJCheckBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(treeDimensionalDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(treeDimensionalDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
+                        .addComponent(treeDimensionalDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         treeDimensionalDataSeriesJPanelLayout.setVerticalGroup(
             treeDimensionalDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, treeDimensionalDataSeriesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(treeDimensionalDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addComponent(treeDimensionalDataSeriesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(treeDimensionalDataSeriesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(treeDimensionalDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(treeDimensionalDataSeriesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(reference3dValuesJCheckBox))
                 .addContainerGap())
         );
@@ -644,54 +632,57 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         multipleValuesJPanel.setLayout(multipleValuesJPanelLayout);
         multipleValuesJPanelLayout.setHorizontalGroup(
             multipleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleValuesJPanelLayout.createSequentialGroup()
+            .addGroup(multipleValuesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(multipleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                .addGroup(multipleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(multipleValuesJPanelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(multipleValuesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(referenceMultipleValuesJCheckBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(multipleValuesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(multipleValuesJPanelLayout.createSequentialGroup()
+                        .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         multipleValuesJPanelLayout.setVerticalGroup(
             multipleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, multipleValuesJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addComponent(multipleValuesJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(multipleValuesJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(multipleValuesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(multipleValuesJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(referenceMultipleValuesJCheckBox))
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout gradientPanelLayout = new javax.swing.GroupLayout(gradientPanel);
-        gradientPanel.setLayout(gradientPanelLayout);
-        gradientPanelLayout.setHorizontalGroup(
-            gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gradientPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout backgroundPanelLayout = new javax.swing.GroupLayout(backgroundPanel);
+        backgroundPanel.setLayout(backgroundPanelLayout);
+        backgroundPanelLayout.setHorizontalGroup(
+            backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gradientPanelLayout.createSequentialGroup()
+                .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundPanelLayout.createSequentialGroup()
                         .addComponent(singleValuesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(treeDimensionalDataSeriesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gradientPanelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundPanelLayout.createSequentialGroup()
                         .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        gradientPanelLayout.setVerticalGroup(
-            gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gradientPanelLayout.createSequentialGroup()
+        backgroundPanelLayout.setVerticalGroup(
+            backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(treeDimensionalDataSeriesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(singleValuesJPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(gradientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(multipleDataSeriesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(multipleValuesJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -701,11 +692,11 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gradientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(backgroundPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gradientPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(backgroundPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -895,8 +886,8 @@ public class JSparklinesDemo extends javax.swing.JFrame {
     private void showGradientJCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showGradientJCheckBoxActionPerformed
 
         if (showGradientJCheckBox.isSelected()) {
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteRed, false);
-            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteRed, false);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteGreen, false);
+            ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteGreen, false);
             ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteRed, false);
         } else {
             ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(null, false);
@@ -914,6 +905,18 @@ public class JSparklinesDemo extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // ignore error, use look and feel below
+        }
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new JSparklinesDemo().setVisible(true);
@@ -921,7 +924,7 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel gradientPanel;
+    private javax.swing.JPanel backgroundPanel;
     private javax.swing.JComboBox multipleDataSeriesJComboBox;
     private javax.swing.JPanel multipleDataSeriesJPanel;
     private javax.swing.JScrollPane multipleDataSeriesJScrollPane;

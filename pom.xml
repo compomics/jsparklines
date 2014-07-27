@@ -5,7 +5,7 @@
     <groupId>no.uib</groupId>
     <artifactId>jsparklines</artifactId>
     <packaging>jar</packaging>
-    <version>0.8.0</version>
+    <version>1.0.0</version>
     <name>JSparklines</name>
     <description>sparklines for java tables</description>
     <url>http://jsparklines.googlecode.com</url>
@@ -66,8 +66,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                     <showDeprecation>true</showDeprecation>
                     <debug>true</debug>
                 </configuration>
