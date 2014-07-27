@@ -25,23 +25,22 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="gradientPanel" max="32767" attributes="0"/>
+          <Component id="backgroundPanel" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="gradientPanel" max="32767" attributes="0"/>
+          <Component id="backgroundPanel" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="gradientPanel">
+    <Container class="javax.swing.JPanel" name="backgroundPanel">
       <Properties>
-        <Property name="opaque" type="boolean" value="false"/>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
       </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JPanel() {&#xd;&#xa;            @Override&#xd;&#xa;            protected void paintComponent(Graphics grphcs) {&#xd;&#xa;                Graphics2D g2d = (Graphics2D) grphcs;&#xd;&#xa;                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,&#xd;&#xa;                        RenderingHints.VALUE_ANTIALIAS_ON);&#xd;&#xa;&#xd;&#xa;                GradientPaint gp = new GradientPaint(0, 0, &#xd;&#xa;                        getBackground().brighter().brighter(), 0, getHeight(),&#xd;&#xa;                        getBackground().darker());&#xd;&#xa;                &#xd;&#xa;                g2d.setPaint(gp);&#xd;&#xa;                g2d.fillRect(0, 0, getWidth(), getHeight());&#xd;&#xa;                &#xd;&#xa;                super.paintComponent(grphcs);&#xd;&#xa;            }            &#xd;&#xa;        }&#xd;&#xa;"/>
-      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -98,14 +97,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="singleValuesJScrollPane" alignment="1" pref="353" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="singleValuesJScrollPane" pref="355" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                               <Component id="showJSparklinesJCheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="showBothJCheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="showGradientJCheckBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -116,12 +117,12 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="singleValuesJScrollPane" pref="261" max="32767" attributes="0"/>
+                      <Component id="singleValuesJScrollPane" pref="274" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="showGradientJCheckBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="showBothJCheckBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="showJSparklinesJCheckBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="showGradientJCheckBox" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -158,7 +159,7 @@
                         <Column editable="true" title="Protein" type="java.lang.String"/>
                         <Column editable="true" title="Fold Change" type="java.lang.Double"/>
                         <Column editable="true" title="Peptides" type="java.lang.Integer"/>
-                        <Column editable="true" title="Coverage" type="java.lang.Integer"/>
+                        <Column editable="true" title="Coverage" type="java.lang.Double"/>
                       </Table>
                     </Property>
                     <Property name="fillsViewportHeight" type="boolean" value="true"/>
@@ -175,6 +176,7 @@
             </Container>
             <Component class="javax.swing.JCheckBox" name="showBothJCheckBox">
               <Properties>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Lines &amp; Values"/>
                 <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;Display the chart &lt;u&gt;and&lt;/u&gt; the number&#xa;&lt;/html&gt;"/>
                 <Property name="iconTextGap" type="int" value="8"/>
@@ -186,6 +188,7 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="showGradientJCheckBox">
               <Properties>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Gradient"/>
                 <Property name="toolTipText" type="java.lang.String" value="Turn the gradient color coding on or off"/>
                 <Property name="iconTextGap" type="int" value="8"/>
@@ -213,8 +216,12 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="multipleDataSeriesJComboBox" alignment="1" min="-2" pref="87" max="-2" attributes="1"/>
-                          <Component id="multipleDataSeriesJScrollPane" alignment="0" pref="353" max="32767" attributes="0"/>
+                          <Component id="multipleDataSeriesJScrollPane" pref="355" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                              <Component id="multipleDataSeriesJComboBox" min="-2" pref="90" max="-2" attributes="1"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -224,9 +231,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="multipleDataSeriesJScrollPane" pref="261" max="32767" attributes="0"/>
+                      <Component id="multipleDataSeriesJScrollPane" pref="268" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="multipleDataSeriesJComboBox" min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="multipleDataSeriesJComboBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -300,17 +307,21 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                              <Component id="treeDimensionalDataSeriesJComboBox" min="-2" pref="90" max="-2" attributes="1"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="reference3dValuesJCheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="treeDimensionalDataSeriesJComboBox" min="-2" pref="87" max="-2" attributes="1"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
-                          <Component id="treeDimensionalDataSeriesJScrollPane" alignment="0" pref="353" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="treeDimensionalDataSeriesJScrollPane" pref="354" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -318,10 +329,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="treeDimensionalDataSeriesJScrollPane" pref="261" max="32767" attributes="0"/>
+                      <Component id="treeDimensionalDataSeriesJScrollPane" pref="272" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="treeDimensionalDataSeriesJComboBox" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="treeDimensionalDataSeriesJComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="reference3dValuesJCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -402,17 +413,21 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="multipleValuesJScrollPane" alignment="1" pref="353" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                              <Component id="multipleValuesJComboBox" min="-2" pref="90" max="-2" attributes="1"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="referenceMultipleValuesJCheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="multipleValuesJComboBox" min="-2" pref="87" max="-2" attributes="1"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="multipleValuesJScrollPane" pref="354" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -420,10 +435,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="multipleValuesJScrollPane" pref="261" max="32767" attributes="0"/>
+                      <Component id="multipleValuesJScrollPane" pref="268" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="multipleValuesJComboBox" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="multipleValuesJComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="referenceMultipleValuesJCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
