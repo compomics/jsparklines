@@ -134,7 +134,7 @@
                                         <include>LICENSE-2.0.txt</include>
                                         <include>README.txt</include>
                                         <include>jsparklines.ico</include>
-                                        <include>jsparklines-0.5.45_heat_map_demo.jar</include>
+                                        <include>jsparklines-1.0.0_heat_map_demo.jar</include>
                                     </includes>
                                 </resource>
                             </resources>
