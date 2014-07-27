@@ -10,6 +10,7 @@ Using *JSparklines* is very easy and only requires a couple of lines of code. Be
  * [#2D/3D_Data_Series 2D/3D Data Series]
  * [#Adding_Reference_Lines_and_Areas Adding Reference Lines and Areas]
  * [#Heat_Maps Heat Maps]
+
  * [#Maven_Dependency Maven Dependency]
 
 For the complete source code see the *JSparklines* [#Demos demos] found with the source code.
