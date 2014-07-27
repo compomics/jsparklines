@@ -62,14 +62,14 @@ Turn on color gradient:
 
 {{{
 ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn(
-    "Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueBlackGreen);
+    "Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteGreen, false);
 }}}
 
 Turn off color gradient:
 
 {{{
 ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn(
-    "Peptides").getCellRenderer()).setGradientColoring(null);
+    "Peptides").getCellRenderer()).setGradientColoring(null, false);
 }}}
 
 *Show Numbers and Chart*
@@ -128,7 +128,8 @@ multipleValuesJTable.getColumn("Change").setCellRenderer(
 *Notes:*
 
  * *Note* that cells with *JSparklines* with multiple values are NOT editable, so please set columns using *JSparklines* non-editable.
- * *Note* that the chart type, the maximum and minimum values, the line width for line charts etc can be change later by using the and setPlotType(...), setMaxValue(...), setMinValue(...), setLineWidth(...), etc, methods in JSparklinesTableCellRenderer.
+ * *Note* that the chart type, the maximum and minimum values, the line width for line charts etc can be change later by using the methods setPlotType(...), setMaxValue(...), setMinValue(...), setLineWidth(...), etc, methods in JSparklinesTableCellRenderer.
+ * *Note* To change the plotting type simply change the JSparklinesTableCellRenderer.PlotType value.
 
 [#Using_JSparklines Go to top of page]
 
@@ -187,7 +188,7 @@ multipleDataSeriesJTable.getColumn("Change").setCellRenderer(
 *Notes:*
 
  * *Note* that cells with *JSparklines* with multiple values are NOT editable, so please set columns using *JSparklines* non-editable.
- * *Note* that the chart type, the maximum and minimum values, the line width for line charts etc can be change later by using the and setPlotType(...), setMaxValue(...), setMinValue(...), setLineWidth(...), etc, methods in JSparklinesTableCellRenderer.
+ * *Note* that the chart type, the maximum and minimum values, the line width for line charts etc can be change later by using the methods setPlotType(...), setMaxValue(...), setMinValue(...), setLineWidth(...), etc, in JSparklinesTableCellRenderer.
 
 [#Using_JSparklines Go to top of page]
 
@@ -231,7 +232,7 @@ JSparklines3dDataset dataset = new JSparklines3dDataset(sparkLine3dDataSeriesAll
 *Notes:*
 
  * *Note* that cells with *JSparklines* with 2D/3D values are NOT editable, so please set columns using *JSparklines* non-editable.
- * *Note* that the chart type, the maximum and minimum values, etc can be change later by using the and setPlotType(...), setMaxXValue(...), setMinXValue(...), etc, methods in JSparklines3dTableCellRenderer.
+ * *Note* that the chart type, the maximum and minimum values, etc can be change later by using the methods setPlotType(...), setMaxXValue(...), setMinXValue(...), etc, in JSparklines3dTableCellRenderer.
 
 [#Using_JSparklines Go to top of page]
 
