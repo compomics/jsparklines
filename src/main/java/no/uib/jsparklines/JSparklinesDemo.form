@@ -188,7 +188,6 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="showGradientJCheckBox">
               <Properties>
-                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Gradient"/>
                 <Property name="toolTipText" type="java.lang.String" value="Turn the gradient color coding on or off"/>
                 <Property name="iconTextGap" type="int" value="8"/>

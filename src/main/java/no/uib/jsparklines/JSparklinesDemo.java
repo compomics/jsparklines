@@ -66,9 +66,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
         singleValuesJTable.getColumn("Fold Change").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, -5.0, 5.0, colorB, colorA));
         singleValuesJTable.getColumn("Peptides").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, 80.0, colorC));
         singleValuesJTable.getColumn("Coverage").setCellRenderer(new JSparklinesBarChartTableCellRenderer(PlotOrientation.HORIZONTAL, 100.0, colorC));
-        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteGreen, false);
-        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteGreen, false);
-        ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).setGradientColoring(ColorGradient.BlueWhiteRed, false);
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Fold Change").getCellRenderer()).showNumberAndChart(showBothJCheckBox.isSelected(), 40);
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Peptides").getCellRenderer()).showNumberAndChart(showBothJCheckBox.isSelected(), 40);
         ((JSparklinesBarChartTableCellRenderer) singleValuesJTable.getColumn("Coverage").getCellRenderer()).showNumberAndChart(showBothJCheckBox.isSelected(), 40);
@@ -383,7 +380,6 @@ public class JSparklinesDemo extends javax.swing.JFrame {
             }
         });
 
-        showGradientJCheckBox.setSelected(true);
         showGradientJCheckBox.setText("Gradient");
         showGradientJCheckBox.setToolTipText("Turn the gradient color coding on or off");
         showGradientJCheckBox.setIconTextGap(8);
