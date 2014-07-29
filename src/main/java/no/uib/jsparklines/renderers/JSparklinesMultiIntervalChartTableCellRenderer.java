@@ -339,16 +339,12 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
             return c;
         }
         
-        if (value instanceof String) {
+        if (!(value instanceof StartIndexes)) {
             //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            return c;
-        }
-
-        if (!(value instanceof StartIndexes)) {
             return c;
         }
 
@@ -411,7 +407,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
             if (indexes.isEmpty()) {
                 valueLabel.setText(null);
             } else if (indexes.size() > 1) {
-                valueLabel.setText("x" + indexes.size());
+                valueLabel.setText(indexes.size() + "x");
             } else { // == 1
                 valueLabel.setText("" + indexes.get(0));
             }
