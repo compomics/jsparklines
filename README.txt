@@ -12,14 +12,9 @@
    The charts are created using JFreeChart and added to the table 
    columns using custom TableCellRenderers. 
 
-   Two main types of charts are currently supported: bar charts and 
-   line charts. The colors and the plot orientation is set when creating 
-   the sparklines. 
+   More than 27 types of charts/renderers are supported! 
 
-   
-
-
-
+  
    ======================
     JSparklines Web Page
    ======================
@@ -28,17 +23,26 @@
    http://jsparklines.googlecode.com
 
 
-
    ===================
     JSparklines Demos
    ===================
 
-   JSparklines demos are available by double clicking the jar 
-   file (from command line 'java -jar jsparklines-X.Y.Z.jar'). 
+   JSparklines demos are available by double clicking the two jar files 
+   jsparklines-X.Y.Z.jar or jsparklines-X.Y.Z_heat_map_demo.jar.
 
-   For more details (and source code) see: 
-   http://jsparklines.googlecode.com
+   From the command line: 
 
+      java -jar jsparklines-X.Y.Z.jar
+
+      or
+
+      java -jar jsparklines-X.Y.Z_heat_map_demo.jar
+
+
+   (Replace X.Y.Z with the current version number.)
+
+
+   For more details (and source code) see: http://jsparklines.googlecode.com
 
 
    =========
