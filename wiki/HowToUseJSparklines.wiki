@@ -13,7 +13,7 @@ Using *JSparklines* is very easy and only requires a couple of lines of code. Be
 
  * [#Maven_Dependency Maven Dependency]
 
-For the complete source code see the *JSparklines* [#Demos demos] found with the source code.
+For the complete source code see the *JSparklines* [#Demos demos] found with the source code. See also the [http://genesis.ugent.be/files/costore/javadoc/jsparklines/apidocs/index.html JavaDoc].
 
 ----
 
