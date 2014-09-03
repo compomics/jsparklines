@@ -9,8 +9,8 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.StatisticalBarRenderer;
 
 /**
- * A custom renderer that makes it possible to use different colors for
- * individual data bars in statistical bar charts.
+ * Custom renderer making it possible to use different colors for individual
+ * data bars in statistical bar charts.
  *
  * @author Harald Barsnes
  */

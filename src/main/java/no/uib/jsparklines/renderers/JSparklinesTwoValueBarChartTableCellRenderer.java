@@ -34,8 +34,8 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * A renderer for displaying JSparklines plots consisting of two values as a
- * stacked bar chart inside a table cell. Supported datatype: XYDataPoint.
+ * Table cell renderer displaying JSparklines plots consisting of two values as
+ * a stacked bar charts. Supported datatype: XYDataPoint.
  *
  * @author Harald Barsnes
  */
@@ -270,17 +270,7 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
         this.showFirstNumber = showFirstNumber;
     }
 
-    /**
-     * Sets up the cell renderer for the given cell.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
@@ -489,7 +479,7 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
     /**
      * Add a reference line at a given data value.
      *
-     * @param referenceLine
+     * @param referenceLine the reference line
      */
     public void addReferenceLine(ReferenceLine referenceLine) {
         referenceLines.put(referenceLine.getLabel(), referenceLine);
@@ -538,7 +528,7 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
     /**
      * Add a reference area.
      *
-     * @param referenceArea
+     * @param referenceArea the reference area
      */
     public void addReferenceArea(ReferenceArea referenceArea) {
         referenceAreas.put(referenceArea.getLabel(), referenceArea);

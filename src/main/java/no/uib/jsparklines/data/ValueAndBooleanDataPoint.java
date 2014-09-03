@@ -4,7 +4,7 @@ import java.io.Serializable;
 import no.uib.jsparklines.renderers.util.Util;
 
 /**
- * Object that stores data about one data point and a corresponding significance
+ * Object storing data about one data point and a corresponding significance
  * value.
  *
  * @author Harald Barsnes
@@ -27,8 +27,8 @@ public class ValueAndBooleanDataPoint implements Comparable<ValueAndBooleanDataP
     /**
      * Create a new ValueAndBooleanDataPoint object.
      *
-     * @param value
-     * @param significant
+     * @param value the value
+     * @param significant is it significant?
      */
     public ValueAndBooleanDataPoint(double value, boolean significant) {
         this.value = value;

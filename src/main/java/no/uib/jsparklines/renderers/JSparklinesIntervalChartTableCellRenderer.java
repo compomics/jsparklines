@@ -31,12 +31,12 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.category.DefaultIntervalCategoryDataset;
 
 /**
- * A renderer for displaying a JSparklines interval chart inside a table cell.
- * Assumes that the cell values are of type Integer, Short, Byte, Long, Double,
- * Float, XYDataPoint or XYDataPoint[]. If data of XYDataPoint is used the X
- * value is assumed to be the lower range of the interval and the Y values is
- * assumed to be the upper range. For the other cell value types the width of
- * the interval has to be set by the user.
+ * Table cell renderer displaying JSparklines interval charts. Assumes that the
+ * cell values are of type Integer, Short, Byte, Long, Double, Float,
+ * XYDataPoint or XYDataPoint[]. If data of XYDataPoint is used the X value is
+ * assumed to be the lower range of the interval and the Y values is assumed to
+ * be the upper range. For the other cell value types the width of the interval
+ * has to be set by the user.
  *
  * @author Harald Barsnes
  */
@@ -428,17 +428,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         this.showNumbers = showNumbers;
     }
 
-    /**
-     * Sets up the cell renderer for the given component.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 

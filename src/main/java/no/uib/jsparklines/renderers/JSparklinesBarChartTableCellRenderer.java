@@ -27,9 +27,8 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * A renderer for displaying a JSparklines bar chart inside a table cell.
- * Assumes that the cell values are of type Integer, Short, Byte, Long, Double,
- * Float or XYDataPoint.
+ * Table cell renderer displaying JSparklines bar charts. Assumes that the cell
+ * values are of type Integer, Short, Byte, Long, Double, Float or XYDataPoint.
  *
  * @author Harald Barsnes
  */
@@ -544,17 +543,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         this.showNumbers = showNumbers;
     }
 
-    /**
-     * Sets up the cell renderer for the given component.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 

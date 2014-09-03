@@ -3,7 +3,7 @@ package no.uib.jsparklines.data;
 import java.io.Serializable;
 
 /**
- * Object that stores data about one data point in an XY plot.
+ * Object storing data about one data point in a XY plot.
  *
  * @author Harald Barsnes
  */

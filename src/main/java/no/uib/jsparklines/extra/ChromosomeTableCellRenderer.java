@@ -10,7 +10,7 @@ import javax.swing.table.TableCellRenderer;
 import no.uib.jsparklines.data.Chromosome;
 
 /**
- * A table cell renderer for chromosomes, i.e., 1-n and X, Y, Z and W.
+ * Table cell renderer for chromosome objects, i.e., 1-n and X, Y, Z and W.
  *
  * @author Harald Barsnes
  */
@@ -22,17 +22,7 @@ public class ChromosomeTableCellRenderer extends JLabel implements TableCellRend
     public ChromosomeTableCellRenderer() {
     }
 
-    /**
-     * Sets up the cell renderer for the given cell.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
         JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,

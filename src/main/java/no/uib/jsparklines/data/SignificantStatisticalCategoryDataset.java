@@ -3,7 +3,7 @@ package no.uib.jsparklines.data;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 /**
- * An extention of DefaultStatisticalCategoryDataset that adds a boolean
+ * Extention of DefaultStatisticalCategoryDataset adding a boolean
  * indicating if the dataset is significant or not.
  *
  * @author Harald Barsnes

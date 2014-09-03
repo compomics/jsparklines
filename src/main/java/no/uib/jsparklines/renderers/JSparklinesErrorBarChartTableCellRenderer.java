@@ -28,9 +28,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 /**
- * A renderer for displaying a JSparklines bar charts with error bars inside a
- * table cell. Assumes that the cell values are of type
- * DefaultStatisticalCategoryDataset or SignificantStatisticalCategoryDataset.
+ * Table cell renderer displaying JSparklines bar charts with error bars.
+ * Assumes that the cell values are of type DefaultStatisticalCategoryDataset or
+ * SignificantStatisticalCategoryDataset.
  *
  * @author Harald Barsnes
  */
@@ -359,17 +359,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         this.errorBarWidth = errorBarWidth;
     }
 
-    /**
-     * Sets up the cell renderer for the given component.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
@@ -476,7 +466,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         // set up the chart renderer
         if (value instanceof DefaultStatisticalCategoryDataset) {
 
-            StatisticalBarChartColorRenderer renderer = null;
+            StatisticalBarChartColorRenderer renderer;
             DefaultStatisticalCategoryDataset tempSet = (DefaultStatisticalCategoryDataset) value;
 
             if (gradientColoring) {

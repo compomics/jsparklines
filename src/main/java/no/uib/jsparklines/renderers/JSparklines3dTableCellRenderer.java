@@ -27,19 +27,26 @@ import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.data.xy.DefaultXYZDataset;
 
 /**
- * A renderer for displaying JSparklines 3D plots consisting of multiple values
- * per data series inside a table cell.
+ * Table cell renderer displaying JSparklines 3D plots consisting of multiple values
+ * per data series.
  *
  * @author Harald Barsnes
  */
 public class JSparklines3dTableCellRenderer extends JLabel implements TableCellRenderer {
 
     /**
-     * An enumerator of the supported plot types.
+     * List of supported plot types for JSparklines3dTableCellRenderer.
      */
     public enum PlotType {
 
-        scatterPlot, bubblePlot
+        /**
+         * Scatter plot.
+         */
+        scatterPlot, 
+        /**
+         * Bubble plot.
+         */
+        bubblePlot
     }
     /**
      * The current plot type.
@@ -124,17 +131,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
         setLayout(new BorderLayout());
     }
 
-    /**
-     * Sets up the cell renderer for the given cell.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 

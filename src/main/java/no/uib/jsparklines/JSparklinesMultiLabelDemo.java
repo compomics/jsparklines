@@ -7,7 +7,7 @@ import no.uib.jsparklines.data.JSparklinesMultiLabelDataset;
 import no.uib.jsparklines.renderers.JSparklinesMultiLabelTableCellRenderer;
 
 /**
- * A demo of how to use the JSparklinesMultiLabelTableCellRenderer.
+ * Demo of the JSparklinesMultiLabelTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -16,11 +16,10 @@ public class JSparklinesMultiLabelDemo extends javax.swing.JDialog {
     /**
      * Creates a new JSparklinesMultiLabelDemo.
      *
-     * @param parent
-     * @param modal
+     * @param parent the parent frame
      */
-    public JSparklinesMultiLabelDemo(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public JSparklinesMultiLabelDemo(java.awt.Frame parent) {
+        super(parent, true);
         initComponents();
 
         int rowCounter = 1;
@@ -157,6 +156,8 @@ public class JSparklinesMultiLabelDemo extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
+     * Main method for testing purposes.
+     * 
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -176,7 +177,7 @@ public class JSparklinesMultiLabelDemo extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JSparklinesMultiLabelDemo dialog = new JSparklinesMultiLabelDemo(new javax.swing.JFrame(), true);
+                JSparklinesMultiLabelDemo dialog = new JSparklinesMultiLabelDemo(new javax.swing.JFrame());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -20,8 +20,8 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * A renderer for displaying colored equal size bar charts inside a table cell.
- * Assumes that the cell values are of type Color.
+ * Table cell renderer displaying colored equal size bar charts. Assumes that
+ * the cell values are of type Color.
  *
  * @author Harald Barsnes
  */
@@ -91,17 +91,7 @@ public class JSparklinesColorTableCellRenderer extends JPanel implements TableCe
         this.plotBackgroundColor = plotBackgroundColor;
     }
 
-    /**
-     * Sets up the cell renderer for the given component.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
@@ -116,7 +106,7 @@ public class JSparklinesColorTableCellRenderer extends JPanel implements TableCe
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
-        
+
         if (value instanceof String) {
             //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
@@ -161,7 +151,6 @@ public class JSparklinesColorTableCellRenderer extends JPanel implements TableCe
 
         // set up the chart renderer
         CategoryItemRenderer renderer = new BarChartColorRenderer((Color) value);
-
 
         // make sure the background is the same as the table row color
         if (plotBackgroundColor != null && !isSelected) {

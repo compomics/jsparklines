@@ -3,7 +3,7 @@ package no.uib.jsparklines.renderers.util;
 import java.awt.Color;
 
 /**
- * Includes general help methods that are used by the other classes.
+ * Includes general helper methods that are used by the other classes.
  *
  * @author Harald Barsnes
  */

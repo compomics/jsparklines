@@ -24,8 +24,8 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * A renderer for displaying integers as colored equal size bar charts inside a
- * table cell. Assumes that the cell values are of type Integer.
+ * Table cell renderer displaying integers as colored equal size bar charts.
+ * Assumes that the cell values are of type Integer.
  *
  * @author Harald Barsnes
  */
@@ -189,17 +189,7 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
         this.showNumbers = showNumbers;
     }
 
-    /**
-     * Sets up the cell renderer for the given component.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
@@ -214,7 +204,7 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
-        
+
         if (value instanceof String) {
             //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
