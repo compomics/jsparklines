@@ -3,6 +3,54 @@
 
 ----
 
+*Changes in JSparklines 1.0.2 (September 3. 2014):*
+
+ * FEATURE IMPROVEMENT: Updated and unified the JavaDoc, and made it available [http://genesis.ugent.be/files/costore/javadoc/jsparklines/apidocs/index.html here].
+
+----
+
+*Changes in JSparklines 1.0.1 (July 29. 2014):*
+
+ * FEATURE IMPROVEMENT: Changed the annotation of multiple indexes in JSparklinesMultiIntervalChartTableCellRenderer from "x2" to "2x", etc.
+ * BUG FIX: Fixed an issue in the way non supported object types did not have the correct background color in JSparklinesMultiIntervalChartTableCellRenderer.
+
+----
+
+*Changes in JSparklines 1.0.0 (July 27. 2014):*
+
+ * FEATURE IMPROVEMENT: Changed the look and feel to Nimbus for the demos and removed the gradient background color.
+
+----
+
+*Changes in JSparklines 0.8.0 (July 22. 2014):*
+
+ * FEATURE IMPROVEMENT: JSparklinesErrorBarChartTableCellRenderer: Added support for indicating significance.
+ * FEATURE IMPROVEMENT: JSparklinesErrorBarChartTableCellRenderer: Added support for displaying the mean value and the chart.
+
+----
+
+*Changes in JSparklines 0.7.0 (July 10. 2014):*
+
+ * FEATURE IMPROVEMENT: Added the option to use gradient color coding also when all values are positive. (The first color of the gradient is used for values close to the min value, while the third color of the gradient is used for values close to the max value. The middle gradient color is used for the halfway point between the min and max values.)
+ * FEATURE IMPROVEMENT: Added support for gradient color in the JSparklinesErrorBarChartTableCellRenderer.
+ * FEATURE IMPROVEMENT: Made it possible to set the width of the error bar in the JSparklinesErrorBarChartTableCellRenderer.
+ * BUG FIX: Fixed a bug in the gradient color coding where the colors too quickly ended up as too dark.
+
+----
+
+*Changes in JSparklines 0.6.7 (May 12. 2014):*
+
+ * FEATURE IMPROVEMENT: Added the option to control the sorting in the ArrrayListDataPoints class: first numbers, sum or sum except last number.
+
+----
+
+*Changes in JSparklines 0.6.6 (April 25. 2014):*
+
+ * FEATURE IMPROVEMENT: Extended the options for which value to display in the table for the JSparklinesArrayListBarChartTableCellRenderer (firstNumberOnly, sumOfNumbers, sumExceptLastNumber).
+ * FEATURE IMPROVEMENT: The tooltip in JSparklinesArrayListBarChartTableCellRenderer now uses the same number formatting as the value displayed in the table.
+
+----
+
 *Changes in JSparklines 0.6.5 (February 1. 2014):*
  * FEATURE IMPROVEMENT: Added a new ArrrayListDataPoints object for use in the JSparklinesArrayListBarChartTableCellRenderer, such that the array list can now be sorted based on the sum of the values in the lists. Note that ArrrayListDataPoints is now the only supported type for JSparklinesArrayListBarChartTableCellRenderer.
 
