@@ -53,20 +53,62 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.Layer;
 
 /**
- * A renderer for displaying JSparklines plots consisting of multiple values per
- * data series inside a table cell.
+ * Table cell renderer displaying JSparklines plots consisting of multiple
+ * values per data series.
  *
  * @author Harald Barsnes
  */
 public class JSparklinesTableCellRenderer extends JLabel implements TableCellRenderer {
 
     /**
-     * An enumerator of the supported plot types.
+     * List of supported plot types.
      */
     public enum PlotType {
 
-        barChart, lineChart, pieChart, stackedBarChart, stackedPercentBarChart, areaChart, boxPlot,
-        upDownChart, proteinSequence, difference, stackedBarChartIntegerWithUpperRange
+        /**
+         * Bar chart.
+         */
+        barChart, 
+        /**
+         * Line chart.
+         */
+        lineChart, 
+        /**
+         * Pie chart.
+         */
+        pieChart, 
+        /**
+         * Stacked bar chart.
+         */
+        stackedBarChart, 
+        /**
+         * Stacked bar chart in percent.
+         */
+        stackedPercentBarChart, 
+        /**
+         * Area chart.
+         */
+        areaChart, 
+        /**
+         * Box plot.
+         */
+        boxPlot,
+        /**
+         * Up/down chart.
+         */
+        upDownChart, 
+        /**
+         * Protein sequence chart.
+         */
+        proteinSequence, 
+        /**
+         * Difference chart.
+         */
+        difference, 
+        /**
+         * Stacked bar chart in integer with upper range.
+         */
+        stackedBarChartIntegerWithUpperRange
     }
     /**
      * If true, a black reference line is added to the protein sequence plots.
@@ -164,15 +206,15 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * If true the value of the chart is shown next to the bar chart. This is
      * currently only supported for the plot type
-     * 'stackedBarChartIntegerWithUpperRange' and only displays the first
-     * number in the first data series.
+     * 'stackedBarChartIntegerWithUpperRange' and only displays the first number
+     * in the first data series.
      */
     private boolean showNumberAndChart = false;
     /**
      * If true the underlying numbers are shown instead of the charts. This is
      * currently only supported for the plot type
-     * 'stackedBarChartIntegerWithUpperRange' and only displays the first
-     * number in the first data series.
+     * 'stackedBarChartIntegerWithUpperRange' and only displays the first number
+     * in the first data series.
      */
     private boolean showNumbers = false;
     /**
@@ -328,8 +370,8 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * Set if the underlying numbers or the bar charts are to be shown. This
      * method is currently only supported for the plot type
-     * 'stackedBarChartIntegerWithUpperRange' and only displays the first
-     * number in the first data series.
+     * 'stackedBarChartIntegerWithUpperRange' and only displays the first number
+     * in the first data series.
      *
      * @param showNumbers if true the underlying numbers are shown
      */
@@ -362,17 +404,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         this.referenceLineColor = color;
     }
 
-    /**
-     * Sets up the cell renderer for the given cell.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
@@ -397,7 +429,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
-        
+
         if (value instanceof String) {
             //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
@@ -418,7 +450,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
         StringBuilder tooltip = new StringBuilder();
         tooltip.append("<html>");
-
 
         // show the number and/or the chart if option selected
         if ((showNumberAndChart || showNumbers) && plotType == PlotType.stackedBarChartIntegerWithUpperRange) {
@@ -481,14 +512,12 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             valueLabel.setVisible(false);
         }
 
-
         // create the chart
         if (plotType == PlotType.barChart) {
 
             /////////////
             // BAR CHART
             /////////////
-
             DefaultCategoryDataset barChartDataset = new DefaultCategoryDataset();
 
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {
@@ -560,7 +589,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             //////////////////////////////////
             // LINE, AREA or DIFFERENCE CHART
             //////////////////////////////////
-
             AbstractXYItemRenderer renderer;
 
             // set up the chart renderer
@@ -692,7 +720,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             //////////////
             // PIE CHART
             //////////////
-
             DefaultPieDataset pieDataset = new DefaultPieDataset();
 
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {
@@ -737,7 +764,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             /////////////////////
             // STACKED BAR CHART
             /////////////////////
-
             DefaultCategoryDataset barChartDataset = new DefaultCategoryDataset();
 
             StackedBarRenderer renderer = new StackedBarRenderer();
@@ -844,7 +870,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             //////////////
             // BOX PLOT
             //////////////
-
             DefaultBoxAndWhiskerCategoryDataset boxPlotDataset = new DefaultBoxAndWhiskerCategoryDataset();
 
             BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
@@ -899,7 +924,6 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             /////////////////
             // UP/DOWN CHART
             /////////////////
-
             DefaultCategoryDataset barChartDataset = new DefaultCategoryDataset();
 
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {

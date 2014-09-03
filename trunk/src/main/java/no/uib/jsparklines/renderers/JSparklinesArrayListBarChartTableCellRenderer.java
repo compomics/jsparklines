@@ -35,20 +35,30 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * A renderer for displaying JSparklines plots consisting of numbers as a
- * stacked bar chart inside a table cell. Supported datatype:
- * ArrrayListDataPoints.
+ * Table cell renderer displaying JSparklines plots consisting of numbers as a
+ * stacked bar chart. Supported datatype: ArrrayListDataPoints.
  *
  * @author Harald Barsnes
  */
 public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implements TableCellRenderer {
 
     /**
-     * An enumerator of the supported value displays.
+     * List of supported value display options.
      */
     public enum ValueDisplayType {
 
-        firstNumberOnly, sumOfNumbers, sumExceptLastNumber
+        /**
+         * Show the first number only.
+         */
+        firstNumberOnly, 
+        /**
+         * Show the sum of the numbers.
+         */
+        sumOfNumbers, 
+        /**
+         * Show the sum with the exception of the last number.
+         */
+        sumExceptLastNumber
     }
     /**
      * The current value display type.
@@ -181,7 +191,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
         this.add(valueLabel);
         add(chartPanel);
     }
-    
+
     /**
      * Creates a new JSparkLinesTableCellRenderer.
      *
@@ -192,7 +202,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      * @param colors the colors to use for the plot
      * @param showFirstNumber if true, the first value is shown when showing the
      * values, false shows the sum
-     * 
+     *
      * @deprecated use the constructor with the ValueDisplayType instead
      */
     public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
@@ -212,7 +222,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      * max value (set to null if no filling should be used)
      * @param showFirstNumber if true, the first value is shown when showing the
      * values, false shows the sum
-     * 
+     *
      * @deprecated use the constructor with the ValueDisplayType instead
      */
     public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
@@ -223,7 +233,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
         this.colors = colors;
         this.fillColor = fillColor;
         if (showFirstNumber) {
-           this.currentValueDisplayType = ValueDisplayType.firstNumberOnly;
+            this.currentValueDisplayType = ValueDisplayType.firstNumberOnly;
         } else {
             this.currentValueDisplayType = ValueDisplayType.sumOfNumbers;
         }
@@ -330,37 +340,27 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      * value is shown.
      *
      * @param showFirstNumber
-     * 
+     *
      * @deprecated use the ValueDisplayType enum instead
      */
     public void showFirstNumber(boolean showFirstNumber) {
         if (showFirstNumber) {
-           this.currentValueDisplayType = ValueDisplayType.firstNumberOnly;
+            this.currentValueDisplayType = ValueDisplayType.firstNumberOnly;
         } else {
             this.currentValueDisplayType = ValueDisplayType.sumOfNumbers;
         }
     }
-    
+
     /**
      * Set the current value display type.
-     * 
+     *
      * @param valueDisplayType the value display type
      */
     public void setValueDisplayType(ValueDisplayType valueDisplayType) {
         this.currentValueDisplayType = valueDisplayType;
     }
 
-    /**
-     * Sets up the cell renderer for the given cell.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 

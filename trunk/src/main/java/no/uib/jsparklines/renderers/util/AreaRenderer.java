@@ -30,8 +30,7 @@ import org.jfree.util.ShapeUtilities;
  * Custom renderer displaying line charts with the area under the line is
  * filled.
  *
- * From an example found at www.jfree.org. Complete link:
- * www.jfree.org/phpBB2/viewtopic.php?f=10&t=15596
+ * From an example found at www.jfree.org/phpBB2/viewtopic.php?f=10&t=15596
  */
 public class AreaRenderer extends XYAreaRenderer {
 
@@ -78,9 +77,10 @@ public class AreaRenderer extends XYAreaRenderer {
     }
 
     /**
-     * Constructs a new renderer. <p> To specify the type of renderer, use one
-     * of the constants: SHAPES, LINES, SHAPES_AND_LINES, AREA or
-     * AREA_AND_SHAPES.
+     * Constructs a new renderer.
+     * <p>
+     * To specify the type of renderer, use one of the constants: SHAPES, LINES,
+     * SHAPES_AND_LINES, AREA or AREA_AND_SHAPES.
      *
      * @param type the type of renderer.
      * @param toolTipGenerator the tool tip generator to use (<code>null</code>

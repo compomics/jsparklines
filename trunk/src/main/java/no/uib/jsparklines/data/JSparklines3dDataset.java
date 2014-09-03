@@ -3,7 +3,7 @@ package no.uib.jsparklines.data;
 import java.util.ArrayList;
 
 /**
- * Stores a set of JSparkline3dDataSeries in an array.
+ * Object storing a set of JSparkline3dDataSeries in an array.
  *
  * @author Harald Barsnes
  */

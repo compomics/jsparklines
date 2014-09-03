@@ -22,7 +22,7 @@ import no.uib.jsparklines.renderers.util.GradientColorCoding.ColorGradient;
 import org.jfree.chart.plot.PlotOrientation;
 
 /**
- * A demo of how to use JSparklines to display heat maps in Java tables.
+ * Demo of JSparklines used to display heat maps in Java tables.
  *
  * @author Harald Barsnes
  */

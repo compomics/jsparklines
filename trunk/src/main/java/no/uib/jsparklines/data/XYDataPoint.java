@@ -4,7 +4,7 @@ import java.io.Serializable;
 import no.uib.jsparklines.renderers.util.Util;
 
 /**
- * Object that stores data about one data point in an XY plot.
+ * Object storing data about one data point in an XY plot.
  *
  * @author Harald Barsnes
  */
@@ -31,8 +31,8 @@ public class XYDataPoint implements Comparable<XYDataPoint>, Serializable {
     /**
      * Create a new XYDataPoint.
      *
-     * @param x
-     * @param y
+     * @param x the x value
+     * @param y the y value
      */
     public XYDataPoint(double x, double y) {
         this.x = x;
@@ -42,8 +42,8 @@ public class XYDataPoint implements Comparable<XYDataPoint>, Serializable {
     /**
      * Create a new XYDataPoint.
      *
-     * @param x
-     * @param y
+     * @param x the x value
+     * @param y the y value
      * @param compareBasedOnFirstDataPoint if true, the compare method will use
      * the first data point, false will use the sum
      */
@@ -56,7 +56,7 @@ public class XYDataPoint implements Comparable<XYDataPoint>, Serializable {
     /**
      * Returns the x value.
      *
-     * @return the x
+     * @return the x value
      */
     public double getX() {
         return x;
@@ -74,7 +74,7 @@ public class XYDataPoint implements Comparable<XYDataPoint>, Serializable {
     /**
      * Returns the y value.
      *
-     * @return the y
+     * @return the y value
      */
     public double getY() {
         return y;

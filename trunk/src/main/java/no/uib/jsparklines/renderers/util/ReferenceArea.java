@@ -3,7 +3,7 @@ package no.uib.jsparklines.renderers.util;
 import java.awt.Color;
 
 /**
- * A reference area to be added to a chart.
+ * Reference area that can be added to a chart.
  *
  * @author Harald Barsnes.
  */

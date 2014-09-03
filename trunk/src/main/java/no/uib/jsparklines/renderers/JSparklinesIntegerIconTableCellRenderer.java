@@ -12,8 +12,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * A renderer for displaying integers as icons inside a table cell. Assumes that
- * the cell values are of type Integer.
+ * Table cell renderer displaying integers as icons. Assumes that the cell
+ * values are of type Integer.
  *
  * @author Harald Barsnes
  */
@@ -86,17 +86,7 @@ public class JSparklinesIntegerIconTableCellRenderer extends JPanel implements T
         this.tooltips = tooltips;
     }
 
-    /**
-     * Sets up the cell renderer for the given component.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 

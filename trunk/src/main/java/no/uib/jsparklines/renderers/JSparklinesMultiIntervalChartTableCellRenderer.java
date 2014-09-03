@@ -27,8 +27,8 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * A renderer for displaying a multiple intervals inside a table cell. Assumes
- * that the cell values are of type StartIndexes.
+ * Table cell renderer displaying multiple intervals. Assumes that the cell
+ * values are of type StartIndexes.
  *
  * @author Harald Barsnes
  */
@@ -303,17 +303,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
         this.showNumbers = showNumbers;
     }
 
-    /**
-     * Sets up the cell renderer for the given component.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
@@ -338,7 +328,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
-        
+
         if (!(value instanceof StartIndexes)) {
             //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
@@ -351,7 +341,6 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
         // get the actual data to display
         StartIndexes startIndexes = (StartIndexes) value;
         ArrayList<Integer> indexes = startIndexes.getIndexes();
-
 
         // if show numbers, format as number and return
         if (showNumbers) {
@@ -370,7 +359,6 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
 
             c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, numbersAsString,
                     isSelected, hasFocus, row, column);
-
 
             ((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
 
@@ -399,7 +387,6 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
         }
 
         this.setToolTipText(numbersAsString);
-
 
         // show the number _and_ the chart if option selected
         if (showNumberAndChart) {
@@ -489,7 +476,6 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
         plot.getDomainAxis().setVisible(false);
         plot.setRangeGridlinesVisible(false);
 
-
         // add a reference line in the middle of the dataset
         DefaultCategoryDataset referenceLineDataset = new DefaultCategoryDataset();
         referenceLineDataset.addValue(maxValue * 1.02, "A", "B");
@@ -500,9 +486,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
         referenceLineRenderer.setSeriesPaint(0, referenceLineColor);
         plot.setRenderer(1, referenceLineRenderer);
 
-
         // make sure the background is the same as the table row color
-
         if (plotBackgroundColor != null && !isSelected) {
             plot.setBackgroundPaint(plotBackgroundColor);
             chartPanel.setBackground(plotBackgroundColor);

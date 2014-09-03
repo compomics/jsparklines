@@ -11,16 +11,84 @@ import java.awt.Color;
 public class GradientColorCoding {
 
     /**
-     * An enumerator of the supported color gradient types. <br><br> Values
-     * below zero uses the first color in the gradient name, while values above
-     * zero uses the third color in the gradient.
+     * List of supported color gradient types. <br><br> Values below zero uses
+     * the first color in the gradient name, while values above zero uses the
+     * third color in the gradient.
      */
     public enum ColorGradient {
 
-        RedBlackGreen, GreenBlackRed, GreenBlackBlue, BlueBlackGreen, GreenBlackYellow,
-        YellowBlackGreen, GreenBlackPurple, PurpleBlackGreen, RedBlackMagenta, MagentaBlackRed,
-        BlueBlackRed, RedBlackBlue, GreenWhiteRed, RedWhiteGreen, BlueWhiteRed, RedWhiteBlue,
-        GreenWhiteBlue, BlueWhiteGreen
+        /**
+         * Red via black to green.
+         */
+        RedBlackGreen, 
+        /**
+         * Green via black to red.
+         */
+        GreenBlackRed, 
+        /**
+         * Green via black to blue.
+         */
+        GreenBlackBlue, 
+        /**
+         * Blue via black to green.
+         */
+        BlueBlackGreen, 
+        /**
+         * Green via black to yellow.
+         */
+        GreenBlackYellow,
+        /**
+         * Yellow via black to green.
+         */
+        YellowBlackGreen, 
+        /**
+         * Green via black to purple.
+         */
+        GreenBlackPurple, 
+        /**
+         * Purple via black to green.
+         */
+        PurpleBlackGreen, 
+        /**
+         * Red via black to magenta.
+         */
+        RedBlackMagenta, 
+        /**
+         * Magenta via black to red.
+         */
+        MagentaBlackRed,
+        /**
+         * Blue via black to red.
+         */
+        BlueBlackRed, 
+        /**
+         * Red via black to blue.
+         */
+        RedBlackBlue, 
+        /**
+         * Green via white to red.
+         */
+        GreenWhiteRed, 
+        /**
+         * Red via white to green.
+         */
+        RedWhiteGreen, 
+        /**
+         * Blue via white to red.
+         */
+        BlueWhiteRed, 
+        /**
+         * Red via white to blue.
+         */
+        RedWhiteBlue,
+        /**
+         * Green via white to blue.
+         */
+        GreenWhiteBlue, 
+        /**
+         * Blue via white to green.
+         */
+        BlueWhiteGreen
     }
 
     /**

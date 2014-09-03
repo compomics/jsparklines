@@ -19,9 +19,8 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.DefaultXYZDataset;
 
 /**
- * A renderer for displaying a JSparklines bubble heat maps inside table cells.
- * Assumes that the cell values are of type Integer, Short, Byte, Long, Double
- * or Float.
+ * Table cell renderer displaying JSparklines bubble heat maps. Assumes that the
+ * cell values are of type Integer, Short, Byte, Long, Double or Float.
  *
  * @author Harald Barsnes
  */
@@ -125,17 +124,7 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
         this.showNumbers = showNumbers;
     }
 
-    /**
-     * Sets up the cell renderer for the given component.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 

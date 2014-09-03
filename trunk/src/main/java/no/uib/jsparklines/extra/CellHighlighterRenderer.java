@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * A render that highlights columns ending with a given string, by using a
+ * Table cell render highlighting columns ending with a given string, by using a
  * different background color. Supported input is String.
  *
  * @author Harald Barsnes
@@ -50,17 +50,7 @@ public class CellHighlighterRenderer implements TableCellRenderer {
         this.highlightLabel = highlightLabel;
     }
 
-    /**
-     * Sets up the cell renderer for the given component.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 

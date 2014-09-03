@@ -6,7 +6,7 @@ import no.uib.jsparklines.renderers.JSparklinesArrayListBarChartTableCellRendere
 import no.uib.jsparklines.renderers.util.Util;
 
 /**
- * Object that stores data points for use in the
+ * Object storing data points for use in the
  * JSparklinesArrayListBarChartTableCellRenderer.
  *
  * @author Harald Barsnes

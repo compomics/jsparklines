@@ -8,10 +8,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * A simple renderer that makes it possible to use different HTML tag colors for
- * selected and not selected rows. For example the default blue color can be
- * used for not selected rows, while a white color can be used for the selected
- * rows. The renderer assumes that the HTML tags include the font color tag
+ * Table cell renderer using different HTML tag colors for selected and not
+ * selected rows. For example the default blue color can be used for not
+ * selected rows, while a white color can be used for the selected rows.
+ * <p>
+ * Note that the renderer assumes that the HTML tags include the font color tag
  * setting the color to one of the two colors provided in the constructor.
  *
  * @author Harald Barsnes
@@ -42,6 +43,7 @@ public class HtmlLinksRenderer implements TableCellRenderer {
         this.notSelectedRowFontColor = notSelectedRowFontColor;
     }
 
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
@@ -55,7 +57,7 @@ public class HtmlLinksRenderer implements TableCellRenderer {
         label.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
 
         if (value != null && value instanceof String) {
-        
+
             String link = (String) value;
 
             // update the link color depending on if the row is selected or not

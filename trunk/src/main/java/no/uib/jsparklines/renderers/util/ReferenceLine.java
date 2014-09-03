@@ -3,7 +3,7 @@ package no.uib.jsparklines.renderers.util;
 import java.awt.Color;
 
 /**
- * A reference line that can be added to a chart.
+ * Reference line that can be added to a chart.
  *
  * @author Harald Barsnes
  */

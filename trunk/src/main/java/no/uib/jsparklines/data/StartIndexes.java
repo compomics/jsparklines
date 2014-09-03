@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Object that stores start indexes for use in the
+ * Object storing start indexes for use in the
  * JSparklinesMultiIntervalChartTableCellRenderer.
  *
  * @author Harald Barsnes
@@ -23,13 +23,15 @@ public class StartIndexes implements Comparable<StartIndexes>, Serializable {
     /**
      * Create a new StartIndexes.
      *
-     * @param indexes
+     * @param indexes the start indexes
      */
     public StartIndexes(ArrayList<Integer> indexes) {
         this.startIndexes = indexes;
     }
 
     /**
+     * Returns the start indexes.
+     * 
      * @return the start indexes
      */
     public ArrayList<Integer> getIndexes() {

@@ -28,7 +28,7 @@ import no.uib.jsparklines.renderers.util.GradientColorCoding.ColorGradient;
 import org.jfree.chart.plot.PlotOrientation;
 
 /**
- * A demo of how to use JSparklines to show sparklines in Java tables.
+ * Demo of JSparklines used to show sparklines in Java tables.
  *
  * @author Harald Barsnes
  */

@@ -10,7 +10,7 @@ import javax.swing.table.TableCellRenderer;
 import org.jfree.chart.ChartPanel;
 
 /**
- * A table cell renderer for a ChartPanel.
+ * Table cell renderer for generic org.jfree.chart.ChartPanel objects.
  *
  * @author Harald Barsnes
  */
@@ -22,17 +22,7 @@ public class ChartPanelTableCellRenderer extends JLabel implements TableCellRend
     public ChartPanelTableCellRenderer() {
     }
 
-    /**
-     * Sets up the cell renderer for the given cell.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
         JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,

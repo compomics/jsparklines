@@ -4,7 +4,7 @@ import java.io.Serializable;
 import no.uib.jsparklines.renderers.util.Util;
 
 /**
- * Object that stores data about one data point in an XYZ plot.
+ * Object storing data about one data point in an XYZ plot.
  *
  * @author Harald Barsnes
  */
@@ -30,9 +30,9 @@ public class XYZDataPoint implements Serializable {
     /**
      * Create a new XYZDataPoint.
      *
-     * @param x
-     * @param y
-     * @param z
+     * @param x the x value
+     * @param y the y value
+     * @param z the z value
      */
     public XYZDataPoint(double x, double y, double z) {
         this.x = x;
@@ -43,7 +43,7 @@ public class XYZDataPoint implements Serializable {
     /**
      * Returns the x value.
      *
-     * @return the x
+     * @return the x value
      */
     public double getX() {
         return x;
@@ -61,7 +61,7 @@ public class XYZDataPoint implements Serializable {
     /**
      * Returns the y value.
      *
-     * @return the y
+     * @return the y value
      */
     public double getY() {
         return y;
@@ -79,7 +79,7 @@ public class XYZDataPoint implements Serializable {
     /**
      * Returns the z value.
      *
-     * @return the z
+     * @return the z value
      */
     public double getZ() {
         return z;

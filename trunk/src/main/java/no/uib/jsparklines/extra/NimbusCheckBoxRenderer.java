@@ -8,9 +8,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
- * A render that fixes a bug that occurs when using the Nimbus look and feel
- * with an alternating row color coding. Using this cell renderer makes sure
- * that the correct background color is used.
+ * Table cell render fixing a bug occurring in the Nimbus look and feel with
+ * alternating row color coding. Using this cell renderer makes sure that the
+ * correct background color is used.
  *
  * Assumes that the cell values are of type Boolean.
  *

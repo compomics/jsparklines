@@ -24,8 +24,10 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.DefaultXYZDataset;
 
 /**
- * A renderer for 1-4 color labels displayed either a pie chart or as equal
- * parts of a square, both inside a table cell.
+ * Table cell renderer for 1-4 color labels displayed either a pie chart or as
+ * equal parts of a square.
+ *
+ * @see no.uib.jsparklines.JSparklinesMultiLabelDemo
  *
  * @author Harald Barsnes
  */
@@ -62,7 +64,8 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
      * If true a pie chart is used to display the label colors, false uses a
      * square. False is the default.
      *
-     * @param circle
+     * @param circle if true, a pie chart is used to display the label colors,
+     * false uses a square
      */
     public void setCircle(boolean circle) {
         this.circle = circle;
@@ -84,23 +87,13 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
     /**
      * Set the plot background color.
      *
-     * @param plotBackgroundColor
+     * @param plotBackgroundColor the plot background color
      */
     public void setBackgroundColor(Color plotBackgroundColor) {
         this.plotBackgroundColor = plotBackgroundColor;
     }
 
-    /**
-     * Sets up the cell renderer for the given component.
-     *
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return the rendered cell
-     */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
 
@@ -115,7 +108,7 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
-        
+
         if (value instanceof String) {
             //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
@@ -189,12 +182,9 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
             throw new IllegalArgumentException("JSparklinesMultiLabelTableCellRenderer only supports JSparklinesMultiLabelDataset objects!");
         }
 
-
         // if we get this far we should have created the chart
-
         // set the tooltip text
         this.setToolTipText(tooltips);
-
 
         // respect focus and hightlighting
         setBorder(c.getBorder());
@@ -202,7 +192,6 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
         setBackground(c.getBackground());
 
         chartPanel = new ChartPanel(chart);
-
 
         // make sure the background is the same as the table row color
         if (plotBackgroundColor != null && !isSelected) {
@@ -221,7 +210,6 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
         }
 
         // @TODO: perhaps the colors below should not be hardcoded...
-
         if (isSelected) {
             chart.getPlot().setOutlinePaint(Color.WHITE);
         } else {
@@ -237,8 +225,8 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
     /**
      * Create the chart with one label.
      *
-     * @param labelA
-     * @return
+     * @param labelA the color for label A
+     * @return the chart
      */
     private JFreeChart createChart(Color labelA) {
         return createChart(labelA, labelA, labelA, labelA, false);
@@ -247,9 +235,9 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
     /**
      * Create the chart with two labels.
      *
-     * @param labelA
-     * @param labelB
-     * @return
+     * @param labelA the color for label A
+     * @param labelB the color for label B
+     * @return the chart
      */
     private JFreeChart createChart(Color labelA, Color labelB) {
         return createChart(labelA, labelA, labelB, labelB, false);
@@ -258,10 +246,10 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
     /**
      * Create the chart with three labels.
      *
-     * @param labelA
-     * @param labelB
-     * @param labelC
-     * @return
+     * @param labelA the color for label A
+     * @param labelB the color for label B
+     * @param labelC the color for label C
+     * @return the chart
      */
     private JFreeChart createChart(Color labelA, Color labelB, Color labelC) {
         return createChart(labelA, labelA, labelC, labelB, false);
@@ -270,13 +258,13 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
     /**
      * Create the chart with four labels.
      *
-     * @param labelA
-     * @param labelB
-     * @param labelC
-     * @param labelD
+     * @param labelA the color for label A
+     * @param labelB the color for label B
+     * @param labelC the color for label C
+     * @param labelD the color for label D
      * @param all if true, the provided label order is used, otherwise the order
      * is changed to make sure that the labels are correctly ordered
-     * @return
+     * @return the chart
      */
     private JFreeChart createChart(Color labelA, Color labelB, Color labelC, Color labelD, boolean all) {
 
@@ -290,7 +278,6 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
             pieDataset.setValue("B", 1);
             pieDataset.setValue("C", 1);
             pieDataset.setValue("D", 1);
-
 
             // create the chart
             chart = ChartFactory.createPieChart(null, pieDataset, false, false, false);

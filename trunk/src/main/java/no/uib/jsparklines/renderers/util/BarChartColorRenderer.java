@@ -9,8 +9,8 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 
 /**
- * A custom renderer that makes it possible to use different colors for
- * individual data bars in 3D bar charts.
+ * Custom renderer making it possible to use different colors for individual
+ * data bars in 3D bar charts.
  *
  * @author Harald Barsnes
  */
