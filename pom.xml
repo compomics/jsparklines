@@ -202,6 +202,30 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Deploy the JavaDoc as well -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>1.0-beta-5</version>
+                <executions>
+                    <execution>
+                        <id>upload-javadoc</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>
+                            <fromDir>${project.build.directory}/apidocs</fromDir>
+                            <include>*</include>
+                            <serverId>genesis-maven2-repo</serverId>
+                            <url>scp://genesis.ugent.be/</url>
+                            <toDir>/home/maven/public_html/maven2/no/uib/jsparklines/javadoc/</toDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
