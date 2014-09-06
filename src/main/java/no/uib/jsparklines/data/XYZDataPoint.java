@@ -95,12 +95,12 @@ public class XYZDataPoint implements Serializable {
     }
 
     /**
-     * Returns the (x,y,x) value as a string. Note that the values are rounded
-     * to two decimals.
+     * Returns the (x,y,x) value as a comma separated string. Note that the
+     * values are rounded to two decimals.
      *
      * @return the values as a string
      */
     public String toString() {
-        return "(" + Util.roundDouble(x, 2) + "," + Util.roundDouble(y, 2) + "," + Util.roundDouble(z, 2) + ")";
+        return "(" + Util.roundDouble(x, 2) + ", " + Util.roundDouble(y, 2) + ", " + Util.roundDouble(z, 2) + ")";
     }
 }
