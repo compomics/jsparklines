@@ -58,7 +58,7 @@ public class JSparklinesDataset implements Comparable<JSparklinesDataset> {
         temp += "[" + data.get(0).toString() + "]";
 
         for (int i = 1; i < data.size(); i++) {
-            temp += ",[" + data.get(i).toString() + "]";
+            temp += ", [" + data.get(i).toString() + "]";
         }
 
         return temp;

@@ -53,12 +53,10 @@ public class JSparklines3dDataset {
             return "";
         }
 
-        String temp = "";
-
-        temp += "[" + data.get(0).toString() + "]";
+        String temp = "[" + data.get(0).toString() + "]";
 
         for (int i = 1; i < data.size(); i++) {
-            temp += ",[" + data.get(i).toString() + "]";
+            temp += ", [" + data.get(i).toString() + "]";
         }
 
         return temp;

@@ -98,11 +98,9 @@ public class Chromosome implements Comparable<Chromosome>, Serializable {
         if (o == null) {
             return 1;
         }
-
         if (this.chromosomeNumber == null) {
             return -1;
         }
-
         if (o.chromosomeNumber == null) {
             return 1;
         }

@@ -118,14 +118,17 @@ public class ArrrayListDataPoints implements Comparable<ArrrayListDataPoints>, S
     }
 
     /**
-     * Returns all the values as a string. Note that the values are rounded to
-     * two decimals.
+     * Returns all the values as a comma separated string. Note that the values
+     * are rounded to two decimals.
      *
      * @return the values as a string
      */
     public String toString() {
         String valuesAsString = "";
         for (double temp : data) {
+            if (!valuesAsString.isEmpty()) {
+                valuesAsString += ", ";
+            }
             valuesAsString += Util.roundDouble(temp, 2);
         }
         return valuesAsString;
