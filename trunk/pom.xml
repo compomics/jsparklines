@@ -284,6 +284,12 @@
             <version>4.10</version>
             <scope>test</scope>
             <type>jar</type>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hamcrest-core</artifactId>
+                    <groupId>org.hamcrest</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>
