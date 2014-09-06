@@ -10,7 +10,8 @@ import javax.swing.table.TableCellRenderer;
 import org.jfree.chart.ChartPanel;
 
 /**
- * Table cell renderer for generic org.jfree.chart.ChartPanel objects.
+ * Table cell renderer for generic org.jfree.chart.ChartPanel objects. Other
+ * object types are rendered using the DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -43,14 +44,12 @@ public class ChartPanelTableCellRenderer extends JLabel implements TableCellRend
             chartPanel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             chartPanel.getChart().setBackgroundPaint(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
 
-
             // add border when cell is selected
             //        if (hasFocus) {
             //            chartPanel.setBorder(c.getBorder());
             //        } else {
             //            chartPanel.setBorder(null);
             //        }
-
             return chartPanel;
         } else {
             return c;

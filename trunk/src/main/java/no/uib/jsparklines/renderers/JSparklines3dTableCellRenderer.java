@@ -27,8 +27,9 @@ import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.data.xy.DefaultXYZDataset;
 
 /**
- * Table cell renderer displaying JSparklines 3D plots consisting of multiple values
- * per data series.
+ * Table cell renderer displaying JSparklines 3D plots consisting of multiple
+ * values per data series. Supported input: JSparklines3dDataset objects. Other
+ * object types are rendered using the DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -42,7 +43,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
         /**
          * Scatter plot.
          */
-        scatterPlot, 
+        scatterPlot,
         /**
          * Bubble plot.
          */
@@ -113,6 +114,8 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
      * @param maxYValue the maximum y value to be plotted, used to make sure
      * that all plots in the same column has the same maximum y value and are
      * thus comparable
+     * @throws IllegalArgumentException if minXValue &gt; maxXValue or minYValue
+     * &gt; maxYValue
      */
     public JSparklines3dTableCellRenderer(PlotType plotType, Double minXValue, Double maxXValue, Double minYValue, Double maxYValue) {
 
@@ -129,6 +132,13 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
 
         setName("Table.cellRenderer");
         setLayout(new BorderLayout());
+
+        if (minXValue > maxXValue) {
+            throw new IllegalArgumentException("minXValue has to be smaller than maxXValue! Current values: minXValue: " + minXValue + ", maxXValue: " + maxXValue + ".");
+        }
+        if (minYValue > maxYValue) {
+            throw new IllegalArgumentException("minYValue has to be smaller than maxYValue! Current values: minYValue: " + minYValue + ", maxYValue: " + maxYValue + ".");
+        }
     }
 
     @Override
@@ -151,7 +161,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
         }
-        
+
         if (value instanceof String) {
             //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
             Color bg = c.getBackground();
@@ -177,7 +187,6 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
             ///////////////////////////
             // SCATTER and BUBBLE PLOT
             ///////////////////////////
-
             DefaultXYDataset xyDataset = null;
             DefaultXYZDataset xyzDataset = null;
 
@@ -318,7 +327,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
      *
      * @param label the label for the reference
      * @param value the reference line value
-     * @param lineWidth the line width
+     * @param lineWidth the line width, has to non-negative
      * @param lineColor the line color
      */
     public void addXAxisReferenceLine(String label, double value, float lineWidth, Color lineColor) {
@@ -359,7 +368,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
      * @param start the start of the reference area
      * @param end the end of the reference area
      * @param areaColor the color of the area
-     * @param alpha the alpha level
+     * @param alpha the alpha level, range: 0.0 to 1.0
      */
     public void addXAxisReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreasXAxis.put(label, new ReferenceArea(label, start, end, areaColor, alpha));
@@ -397,7 +406,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
      *
      * @param label the label for the reference
      * @param value the reference line value
-     * @param lineWidth the line width
+     * @param lineWidth the line width, has to non-negative
      * @param lineColor the line color
      */
     public void addYAxisReferenceLine(String label, double value, float lineWidth, Color lineColor) {
@@ -438,7 +447,7 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
      * @param start the start of the reference area
      * @param end the end of the reference area
      * @param areaColor the color of the area
-     * @param alpha the alpha level
+     * @param alpha the alpha level, range: 0.0 to 1.0
      */
     public void addYAxisReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreasYAxis.put(label, new ReferenceArea(label, start, end, areaColor, alpha));

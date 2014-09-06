@@ -27,8 +27,9 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * Table cell renderer displaying multiple intervals. Assumes that the cell
- * values are of type StartIndexes.
+ * Table cell renderer displaying multiple intervals. Supported input:
+ * StartIndexes objects. Other object types are rendered using the
+ * DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -321,16 +322,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
         }
 
         // if the cell is empty, simply return
-        if (value == null) {
-            Color bg = c.getBackground();
-            // We have to create a new color object because Nimbus returns
-            // a color of type DerivedColor, which behaves strange, not sure why.
-            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            return c;
-        }
-
-        if (!(value instanceof StartIndexes)) {
-            //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
+        if (value == null || !(value instanceof StartIndexes)) {
             Color bg = c.getBackground();
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.

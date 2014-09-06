@@ -19,8 +19,9 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.DefaultXYZDataset;
 
 /**
- * Table cell renderer displaying JSparklines bubble heat maps. Assumes that the
- * cell values are of type Integer, Short, Byte, Long, Double or Float.
+ * Table cell renderer displaying JSparklines bubble heat maps. Supported input:
+ * Integer, Short, Byte, Long, Double or Float objects. Other object types are
+ * rendered using the DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -131,16 +132,19 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
         JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
-        if (value == null) {
-            Color bg = c.getBackground();
-            // We have to create a new color object because Nimbus returns
-            // a color of type DerivedColor, which behaves strange, not sure why.
-            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            return c;
+        // check if the input is of a supported type
+        boolean supportedObjectType = false;
+        if (value != null
+                && (value instanceof Double
+                || value instanceof Float
+                || value instanceof Integer
+                || value instanceof Short
+                || value instanceof Long
+                || value instanceof Byte)) {
+            supportedObjectType = true;
         }
 
-        if (value instanceof String) {
-            //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
+        if (!supportedObjectType) {
             Color bg = c.getBackground();
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
@@ -167,14 +171,14 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
             } else if (value instanceof Integer
                     || value instanceof Short
                     || value instanceof Long
-                    || value instanceof Short) {
+                    || value instanceof Byte) {
 
                 if (value instanceof Short) {
                     value = ((Short) value).intValue();
                 } else if (value instanceof Long) {
                     value = ((Long) value).intValue();
-                } else if (value instanceof Short) {
-                    value = ((Short) value).intValue();
+                } else if (value instanceof Byte) {
+                    value = ((Byte) value).intValue();
                 }
 
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, (Integer) value,
@@ -203,7 +207,7 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
         } else if (value instanceof Integer
                 || value instanceof Short
                 || value instanceof Long
-                || value instanceof Short) {
+                || value instanceof Byte) {
 
             this.setToolTipText("" + value);
 
@@ -244,14 +248,14 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
         } else if (value instanceof Integer
                 || value instanceof Short
                 || value instanceof Long
-                || value instanceof Short) {
+                || value instanceof Byte) {
 
             if (value instanceof Short) {
                 value = ((Short) value).intValue();
             } else if (value instanceof Long) {
                 value = ((Long) value).intValue();
-            } else if (value instanceof Short) {
-                value = ((Short) value).intValue();
+            } else if (value instanceof Byte) {
+                value = ((Byte) value).intValue();
             }
 
             if (((Integer) value).intValue() < minimumChartValue && ((Integer) value).intValue() > 0) {

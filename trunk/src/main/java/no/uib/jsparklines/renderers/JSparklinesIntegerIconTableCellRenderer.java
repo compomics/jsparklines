@@ -12,8 +12,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * Table cell renderer displaying integers as icons. Assumes that the cell
- * values are of type Integer.
+ * Table cell renderer displaying integers as icons. Supported input: Integer
+ * objects. Other object types are rendered using the DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -99,7 +99,7 @@ public class JSparklinesIntegerIconTableCellRenderer extends JPanel implements T
         label.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
 
         // set the icon to use for the boolean values
-        if (value instanceof Integer) {
+        if (value != null && value instanceof Integer) {
 
             label.setText(null);
             label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -115,7 +115,7 @@ public class JSparklinesIntegerIconTableCellRenderer extends JPanel implements T
                 label.setToolTipText(defaultTooltip);
             }
 
-        } else if (value == null) {
+        } else {
             label.setIcon(null);
             label.setToolTipText(null);
         }

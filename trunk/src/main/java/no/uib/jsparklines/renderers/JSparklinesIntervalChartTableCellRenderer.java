@@ -31,12 +31,13 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.category.DefaultIntervalCategoryDataset;
 
 /**
- * Table cell renderer displaying JSparklines interval charts. Assumes that the
- * cell values are of type Integer, Short, Byte, Long, Double, Float,
- * XYDataPoint or XYDataPoint[]. If data of XYDataPoint is used the X value is
- * assumed to be the lower range of the interval and the Y values is assumed to
- * be the upper range. For the other cell value types the width of the interval
- * has to be set by the user.
+ * Table cell renderer displaying JSparklines interval charts. Supported input:
+ * Integer, Short, Byte, Long, Double, Float, XYDataPoint or XYDataPoint[].
+ * Other object types are rendered using the DefaultTableCellRenderer.
+ * <p>
+ * If data of XYDataPoint is used the X value is assumed to be the lower range
+ * of the interval and the Y values is assumed to be the upper range. For the
+ * other cell value types the width of the interval has to be set by the user.
  *
  * @author Harald Barsnes
  */
@@ -162,12 +163,17 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * all plots in the same column has the same maximum value and are thus
      * comparable (this is the same as setting the minimum value to 0)
      * @param widthOfInterval the width of the interval used to highlight the
-     * value
+     * value, has to bee non-negative
+     * @throws IllegalArgumentException if widthOfInterval &lt; 0
      */
     public JSparklinesIntervalChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Double widthOfInterval) {
         this.maxValue = maxValue;
         this.widthOfInterval = widthOfInterval;
         setUpRendererAndChart(plotOrientation);
+
+        if (widthOfInterval < 0) {
+            throw new IllegalArgumentException("widthOfInterval has to be non-negative! Current value: " + widthOfInterval + ".");
+        }
     }
 
     /**
@@ -179,9 +185,11 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * all plots in the same column has the same maximum value and are thus
      * comparable (this is the same as setting the minimum value to 0)
      * @param widthOfInterval the width of the interval used to highlight the
-     * value
+     * value, has to be non-negative
      * @param positiveValuesColor the color to use for the positive values if
      * two sided data is shown, and the color used for one sided data
+     * @throws IllegalArgumentException if widthOfInterval &lt; 0 or maxValue
+     * &lt; 0
      */
     public JSparklinesIntervalChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Double widthOfInterval, Color positiveValuesColor) {
         this(plotOrientation, 0.0, maxValue, widthOfInterval, positiveValuesColor, positiveValuesColor);
@@ -201,7 +209,9 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * all plots in the same column has the same maximum value and are thus
      * comparable
      * @param widthOfInterval the width of the interval used to highlight the
-     * value
+     * value, has to be non-negative
+     * @throws IllegalArgumentException if widthOfInterval &lt; 0 or minValue
+     * &gt; maxValue
      */
     public JSparklinesIntervalChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue, Double widthOfInterval) {
 
@@ -210,6 +220,13 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         this.widthOfInterval = widthOfInterval;
 
         setUpRendererAndChart(plotOrientation);
+
+        if (widthOfInterval < 0) {
+            throw new IllegalArgumentException("widthOfInterval has to be non-negative! Current value: " + widthOfInterval + ".");
+        }
+        if (minValue > maxValue) {
+            throw new IllegalArgumentException("minValue has to be smaller than maxValue! Current values: minValue: " + minValue + ", maxValue: " + maxValue + ".");
+        }
     }
 
     /**
@@ -229,6 +246,8 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * two sided data is shown
      * @param positiveValuesColor the color to use for the positive values if
      * two sided data is shown, and the color used for one sided data
+     * @throws IllegalArgumentException if widthOfInterval &lt; 0 or minValue
+     * &gt; maxValue
      */
     public JSparklinesIntervalChartTableCellRenderer(
             PlotOrientation plotOrientation, Double minValue, Double maxValue, Double widthOfInterval,
@@ -242,6 +261,13 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         this.widthOfInterval = widthOfInterval;
 
         setUpRendererAndChart(plotOrientation);
+
+        if (widthOfInterval < 0) {
+            throw new IllegalArgumentException("widthOfInterval has to be non-negative! Current value: " + widthOfInterval + ".");
+        }
+        if (minValue > maxValue) {
+            throw new IllegalArgumentException("minValue has to be smaller than maxValue! Current values: minValue: " + minValue + ", maxValue: " + maxValue + ".");
+        }
     }
 
     /**
@@ -260,6 +286,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * two sided data is shown
      * @param positiveValuesColor the color to use for the positive values if
      * two sided data is shown, and the color used for one sided data
+     * @throws IllegalArgumentException if minValue &gt;> maxValue
      */
     public JSparklinesIntervalChartTableCellRenderer(
             PlotOrientation plotOrientation, Double minValue, Double maxValue,
@@ -274,6 +301,10 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         xyDataPointRequied = true;
 
         setUpRendererAndChart(plotOrientation);
+
+        if (minValue > maxValue) {
+            throw new IllegalArgumentException("minValue has to be smaller than maxValue! Current values: minValue: " + minValue + ", maxValue: " + maxValue + ".");
+        }
     }
 
     /**
@@ -435,17 +466,21 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
-        // if the cell is empty, simply return
-        if (value == null) {
-            Color bg = c.getBackground();
-            // We have to create a new color object because Nimbus returns
-            // a color of type DerivedColor, which behaves strange, not sure why.
-            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            return c;
+        // check if the input is of a supported type
+        boolean supportedObjectType = false;
+        if (value != null
+                && (value instanceof Double
+                || value instanceof Float
+                || value instanceof Integer
+                || value instanceof Short
+                || value instanceof Long
+                || value instanceof Byte
+                || value instanceof XYDataPoint
+                || value instanceof XYDataPoint[])) {
+            supportedObjectType = true;
         }
 
-        if (value instanceof String) {
-            //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
+        if (!supportedObjectType) {
             Color bg = c.getBackground();
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
@@ -479,14 +514,14 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             } else if (value instanceof Integer
                     || value instanceof Short
                     || value instanceof Long
-                    || value instanceof Short) {
+                    || value instanceof Byte) {
 
                 if (value instanceof Short) {
                     value = ((Short) value).intValue();
                 } else if (value instanceof Long) {
                     value = ((Long) value).intValue();
-                } else if (value instanceof Short) {
-                    value = ((Short) value).intValue();
+                } else if (value instanceof Byte) {
+                    value = ((Byte) value).intValue();
                 }
 
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, (Integer) value,
@@ -534,7 +569,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         } else if (value instanceof Integer
                 || value instanceof Short
                 || value instanceof Long
-                || value instanceof Short) {
+                || value instanceof Byte) {
 
             this.setToolTipText("" + value);
 
@@ -589,7 +624,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
             } else if (value instanceof Integer
                     || value instanceof Short
                     || value instanceof Long
-                    || value instanceof Short) {
+                    || value instanceof Byte) {
                 valueLabel.setText("" + Integer.valueOf("" + value).intValue());
             } else if (value instanceof XYDataPoint) {
                 valueLabel.setText("[" + roundDouble(((XYDataPoint) value).getX(), 2) + ", " + roundDouble(((XYDataPoint) value).getY(), 2) + "]");
@@ -664,14 +699,14 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         } else if (value instanceof Integer
                 || value instanceof Short
                 || value instanceof Long
-                || value instanceof Short) {
+                || value instanceof Byte) {
 
-            if (value instanceof Integer) {
-                value = ((Integer) value).intValue();
+            if (value instanceof Short) {
+                value = ((Short) value).intValue();
             } else if (value instanceof Long) {
                 value = ((Long) value).intValue();
-            } else if (value instanceof Short) {
-                value = ((Short) value).intValue();
+            } else if (value instanceof Byte) {
+                value = ((Byte) value).intValue();
             }
 
             if (((Integer) value).intValue() < minimumChartValue && ((Integer) value).intValue() > 0) {
@@ -754,14 +789,14 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
         } else if (value instanceof Integer
                 || value instanceof Short
                 || value instanceof Long
-                || value instanceof Short) {
+                || value instanceof Byte) {
 
-            if (value instanceof Integer) {
-                value = ((Integer) value).intValue();
+            if (value instanceof Short) {
+                value = ((Short) value).intValue();
             } else if (value instanceof Long) {
                 value = ((Long) value).intValue();
-            } else if (value instanceof Short) {
-                value = ((Short) value).intValue();
+            } else if (value instanceof Byte) {
+                value = ((Byte) value).intValue();
             }
 
             if (gradientColoring) {

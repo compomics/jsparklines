@@ -11,6 +11,8 @@ import javax.swing.table.TableCellRenderer;
  * Table cell renderer using different HTML tag colors for selected and not
  * selected rows. For example the default blue color can be used for not
  * selected rows, while a white color can be used for the selected rows.
+ * Supported input: String objects. Other object types are rendered using the
+ * DefaultTableCellRenderer.
  * <p>
  * Note that the renderer assumes that the HTML tags include the font color tag
  * setting the color to one of the two colors provided in the constructor.

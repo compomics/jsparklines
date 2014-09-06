@@ -11,6 +11,8 @@ import no.uib.jsparklines.data.Chromosome;
 
 /**
  * Table cell renderer for chromosome objects, i.e., 1-n and X, Y, Z and W.
+ * Supported input: Chromosome objects. Other object types are rendered using
+ * the DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
