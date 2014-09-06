@@ -3,9 +3,20 @@
 
 ----
 
+*Changes in JSparklines 1.0.3 (September 6. 2014):*
+
+ * FEATURE IMPROVEMENT: Added checks for incorrect input, e.g., if the lower range is set higher than the upper range.
+ * FEATURE IMPROVEMENT: Improved the way the list of supported object types for the renderers is listed in the JavaDoc.
+ * FEATURE IMPROVEMENT: JavaDoc as HTML is now deployed as part of 'mvn deploy'.
+ * FEATURE IMPROVEMENT: Added Unit tests for the data package.
+
+ * BUG FIX: Fixed bugs where Byte objects were not correctly supported in some of the renderers.
+
+----
+
 *Changes in JSparklines 1.0.2 (September 3. 2014):*
 
- * FEATURE IMPROVEMENT: Updated and unified the JavaDoc, and made it available [http://genesis.ugent.be/files/costore/javadoc/jsparklines/apidocs/index.html here].
+ * FEATURE IMPROVEMENT: Updated and unified the JavaDoc, and made it available [http://genesis.ugent.be/maven2/no/uib/jsparklines/javadoc/ here].
 
 ----
 
