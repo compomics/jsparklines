@@ -1,4 +1,4 @@
-#summary Code examples for how to use JSparklines.
+#summary Example code showing how to use JSparklines.
 #labels Featured,Phase-Implementation,Phase-Design
 
 = Using JSparklines =
