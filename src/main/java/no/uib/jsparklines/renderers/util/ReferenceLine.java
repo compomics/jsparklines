@@ -31,14 +31,19 @@ public class ReferenceLine {
      *
      * @param label the label of the reference line
      * @param value the value of the reference line
-     * @param lineWidth the line width
+     * @param lineWidth the line width, has to non-negative
      * @param lineColor the line color
+     * @throws IllegalArgumentException line width has to be non-negative
      */
     public ReferenceLine(String label, double value, float lineWidth, Color lineColor) {
         this.label = label;
         this.value = value;
         this.lineWidth = lineWidth;
         this.lineColor = lineColor;
+
+        if (lineWidth < 0) {
+            throw new IllegalArgumentException("Line width has to be non-negative! Current value: " + lineWidth + ".");
+        }
     }
 
     /**

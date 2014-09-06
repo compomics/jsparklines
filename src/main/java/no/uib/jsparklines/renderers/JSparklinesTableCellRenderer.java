@@ -54,7 +54,8 @@ import org.jfree.ui.Layer;
 
 /**
  * Table cell renderer displaying JSparklines plots consisting of multiple
- * values per data series.
+ * values per data series. Supported input: JSparklinesDataset objects. Other
+ * object types are rendered using the DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -68,27 +69,27 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         /**
          * Bar chart.
          */
-        barChart, 
+        barChart,
         /**
          * Line chart.
          */
-        lineChart, 
+        lineChart,
         /**
          * Pie chart.
          */
-        pieChart, 
+        pieChart,
         /**
          * Stacked bar chart.
          */
-        stackedBarChart, 
+        stackedBarChart,
         /**
          * Stacked bar chart in percent.
          */
-        stackedPercentBarChart, 
+        stackedPercentBarChart,
         /**
          * Area chart.
          */
-        areaChart, 
+        areaChart,
         /**
          * Box plot.
          */
@@ -96,15 +97,15 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
         /**
          * Up/down chart.
          */
-        upDownChart, 
+        upDownChart,
         /**
          * Protein sequence chart.
          */
-        proteinSequence, 
+        proteinSequence,
         /**
          * Difference chart.
          */
-        difference, 
+        difference,
         /**
          * Stacked bar chart in integer with upper range.
          */
@@ -421,25 +422,12 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             setBackground(c.getBackground());
         }
 
-        // if the cell is empty, simply return
-        if (value == null) {
+        // check for valid object type
+        if (value == null || !(value instanceof JSparklinesDataset)) {
             Color bg = c.getBackground();
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            return c;
-        }
-
-        if (value instanceof String) {
-            //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
-            Color bg = c.getBackground();
-            // We have to create a new color object because Nimbus returns
-            // a color of type DerivedColor, which behaves strange, not sure why.
-            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            return c;
-        }
-
-        if (!(value instanceof JSparklinesDataset)) {
             return c;
         }
 
@@ -1016,7 +1004,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      *
      * @param label the label for the reference
      * @param value the reference line value
-     * @param lineWidth the line width
+     * @param lineWidth the line width, has to non-negative
      * @param lineColor the line color
      */
     public void addReferenceLine(String label, double value, float lineWidth, Color lineColor) {
@@ -1066,7 +1054,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      * @param start the start of the reference area
      * @param end the end of the reference area
      * @param areaColor the color of the reference area
-     * @param alpha the alpha level of the reference area
+     * @param alpha the alpha level of the reference area, range: 0.0 to 1.0
      */
     public void addReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreas.put(label, new ReferenceArea(label, start, end, areaColor, alpha));

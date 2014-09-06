@@ -25,7 +25,8 @@ import org.jfree.data.xy.DefaultXYZDataset;
 
 /**
  * Table cell renderer for 1-4 color labels displayed either a pie chart or as
- * equal parts of a square.
+ * equal parts of a square. Supported input: JSparklinesMultiLabelDataset
+ * objects. Other object types are rendered using the DefaultTableCellRenderer.
  *
  * @see no.uib.jsparklines.JSparklinesMultiLabelDemo
  *
@@ -101,7 +102,7 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
                 isSelected, hasFocus, row, column);
 
         // if the cell is empty, simply return
-        if (value == null) {
+        if (value == null || !(value instanceof JSparklinesMultiLabelDataset)) {
             Color bg = c.getBackground();
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
@@ -109,77 +110,61 @@ public class JSparklinesMultiLabelTableCellRenderer extends JPanel implements Ta
             return c;
         }
 
-        if (value instanceof String) {
-            //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
-            Color bg = c.getBackground();
-            // We have to create a new color object because Nimbus returns
-            // a color of type DerivedColor, which behaves strange, not sure why.
-            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            return c;
-        }
-
+        JSparklinesMultiLabelDataset dataset = (JSparklinesMultiLabelDataset) value;
         String tooltips = null;
 
-        if (value instanceof JSparklinesMultiLabelDataset) {
-
-            JSparklinesMultiLabelDataset dataset = (JSparklinesMultiLabelDataset) value;
-
-            if (dataset.getLabels().size() == 1) {
-                chart = createChart((Color) dataset.getLabels().get(0).getColor());
-                tooltips = dataset.getLabels().get(0).getLabel();
-            } else if (dataset.getLabels().size() == 2) {
-                chart = createChart((Color) dataset.getLabels().get(0).getColor(),
-                        (Color) dataset.getLabels().get(1).getColor());
-                if (circle) {
-                    tooltips = "<html><table border=\"0\">"
-                            + "<tr><td>" + dataset.getLabels().get(1).getLabel() + "</td>"
-                            + "<td>" + dataset.getLabels().get(0).getLabel() + "</td></tr></table></html>";
-                } else {
-                    tooltips = "<html><table border=\"0\">"
-                            + "<tr><td>" + dataset.getLabels().get(0).getLabel() + "</td>"
-                            + "<td>" + dataset.getLabels().get(1).getLabel() + "</td></tr></table></html>";
-                }
-            } else if (dataset.getLabels().size() == 3) {
-                chart = createChart((Color) dataset.getLabels().get(0).getColor(),
-                        (Color) dataset.getLabels().get(1).getColor(),
-                        (Color) dataset.getLabels().get(2).getColor());
-                if (circle) {
-                    tooltips = "<html><table border=\"0\">"
-                            + "<tr><td>" + dataset.getLabels().get(1).getLabel() + "</td>"
-                            + "<td>" + dataset.getLabels().get(0).getLabel() + "</td></tr>"
-                            + "<tr><td>" + dataset.getLabels().get(2).getLabel() + "</td>"
-                            + "<td></td></tr></table></html>";
-                } else {
-                    tooltips = "<html><table border=\"0\">"
-                            + "<tr><td>" + dataset.getLabels().get(0).getLabel() + "</td>"
-                            + "<td>" + dataset.getLabels().get(1).getLabel() + "</td></tr>"
-                            + "<tr><td></td>"
-                            + "<td>" + dataset.getLabels().get(2).getLabel() + "</td></tr></table></html>";
-                }
-            } else if (dataset.getLabels().size() == 4) {
-                chart = createChart((Color) dataset.getLabels().get(0).getColor(),
-                        (Color) dataset.getLabels().get(1).getColor(),
-                        (Color) dataset.getLabels().get(2).getColor(),
-                        (Color) dataset.getLabels().get(3).getColor(), true);
-                if (circle) {
-                    tooltips = "<html><table border=\"0\">"
-                            + "<tr><td>" + dataset.getLabels().get(3).getLabel() + "</td>"
-                            + "<td>" + dataset.getLabels().get(0).getLabel() + "</td></tr>"
-                            + "<tr><td>" + dataset.getLabels().get(2).getLabel() + "</td>"
-                            + "<td>" + dataset.getLabels().get(1).getLabel() + "</td></tr></table></html>";
-                } else {
-                    tooltips = "<html><table border=\"0\">"
-                            + "<tr><td>" + dataset.getLabels().get(0).getLabel() + "</td>"
-                            + "<td>" + dataset.getLabels().get(1).getLabel() + "</td></tr>"
-                            + "<tr><td>" + dataset.getLabels().get(3).getLabel() + "</td>"
-                            + "<td>" + dataset.getLabels().get(2).getLabel() + "</td></tr></table></html>";
-                }
+        if (dataset.getLabels().size() == 1) {
+            chart = createChart((Color) dataset.getLabels().get(0).getColor());
+            tooltips = dataset.getLabels().get(0).getLabel();
+        } else if (dataset.getLabels().size() == 2) {
+            chart = createChart((Color) dataset.getLabels().get(0).getColor(),
+                    (Color) dataset.getLabels().get(1).getColor());
+            if (circle) {
+                tooltips = "<html><table border=\"0\">"
+                        + "<tr><td>" + dataset.getLabels().get(1).getLabel() + "</td>"
+                        + "<td>" + dataset.getLabels().get(0).getLabel() + "</td></tr></table></html>";
             } else {
-                throw new IllegalArgumentException("JSparklinesMultiLabelTableCellRenderer only supports JSparklinesMultiLabelDataset objects of size 1-4!");
+                tooltips = "<html><table border=\"0\">"
+                        + "<tr><td>" + dataset.getLabels().get(0).getLabel() + "</td>"
+                        + "<td>" + dataset.getLabels().get(1).getLabel() + "</td></tr></table></html>";
             }
-
+        } else if (dataset.getLabels().size() == 3) {
+            chart = createChart((Color) dataset.getLabels().get(0).getColor(),
+                    (Color) dataset.getLabels().get(1).getColor(),
+                    (Color) dataset.getLabels().get(2).getColor());
+            if (circle) {
+                tooltips = "<html><table border=\"0\">"
+                        + "<tr><td>" + dataset.getLabels().get(1).getLabel() + "</td>"
+                        + "<td>" + dataset.getLabels().get(0).getLabel() + "</td></tr>"
+                        + "<tr><td>" + dataset.getLabels().get(2).getLabel() + "</td>"
+                        + "<td></td></tr></table></html>";
+            } else {
+                tooltips = "<html><table border=\"0\">"
+                        + "<tr><td>" + dataset.getLabels().get(0).getLabel() + "</td>"
+                        + "<td>" + dataset.getLabels().get(1).getLabel() + "</td></tr>"
+                        + "<tr><td></td>"
+                        + "<td>" + dataset.getLabels().get(2).getLabel() + "</td></tr></table></html>";
+            }
+        } else if (dataset.getLabels().size() == 4) {
+            chart = createChart((Color) dataset.getLabels().get(0).getColor(),
+                    (Color) dataset.getLabels().get(1).getColor(),
+                    (Color) dataset.getLabels().get(2).getColor(),
+                    (Color) dataset.getLabels().get(3).getColor(), true);
+            if (circle) {
+                tooltips = "<html><table border=\"0\">"
+                        + "<tr><td>" + dataset.getLabels().get(3).getLabel() + "</td>"
+                        + "<td>" + dataset.getLabels().get(0).getLabel() + "</td></tr>"
+                        + "<tr><td>" + dataset.getLabels().get(2).getLabel() + "</td>"
+                        + "<td>" + dataset.getLabels().get(1).getLabel() + "</td></tr></table></html>";
+            } else {
+                tooltips = "<html><table border=\"0\">"
+                        + "<tr><td>" + dataset.getLabels().get(0).getLabel() + "</td>"
+                        + "<td>" + dataset.getLabels().get(1).getLabel() + "</td></tr>"
+                        + "<tr><td>" + dataset.getLabels().get(3).getLabel() + "</td>"
+                        + "<td>" + dataset.getLabels().get(2).getLabel() + "</td></tr></table></html>";
+            }
         } else {
-            throw new IllegalArgumentException("JSparklinesMultiLabelTableCellRenderer only supports JSparklinesMultiLabelDataset objects!");
+            throw new IllegalArgumentException("JSparklinesMultiLabelTableCellRenderer only supports JSparklinesMultiLabelDataset objects of size 1-4!");
         }
 
         // if we get this far we should have created the chart

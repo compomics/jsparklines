@@ -36,7 +36,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * Table cell renderer displaying JSparklines plots consisting of numbers as a
- * stacked bar chart. Supported datatype: ArrrayListDataPoints.
+ * stacked bar chart. Supported input: ArrrayListDataPoints objects. Other
+ * object types are rendered using the DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -50,11 +51,11 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
         /**
          * Show the first number only.
          */
-        firstNumberOnly, 
+        firstNumberOnly,
         /**
          * Show the sum of the numbers.
          */
-        sumOfNumbers, 
+        sumOfNumbers,
         /**
          * Show the sum with the exception of the last number.
          */
@@ -570,7 +571,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      *
      * @param label the label for the reference
      * @param value the reference line value
-     * @param lineWidth the line width
+     * @param lineWidth the line width, has to non-negative
      * @param lineColor the line color
      */
     public void addReferenceLine(String label, double value, float lineWidth, Color lineColor) {
@@ -620,7 +621,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      * @param start the start of the reference area
      * @param end the end of the reference area
      * @param areaColor the color of the reference area
-     * @param alpha the alpha level of the reference area
+     * @param alpha the alpha level of the reference area, range: 0.0 to 1.0
      */
     public void addReferenceArea(String label, double start, double end, Color areaColor, float alpha) {
         referenceAreas.put(label, new ReferenceArea(label, start, end, areaColor, alpha));

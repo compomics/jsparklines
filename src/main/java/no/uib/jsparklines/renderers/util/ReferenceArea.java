@@ -37,8 +37,8 @@ public class ReferenceArea {
      * @param start the start of the reference area
      * @param end the end of the reference area
      * @param areaColor the color of the reference area
-     * @param alpha the alpha level of the reference area
-     * @throws IllegalArgumentException alpha must be in the range 0.0f to 1.0f
+     * @param alpha the alpha level of the reference area, range: 0.0 to 1.0
+     * @throws IllegalArgumentException alpha must be in the range 0.0 to 1.0
      */
     public ReferenceArea(String label, double start, double end, Color areaColor, float alpha) throws IllegalArgumentException {
         this.label = label;
@@ -48,7 +48,7 @@ public class ReferenceArea {
 
         // check the validity of alpha
         if (alpha < 0 || alpha > 1) {
-            throw new IllegalArgumentException("The alpha transparency must be in the range 0.0f to 1.0f!");
+            throw new IllegalArgumentException("The alpha transparency must be in the range 0.0 to 1.0! Current value: " + alpha + ".");
         } else {
             this.alpha = alpha;
         }

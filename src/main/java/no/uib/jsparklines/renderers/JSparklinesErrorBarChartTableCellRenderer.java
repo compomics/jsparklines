@@ -29,8 +29,9 @@ import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 /**
  * Table cell renderer displaying JSparklines bar charts with error bars.
- * Assumes that the cell values are of type DefaultStatisticalCategoryDataset or
- * SignificantStatisticalCategoryDataset.
+ * Supported input: DefaultStatisticalCategoryDataset and
+ * SignificantStatisticalCategoryDataset objects. Other object types are
+ * rendered using the DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -153,6 +154,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      * comparable (this is the same as setting the minimum value to 0)
      * @param largeNumbersAreGood makes sure that different colors are used for
      * bars where large numbers are "good", versus when small numbers are "good"
+     * @throws IllegalArgumentException if maxValue &lt; 0
      */
     public JSparklinesErrorBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, boolean largeNumbersAreGood) {
 
@@ -165,6 +167,10 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         this.maxValue = maxValue;
 
         setUpRendererAndChart(plotOrientation);
+
+        if (maxValue < 0) {
+            throw new IllegalArgumentException("maxValue has to be a positive integer! Current value: " + maxValue + ".");
+        }
     }
 
     /**
@@ -177,6 +183,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      * comparable (this is the same as setting the minimum value to 0)
      * @param positiveValuesColor the color to use for the positive values if
      * two sided data is shown, and the color used for one sided data
+     * @throws IllegalArgumentException if maxValue &lt; 0
      */
     public JSparklinesErrorBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Color positiveValuesColor) {
         this(plotOrientation, 0.0, maxValue, null, positiveValuesColor);
@@ -195,6 +202,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      * @param maxValue the maximum value to be plotted, used to make sure that
      * all plots in the same column has the same maximum value and are thus
      * comparable
+     * @throws IllegalArgumentException if minValue &gt; maxValue
      */
     public JSparklinesErrorBarChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue) {
 
@@ -202,6 +210,10 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         this.minValue = minValue;
 
         setUpRendererAndChart(plotOrientation);
+
+        if (minValue > maxValue) {
+            throw new IllegalArgumentException("minValue has to be smaller than maxValue! Current values: minValue: " + minValue + ", maxValue: " + maxValue + ".");
+        }
     }
 
     /**
@@ -221,6 +233,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      * two sided data is shown
      * @param positiveValuesColor the color to use for the positive values if
      * two sided data is shown, and the color used for one sided data
+     * @throws IllegalArgumentException if minValue &gt; maxValue
      */
     public JSparklinesErrorBarChartTableCellRenderer(
             PlotOrientation plotOrientation, Double minValue, Double maxValue,
@@ -232,6 +245,10 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         this.maxValue = maxValue;
         this.minValue = minValue;
         setUpRendererAndChart(plotOrientation);
+
+        if (minValue > maxValue) {
+            throw new IllegalArgumentException("minValue has to be smaller than maxValue! Current values: minValue: " + minValue + ", maxValue: " + maxValue + ".");
+        }
     }
 
     /**
@@ -366,17 +383,8 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
-        // if the cell is empty, simply return
-        if (value == null) {
-            Color bg = c.getBackground();
-            // We have to create a new color object because Nimbus returns
-            // a color of type DerivedColor, which behaves strange, not sure why.
-            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            return c;
-        }
-
-        if (value instanceof String) {
-            //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
+        // check if the cell contain a color object
+        if (value == null || !(value instanceof DefaultStatisticalCategoryDataset)) {
             Color bg = c.getBackground();
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
@@ -385,61 +393,59 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         }
 
         // set the tooltip text
-        if (value instanceof DefaultStatisticalCategoryDataset) {
-            DefaultStatisticalCategoryDataset tempSet = (DefaultStatisticalCategoryDataset) value;
-            this.setToolTipText("<html>Intensity: " + roundDouble((Double) tempSet.getMeanValue(0, 0), 4) + "<br>"
-                    + "STDEV: " + roundDouble((Double) tempSet.getStdDevValue(0, 0), 4) + "</html>");
+        DefaultStatisticalCategoryDataset tempSet = (DefaultStatisticalCategoryDataset) value;
+        this.setToolTipText("<html>Intensity: " + roundDouble((Double) tempSet.getMeanValue(0, 0), 4) + "<br>"
+                + "STDEV: " + roundDouble((Double) tempSet.getStdDevValue(0, 0), 4) + "</html>");
 
-            // check if significance is to be indicated
-            if (indicateSignificance && value instanceof SignificantStatisticalCategoryDataset) {
-                if (((SignificantStatisticalCategoryDataset) value).isSignificant() != null
-                        && ((SignificantStatisticalCategoryDataset) value).isSignificant()) {
-                    signifianceLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/asterisk.png")));
-                }
+        // check if significance is to be indicated
+        if (indicateSignificance && value instanceof SignificantStatisticalCategoryDataset) {
+            if (((SignificantStatisticalCategoryDataset) value).isSignificant() != null
+                    && ((SignificantStatisticalCategoryDataset) value).isSignificant()) {
+                signifianceLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/asterisk.png")));
+            }
+        }
+
+        // make sure that the significance area is shown if needed
+        if (indicateSignificance) {
+            signifianceLabel.setMinimumSize(new Dimension(10, 0));
+        } else {
+            signifianceLabel.setMinimumSize(new Dimension(0, 0));
+        }
+
+        // show the number _and_ the chart if option selected
+        if (showNumberAndChart) {
+
+            // set the decimal format symbol
+            numberFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
+
+            double temp = tempSet.getMeanValue(0, 0).doubleValue();
+            valueLabel.setText(numberFormat.format(temp));
+
+            // We have to create a new color object because Nimbus returns
+            // a color of type DerivedColor, which behaves strange, not sure why.
+            Color bg = c.getBackground();
+            valueLabel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
+
+            // add some padding
+            if (labelHorizontalAlignement == SwingConstants.RIGHT) {
+                valueLabel.setText(valueLabel.getText() + "  ");
+            } else if (labelHorizontalAlignement == SwingConstants.LEFT) {
+                valueLabel.setText("  " + valueLabel.getText());
             }
 
-            // make sure that the significance area is shown if needed
-            if (indicateSignificance) {
-                signifianceLabel.setMinimumSize(new Dimension(10, 0));
-            } else {
-                signifianceLabel.setMinimumSize(new Dimension(0, 0));
-            }
+            valueLabel.setForeground(c.getForeground());
 
-            // show the number _and_ the chart if option selected
-            if (showNumberAndChart) {
-
-                // set the decimal format symbol
-                numberFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
-
-                double temp = tempSet.getMeanValue(0, 0).doubleValue();
-                valueLabel.setText(numberFormat.format(temp));
-
-                // We have to create a new color object because Nimbus returns
-                // a color of type DerivedColor, which behaves strange, not sure why.
-                Color bg = c.getBackground();
-                valueLabel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-
-                // add some padding
-                if (labelHorizontalAlignement == SwingConstants.RIGHT) {
-                    valueLabel.setText(valueLabel.getText() + "  ");
-                } else if (labelHorizontalAlignement == SwingConstants.LEFT) {
-                    valueLabel.setText("  " + valueLabel.getText());
-                }
-
-                valueLabel.setForeground(c.getForeground());
-
-                // set the horizontal text alignment and the label size
-                valueLabel.setHorizontalAlignment(labelHorizontalAlignement);
-                valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
-                valueLabel.setSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
-                valueLabel.setMaximumSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
-                valueLabel.setPreferredSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
-                valueLabel.setVisible(true);
-            } else {
-                valueLabel.setMinimumSize(new Dimension(0, 0));
-                valueLabel.setSize(0, 0);
-                valueLabel.setVisible(false);
-            }
+            // set the horizontal text alignment and the label size
+            valueLabel.setHorizontalAlignment(labelHorizontalAlignement);
+            valueLabel.setMinimumSize(new Dimension(widthOfValueLabel, 0));
+            valueLabel.setSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
+            valueLabel.setMaximumSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
+            valueLabel.setPreferredSize(new Dimension(widthOfValueLabel, valueLabel.getPreferredSize().height));
+            valueLabel.setVisible(true);
+        } else {
+            valueLabel.setMinimumSize(new Dimension(0, 0));
+            valueLabel.setSize(0, 0);
+            valueLabel.setVisible(false);
         }
 
         // respect focus and hightlighting
@@ -464,25 +470,21 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
         plot.setRangeGridlinesVisible(false);
 
         // set up the chart renderer
-        if (value instanceof DefaultStatisticalCategoryDataset) {
+        StatisticalBarChartColorRenderer renderer;
 
-            StatisticalBarChartColorRenderer renderer;
-            DefaultStatisticalCategoryDataset tempSet = (DefaultStatisticalCategoryDataset) value;
-
-            if (gradientColoring) {
-                Color currentColor = GradientColorCoding.findGradientColor((Double) tempSet.getMeanValue(0, 0), minValue, maxValue, currentColorGradient, positiveColorGradient);
-                renderer = new StatisticalBarChartColorRenderer(currentColor);
+        if (gradientColoring) {
+            Color currentColor = GradientColorCoding.findGradientColor((Double) tempSet.getMeanValue(0, 0), minValue, maxValue, currentColorGradient, positiveColorGradient);
+            renderer = new StatisticalBarChartColorRenderer(currentColor);
+        } else {
+            if ((Double) tempSet.getMeanValue(0, 0) >= 0) {
+                renderer = new StatisticalBarChartColorRenderer(positiveValuesColor);
             } else {
-                if ((Double) tempSet.getMeanValue(0, 0) >= 0) {
-                    renderer = new StatisticalBarChartColorRenderer(positiveValuesColor);
-                } else {
-                    renderer = new StatisticalBarChartColorRenderer(negativeValuesColor);
-                }
+                renderer = new StatisticalBarChartColorRenderer(negativeValuesColor);
             }
-
-            renderer.setErrorIndicatorStroke(new BasicStroke(errorBarWidth));
-            plot.setRenderer(renderer);
         }
+
+        renderer.setErrorIndicatorStroke(new BasicStroke(errorBarWidth));
+        plot.setRenderer(renderer);
 
         // make sure the background is the same as the table row color
         if (plotBackgroundColor != null && !isSelected) {

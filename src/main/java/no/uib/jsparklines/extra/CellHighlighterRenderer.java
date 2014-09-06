@@ -9,7 +9,8 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  * Table cell render highlighting columns ending with a given string, by using a
- * different background color. Supported input is String.
+ * different background color. Supported input: String objects. Other object
+ * types are rendered using the DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */

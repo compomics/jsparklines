@@ -25,7 +25,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * Table cell renderer displaying integers as colored equal size bar charts.
- * Assumes that the cell values are of type Integer.
+ * Supported input: Integer objects. Other object types are rendered using the
+ * DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -196,26 +197,13 @@ public class JSparklinesIntegerColorTableCellRenderer extends JPanel implements 
         JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
-        // if the cell is empty, simply return
-        if (value == null) {
+        // check if the cell contains an integer object
+        if (value == null || !(value instanceof Integer)) {
             Color bg = c.getBackground();
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
-        }
-
-        if (value instanceof String) {
-            //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
-            Color bg = c.getBackground();
-            // We have to create a new color object because Nimbus returns
-            // a color of type DerivedColor, which behaves strange, not sure why.
-            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            return c;
-        }
-
-        if (!(value instanceof Integer)) {
-            throw new IllegalArgumentException("JSparklinesColorTableCellRenderer only supports integer values!");
         }
 
         // if show numbers, format as number and return

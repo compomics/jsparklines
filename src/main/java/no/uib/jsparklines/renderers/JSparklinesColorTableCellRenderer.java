@@ -20,8 +20,12 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * Table cell renderer displaying colored equal size bar charts. Assumes that
- * the cell values are of type Color.
+ * Table cell renderer displaying colored equal size bar charts. Supported
+ * input: Color objects. Other object types are rendered using the
+ * DefaultTableCellRenderer.
+ * <p>
+ * In principle the same as setting the background color in the cell, but looks
+ * better.
  *
  * @author Harald Barsnes
  */
@@ -98,26 +102,13 @@ public class JSparklinesColorTableCellRenderer extends JPanel implements TableCe
         JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
-        // if the cell is empty, simply return
-        if (value == null) {
+        // check if the cell contains a color object
+        if (value == null || !(value instanceof Color)) {
             Color bg = c.getBackground();
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
             c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
             return c;
-        }
-
-        if (value instanceof String) {
-            //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
-            Color bg = c.getBackground();
-            // We have to create a new color object because Nimbus returns
-            // a color of type DerivedColor, which behaves strange, not sure why.
-            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            return c;
-        }
-
-        if (!(value instanceof Color)) {
-            throw new IllegalArgumentException("JSparklinesColorTableCellRenderer only supports Color objects!");
         }
 
         // set the tooltip text

@@ -27,8 +27,10 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * Table cell renderer displaying JSparklines bar charts. Assumes that the cell
- * values are of type Integer, Short, Byte, Long, Double, Float or XYDataPoint.
+ * Table cell renderer displaying JSparklines bar charts. Supported input:
+ * Integer, Short, Byte, Long, Double, Float, XYDataPoint and
+ * ValueAndBooleanDataPoint objects. Other object types are rendered using the
+ * DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -175,6 +177,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * comparable (this is the same as setting the minimum value to 0)
      * @param largeNumbersAreGood makes sure that different colors are used for
      * bars where large numbers are "good", versus when small numbers are "good"
+     * @throws IllegalArgumentException if maxValue &lt; 0.0
      */
     public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, boolean largeNumbersAreGood) {
 
@@ -190,6 +193,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         }
 
         setUpRendererAndChart(plotOrientation);
+
+        if (maxValue < 0) {
+            throw new IllegalArgumentException("maxValue has to be non-negative! Current value: " + maxValue + ".");
+        }
     }
 
     /**
@@ -202,6 +209,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * comparable (this is the same as setting the minimum value to 0)
      * @param positiveValuesColor the color to use for the positive values if
      * two sided data is shown, and the color used for one sided data
+     * @throws IllegalArgumentException if maxValue &lt; 0.0
      */
     public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue, Color positiveValuesColor) {
         this(plotOrientation, 0.0, maxValue, null, positiveValuesColor);
@@ -223,6 +231,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * values
      * @param significanceLevel the upper level for when to use the significant
      * values color
+     * @throws IllegalArgumentException if maxValue &lt; 0.0
      */
     public JSparklinesBarChartTableCellRenderer(
             PlotOrientation plotOrientation, Double maxValue, Color positiveValuesColor,
@@ -243,6 +252,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * @param maxValue the maximum value to be plotted, used to make sure that
      * all plots in the same column has the same maximum value and are thus
      * comparable
+     * @throws IllegalArgumentException if minValue &gt; maxValue
      */
     public JSparklinesBarChartTableCellRenderer(PlotOrientation plotOrientation, Double minValue, Double maxValue) {
 
@@ -250,6 +260,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         this.minValue = minValue;
 
         setUpRendererAndChart(plotOrientation);
+
+        if (minValue > maxValue) {
+            throw new IllegalArgumentException("minValue has to be smaller than maxValue! Current values: minValue: " + minValue + ", maxValue: " + maxValue + ".");
+        }
     }
 
     /**
@@ -267,6 +281,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * two sided data is shown
      * @param positiveValuesColor the color to use for the positive values if
      * two sided data is shown, and the color used for one sided data
+     * @throws IllegalArgumentException if minValue &gt; maxValue
      */
     public JSparklinesBarChartTableCellRenderer(
             PlotOrientation plotOrientation, Double minValue, Double maxValue,
@@ -295,6 +310,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
      * values
      * @param significanceLevel the upper level for when to use the significant
      * values color
+     * @throws IllegalArgumentException if minValue &gt; maxValue
      */
     public JSparklinesBarChartTableCellRenderer(
             PlotOrientation plotOrientation, Double minValue, Double maxValue,
@@ -311,6 +327,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         this.significanceLevel = significanceLevel;
 
         setUpRendererAndChart(plotOrientation);
+
+        if (minValue > maxValue) {
+            throw new IllegalArgumentException("minValue has to be smaller than maxValue! Current values: minValue: " + minValue + ", maxValue: " + maxValue + ".");
+        }
     }
 
     /**
@@ -550,16 +570,21 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         JComponent c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, value,
                 isSelected, hasFocus, row, column);
 
-        if (value == null) {
-            Color bg = c.getBackground();
-            // We have to create a new color object because Nimbus returns
-            // a color of type DerivedColor, which behaves strange, not sure why.
-            c.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-            return c;
+        // check if the input is of a supported type
+        boolean supportedObjectType = false;
+        if (value != null
+                && (value instanceof Double
+                || value instanceof Float
+                || value instanceof Integer
+                || value instanceof Short
+                || value instanceof Long
+                || value instanceof Byte
+                || value instanceof XYDataPoint
+                || value instanceof ValueAndBooleanDataPoint)) {
+            supportedObjectType = true;
         }
 
-        if (value instanceof String) {
-            //((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT);
+        if (!supportedObjectType) {
             Color bg = c.getBackground();
             // We have to create a new color object because Nimbus returns
             // a color of type DerivedColor, which behaves strange, not sure why.
@@ -586,14 +611,14 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             } else if (value instanceof Integer
                     || value instanceof Short
                     || value instanceof Long
-                    || value instanceof Short) {
+                    || value instanceof Byte) {
 
                 if (value instanceof Short) {
                     value = ((Short) value).intValue();
                 } else if (value instanceof Long) {
                     value = ((Long) value).intValue();
-                } else if (value instanceof Short) {
-                    value = ((Short) value).intValue();
+                } else if (value instanceof Byte) {
+                    value = ((Byte) value).intValue();
                 }
 
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, (Integer) value,
@@ -649,7 +674,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
         } else if (value instanceof Integer
                 || value instanceof Short
                 || value instanceof Long
-                || value instanceof Short) {
+                || value instanceof Byte) {
 
             this.setToolTipText("" + value);
 
@@ -684,7 +709,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             } else if (value instanceof Integer
                     || value instanceof Short
                     || value instanceof Long
-                    || value instanceof Short) {
+                    || value instanceof Byte) {
                 valueLabel.setText("" + Integer.valueOf("" + value).intValue());
             } else if (value instanceof XYDataPoint) {
                 double temp = ((XYDataPoint) value).getX();
@@ -755,12 +780,15 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
         } else if (value instanceof Integer
                 || value instanceof Short
-                || value instanceof Long) {
+                || value instanceof Long
+                || value instanceof Byte) {
 
             if (value instanceof Short) {
                 value = ((Short) value).intValue();
             } else if (value instanceof Long) {
                 value = ((Long) value).intValue();
+            } else if (value instanceof Byte) {
+                value = ((Byte) value).intValue();
             }
 
             if (((Integer) value).intValue() < minimumChartValue && ((Integer) value).intValue() > 0) {
@@ -887,12 +915,15 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
 
         } else if (value instanceof Integer
                 || value instanceof Short
-                || value instanceof Long) {
+                || value instanceof Long
+                || value instanceof Byte) {
 
             if (value instanceof Short) {
                 value = ((Short) value).intValue();
             } else if (value instanceof Long) {
                 value = ((Long) value).intValue();
+            } else if (value instanceof Byte) {
+                value = ((Byte) value).intValue();
             }
 
             if (gradientColoring) {

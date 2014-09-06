@@ -10,8 +10,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * Table cell render displaying icons instead of boolean values. Assumes that
- * the cell values are of type Boolean.
+ * Table cell render displaying icons instead of boolean values. Supported
+ * input: Boolean objects. Other object types are rendered using the
+ * DefaultTableCellRenderer.
  *
  * @author Harald Barsnes
  */
@@ -101,7 +102,7 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
         label.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
 
         // set the icon to use for the boolean values
-        if (value instanceof Boolean) {
+        if (value != null && value instanceof Boolean) {
 
             label.setText(null);
             label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -113,7 +114,7 @@ public class TrueFalseIconRenderer implements TableCellRenderer {
                 label.setIcon(falseIcon);
                 label.setToolTipText(falseToolTip);
             }
-        } else if (value == null) {
+        } else {
             label.setIcon(nullIcon);
             label.setToolTipText(nullToolTip);
         }
