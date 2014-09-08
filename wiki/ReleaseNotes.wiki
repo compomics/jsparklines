@@ -3,6 +3,12 @@
 
 ----
 
+*Changes in JSparklines 1.0.4 (September 8. 2014):*
+
+ * BUG FIX: Fixed a bug in the NimbusCheckBoxRenderer.
+
+----
+
 *Changes in JSparklines 1.0.3 (September 6. 2014):*
 
  * FEATURE IMPROVEMENT: Added checks for incorrect input, e.g., if the lower range is set higher than the upper range.
