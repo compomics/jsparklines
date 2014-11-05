@@ -89,7 +89,7 @@ public class JSparklinesColorTableCellRenderer extends JPanel implements TableCe
     /**
      * Set the plot background color.
      *
-     * @param plotBackgroundColor
+     * @param plotBackgroundColor the plot background color
      */
     public void setBackgroundColor(Color plotBackgroundColor) {
         this.plotBackgroundColor = plotBackgroundColor;

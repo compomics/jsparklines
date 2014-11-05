@@ -340,7 +340,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      * If true, the first number is shown as the value. Otherwise the total
      * value is shown.
      *
-     * @param showFirstNumber
+     * @param showFirstNumber the showFirstNumber to set
      *
      * @deprecated use the ValueDisplayType enum instead
      */
@@ -581,7 +581,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
     /**
      * Add a reference line at a given data value.
      *
-     * @param referenceLine
+     * @param referenceLine the reference line
      */
     public void addReferenceLine(ReferenceLine referenceLine) {
         referenceLines.put(referenceLine.getLabel(), referenceLine);
@@ -630,7 +630,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
     /**
      * Add a reference area.
      *
-     * @param referenceArea
+     * @param referenceArea the reference area
      */
     public void addReferenceArea(ReferenceArea referenceArea) {
         referenceAreas.put(referenceArea.getLabel(), referenceArea);

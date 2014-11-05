@@ -286,7 +286,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * two sided data is shown
      * @param positiveValuesColor the color to use for the positive values if
      * two sided data is shown, and the color used for one sided data
-     * @throws IllegalArgumentException if minValue &gt;> maxValue
+     * @throws IllegalArgumentException if minValue &gt; maxValue
      */
     public JSparklinesIntervalChartTableCellRenderer(
             PlotOrientation plotOrientation, Double minValue, Double maxValue,
@@ -390,7 +390,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
     /**
      * Set the plot background color.
      *
-     * @param plotBackgroundColor
+     * @param plotBackgroundColor the plot background color
      */
     public void setBackgroundColor(Color plotBackgroundColor) {
         this.plotBackgroundColor = plotBackgroundColor;
