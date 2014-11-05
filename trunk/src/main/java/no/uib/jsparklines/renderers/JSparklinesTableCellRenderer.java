@@ -1014,7 +1014,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * Add a reference line at a given data value.
      *
-     * @param referenceLine
+     * @param referenceLine the reference line
      */
     public void addReferenceLine(ReferenceLine referenceLine) {
         referenceLines.put(referenceLine.getLabel(), referenceLine);
@@ -1063,7 +1063,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
     /**
      * Add a reference area.
      *
-     * @param referenceArea
+     * @param referenceArea the reference area
      */
     public void addReferenceArea(ReferenceArea referenceArea) {
         referenceAreas.put(referenceArea.getLabel(), referenceArea);

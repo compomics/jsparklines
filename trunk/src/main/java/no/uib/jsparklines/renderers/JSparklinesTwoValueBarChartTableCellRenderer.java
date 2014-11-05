@@ -265,7 +265,7 @@ public class JSparklinesTwoValueBarChartTableCellRenderer extends JLabel impleme
      * If true, the first number is shown as the value. Otherwise the total
      * value is shown.
      *
-     * @param showFirstNumber
+     * @param showFirstNumber show first number only?
      */
     public void showFirstNumber(boolean showFirstNumber) {
         this.showFirstNumber = showFirstNumber;

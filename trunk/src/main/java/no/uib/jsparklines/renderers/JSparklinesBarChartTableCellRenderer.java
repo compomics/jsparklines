@@ -458,7 +458,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
     /**
      * Set the plot background color.
      *
-     * @param plotBackgroundColor
+     * @param plotBackgroundColor the plot background color
      */
     public void setBackgroundColor(Color plotBackgroundColor) {
         this.plotBackgroundColor = plotBackgroundColor;

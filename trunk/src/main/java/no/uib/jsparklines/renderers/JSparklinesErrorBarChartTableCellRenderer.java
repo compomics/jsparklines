@@ -343,7 +343,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
     /**
      * Set the plot background color.
      *
-     * @param plotBackgroundColor
+     * @param plotBackgroundColor the plot background color
      */
     public void setBackgroundColor(Color plotBackgroundColor) {
         this.plotBackgroundColor = plotBackgroundColor;
@@ -605,7 +605,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      * Set if the significance is to be indicated or not. Note that significance
      * can only be indicated if SignificantStatisticalCategoryDataset is used.
      *
-     * @param indicateSignificance
+     * @param indicateSignificance if the significance is to be indicated 
      */
     public void showSignificance(boolean indicateSignificance) {
         this.indicateSignificance = indicateSignificance;
