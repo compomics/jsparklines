@@ -6,42 +6,34 @@ The charts are created using [JFreeChart](http://www.jfree.org/jfreechart) and a
 
 Supports more than **27 types of charts/renderers**, including bar chart, line charts, stacked bar charts, bar charts with error bars, pie charts, scatter plots, interval charts, area charts, heat maps and box plots.
 
-
 ---
-
 
 **JSparklines Publication:**
-  * [Barsnes et al: Proteomics. 2014. (doi: 10.1002/pmic.201400356)](http://www.ncbi.nlm.nih.gov/pubmed/25422159). _(in press)_
+  * [Barsnes et al: Proteomics. 2014. (doi: 10.1002/pmic.201400356)](http://www.ncbi.nlm.nih.gov/pubmed/25422159).
   * If you use JSparklines as part of a publication, please include this reference.
 
-
 ---
-
 
 <table border='0'>
 <blockquote><tr>
 <blockquote><td width='220'><a href='http://genesis.ugent.be/maven2/no/uib/jsparklines/1.0.4/jsparklines-1.0.4.zip'><img src='http://jsparklines.googlecode.com/svn/wiki/images/download_button.png' /></a></td>
 <td width='150'><i>v1.0.4 - All platforms</i></td>
-<td width='110'><i><a href='http://code.google.com/p/jsparklines/wiki/ReleaseNotes'>ReleaseNotes</a></i></td>
+<td width='110'><i><a href='https://github.com/compomics/jsparklines/wiki/ReleaseNotes'>ReleaseNotes</a></i></td>
 <td width='100'><i><a href='http://genesis.ugent.be/maven2/no/uib/jsparklines/javadoc/'>JavaDoc</a></i></td>
 </blockquote></tr>
 </table></blockquote>
 
+---
+
+## How to use JSparklines
+
+See the [How to use JSparklines](https://github.com/compomics/jsparklines/wiki/UsingJSparklines) wiki page for code examples. JSparklines is also available as a [Maven dependency](https://github.com/compomics/jsparklines/wiki/UsingJSparklines#maven-dependency).
+
+_If you have questions or would like to contribute to the **JSparklines** project, please contact the developers._
 
 ---
 
-
-## How to use JSparklines ##
-
-See the [How to use JSparklines](HowToUseJSparklines.md) wiki page for code examples. JSparklines is also available as a [Maven dependency](http://code.google.com/p/jsparklines/wiki/HowToUseJSparklines#Maven_Dependency).
-
-_If you have questions or would like to contribute to the **JSparklines** project, please contact the [developers](http://code.google.com/p/jsparklines/people/list)._
-
-
----
-
-
-## Examples ##
+## Examples
 
 ![![](http://jsparklines.googlecode.com/svn/wiki/images/JSparklinesSample_small.png)](http://jsparklines.googlecode.com/svn/wiki/images/JSparklinesSample.png)
 
@@ -50,9 +42,7 @@ _If you have questions or would like to contribute to the **JSparklines** projec
 
 _(Click on a figure to see the full size version)_
 
-
 ---
-
 
 ## Projects using JSparklines ##
 
@@ -67,6 +57,5 @@ _(Click on a figure to see the full size version)_
 | [proteocloud](http://code.google.com/p/proteocloud) | _proteomics cloud computing pipeline_|_[Muth et al: J Proteomics. 2013 Jan 8. pii: S1874-3919(13)00013-4.](http://www.ncbi.nlm.nih.gov/pubmed/23305951)_|
 
 _Are you using JSparklines and would like your project listed here? Contact the [developers](http://code.google.com/p/jsparklines/people/list) of JSparklines._
-
 
 ---
