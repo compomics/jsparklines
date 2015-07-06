@@ -15,7 +15,7 @@ Supports more than **27 types of charts/renderers**, including bar chart, line c
 ---
 
 |   |   |   |   |
-| :--: | :--: | :--: | :--: |
+| :------------------------- | :---------------: | :--: | :--: |
 | [![download](https://github.com/compomics/jsparklines/wiki/images/download_button.png)](http://genesis.ugent.be/maven2/no/uib/jsparklines/1.0.4/jsparklines-1.0.4.zip) | *v1.0.4 - All platforms* | [ReleaseNotes](https://github.com/compomics/jsparklines/wiki/ReleaseNotes) | [JavaDoc](http://genesis.ugent.be/maven2/no/uib/jsparklines/javadoc/) |
 
 ---
@@ -41,8 +41,8 @@ _(Click on a figure to see the full size version)_
 
 ## Projects using JSparklines ##
 
-| **Project** | **Description** | **Publication** |
-|:------------|:----------------|:----------------|
+| Project | Description | Publication |
+|:-----------------|:----------------|:----------------|
 | [PeptideShaker](http://peptide-shaker.googlecode.com) | _interpretation of proteomics identification results_|_[Vaudel et al: Nature Biotechnol. 2015 Jan;33(1):22-24.](http://www.nature.com/nbt/journal/v33/n1/full/nbt.3109.html)_|
 | [DeNovoGUI](http://denovogui.googlecode.com) | _de novo sequencing of tandem mass spectra_|_[Muth at al: J Proteome Res. 2014 Feb 7;13(2):1143-6.](http://www.ncbi.nlm.nih.gov/pubmed/24295440)_|
 | [SearchGUI](http://searchgui.googlecode.com) | _graphical user interface for proteomics identification search engines_|_[Vaudel et al: Proteomics 2011;11(5):996-9.](http://www.ncbi.nlm.nih.gov/pubmed/21337703)_|
