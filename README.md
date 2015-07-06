@@ -1,66 +1,72 @@
+# JSparklines
 
-   
-   =============
-    JSparklines
-   =============
+JSparklines makes it straightforward to visualize numbers in Java tables by the use of [sparklines](http://en.wikipedia.org/wiki/Sparklines). All that is needed is a couple of lines of code.
 
-   JSparklines makes it straightforward to visualize numbers in Java tables by the use of sparklines. 
+The charts are created using [JFreeChart](http://www.jfree.org/jfreechart) and added to the table columns using custom [TableCellRenderers](http://download.oracle.com/javase/tutorial/uiswing/components/table.html#renderer).
 
-   All that is needed is a couple of lines of code. 
-
-   The charts are created using JFreeChart and added to the table columns using custom TableCellRenderers. 
-
-   More than 27 types of charts/renderers are supported! 
-
-  
-   ======================
-    JSparklines Web Page
-   ======================
-
-   For updated information about JSparklines please visit: http://jsparklines.googlecode.com
+Supports more than **27 types of charts/renderers**, including bar chart, line charts, stacked bar charts, bar charts with error bars, pie charts, scatter plots, interval charts, area charts, heat maps and box plots.
 
 
-   ===================
-    JSparklines Demos
-   ===================
-
-   JSparklines demos are available by double clicking the two jar files 
-   jsparklines-X.Y.Z.jar or jsparklines-X.Y.Z_heat_map_demo.jar.
-
-   From the command line: 
-
-      java -jar jsparklines-X.Y.Z.jar
-
-      or
-
-      java -jar jsparklines-X.Y.Z_heat_map_demo.jar
+---
 
 
-   (Replace X.Y.Z with the current version number.)
+**JSparklines Publication:**
+  * [Barsnes et al: Proteomics. 2014. (doi: 10.1002/pmic.201400356)](http://www.ncbi.nlm.nih.gov/pubmed/25422159). _(in press)_
+  * If you use JSparklines as part of a publication, please include this reference.
 
 
-   For more details (and source code) see: http://jsparklines.googlecode.com
+---
 
 
-   =========
-    License
-   =========
-   
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-   See the License for the specific language governing permissions and
-   limitations under the License.
+<table border='0'>
+<blockquote><tr>
+<blockquote><td width='220'><a href='http://genesis.ugent.be/maven2/no/uib/jsparklines/1.0.4/jsparklines-1.0.4.zip'><img src='http://jsparklines.googlecode.com/svn/wiki/images/download_button.png' /></a></td>
+<td width='150'><i>v1.0.4 - All platforms</i></td>
+<td width='110'><i><a href='http://code.google.com/p/jsparklines/wiki/ReleaseNotes'>ReleaseNotes</a></i></td>
+<td width='100'><i><a href='http://genesis.ugent.be/maven2/no/uib/jsparklines/javadoc/'>JavaDoc</a></i></td>
+</blockquote></tr>
+</table></blockquote>
 
 
-   Please note that some of the JAR files used by JSparklines may not have 
-   the same license as Compomics-Utilities. If you want to use any of these 
-   in a different context, make sure to obtain the original license for the 
-   JAR file in question.
+---
+
+
+## How to use JSparklines ##
+
+See the [How to use JSparklines](HowToUseJSparklines.md) wiki page for code examples. JSparklines is also available as a [Maven dependency](http://code.google.com/p/jsparklines/wiki/HowToUseJSparklines#Maven_Dependency).
+
+_If you have questions or would like to contribute to the **JSparklines** project, please contact the [developers](http://code.google.com/p/jsparklines/people/list)._
+
+
+---
+
+
+## Examples ##
+
+![![](http://jsparklines.googlecode.com/svn/wiki/images/JSparklinesSample_small.png)](http://jsparklines.googlecode.com/svn/wiki/images/JSparklinesSample.png)
+
+![![](http://jsparklines.googlecode.com/svn/wiki/images/JSparklinesDemo2_small.png)](http://jsparklines.googlecode.com/svn/wiki/images/JSparklinesDemo2.png)
+![![](http://jsparklines.googlecode.com/svn/wiki/images/heatmap_demo_1_small.png)](http://jsparklines.googlecode.com/svn/wiki/images/heatmap_demo_1.png)
+
+_(Click on a figure to see the full size version)_
+
+
+---
+
+
+## Projects using JSparklines ##
+
+| **Project** | **Description** | **Publication** |
+|:------------|:----------------|:----------------|
+| [PeptideShaker](http://peptide-shaker.googlecode.com) | _interpretation of proteomics identification results_|_[Vaudel et al: Nature Biotechnol. 2015 Jan;33(1):22â€“24.](http://www.nature.com/nbt/journal/v33/n1/full/nbt.3109.html)_|
+| [DeNovoGUI](http://denovogui.googlecode.com) | _de novo sequencing of tandem mass spectra_|_[Muth at al: J Proteome Res. 2014 Feb 7;13(2):1143-6.](http://www.ncbi.nlm.nih.gov/pubmed/24295440)_|
+| [SearchGUI](http://searchgui.googlecode.com) | _graphical user interface for proteomics identification search engines_|_[Vaudel et al: Proteomics 2011;11(5):996-9.](http://www.ncbi.nlm.nih.gov/pubmed/21337703)_|
+| [thermo-msf-parser](http://thermo-msf-parser.googlecode.com) | _parser and viewer for thermo msf files_|_[Colaert et al: J Proteome Res. 2011;10(8):3840-3.](http://www.ncbi.nlm.nih.gov/pubmed/21714566)_|
+| [Fragmentation Analyzer](http://fragmentation-analyzer.googlecode.com) | _analyzing MS/MS fragmentation data_|_[Barsnes et al: Proteomics 2010;10(5):1087-90.](http://www.ncbi.nlm.nih.gov/pubmed/20049869)_|
+| [MetaProteomeAnalyzer](http://code.google.com/p/meta-proteome-analyzer) | _analyzing meta-proteomics data_|_[Muth et al: J Proteome Res. 2015 (in press).](http://www.ncbi.nlm.nih.gov/pubmed/25660940)_|
+| [proteocloud](http://code.google.com/p/proteocloud) | _proteomics cloud computing pipeline_|_[Muth et al: J Proteomics. 2013 Jan 8. pii: S1874-3919(13)00013-4.](http://www.ncbi.nlm.nih.gov/pubmed/23305951)_|
+
+_Are you using JSparklines and would like your project listed here? Contact the [developers](http://code.google.com/p/jsparklines/people/list) of JSparklines._
+
+
+---
