@@ -56,6 +56,6 @@ _(Click on a figure to see the full size version)_
 | [MetaProteomeAnalyzer](http://code.google.com/p/meta-proteome-analyzer) | _analyzing meta-proteomics data_|_[Muth et al: J Proteome Res. 2015 (in press).](http://www.ncbi.nlm.nih.gov/pubmed/25660940)_|
 | [proteocloud](http://code.google.com/p/proteocloud) | _proteomics cloud computing pipeline_|_[Muth et al: J Proteomics. 2013 Jan 8. pii: S1874-3919(13)00013-4.](http://www.ncbi.nlm.nih.gov/pubmed/23305951)_|
 
-_Are you using JSparklines and would like your project listed here? Contact the [developers](http://code.google.com/p/jsparklines/people/list) of JSparklines._
+_Are you using JSparklines and would like your project listed here? Contact the developers of JSparklines._
 
 ---
