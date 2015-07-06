@@ -4,13 +4,11 @@
     JSparklines
    =============
 
-   JSparklines makes it straightforward to visualize numbers in Java 
-   tables by the use of sparklines. 
+   JSparklines makes it straightforward to visualize numbers in Java tables by the use of sparklines. 
 
    All that is needed is a couple of lines of code. 
 
-   The charts are created using JFreeChart and added to the table 
-   columns using custom TableCellRenderers. 
+   The charts are created using JFreeChart and added to the table columns using custom TableCellRenderers. 
 
    More than 27 types of charts/renderers are supported! 
 
@@ -19,8 +17,7 @@
     JSparklines Web Page
    ======================
 
-   For updated information about JSparklines please visit:
-   http://jsparklines.googlecode.com
+   For updated information about JSparklines please visit: http://jsparklines.googlecode.com
 
 
    ===================
