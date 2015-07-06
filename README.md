@@ -35,7 +35,7 @@ _If you have questions or would like to contribute to the **JSparklines** projec
 
 ## Examples
 
-![![](https://github.com/compomics/jsparklines/wiki/images/JSparklinesSample.png)](https://github.com/compomics/jsparklines/wiki/images/JSparklinesSample_small.png)
+[![](https://github.com/compomics/jsparklines/wiki/images/JSparklinesSample_small.png)](https://github.com/compomics/jsparklines/wiki/images/JSparklinesSample.png)
 
 ![![](https://github.com/compomics/jsparklines/wiki/images/JSparklinesDemo2.png)](https://github.com/compomics/jsparklines/wiki/images/JSparklinesDemo2_small.png)
 ![![](https://github.com/compomics/jsparklines/wiki/images/heatmap_demo_1.png)](https://github.com/compomics/jsparklines/wiki/images/heatmap_demo_1_small.png)
