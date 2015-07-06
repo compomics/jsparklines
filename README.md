@@ -16,7 +16,7 @@ Supports more than **27 types of charts/renderers**, including bar chart, line c
 
 <table border='0'>
 <tr>
-<td width='220'> [![download](http://jsparklines.googlecode.com/svn/wiki/images/download_button.png)](http://genesis.ugent.be/maven2/no/uib/jsparklines/1.0.4/jsparklines-1.0.4.zip) </td>
+<td width='220'> [![download](https://github.com/compomics/jsparklines/wiki/images/download_button.png)](http://genesis.ugent.be/maven2/no/uib/jsparklines/1.0.4/jsparklines-1.0.4.zip) </td>
 <td width='150'><i>v1.0.4 - All platforms</i></td>
 <td width='110'><i><a href='https://github.com/compomics/jsparklines/wiki/ReleaseNotes'>ReleaseNotes</a></i></td>
 <td width='100'><i><a href='http://genesis.ugent.be/maven2/no/uib/jsparklines/javadoc/'>JavaDoc</a></i></td>
@@ -35,10 +35,10 @@ _If you have questions or would like to contribute to the **JSparklines** projec
 
 ## Examples
 
-![![](http://jsparklines.googlecode.com/svn/wiki/images/JSparklinesSample_small.png)](http://jsparklines.googlecode.com/svn/wiki/images/JSparklinesSample.png)
+![![](https://github.com/compomics/jsparklines/wiki/images/JSparklinesSample_small.png)](https://github.com/compomics/jsparklines/wiki/images/JSparklinesSample.png)
 
-![![](http://jsparklines.googlecode.com/svn/wiki/images/JSparklinesDemo2_small.png)](http://jsparklines.googlecode.com/svn/wiki/images/JSparklinesDemo2.png)
-![![](http://jsparklines.googlecode.com/svn/wiki/images/heatmap_demo_1_small.png)](http://jsparklines.googlecode.com/svn/wiki/images/heatmap_demo_1.png)
+![![](https://github.com/compomics/jsparklines/wiki/images/JSparklinesDemo2_small.png)](https://github.com/compomics/jsparklines/wiki/images/JSparklinesDemo2.png)
+![![](https://github.com/compomics/jsparklines/wiki/images/heatmap_demo_1_small.png)](https://github.com/compomics/jsparklines/wiki/images/heatmap_demo_1.png)
 
 _(Click on a figure to see the full size version)_
 
