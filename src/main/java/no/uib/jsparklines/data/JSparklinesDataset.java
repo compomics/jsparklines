@@ -65,27 +65,42 @@ public class JSparklinesDataset implements Comparable<JSparklinesDataset> {
     }
 
     /**
-     * Compares based on the summed value of each dataset.
+     * Compares based on the summed absolute value of each dataset.
      */
     public int compareTo(JSparklinesDataset o) {
 
-        double sumThis = 0.0;
-        double sumOther = 0.0;
+        if (o == null) {
+            return 1;
+        }
 
+        double sumThis = 0.0;
         for (int i = 0; i < this.getData().size(); i++) {
             JSparklinesDataSeries series = this.getData().get(i);
 
             for (int j = 0; j < series.getData().size(); j++) {
-                sumThis += series.getData().get(j);
+                sumThis += Math.abs(series.getData().get(j));
             }
         }
 
+        double sumOther = 0.0;
         for (int i = 0; i < o.getData().size(); i++) {
             JSparklinesDataSeries series = o.getData().get(i);
 
             for (int j = 0; j < series.getData().size(); j++) {
-                sumOther += series.getData().get(j);
+                sumOther += Math.abs(series.getData().get(j));
             }
+        }
+
+        if (Double.isNaN(sumThis) && Double.isNaN(sumOther)) {
+            return 0;
+        }
+
+        if (Double.isNaN(sumThis)) {
+            return -1;
+        }
+
+        if (Double.isNaN(sumOther)) {
+            return 1;
         }
 
         return Double.compare(sumThis, sumOther);
