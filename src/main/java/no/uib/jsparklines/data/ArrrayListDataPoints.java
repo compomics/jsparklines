@@ -46,6 +46,15 @@ public class ArrrayListDataPoints implements Comparable<ArrrayListDataPoints>, S
     }
 
     /**
+     * Returns the value sort (and display) type.
+     *
+     * @return the value sort (and display) type
+     */
+    public ValueDisplayType getDataSortingType() {
+        return valueDisplayType;
+    }
+
+    /**
      * Set the value sort (and display) type.
      *
      * @param valueDisplayType the way to sort (and display) the data
