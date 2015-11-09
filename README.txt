@@ -20,7 +20,7 @@
    ======================
 
    For updated information about JSparklines please visit:
-   http://jsparklines.googlecode.com
+   http://compomics.github.io/projects/jsparklines.html
 
 
    ===================
@@ -42,7 +42,8 @@
    (Replace X.Y.Z with the current version number.)
 
 
-   For more details (and source code) see: http://jsparklines.googlecode.com
+   For more details (and source code) see: 
+   http://compomics.github.io/projects/jsparklines.html
 
 
    =========
