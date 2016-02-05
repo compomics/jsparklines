@@ -14,6 +14,10 @@ public class Chromosome implements Comparable<Chromosome>, Serializable {
      */
     static final long serialVersionUID = 2505328876343336528L;
     /**
+     * The chromosome name.
+     */
+    private String chromosomeName;
+    /**
      * The chromosome number or X, Y, Z or W.
      */
     private Integer chromosomeNumber;
@@ -36,56 +40,50 @@ public class Chromosome implements Comparable<Chromosome>, Serializable {
     /**
      * Integer value representing an unknown chromosome.
      */
-    private final Integer UNKNOWN = Integer.MAX_VALUE;
+    public final static Integer UNKNOWN = Integer.MAX_VALUE;
 
     /**
      * Create a new Chromosome.
      *
-     * @param chromosomeNumber the chromosomeNumber, i.e., a positive number or
-     * X, Y, Z or W, null is allowed
+     * @param chromosomeName the name of the chromosome, integer or X, Y, Z, W
+     * is preferred
      */
-    public Chromosome(String chromosomeNumber) {
+    public Chromosome(String chromosomeName) {
 
-        if (chromosomeNumber == null) {
+        this.chromosomeName = chromosomeName;
+
+        if (chromosomeName == null) {
             this.chromosomeNumber = UNKNOWN;
         } else {
             try {
-                this.chromosomeNumber = Integer.parseInt(chromosomeNumber);
+                this.chromosomeNumber = Integer.parseInt(chromosomeName);
             } catch (NumberFormatException e) {
                 // see if it is X, Y, Z, or W
-                if (chromosomeNumber.equalsIgnoreCase("X")) {
+                if (chromosomeName.equalsIgnoreCase("X")) {
                     this.chromosomeNumber = X;
-                } else if (chromosomeNumber.equalsIgnoreCase("Y")) {
+                } else if (chromosomeName.equalsIgnoreCase("Y")) {
                     this.chromosomeNumber = Y;
-                } else if (chromosomeNumber.equalsIgnoreCase("Z")) {
+                } else if (chromosomeName.equalsIgnoreCase("Z")) {
                     this.chromosomeNumber = Z;
-                } else if (chromosomeNumber.equalsIgnoreCase("W")) {
+                } else if (chromosomeName.equalsIgnoreCase("W")) {
                     this.chromosomeNumber = W;
                 } else {
-                    throw new IllegalArgumentException(chromosomeNumber + " has to be a positive integer or X, Y, Z or W.");
+                    this.chromosomeNumber = chromosomeName.hashCode();
                 }
             }
         }
     }
 
     /**
-     * Returns the chromosome number as a string.
+     * Returns the chromosome as a string.
      *
-     * @return the chromosome number as a string
+     * @return the chromosome as a string
      */
     public String toString() {
-        if (chromosomeNumber.intValue() == X.intValue()) {
-            return "X";
-        } else if (chromosomeNumber.intValue() == Y.intValue()) {
-            return "Y";
-        } else if (chromosomeNumber.intValue() == Z.intValue()) {
-            return "Z";
-        } else if (chromosomeNumber.intValue() == W.intValue()) {
-            return "W";
-        } else if (chromosomeNumber.intValue() == UNKNOWN.intValue()) {
+        if (chromosomeName == null) {
             return "";
         } else {
-            return "" + chromosomeNumber;
+            return chromosomeName;
         }
     }
 
