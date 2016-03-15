@@ -4,7 +4,7 @@ JSparklines makes it straightforward to visualize numbers in Java tables by the 
 
 The charts are created using [JFreeChart](http://www.jfree.org/jfreechart) and added to the table columns using custom [TableCellRenderers](http://download.oracle.com/javase/tutorial/uiswing/components/table.html#renderer).
 
-Supports more than **27 types of charts/renderers**, including bar chart, line charts, stacked bar charts, bar charts with error bars, pie charts, scatter plots, interval charts, area charts, heat maps and box plots.
+Supports more than **30 types of charts/renderers**, including bar chart, line charts, stacked bar charts, bar charts with error bars, pie charts, scatter plots, interval charts, area charts, heat maps and box plots.
 
 ---
 
