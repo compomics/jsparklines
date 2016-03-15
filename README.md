@@ -8,7 +8,7 @@ Supports more than **27 types of charts/renderers**, including bar chart, line c
 
 ---
 
-**JSparklines Publication:**
+## JSparklines Publication:
   * [Barsnes et al: Proteomics. 2014. (doi: 10.1002/pmic.201400356)](http://www.ncbi.nlm.nih.gov/pubmed/25422159).
   * If you use JSparklines as part of a publication, please include this reference.
 
@@ -16,7 +16,7 @@ Supports more than **27 types of charts/renderers**, including bar chart, line c
 
 |   |   |   |   |
 | :------------------------- | :---------------: | :--: | :--: |
-| [![download](https://github.com/compomics/jsparklines/wiki/images/download_button.png)](http://genesis.ugent.be/maven2/no/uib/jsparklines/1.0.7/jsparklines-1.0.7.zip) | *v1.0.7 - All platforms* | [ReleaseNotes](https://github.com/compomics/jsparklines/wiki/ReleaseNotes) | [JavaDoc](http://genesis.ugent.be/maven2/no/uib/jsparklines/javadoc/) |
+| [![download](https://github.com/compomics/jsparklines/wiki/images/download_button.png)](http://genesis.ugent.be/maven2/no/uib/jsparklines/1.0.8/jsparklines-1.0.8.zip) | *v1.0.8 - All platforms* | [ReleaseNotes](https://github.com/compomics/jsparklines/wiki/ReleaseNotes) | [JavaDoc](http://genesis.ugent.be/maven2/no/uib/jsparklines/javadoc/) |
 
 ---
 
