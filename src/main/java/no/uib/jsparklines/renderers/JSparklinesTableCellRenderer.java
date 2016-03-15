@@ -633,16 +633,14 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                     lineChartDataset.addSeries(xAxisSeries);
                     renderer.setSeriesStroke(0, new BasicStroke(0));
                     renderer.setSeriesStroke(1, new BasicStroke(0));
+                } else if (plotType == PlotType.lineChart) {
+                    renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
+                    renderer.setSeriesStroke(i, sparklineDataSeries.getLineType());
                 } else {
-                    if (plotType == PlotType.lineChart) {
-                        renderer.setSeriesPaint(i, sparklineDataSeries.getSeriesColor());
-                        renderer.setSeriesStroke(i, sparklineDataSeries.getLineType());
-                    } else {
-                        renderer.setSeriesFillPaint(i, new GradientPaint(
-                                0f, 0f, sparklineDataSeries.getSeriesColor().brighter().brighter(),
-                                0f, 0f, sparklineDataSeries.getSeriesColor().darker().darker()));
-                        renderer.setSeriesOutlinePaint(i, sparklineDataSeries.getSeriesColor());
-                    }
+                    renderer.setSeriesFillPaint(i, new GradientPaint(
+                            0f, 0f, sparklineDataSeries.getSeriesColor().brighter().brighter(),
+                            0f, 0f, sparklineDataSeries.getSeriesColor().darker().darker()));
+                    renderer.setSeriesOutlinePaint(i, sparklineDataSeries.getSeriesColor());
                 }
             }
 
@@ -821,11 +819,9 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
                 renderer.setRenderAsPercentages(true);
             } else if (plotType == PlotType.stackedBarChartIntegerWithUpperRange) {
                 plot.getRangeAxis().setRange(0, maxValue);
-            } else {
+            } else if (maxValue > 0) {
                 // set the axis range
-                if (maxValue > 0) {
-                    plot.getRangeAxis().setRange(minValue * sparklineDataset.getData().size(), maxValue * sparklineDataset.getData().size());
-                }
+                plot.getRangeAxis().setRange(minValue * sparklineDataset.getData().size(), maxValue * sparklineDataset.getData().size());
             }
 
             // add the dataset

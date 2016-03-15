@@ -5,7 +5,7 @@
     <groupId>no.uib</groupId>
     <artifactId>jsparklines</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <name>JSparklines</name>
     <description>Sparklines for Java tables</description>
     <url>http://jsparklines.googlecode.com</url>
@@ -28,8 +28,8 @@
         <developer>
             <name>Harald Barsnes</name>
             <id>harald</id>
-            <email>harald.barsnes@biomed.uib.no</email>
-            <organization>Department of Biomedicine, University of Bergen, Norway</organization>
+            <email>harald.barsnes@uib.no</email>
+            <organization>University of Bergen, Norway</organization>
         </developer>
     </developers>
 
