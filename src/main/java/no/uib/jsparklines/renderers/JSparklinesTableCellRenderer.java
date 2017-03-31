@@ -258,7 +258,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
      *
      * @param plotType the plot type
      * @param plotOrientation the orientation of the plot
-     * @param minValue the minium value to be plotted, used to make sure that
+     * @param minValue the minimum value to be plotted, used to make sure that
      * all plots in the same column has the same maximum value and are thus
      * comparable
      * @param maxValue the maximum value to be plotted, used to make sure that

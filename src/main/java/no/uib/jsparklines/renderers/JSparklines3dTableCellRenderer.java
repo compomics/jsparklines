@@ -102,13 +102,13 @@ public class JSparklines3dTableCellRenderer extends JLabel implements TableCellR
      * Creates a new JSparkLines3dTableCellRenderer.
      *
      * @param plotType the plot type
-     * @param minXValue the minium x value to be plotted, used to make sure that
+     * @param minXValue the minimum x value to be plotted, used to make sure that
      * all plots in the same column has the same minimum x value and are thus
      * comparable
      * @param maxXValue the maximum x value to be plotted, used to make sure
      * that all plots in the same column has the same maximum x value and are
      * thus comparable
-     * @param minYValue the minium y value to be plotted, used to make sure that
+     * @param minYValue the minimum y value to be plotted, used to make sure that
      * all plots in the same column has the same minimum y value and are thus
      * comparable
      * @param maxYValue the maximum y value to be plotted, used to make sure

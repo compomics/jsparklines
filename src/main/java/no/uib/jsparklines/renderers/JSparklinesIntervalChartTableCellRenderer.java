@@ -202,7 +202,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * colors, use one of the other constructors.
      *
      * @param plotOrientation the orientation of the plot
-     * @param minValue the minium value to be plotted, used to make sure that
+     * @param minValue the minimum value to be plotted, used to make sure that
      * all plots in the same column has the same minimum value and are thus
      * comparable
      * @param maxValue the maximum value to be plotted, used to make sure that
@@ -234,7 +234,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * constructor when positive and negative values are to be plotted.
      *
      * @param plotOrientation the orientation of the plot
-     * @param minValue the minium value to be plotted, used to make sure that
+     * @param minValue the minimum value to be plotted, used to make sure that
      * all plots in the same column has the same minimum value and are thus
      * comparable
      * @param maxValue the maximum value to be plotted, used to make sure that
@@ -276,7 +276,7 @@ public class JSparklinesIntervalChartTableCellRenderer extends JPanel implements
      * the lower range and Y the upper range of the interval to be shown.
      *
      * @param plotOrientation the orientation of the plot
-     * @param minValue the minium value to be plotted, used to make sure that
+     * @param minValue the minimum value to be plotted, used to make sure that
      * all plots in the same column has the same minimum value and are thus
      * comparable
      * @param maxValue the maximum value to be plotted, used to make sure that

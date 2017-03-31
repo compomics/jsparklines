@@ -196,7 +196,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      * one of the other constructors.
      *
      * @param plotOrientation the orientation of the plot
-     * @param minValue the minium value to be plotted, used to make sure that
+     * @param minValue the minimum value to be plotted, used to make sure that
      * all plots in the same column has the same minimum value and are thus
      * comparable
      * @param maxValue the maximum value to be plotted, used to make sure that
@@ -223,7 +223,7 @@ public class JSparklinesErrorBarChartTableCellRenderer extends JPanel implements
      * XYDataPoint.
      *
      * @param plotOrientation the orientation of the plot
-     * @param minValue the minium value to be plotted, used to make sure that
+     * @param minValue the minimum value to be plotted, used to make sure that
      * all plots in the same column has the same minimum value and are thus
      * comparable
      * @param maxValue the maximum value to be plotted, used to make sure that
