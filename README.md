@@ -18,7 +18,7 @@ If you like JSparklines you may also want to check out [JSparklines Factory](htt
 
 |   |   |   |   |
 | :------------------------- | :---------------: | :--: | :--: |
-| [![download](https://github.com/compomics/jsparklines/wiki/images/download_button.png)](http://genesis.ugent.be/maven2/no/uib/jsparklines/1.0.8/jsparklines-1.0.8.zip) | *v1.0.8 - All platforms* | [ReleaseNotes](https://github.com/compomics/jsparklines/wiki/ReleaseNotes) | [JavaDoc](http://genesis.ugent.be/maven2/no/uib/jsparklines/javadoc/) |
+| [![download](https://github.com/compomics/jsparklines/wiki/images/download_button.png)](http://genesis.ugent.be/maven2/no/uib/jsparklines/1.0.9/jsparklines-1.0.9.zip) | *v1.0.9 - All platforms* | [ReleaseNotes](https://github.com/compomics/jsparklines/wiki/ReleaseNotes) | [JavaDoc](http://genesis.ugent.be/maven2/no/uib/jsparklines/javadoc/) |
 
 ---
 
