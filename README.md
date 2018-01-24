@@ -52,6 +52,8 @@ _(Click on a figure to see the full size version)_
 | [MetaProteomeAnalyzer](https://github.com/compomics/meta-proteome-analyzer) | _analyzing meta-proteomics data_|_[Muth et al: J Proteome Res. 2015 Mar 6;14(3):1557-65.](http://www.ncbi.nlm.nih.gov/pubmed/25660940)_|
 | [proteocloud](http://code.google.com/p/proteocloud) | _proteomics cloud computing pipeline_|_[Muth et al: J Proteomics. 2013 Jan 8. pii: S1874-3919(13)00013-4.](http://www.ncbi.nlm.nih.gov/pubmed/23305951)_|
 | [S2P](http://www.sing-group.org/s2p) | _processing of 2D-gel and MALDI-based mass spectrometry protein data_|_[López-Fernández et al: PACBB 2017](http://dx.doi.org/10.1007/978-3-319-60816-7_1)_|
+| [DEWE](http://www.sing-group.org/dewe
+) | _differential expression analysis of RNA-Seq data_| |
 
 _Are you using JSparklines and would like your project listed here? Contact the developers of JSparklines._
 
