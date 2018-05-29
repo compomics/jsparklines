@@ -46,7 +46,7 @@ _(Click on a figure to see the full size version)_
 |:-----------------|:----------------|:----------------|
 | [PeptideShaker](http://compomics.github.io/projects/peptide-shaker.html) | _interpretation of proteomics identification results_|_[Vaudel et al: Nature Biotechnol. 2015 Jan;33(1):22-24.](http://www.nature.com/nbt/journal/v33/n1/full/nbt.3109.html)_|
 | [DeNovoGUI](http://compomics.github.io/projects/denovogui.html) | _de novo sequencing of tandem mass spectra_|_[Muth at al: J Proteome Res. 2014 Feb 7;13(2):1143-6.](http://www.ncbi.nlm.nih.gov/pubmed/24295440)_|
-| [SearchGUI](http://compomics.github.io/projects/searchgui.html) | _graphical user interface for proteomics identification search engines_|_[Vaudel et al: Proteomics 2011;11(5):996-9.](http://www.ncbi.nlm.nih.gov/pubmed/21337703)_|
+| [SearchGUI](http://compomics.github.io/projects/searchgui.html) | _graphical user interface for proteomics identification search engines_|_[Barsnes et al: J Proteome Res. 2018 (in press)](https://www.ncbi.nlm.nih.gov/pubmed/29774740)_|
 | [thermo-msf-parser](http://compomics.github.io/projects/thermo-msf-parser.html) | _parser and viewer for thermo msf files_|_[Colaert et al: J Proteome Res. 2011;10(8):3840-3.](http://www.ncbi.nlm.nih.gov/pubmed/21714566)_|
 | [Fragmentation Analyzer](http://compomics.github.io/projects/fragmentation-analyzer.html) | _analyzing MS/MS fragmentation data_|_[Barsnes et al: Proteomics 2010;10(5):1087-90.](http://www.ncbi.nlm.nih.gov/pubmed/20049869)_|
 | [MetaProteomeAnalyzer](https://github.com/compomics/meta-proteome-analyzer) | _analyzing meta-proteomics data_|_[Muth et al: J Proteome Res. 2015 Mar 6;14(3):1557-65.](http://www.ncbi.nlm.nih.gov/pubmed/25660940)_|
