@@ -6,7 +6,7 @@ The charts are created using [JFreeChart](http://www.jfree.org/jfreechart) and a
 
 Supports more than **30 types of charts/renderers**, including bar chart, line charts, stacked bar charts, bar charts with error bars, pie charts, scatter plots, interval charts, area charts, heat maps and box plots.
 
-If you like JSparklines you may also want to check out [JSparklines Factory](https://github.com/hlfernandez/jsparklines-factory).
+If you like JSparklines you may also want to check out [JSparklines Factory](https://github.com/sing-group/GC4S/tree/master/gc4s-jsparklines-factory).
 
 ---
 
