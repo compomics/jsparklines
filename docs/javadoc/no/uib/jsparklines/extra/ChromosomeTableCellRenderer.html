@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10};
+var methods = {"i0":10,"i1":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -242,7 +242,8 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/javax/swing/table/T
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../no/uib/jsparklines/extra/ChromosomeTableCellRenderer.html#ChromosomeTableCellRenderer--">ChromosomeTableCellRenderer</a></span>()</code>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../no/uib/jsparklines/extra/ChromosomeTableCellRenderer.html#ChromosomeTableCellRenderer-java.awt.Color-java.awt.Color-">ChromosomeTableCellRenderer</a></span>(<a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;selectedFontColor,
+                           <a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;notSelectedFontColor)</code>
 <div class="block">Create a new ChartPanelTableCellRenderer.</div>
 </td>
 </tr>
@@ -269,6 +270,13 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/javax/swing/table/T
                              boolean&nbsp;hasFocus,
                              int&nbsp;row,
                              int&nbsp;column)</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../no/uib/jsparklines/extra/ChromosomeTableCellRenderer.html#setFontColors-java.awt.Color-java.awt.Color-">setFontColors</a></span>(<a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;selectedFontColor,
+             <a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;notSelectedFontColor)</code>
+<div class="block">Set the font colors.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -320,14 +328,20 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/javax/swing/table/T
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="ChromosomeTableCellRenderer--">
+<a name="ChromosomeTableCellRenderer-java.awt.Color-java.awt.Color-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ChromosomeTableCellRenderer</h4>
-<pre>public&nbsp;ChromosomeTableCellRenderer()</pre>
+<pre>public&nbsp;ChromosomeTableCellRenderer(<a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;selectedFontColor,
+                                   <a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;notSelectedFontColor)</pre>
 <div class="block">Create a new ChartPanelTableCellRenderer.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>selectedFontColor</code> - font color to use for the selected cells</dd>
+<dd><code>notSelectedFontColor</code> - font color to use for the selected cells</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -338,6 +352,22 @@ implements <a href="http://docs.oracle.com/javase/6/docs/api/javax/swing/table/T
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="setFontColors-java.awt.Color-java.awt.Color-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setFontColors</h4>
+<pre>public&nbsp;void&nbsp;setFontColors(<a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;selectedFontColor,
+                          <a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Color.html?is-external=true" title="class or interface in java.awt">Color</a>&nbsp;notSelectedFontColor)</pre>
+<div class="block">Set the font colors.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>selectedFontColor</code> - font color to use for the selected cells</dd>
+<dd><code>notSelectedFontColor</code> - font color to use for the selected cells</dd>
+</dl>
+</li>
+</ul>
 <a name="getTableCellRendererComponent-javax.swing.JTable-java.lang.Object-boolean-boolean-int-int-">
 <!--   -->
 </a>
