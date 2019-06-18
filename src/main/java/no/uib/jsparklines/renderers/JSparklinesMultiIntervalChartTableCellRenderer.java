@@ -189,7 +189,7 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
     /**
      * If true, a black reference line is shown in the middle of the plot.
      *
-     * @param showReferenceLine if true, a black reference line is shown in the
+     * @param showReferenceLine if true, a reference line is shown in the
      * middle of the plot
      * @param lineWidth the line width
      * @param color the color
@@ -469,14 +469,16 @@ public class JSparklinesMultiIntervalChartTableCellRenderer extends JLabel imple
         plot.setRangeGridlinesVisible(false);
 
         // add a reference line in the middle of the dataset
-        DefaultCategoryDataset referenceLineDataset = new DefaultCategoryDataset();
-        referenceLineDataset.addValue(maxValue * 1.02, "A", "B");
-        plot.setDataset(1, referenceLineDataset);
-        LayeredBarRenderer referenceLineRenderer = new LayeredBarRenderer();
-        referenceLineRenderer.setSeriesBarWidth(0, referenceLineWidth);
-        referenceLineRenderer.setSeriesFillPaint(0, referenceLineColor);
-        referenceLineRenderer.setSeriesPaint(0, referenceLineColor);
-        plot.setRenderer(1, referenceLineRenderer);
+        if (showReferenceLine) {
+            DefaultCategoryDataset referenceLineDataset = new DefaultCategoryDataset();
+            referenceLineDataset.addValue(maxValue * 1.02, "A", "B");
+            plot.setDataset(1, referenceLineDataset);
+            LayeredBarRenderer referenceLineRenderer = new LayeredBarRenderer();
+            referenceLineRenderer.setSeriesBarWidth(0, referenceLineWidth);
+            referenceLineRenderer.setSeriesFillPaint(0, referenceLineColor);
+            referenceLineRenderer.setSeriesPaint(0, referenceLineColor);
+            plot.setRenderer(1, referenceLineRenderer);
+        }
 
         // make sure the background is the same as the table row color
         if (plotBackgroundColor != null && !isSelected) {

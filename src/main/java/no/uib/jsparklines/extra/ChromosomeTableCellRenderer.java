@@ -19,9 +19,34 @@ import no.uib.jsparklines.data.Chromosome;
 public class ChromosomeTableCellRenderer extends JLabel implements TableCellRenderer {
 
     /**
-     * Create a new ChartPanelTableCellRenderer.
+     * The font color to use for the selected cells.
      */
-    public ChromosomeTableCellRenderer() {
+    private Color selectedFontColor;
+    /**
+     * The font color to use for the selected cells.
+     */
+    private Color notSelectedFontColor;
+    
+    /**
+     * Create a new ChartPanelTableCellRenderer.
+     * 
+     * @param selectedFontColor font color to use for the selected cells
+     * @param notSelectedFontColor font color to use for the selected cells
+     */
+    public ChromosomeTableCellRenderer(Color selectedFontColor, Color notSelectedFontColor) {
+        this.selectedFontColor = selectedFontColor;
+        this.notSelectedFontColor = notSelectedFontColor;
+    }
+    
+    /**
+     * Set the font colors.
+     * 
+     * @param selectedFontColor font color to use for the selected cells
+     * @param notSelectedFontColor font color to use for the selected cells
+     */
+    public void setFontColors(Color selectedFontColor, Color notSelectedFontColor) {
+        this.selectedFontColor = selectedFontColor;
+        this.notSelectedFontColor = notSelectedFontColor;
     }
 
     @Override
@@ -45,12 +70,12 @@ public class ChromosomeTableCellRenderer extends JLabel implements TableCellRend
         valueLabel.setBorder(c.getBorder());
         valueLabel.setOpaque(c.isOpaque());
         valueLabel.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-
+  
         // update the link color depending on if the row is selected or not
         if (isSelected) {
-            valueLabel.setForeground(Color.WHITE); // @TODO: should not be hardcoded!!!
+            valueLabel.setForeground(selectedFontColor);
         } else {
-            valueLabel.setForeground(Color.BLACK);
+            valueLabel.setForeground(notSelectedFontColor);
         }
 
         if (value != null && value instanceof Chromosome) {
