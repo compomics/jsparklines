@@ -29,6 +29,12 @@ public class XYDataPoint implements Comparable<XYDataPoint>, Serializable {
     private boolean compareBasedOnFirstDataPoint = true;
 
     /**
+     * Empty default constructor.
+     */
+    public XYDataPoint() {
+    }
+    
+    /**
      * Create a new XYDataPoint.
      *
      * @param x the x value
