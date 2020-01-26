@@ -138,8 +138,8 @@ public class GradientColorCoding {
         for (int i = 0; i < (numberOfColorLevels / 2); i++) {
 
             // find the lower and upper range for the current color
-            Double lowerRange = new Double(-maxValue + (i * distanceBetweenCorrelationLevels));
-            Double upperRange = new Double(-maxValue + ((i + 1) * distanceBetweenCorrelationLevels));
+            Double lowerRange = -maxValue + (i * distanceBetweenCorrelationLevels);
+            Double upperRange = -maxValue + ((i + 1) * distanceBetweenCorrelationLevels);
 
             Color tempColor = null;
 
@@ -192,8 +192,8 @@ public class GradientColorCoding {
         for (int i = 0; i < (numberOfColorLevels / 2); i++) {
 
             // find the lower and upper range for the current color
-            Double lowerRange = new Double(0.0 + distanceBetweenCorrelationLevels * i);
-            Double upperRange = new Double(0.0 + distanceBetweenCorrelationLevels * (i + 1));
+            Double lowerRange = 0.0 + distanceBetweenCorrelationLevels * i;
+            Double upperRange = 0.0 + distanceBetweenCorrelationLevels * (i + 1);
 
             Color tempColor = null;
 

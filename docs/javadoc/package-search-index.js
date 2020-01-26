@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"no.uib.jsparklines"},{"l":"no.uib.jsparklines.data"},{"l":"no.uib.jsparklines.extra"},{"l":"no.uib.jsparklines.renderers"},{"l":"no.uib.jsparklines.renderers.util"}]

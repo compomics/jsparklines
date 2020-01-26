@@ -164,8 +164,8 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, roundDouble(((Double) value).doubleValue(), 2),
                         isSelected, hasFocus, row, column);
 
-                if (Math.abs(new Double("" + value)) < tooltipLowerValue) {
-                    c.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 8));
+                if (Math.abs(Double.valueOf("" + value)) < tooltipLowerValue) {
+                    c.setToolTipText("" + roundDouble(Double.valueOf("" + value).doubleValue(), 8));
                 }
 
             } else if (value instanceof Integer
@@ -198,10 +198,10 @@ public class JSparklinesBubbleHeatMapTableCellRenderer extends JLabel implements
                 value = ((Float) value).doubleValue();
             }
 
-            if (Math.abs(new Double("" + value)) < tooltipLowerValue) {
-                this.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 8));
+            if (Math.abs(Double.valueOf("" + value)) < tooltipLowerValue) {
+                this.setToolTipText("" + roundDouble(Double.valueOf("" + value).doubleValue(), 8));
             } else {
-                this.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 2));
+                this.setToolTipText("" + roundDouble(Double.valueOf("" + value).doubleValue(), 2));
             }
 
         } else if (value instanceof Integer

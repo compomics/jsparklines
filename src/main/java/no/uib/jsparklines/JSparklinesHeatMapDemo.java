@@ -100,9 +100,9 @@ public class JSparklinesHeatMapDemo extends javax.swing.JFrame {
 
                 // randomly make the number negative or positive
                 if (random.nextInt(2) == 0) {
-                    ((DefaultTableModel) heatmapJTable.getModel()).setValueAt(new Double(-random.nextInt(maxValue)), i, j);
+                    ((DefaultTableModel) heatmapJTable.getModel()).setValueAt(Double.valueOf(-random.nextInt(maxValue)), i, j);
                 } else {
-                    ((DefaultTableModel) heatmapJTable.getModel()).setValueAt(new Double(random.nextInt(maxValue)), i, j);
+                    ((DefaultTableModel) heatmapJTable.getModel()).setValueAt(Double.valueOf(random.nextInt(maxValue)), i, j);
                 }
             }
         }

@@ -604,8 +604,8 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, roundDouble(((Double) value).doubleValue(), 2),
                         isSelected, hasFocus, row, column);
 
-                if (Math.abs(new Double("" + value)) < tooltipLowerValue) {
-                    c.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 8));
+                if (Math.abs(Double.valueOf("" + value)) < tooltipLowerValue) {
+                    c.setToolTipText("" + roundDouble(Double.valueOf("" + value).doubleValue(), 8));
                 }
 
             } else if (value instanceof Integer
@@ -629,8 +629,8 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, ((XYDataPoint) value).toString(),
                         isSelected, hasFocus, row, column);
 
-                if (Math.abs(new Double("" + ((XYDataPoint) value).getX())) < tooltipLowerValue) {
-                    c.setToolTipText("" + roundDouble(new Double("" + ((XYDataPoint) value).getX()).doubleValue(), 8));
+                if (Math.abs(Double.valueOf("" + ((XYDataPoint) value).getX())) < tooltipLowerValue) {
+                    c.setToolTipText("" + roundDouble(Double.valueOf("" + ((XYDataPoint) value).getX()).doubleValue(), 8));
                 }
 
             } else if (value instanceof ValueAndBooleanDataPoint) {
@@ -642,8 +642,8 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                     c = (JComponent) new DefaultTableCellRenderer().getTableCellRendererComponent(table, ((ValueAndBooleanDataPoint) value).toString(),
                             isSelected, hasFocus, row, column);
 
-                    if (Math.abs(new Double("" + ((ValueAndBooleanDataPoint) value).getValue())) < tooltipLowerValue) {
-                        c.setToolTipText("" + roundDouble(new Double("" + ((ValueAndBooleanDataPoint) value).getValue()).doubleValue(), 8));
+                    if (Math.abs(Double.valueOf("" + ((ValueAndBooleanDataPoint) value).getValue())) < tooltipLowerValue) {
+                        c.setToolTipText("" + roundDouble(Double.valueOf("" + ((ValueAndBooleanDataPoint) value).getValue()).doubleValue(), 8));
                     }
                 }
             }
@@ -665,10 +665,10 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
                 value = ((Float) value).doubleValue();
             }
 
-            if (Math.abs(new Double("" + value)) < tooltipLowerValue) {
-                this.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 8));
+            if (Math.abs(Double.valueOf("" + value)) < tooltipLowerValue) {
+                this.setToolTipText("" + roundDouble(Double.valueOf("" + value).doubleValue(), 8));
             } else {
-                this.setToolTipText("" + roundDouble(new Double("" + value).doubleValue(), 2));
+                this.setToolTipText("" + roundDouble(Double.valueOf("" + value).doubleValue(), 2));
             }
 
         } else if (value instanceof Integer
@@ -691,7 +691,7 @@ public class JSparklinesBarChartTableCellRenderer extends JPanel implements Tabl
             } else {
                 this.setToolTipText("" + roundDouble(((ValueAndBooleanDataPoint) value).getValue(), 2));
 
-                if (Math.abs(new Double("" + ((ValueAndBooleanDataPoint) value).getValue())) < tooltipLowerValue) {
+                if (Math.abs(Double.valueOf("" + ((ValueAndBooleanDataPoint) value).getValue())) < tooltipLowerValue) {
                     this.setToolTipText("" + roundDouble(((ValueAndBooleanDataPoint) value).getValue(), 8));
                 }
             }
