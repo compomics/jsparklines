@@ -6,7 +6,7 @@ import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.renderer.category.BarRenderer3D;
+import org.jfree.chart.renderer.category.BarRenderer;
 
 /**
  * Custom renderer making it possible to use different colors for individual
@@ -14,7 +14,7 @@ import org.jfree.chart.renderer.category.BarRenderer3D;
  *
  * @author Harald Barsnes
  */
-public class BarChartColorRenderer extends BarRenderer3D {
+public class BarChartColorRenderer extends BarRenderer {
 
     /**
      * The colors to use.
@@ -31,7 +31,7 @@ public class BarChartColorRenderer extends BarRenderer3D {
      * @param colors the colors to use.
      */
     public BarChartColorRenderer(ArrayList<Color> colors) {
-        super(0, 0);
+        super();
         this.colors = colors;
     }
 
@@ -42,19 +42,11 @@ public class BarChartColorRenderer extends BarRenderer3D {
      * @param color the color to use.
      */
     public BarChartColorRenderer(Color color) {
-        super(0, 0);
+        super();
         mainColor = color;
     }
 
-    /**
-     * Returns the color for an item. Overrides the default behavior inherited
-     * from AbstractSeriesRenderer.
-     *
-     * @param row the series.
-     * @param column the category.
-     *
-     * @return the item color.
-     */
+    @Override
     public Paint getItemPaint(final int row, final int column) {
 
         if (mainColor != null) {
@@ -68,14 +60,7 @@ public class BarChartColorRenderer extends BarRenderer3D {
         }
     }
 
-    /**
-     * Overwritten method in order to not draw the background wall. Note that
-     * the method is thus empty and draws nothing.
-     *
-     * @param g2 the graphics device.
-     * @param plot the plot.
-     * @param dataArea the area inside the axes.
-     */
+    @Override
     public void drawBackground(Graphics2D g2, CategoryPlot plot, Rectangle2D dataArea) {
         // Given that the 3D effect is not used, the drawBackground method
         // is overwritten. If this is not done the hardcoded grey corners

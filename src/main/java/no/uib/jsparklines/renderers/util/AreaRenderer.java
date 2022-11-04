@@ -20,11 +20,11 @@ import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYAreaRenderer;
 import org.jfree.chart.renderer.xy.XYItemRendererState;
+import org.jfree.chart.ui.GradientPaintTransformer;
+import org.jfree.chart.ui.StandardGradientPaintTransformer;
 import org.jfree.chart.urls.XYURLGenerator;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.ui.GradientPaintTransformer;
-import org.jfree.ui.StandardGradientPaintTransformer;
-import org.jfree.util.ShapeUtilities;
+import org.jfree.chart.util.ShapeUtils;
 
 /**
  * Custom renderer displaying line charts with the area under the line is
@@ -91,42 +91,13 @@ public class AreaRenderer extends XYAreaRenderer {
         super(type, toolTipGenerator, urlGenerator);
     }
 
-    /**
-     * Initialises the renderer and returns a state object that should be passed
-     * to all subsequent calls to the drawItem() method.
-     *
-     * @param g2 the graphics device.
-     * @param dataArea the area inside the axes.
-     * @param plot the plot.
-     * @param data the data.
-     * @param info an optional info collection object to return data back to the
-     * caller.
-     *
-     * @return A state object for use by the renderer.
-     */
+    @Override
     public XYItemRendererState initialise(Graphics2D g2, Rectangle2D dataArea, XYPlot plot, XYDataset data, PlotRenderingInfo info) {
         AreaRendererState state = new AreaRendererState(info);
         return state;
     }
 
-    /**
-     * Draws the visual representation of a single data item.
-     *
-     * @param g2 the graphics device.
-     * @param state the renderer state.
-     * @param dataArea the area within which the data is being drawn.
-     * @param info collects information about the drawing.
-     * @param plot the plot (can be used to obtain standard color information
-     * etc).
-     * @param domainAxis the domain axis.
-     * @param rangeAxis the range axis.
-     * @param dataset the dataset.
-     * @param series the series index (zero-based).
-     * @param item the item index (zero-based).
-     * @param crosshairState crosshair information for the plot
-     * (<code>null</code> permitted).
-     * @param pass the pass index.
-     */
+    @Override
     public void drawItem(Graphics2D g2, XYItemRendererState state,
             Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot,
             ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset,
@@ -225,10 +196,10 @@ public class AreaRenderer extends XYAreaRenderer {
         if (getPlotShapes()) {
             Shape shape = getItemShape(series, item);
             if (orientation == PlotOrientation.VERTICAL) {
-                shape = ShapeUtilities.createTranslatedShape(shape, transX1,
+                shape = ShapeUtils.createTranslatedShape(shape, transX1,
                         transY1);
             } else if (orientation == PlotOrientation.HORIZONTAL) {
-                shape = ShapeUtilities.createTranslatedShape(shape, transY1,
+                shape = ShapeUtils.createTranslatedShape(shape, transY1,
                         transX1);
             }
             g2.draw(shape);
@@ -274,14 +245,14 @@ public class AreaRenderer extends XYAreaRenderer {
             }
         }
 
-        updateCrosshairValues(crosshairState, x1, y1, 0, 0, transX1, transY1, orientation);
+        updateCrosshairValues(crosshairState, x1, y1, 0, transX1, transY1, orientation);
 
         // collect entity and tool tip information...
         if (state.getInfo() != null) {
 
             EntityCollection entities = state.getEntityCollection();
 
-            if (entities != null && hotspot != null) {
+            if (entities != null) {
 
                 String tip = null;
                 XYToolTipGenerator generator = getToolTipGenerator(series, item);

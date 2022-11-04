@@ -45,12 +45,12 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYDifferenceRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.ui.Layer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.Layer;
 
 /**
  * Table cell renderer displaying JSparklines plots consisting of multiple
@@ -433,7 +433,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
 
         // get the dataset
         JSparklinesDataset sparklineDataset = (JSparklinesDataset) value;
-        ArrayList<Color> colors = new ArrayList<Color>();
+        ArrayList<Color> colors = new ArrayList<>();
         int dataCounter = 0;
 
         StringBuilder tooltip = new StringBuilder();
