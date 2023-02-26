@@ -147,9 +147,21 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      * @param colors the colors to use for the plot
      * @param valueDisplayType the value to display in the table
      */
-    public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
-            ArrayList<Color> colors, ValueDisplayType valueDisplayType) {
-        this(plotOrientation, maxValue, colors, null, valueDisplayType);
+    public JSparklinesArrayListBarChartTableCellRenderer(
+            PlotOrientation plotOrientation, 
+            Double maxValue,
+            ArrayList<Color> colors, 
+            ValueDisplayType valueDisplayType
+    ) {
+        
+        this(
+                plotOrientation, 
+                maxValue, 
+                colors, 
+                null, 
+                valueDisplayType
+        );
+        
     }
 
     /**
@@ -164,8 +176,13 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      * max value (set to null if no filling should be used)
      * @param valueDisplayType the value to display in the table
      */
-    public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
-            ArrayList<Color> colors, Color fillColor, ValueDisplayType valueDisplayType) {
+    public JSparklinesArrayListBarChartTableCellRenderer(
+            PlotOrientation plotOrientation, 
+            Double maxValue,
+            ArrayList<Color> colors, 
+            Color fillColor, 
+            ValueDisplayType valueDisplayType
+    ) {
 
         this.plotOrientation = plotOrientation;
         this.maxValue = maxValue;
@@ -206,9 +223,21 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      *
      * @deprecated use the constructor with the ValueDisplayType instead
      */
-    public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
-            ArrayList<Color> colors, boolean showFirstNumber) {
-        this(plotOrientation, maxValue, colors, null, showFirstNumber);
+    public JSparklinesArrayListBarChartTableCellRenderer(
+            PlotOrientation plotOrientation, 
+            Double maxValue,
+            ArrayList<Color> colors, 
+            boolean showFirstNumber
+    ) {
+        
+        this(
+                plotOrientation, 
+                maxValue, 
+                colors, 
+                null, 
+                showFirstNumber
+        );
+        
     }
 
     /**

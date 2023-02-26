@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 
 /**
  * Custom renderer making it possible to use different colors for individual
@@ -33,6 +34,8 @@ public class BarChartColorRenderer extends BarRenderer {
     public BarChartColorRenderer(ArrayList<Color> colors) {
         super();
         this.colors = colors;
+        setBarPainter(new StandardBarPainter());
+        setShadowVisible(false);
     }
 
     /**
@@ -44,6 +47,8 @@ public class BarChartColorRenderer extends BarRenderer {
     public BarChartColorRenderer(Color color) {
         super();
         mainColor = color;
+        setBarPainter(new StandardBarPainter());
+        setShadowVisible(false);
     }
 
     @Override
