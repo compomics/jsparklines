@@ -857,6 +857,7 @@ public class JSparklinesTableCellRenderer extends JLabel implements TableCellRen
             DefaultBoxAndWhiskerCategoryDataset boxPlotDataset = new DefaultBoxAndWhiskerCategoryDataset();
 
             BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+            renderer.setDefaultOutlinePaint(new Color(255, 255, 255, 0)); // remove unwanted outline
 
             for (int i = 0; i < sparklineDataset.getData().size(); i++) {
 

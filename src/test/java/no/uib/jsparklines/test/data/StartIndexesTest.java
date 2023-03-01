@@ -1,9 +1,9 @@
 package no.uib.jsparklines.test.data;
 
 import java.util.ArrayList;
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import no.uib.jsparklines.data.StartIndexes;
+import org.junit.Assert;
 
 /**
  * Test the StartIndexes class.
@@ -20,7 +20,7 @@ public class StartIndexesTest extends TestCase {
     public void testStartIndexes() throws Exception {
 
         // set up data
-        ArrayList<Integer> data = new ArrayList<Integer>();
+        ArrayList<Integer> data = new ArrayList<>();
         data.add(1);
         data.add(2);
         data.add(3);

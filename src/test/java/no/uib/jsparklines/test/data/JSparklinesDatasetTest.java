@@ -2,10 +2,10 @@ package no.uib.jsparklines.test.data;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import no.uib.jsparklines.data.JSparklinesDataSeries;
 import no.uib.jsparklines.data.JSparklinesDataset;
+import org.junit.Assert;
 
 /**
  * Test the JSparklinesDataset class.
@@ -22,15 +22,15 @@ public class JSparklinesDatasetTest extends TestCase {
     public void testJSparklinesDataset() throws Exception {
 
         // set up the data
-        ArrayList<JSparklinesDataSeries> allData = new ArrayList<JSparklinesDataSeries>();
+        ArrayList<JSparklinesDataSeries> allData = new ArrayList<>();
 
-        ArrayList<Double> data = new ArrayList<Double>();
+        ArrayList<Double> data = new ArrayList<>();
         data.add(1.1);
         data.add(1.2);
         data.add(1.3);
         allData.add(new JSparklinesDataSeries(data, Color.RED, "test"));
 
-        data = new ArrayList<Double>();
+        data = new ArrayList<>();
         data.add(2.1);
         data.add(2.2);
         data.add(2.3);
@@ -42,15 +42,15 @@ public class JSparklinesDatasetTest extends TestCase {
         Assert.assertEquals("[1.1,1.2,1.3], [2.1,2.2,2.3]", dataset.toString());
 
         // test compare to
-        ArrayList<JSparklinesDataSeries> allData2 = new ArrayList<JSparklinesDataSeries>();
+        ArrayList<JSparklinesDataSeries> allData2 = new ArrayList<>();
 
-        data = new ArrayList<Double>();
+        data = new ArrayList<>();
         data.add(1.1);
         data.add(1.2);
         data.add(1.3);
         allData2.add(new JSparklinesDataSeries(data, Color.RED, "test"));
 
-        data = new ArrayList<Double>();
+        data = new ArrayList<>();
         data.add(2.1);
         data.add(2.2);
         data.add(2.3);
@@ -60,15 +60,15 @@ public class JSparklinesDatasetTest extends TestCase {
 
         Assert.assertTrue(dataset.compareTo(dataset2) == 0);
 
-        allData2 = new ArrayList<JSparklinesDataSeries>();
+        allData2 = new ArrayList<>();
 
-        data = new ArrayList<Double>();
+        data = new ArrayList<>();
         data.add(1.1);
         data.add(1.2);
         data.add(1.3);
         allData2.add(new JSparklinesDataSeries(data, Color.RED, "test"));
 
-        data = new ArrayList<Double>();
+        data = new ArrayList<>();
         data.add(2.1);
         data.add(2.2);
         data.add(2.4);

@@ -2,10 +2,10 @@ package no.uib.jsparklines.test.data;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import no.uib.jsparklines.data.JSparklines3dDataSeries;
 import no.uib.jsparklines.data.XYZDataPoint;
+import org.junit.Assert;
 
 /**
  * Test the JSparklines3dDataSeries class.
@@ -22,7 +22,7 @@ public class JSparklines3dDataSeriesTest extends TestCase {
     public void testJSparklines3dDataSeries() throws Exception {
 
         // set up the data
-        ArrayList<XYZDataPoint> data = new ArrayList<XYZDataPoint>();
+        ArrayList<XYZDataPoint> data = new ArrayList<>();
         data.add(new XYZDataPoint(1.1, 1.2, 1.3));
         data.add(new XYZDataPoint(2.1, 2.2, 2.3));
         data.add(new XYZDataPoint(3.1, 3.2, 3.3));

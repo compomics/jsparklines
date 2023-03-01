@@ -1,10 +1,10 @@
 package no.uib.jsparklines.test.data;
 
 import java.util.ArrayList;
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import no.uib.jsparklines.data.ArrrayListDataPoints;
 import no.uib.jsparklines.renderers.JSparklinesArrayListBarChartTableCellRenderer.ValueDisplayType;
+import org.junit.Assert;
 
 /**
  * Test the ArrrayListDataPoints class.
@@ -22,7 +22,7 @@ public class ArrrayListDataPointsTest extends TestCase {
     public void testArrrayListDataPoints() throws Exception {
 
         // set up the test data set
-        ArrayList<Double> data = new ArrayList<Double>();
+        ArrayList<Double> data = new ArrayList<>();
         data.add(1.0);
         data.add(3.0);
         data.add(6.0);
@@ -38,7 +38,7 @@ public class ArrrayListDataPointsTest extends TestCase {
         Assert.assertEquals("1.0, 3.0, 6.0", temp.toString());
 
         // test compareTo using firstNumberOnly
-        ArrayList<Double> data2 = new ArrayList<Double>();
+        ArrayList<Double> data2 = new ArrayList<>();
         data2.add(1.0);
         data2.add(3.0);
         data2.add(6.0);
@@ -57,7 +57,7 @@ public class ArrrayListDataPointsTest extends TestCase {
         temp2.setDataSortingType(ValueDisplayType.sumExceptLastNumber);
         Assert.assertTrue(temp.compareTo(temp2) == 0);
 
-        data2 = new ArrayList<Double>();
+        data2 = new ArrayList<>();
         data2.add(3.0);
         data2.add(6.0);
         data2.add(1.0);
@@ -69,7 +69,7 @@ public class ArrrayListDataPointsTest extends TestCase {
         temp2.setDataSortingType(ValueDisplayType.sumOfNumbers);
         Assert.assertTrue(temp.compareTo(temp2) == 0);
 
-        data2 = new ArrayList<Double>();
+        data2 = new ArrayList<>();
         data2.add(3.0);
         data2.add(5.0);
         data2.add(1.0);

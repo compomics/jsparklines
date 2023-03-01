@@ -223,6 +223,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      *
      * @deprecated use the constructor with the ValueDisplayType instead
      */
+    @Deprecated
     public JSparklinesArrayListBarChartTableCellRenderer(
             PlotOrientation plotOrientation, 
             Double maxValue,
@@ -255,6 +256,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      *
      * @deprecated use the constructor with the ValueDisplayType instead
      */
+    @Deprecated
     public JSparklinesArrayListBarChartTableCellRenderer(PlotOrientation plotOrientation, Double maxValue,
             ArrayList<Color> colors, Color fillColor, boolean showFirstNumber) {
 
@@ -373,6 +375,7 @@ public class JSparklinesArrayListBarChartTableCellRenderer extends JLabel implem
      *
      * @deprecated use the ValueDisplayType enum instead
      */
+    @Deprecated
     public void showFirstNumber(boolean showFirstNumber) {
         if (showFirstNumber) {
             this.currentValueDisplayType = ValueDisplayType.firstNumberOnly;

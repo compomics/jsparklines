@@ -1,8 +1,8 @@
 package no.uib.jsparklines.test.data;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import no.uib.jsparklines.data.Chromosome;
+import org.junit.Assert;
 
 /**
  * Test the Chromosome class.
